@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { parseCardListPage, parseSeriesList } from './card-list-parser.ts'
-import { mergeCatalogPages } from './catalog-merge.ts'
+import { extractKeywords, mergeCatalogPages } from './catalog-merge.ts'
 
 const html = (name: string) =>
   readFileSync(new URL(`./fixtures/${name}.html`, import.meta.url), 'utf8')
@@ -31,6 +31,74 @@ describe('parseSeriesList', () => {
     expect(byCode.get('OP15-EB04')?.seriesId).toBe(569115)
     expect(byCode.get('PROMO')?.seriesId).toBe(569901)
     expect(byCode.get('OTHER')?.seriesId).toBe(569801)
+  })
+})
+
+describe('Keyword', () => {
+  const catalog = mergeCatalogPages([op01, st01])
+  const keywordsOf = (code: string) => catalog.cards.find((c) => c.cardCode === code)?.keywords
+
+  it('estrae le Keyword di effetto e Trigger, in ordine e senza ripetizioni', () => {
+    expect(keywordsOf('OP01-001')).toEqual(['DON!! x1', 'Your Turn'])
+    expect(keywordsOf('OP01-029')).toEqual(['Counter', 'Trigger'])
+    expect(keywordsOf('ST01-012')).toEqual(['Rush', 'DON!! x2', 'When Attacking'])
+  })
+
+  it('le Keyword solo citate non contano ("cannot activate [Blocker]")', () => {
+    // ST01-012: "Your opponent cannot activate [Blocker] during this battle."
+    expect(keywordsOf('ST01-012')).not.toContain('Blocker')
+  })
+
+  it('non scambia per Keyword i nomi di carte citati tra parentesi quadre', () => {
+    // OP01-016 Nami: "... other than [Nami] ..."
+    expect(keywordsOf('OP01-016')).toEqual(['On Play'])
+  })
+
+  it('una Card senza effetto non ha Keyword', () => {
+    const vanilla = catalog.cards.find((c) => c.effect === null && c.trigger === null)
+    expect(vanilla?.keywords).toEqual([])
+  })
+
+  it('contano le Keyword ottenute ("gains [Rush]") e le sequenze con "/" o ","', () => {
+    const none = new Set<string>()
+    expect(extractKeywords(['[DON!! x1] This Character gains [Rush].'], none)).toEqual([
+      'DON!! x1',
+      'Rush',
+    ])
+    expect(extractKeywords(['[On Play]/[When Attacking] Draw 1 card.'], none)).toEqual([
+      'On Play',
+      'When Attacking',
+    ])
+    expect(
+      extractKeywords(
+        ['[Your Turn] Your Leader gains [Double Attack], [Banish] and [Rush].'],
+        none,
+      ),
+    ).toEqual(['Your Turn', 'Double Attack', 'Banish', 'Rush'])
+    expect(
+      extractKeywords(
+        ["K.O. up to 1 of your opponent's [Blocker] Characters with a [Trigger]."],
+        none,
+      ),
+    ).toEqual([])
+  })
+
+  it("riconosce un'abilità che inizia subito dopo il testo di richiamo tra parentesi tonde", () => {
+    expect(
+      extractKeywords(
+        ['[Blocker] (After your opponent declares an attack.)[DON!! x2] [When Attacking] …'],
+        new Set(),
+      ),
+    ).toEqual(['Blocker', 'DON!! x2', 'When Attacking'])
+  })
+
+  it('extractKeywords normalizza gli spazi e ignora i termini vuoti', () => {
+    expect(
+      extractKeywords(
+        ['[ On  Play ] [] [Blocker] [Nami] Draw.', '[Trigger] [Blocker]'],
+        new Set(['Nami']),
+      ),
+    ).toEqual(['On Play', 'Blocker', 'Trigger'])
   })
 })
 

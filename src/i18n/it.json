@@ -18,6 +18,24 @@
     "dark": "Scuro",
     "cycle": "Tema: {{current}}. Passa a {{next}}"
   },
+  "install": {
+    "title": "Installa OP-Codex",
+    "android": "Aggiungila alla schermata Home: si apre come un'app, a tutto schermo.",
+    "installButton": "Installa",
+    "iosIntro": "Aggiungila alla schermata Home per aprirla come un'app:",
+    "iosStep1": "Tocca il pulsante Condividi",
+    "iosStep2": "Scegli «Aggiungi alla schermata Home»",
+    "iosStep3": "Conferma con «Aggiungi»",
+    "iosOther": "Su iPhone e iPad l'installazione si fa da Safari: apri questa pagina con Safari e usa Condividi → «Aggiungi alla schermata Home».",
+    "dismiss": "Non ora",
+    "close": "Chiudi l'invito",
+    "menu": "Installa l'app"
+  },
+  "update": {
+    "available": "Nuova versione disponibile",
+    "reload": "Aggiorna",
+    "later": "Più tardi"
+  },
   "comingSoon": {
     "title": "{{section}}: in arrivo",
     "body": "Questa sezione non è ancora disponibile. Arriverà con i prossimi aggiornamenti."

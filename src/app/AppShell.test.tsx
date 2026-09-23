@@ -82,6 +82,11 @@ describe('App shell', () => {
     expect(privacyLinks[0]).toHaveAttribute('href', '/privacy')
   })
 
+  it('su desktop non compare nessun invito automatico all’installazione', () => {
+    renderAt('/')
+    expect(screen.queryByRole('complementary', { name: it_.install.title })).toBeNull()
+  })
+
   it('c’è un link per saltare al contenuto', () => {
     renderAt('/')
     expect(screen.getByRole('link', { name: it_.app.skipToContent })).toHaveAttribute(

@@ -43,6 +43,7 @@ Le immagini delle carte sono copie WebP su Supabase Storage ([ADR-0005](docs/adr
 | `npm run test:unit`                       | Solo i test unitari                                       |
 | `npm run test:db`                         | Solo i test sul Supabase locale                           |
 | `npm run sync:set -- <id>`                | Sync di un Set dalla Official Card List (default OP-01)   |
+| `npm run sync:catalog`                    | Catalog Sync completo: tutti i Set del sito ufficiale     |
 | `npm run sync:images -- --limit <n>`      | Image Sync delle immagini mancanti (default 200)          |
 | `npm run db:types`                        | Rigenera i tipi TypeScript dallo schema del DB locale     |
 | `npm run lint`                            | ESLint                                                    |
@@ -52,6 +53,15 @@ Le immagini delle carte sono copie WebP su Supabase Storage ([ADR-0005](docs/adr
 ## Database
 
 Le migrazioni stanno in `supabase/migrations/`. Per crearne una: `npx supabase migration new <nome>`. Per riapplicarle da zero in locale: `npx supabase db reset`.
+
+## Catalog Sync in produzione
+
+Il workflow **Catalog Sync notturno** (`.github/workflows/catalog-sync.yml`) gira ogni notte alle 03:17 UTC e si può lanciare a mano da GitHub (Actions → Catalog Sync notturno → Run workflow):
+
+1. `sync-catalog`: legge il menu dei Set, scarica le pagine una alla volta (3 s di pausa, fino a 3 tentativi) e salva tutto in un'unica transazione. Se una pagina non si legge, il job fallisce senza scrivere nulla.
+2. `sync-images`: scarica un lotto di immagini mancanti (800 di default).
+
+Ogni esecuzione è registrata nella tabella `job_runs`. I segreti (`SUPABASE_DB_URL`, `SUPABASE_SECRET_KEY`) stanno nell'environment `production` di GitHub, disponibile solo al branch `main`.
 
 ## Branch e deploy
 

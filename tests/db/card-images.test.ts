@@ -22,8 +22,10 @@ const st01 = parseCardListPage(
 describe('Stato dell’Image Sync su printings', () => {
   it('elenca le Printing senza immagine e le toglie una volta segnate', async () => {
     await inRollback(sql, async (tx) => {
-      await tx`update public.printings set image_synced_at = now()`
+      // Indipendente da cosa c'è già nel DB: solo le 17 Printing di ST-01 restano da scaricare.
       await upsertCatalogPage(tx, st01)
+      await tx`update public.printings set image_synced_at = now()`
+      await tx`update public.printings set image_synced_at = null where series_id = 569001`
       const repository = imageSyncRepository(tx)
 
       expect(await repository.countPending()).toBe(17)

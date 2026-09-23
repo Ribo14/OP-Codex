@@ -52,7 +52,7 @@ describe('Set booster: OP-01', () => {
       attributes: ['Slash'],
       colors: ['Red'],
       types: ['Supernovas', 'Straw Hat Crew'],
-      block: 1,
+      block: '1',
       effect: '[DON!! x1] [Your Turn] All of your Characters gain +1000 power.',
       trigger: null,
     })
@@ -114,7 +114,7 @@ describe('Starter deck: ST-01', () => {
       attributes: [],
       colors: ['Red'],
       types: ['Straw Hat Crew'],
-      block: 1,
+      block: '1',
       effect:
         '[Activate: Main] You may rest this Stage: Up to 1 {Straw Hat Crew} type Leader or Character card on your field gains +1000 power during this turn.',
       trigger: null,
@@ -201,6 +201,27 @@ describe('HTML inatteso', () => {
       card('OP01-001_x1', '<span>OP01-001</span><span>C</span><span>CHARACTER</span>'),
     )
     expect(() => parseCardListPage(html)).toThrow('Print ID non riconosciuto')
+  })
+
+  const cardWithBlock = (blockValue: string) =>
+    page(`
+      <dl class="modalCol" id="OP16-063">
+        <dt><div class="infoCol"><span>OP16-063</span><span>C</span><span>CHARACTER</span></div>
+        <div class="cardName">Test</div></dt>
+        <dd><div class="backCol">
+          <div class="cost"><h3>Cost</h3>1</div>
+          <div class="block"><h3>Block<br class="spInline"> icon</h3>${blockValue}</div>
+        </div></dd>
+      </dl>`)
+
+  it('accetta come Block un numero o "X"; "-" vuol dire nessun Block', () => {
+    expect(parseCardListPage(cardWithBlock('3')).cards[0]?.block).toBe('3')
+    expect(parseCardListPage(cardWithBlock('X')).cards[0]?.block).toBe('X')
+    expect(parseCardListPage(cardWithBlock('-')).cards[0]?.block).toBeNull()
+  })
+
+  it('fallisce su un Block sconosciuto', () => {
+    expect(() => parseCardListPage(cardWithBlock('Z9'))).toThrow('OP16-063: Block non valido: "Z9"')
   })
 
   it('usa i codici noti per i Set senza codice tra parentesi', () => {

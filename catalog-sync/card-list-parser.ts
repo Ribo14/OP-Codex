@@ -33,7 +33,8 @@ export interface ParsedCard {
   attributes: string[]
   colors: string[]
   types: string[]
-  block: number | null
+  /** Block di rotazione stampato sulla carta: un numero ("1", "2"…) oppure "X". */
+  block: string | null
   effect: string | null
   trigger: string | null
 }
@@ -106,12 +107,34 @@ export function parseCardListPage(html: string): ParsedCardListPage {
   return { set, cards: [...cards.values()], printings }
 }
 
+/**
+ * Tutti i Set elencati nel menu della Official Card List, nell'ordine del sito.
+ * Qualsiasi pagina della Card List contiene il menu completo.
+ */
+export function parseSeriesList(html: string): ParsedSet[] {
+  const $ = cheerio.load(html)
+  const sets = $('select#series option')
+    .toArray()
+    .filter((option) => ($(option).attr('value') ?? '') !== '')
+    .map((option) => parseSetOption($(option)))
+
+  if (sets.length === 0) throw new CardListParseError('Elenco dei Set non trovato')
+  const codes = new Set(sets.map((set) => set.code))
+  if (codes.size !== sets.length) throw new CardListParseError('Codici dei Set duplicati nel menu')
+  return sets
+}
+
 function parseSelectedSet($: cheerio.CheerioAPI): ParsedSet {
   const option = $('select#series option[selected]').first()
   if (option.length === 0) throw new CardListParseError('Set selezionato non trovato')
+  return parseSetOption(option)
+}
 
+function parseSetOption(option: Cheerio<Element>): ParsedSet {
   const seriesId = Number(option.attr('value'))
-  if (!Number.isInteger(seriesId)) throw new CardListParseError('Identificativo del Set non valido')
+  if (!Number.isInteger(seriesId) || seriesId <= 0) {
+    throw new CardListParseError('Identificativo del Set non valido')
+  }
 
   // Il testo contiene un <br> letterale (codificato come entità nell'HTML).
   const label = normalizeSpaces(option.text().replace(/<br[^>]*>/gi, ' '))
@@ -175,7 +198,7 @@ function parseCardBlock(
     attributes: splitList(block.find('.backCol .attribute i').text()),
     colors: splitList(fieldValue(block.find('.backCol .color'))),
     types: splitList(fieldValue(block.find('.backCol .feature'))),
-    block: parseOptionalInteger(fieldValue(block.find('.backCol .block')), printId, 'Block'),
+    block: parseBlock(fieldValue(block.find('.backCol .block')), printId),
     effect: multilineText(block.find('.backCol .text')),
     trigger: multilineText(block.find('.backCol .trigger')),
   }
@@ -203,6 +226,13 @@ function multilineText(box: Cheerio<Element>): string | null {
     .filter((line) => line !== '')
     .join('\n')
   return text === '' || text === '-' ? null : text
+}
+
+function parseBlock(value: string, printId: string): string | null {
+  if (value === '' || value === '-') return null
+  if (!/^(\d+|X)$/.test(value))
+    throw new CardListParseError(`Block non valido: "${value}"`, printId)
+  return value
 }
 
 function parseOptionalInteger(value: string, printId: string, field: string): number | null {

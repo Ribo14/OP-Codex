@@ -37,7 +37,7 @@ export type Database = {
       cards: {
         Row: {
           attributes: string[]
-          block: number | null
+          block: string | null
           card_code: string
           category: string
           colors: string[]
@@ -54,7 +54,7 @@ export type Database = {
         }
         Insert: {
           attributes?: string[]
-          block?: number | null
+          block?: string | null
           card_code: string
           category: string
           colors?: string[]
@@ -71,7 +71,7 @@ export type Database = {
         }
         Update: {
           attributes?: string[]
-          block?: number | null
+          block?: string | null
           card_code?: string
           category?: string
           colors?: string[]
@@ -85,6 +85,36 @@ export type Database = {
           trigger?: string | null
           types?: string[]
           updated_at?: string
+        }
+        Relationships: []
+      }
+      job_runs: {
+        Row: {
+          error: string | null
+          finished_at: string | null
+          id: number
+          job: string
+          started_at: string
+          stats: Json
+          status: string
+        }
+        Insert: {
+          error?: string | null
+          finished_at?: string | null
+          id?: never
+          job: string
+          started_at?: string
+          stats?: Json
+          status?: string
+        }
+        Update: {
+          error?: string | null
+          finished_at?: string | null
+          id?: never
+          job?: string
+          started_at?: string
+          stats?: Json
+          status?: string
         }
         Relationships: []
       }

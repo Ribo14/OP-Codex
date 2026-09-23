@@ -1,4 +1,4 @@
-// PROTOTIPO RIB-8 (usa e getta): tre varianti di stile sulla pagina del catalogo, scelte con ?variant=A|B|C.
+// PROTOTIPO RIB-8 (usa e getta): tre varianti di stile sulla pagina del catalogo, scelte con ?variant=A|B|C|D.
 // Si attiva solo con VITE_PROTOTYPE=true (deploy preview del branch prototype/rib-8). Non va su main.
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
@@ -6,11 +6,13 @@ import './prototype.css'
 import { VariantA, variantName as nameA } from './VariantA'
 import { VariantB, variantName as nameB } from './VariantB'
 import { VariantC, variantName as nameC } from './VariantC'
+import { VariantD, variantName as nameD } from './VariantD'
 
 const VARIANTS = [
   { key: 'A', name: nameA, Component: VariantA },
   { key: 'B', name: nameB, Component: VariantB },
   { key: 'C', name: nameC, Component: VariantC },
+  { key: 'D', name: nameD, Component: VariantD },
 ] as const
 
 function readVariant(): number {

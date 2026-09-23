@@ -17,7 +17,7 @@
     """
 
 [build.environment]
-  NODE_VERSION = "22"
+  NODE_VERSION = "24"
 
 # SPA: ogni percorso sconosciuto serve index.html (il routing è lato client).
 [[redirects]]

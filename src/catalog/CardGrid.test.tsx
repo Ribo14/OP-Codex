@@ -27,7 +27,8 @@ describe('CardGrid', () => {
       'https://abc.supabase.co/storage/v1/object/public/card-images/thumb/OP01-006_p3.webp',
     ])
     expect(screen.getByAltText('Otama')).toBeInTheDocument()
-    expect(screen.getByText('OP01-001 · Roronoa Zoro')).toBeInTheDocument()
+    expect(screen.getByText('Roronoa Zoro')).toBeInTheDocument()
+    expect(screen.getByText('OP01-001')).toBeInTheDocument()
   })
 
   it('mostra un segnaposto per le Printing senza immagine', () => {

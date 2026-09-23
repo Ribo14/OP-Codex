@@ -1,11 +1,15 @@
-import { CatalogPage } from './catalog/CatalogPage'
+import { createBrowserRouter, RouterProvider } from 'react-router'
+import { routes } from './app/routes'
+import { ThemeProvider } from './app/ThemeProvider'
+import './i18n'
+
+const router = createBrowserRouter(routes)
 
 function App() {
   return (
-    <main className="mx-auto flex min-h-svh max-w-6xl flex-col gap-4 p-4">
-      <h1 className="text-2xl font-bold tracking-tight">OP-Codex</h1>
-      <CatalogPage />
-    </main>
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   )
 }
 

@@ -46,6 +46,13 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  /* I sei colori del gioco: solo accenti (pallini, barrette, etichette), mai sfondi estesi. */
+  --color-game-red: #d33a2c;
+  --color-game-green: #1f9d55;
+  --color-game-blue: #2563eb;
+  --color-game-purple: #7c3aed;
+  --color-game-black: #3f3f46;
+  --color-game-yellow: #e0a800;
 }
 
 :root {
@@ -72,7 +79,8 @@
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
+  /* Stile scelto in RIB-8 (variante D): neutro, angoli morbidi. Vedi docs/design.md. */
+  --radius: 1rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);

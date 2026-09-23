@@ -8,7 +8,7 @@ Il dominio e le decisioni di progetto sono in [`CONTEXT.md`](CONTEXT.md) e [`doc
 
 ## Requisiti
 
-- [Node.js](https://nodejs.org/) 22 o superiore
+- [Node.js](https://nodejs.org/) 24 (LTS, supportata fino ad aprile 2028; la versione del progetto è in `.nvmrc`)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) avviato (serve al Supabase locale)
 - [gitleaks](https://github.com/gitleaks/gitleaks): senza gitleaks il commit viene bloccato
   - Windows: `winget install Gitleaks.Gitleaks`

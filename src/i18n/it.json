@@ -1,0 +1,63 @@
+{
+  "app": {
+    "name": "OP-Codex",
+    "skipToContent": "Vai al contenuto"
+  },
+  "nav": {
+    "label": "Sezioni",
+    "catalog": "Catalogo",
+    "decks": "Mazzi",
+    "collection": "Collezione",
+    "rules": "Regole",
+    "profile": "Profilo"
+  },
+  "theme": {
+    "label": "Tema",
+    "system": "Sistema",
+    "light": "Chiaro",
+    "dark": "Scuro",
+    "cycle": "Tema: {{current}}. Passa a {{next}}"
+  },
+  "comingSoon": {
+    "title": "{{section}}: in arrivo",
+    "body": "Questa sezione non è ancora disponibile. Arriverà con i prossimi aggiornamenti."
+  },
+  "notFound": {
+    "title": "Pagina non trovata",
+    "body": "L'indirizzo non corrisponde a nessuna pagina di OP-Codex.",
+    "back": "Torna al catalogo"
+  },
+  "footer": {
+    "disclaimer": "Progetto amatoriale non affiliato a Bandai. ONE PIECE © Eiichiro Oda/Shueisha, Toei Animation",
+    "privacy": "Privacy"
+  },
+  "catalog": {
+    "title": "Catalogo",
+    "set": "Set",
+    "loading": "Caricamento del catalogo…",
+    "loadingCards": "Caricamento delle carte…",
+    "error": "Errore: {{message}}",
+    "empty": "Il catalogo è vuoto: nessun Set è ancora stato sincronizzato.",
+    "imagePending": "{{name}}: immagine non ancora disponibile",
+    "cardLabel": "{{code}} · {{name}}"
+  },
+  "privacy": {
+    "title": "Privacy",
+    "updated": "Ultimo aggiornamento: 23 settembre 2026",
+    "intro": "OP-Codex è un progetto amatoriale e non commerciale per giocatori del One Piece Card Game. Questa pagina spiega quali dati tratta e perché.",
+    "dataTitle": "Quali dati",
+    "dataNow": "Oggi OP-Codex non ha account: si consulta il catalogo senza registrarsi e non raccogliamo dati personali.",
+    "dataLater": "Quando arriveranno gli account conserveremo solo ciò che serve: email, Username, e i dati che inserisci tu (Collection e Deck). Questa pagina verrà aggiornata prima di allora.",
+    "deviceTitle": "Sul tuo dispositivo",
+    "device": "L'app salva sul dispositivo solo il tema scelto e i propri file (per aprirsi più in fretta); più avanti anche una copia del catalogo, per consultarlo offline. Non usiamo cookie di profilazione, pubblicità o strumenti di analisi.",
+    "providersTitle": "Servizi usati",
+    "providers": "Il sito è ospitato da Netlify; il database e le immagini delle carte sono su Supabase, con server nell'Unione Europea (Francoforte). Questi fornitori trattano i dati tecnici necessari a far funzionare il servizio (per esempio l'indirizzo IP nei log).",
+    "rightsTitle": "I tuoi diritti",
+    "rights": "Puoi chiedere accesso, esportazione o cancellazione dei tuoi dati. Con gli account potrai esportarli ed eliminarli direttamente dall'app.",
+    "contactTitle": "Contatti",
+    "contact": "Per domande su questa pagina apri una segnalazione nel repository del progetto:",
+    "contactLink": "github.com/Ribo14/OP-Codex",
+    "bandaiTitle": "Marchi",
+    "bandai": "OP-Codex non è affiliato né approvato da Bandai. ONE PIECE © Eiichiro Oda/Shueisha, Toei Animation. Le immagini e i testi delle carte appartengono ai rispettivi titolari."
+  }
+}

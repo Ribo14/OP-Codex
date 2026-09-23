@@ -4,6 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import globals from 'globals'
+import i18next from 'eslint-plugin-i18next'
 import tseslint from 'typescript-eslint'
 
 export default defineConfig([
@@ -27,6 +28,26 @@ export default defineConfig([
     },
   },
   {
+    // Nessun testo dell'interfaccia scritto nei componenti: tutto passa dall'i18n (src/i18n).
+    files: ['src/**/*.tsx'],
+    ignores: ['src/**/*.test.tsx', 'src/components/ui/**'],
+    plugins: { i18next },
+    rules: {
+      'i18next/no-literal-string': [
+        'error',
+        {
+          mode: 'jsx-only',
+          'jsx-attributes': {
+            exclude: [
+              '^(className|style|type|key|id|width|height|to|href|rel|target|role|src|loading|decoding|tabIndex|end|lang)$',
+              '^aria-(hidden|current|pressed|checked|modal)$',
+            ],
+          },
+        },
+      ],
+    },
+  },
+  {
     // I componenti shadcn/ui esportano anche le varianti (es. buttonVariants).
     files: ['src/components/ui/**/*.tsx'],
     rules: {
@@ -45,6 +66,11 @@ export default defineConfig([
     languageOptions: {
       globals: globals.node,
     },
+  },
+  {
+    // Script serviti così come sono al browser (es. theme-init.js).
+    files: ['public/**/*.js'],
+    languageOptions: { globals: globals.browser, sourceType: 'script' },
   },
   prettier,
 ])

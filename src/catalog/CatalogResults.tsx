@@ -38,6 +38,8 @@ function Thumbnail({ entry, className }: { entry: CatalogEntry; className?: stri
   return (
     <img
       src={cardImageUrl(printing.printId, 'thumb')}
+      // Richiesta CORS: così il service worker può salvarla per l'offline (RIB-16).
+      crossOrigin="anonymous"
       alt={card.name}
       width={THUMB_WIDTH}
       height={THUMB_HEIGHT}

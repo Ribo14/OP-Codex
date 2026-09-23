@@ -81,6 +81,7 @@ export function CardDetail({
           {printing?.hasImage ? (
             <img
               src={cardImageUrl(printing.printId, 'full')}
+              crossOrigin="anonymous"
               alt={card.name}
               width={600}
               height={838}
@@ -127,6 +128,7 @@ export function CardDetail({
                   {p.hasImage ? (
                     <img
                       src={cardImageUrl(p.printId, 'thumb')}
+                      crossOrigin="anonymous"
                       alt=""
                       width={300}
                       height={419}

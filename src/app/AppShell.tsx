@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useLocation } from 'react-router'
-import { Download } from 'lucide-react'
+import { Download, WifiOff } from 'lucide-react'
+import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { useInstall } from './install'
 import { InstallInvite } from './InstallInvite'
@@ -42,6 +43,7 @@ export function AppShell() {
         >
           {t('app.name')}
         </Link>
+        <OfflineBadge className="mx-6 mb-4" />
         <nav aria-label={t('nav.label')} className="flex flex-col gap-1 px-3">
           {SECTIONS.map((section) => (
             <Link
@@ -84,6 +86,7 @@ export function AppShell() {
           <Link to="/" className="text-lg font-semibold tracking-tight">
             {t('app.name')}
           </Link>
+          <OfflineBadge className="ml-auto" />
           <ThemeCycleButton className="ml-auto" />
         </header>
 
@@ -150,5 +153,25 @@ function Footer() {
         {t('footer.privacy')}
       </Link>
     </footer>
+  )
+}
+
+/** Senza connessione: il catalogo e le immagini già salvate restano consultabili. */
+function OfflineBadge({ className }: { className?: string }) {
+  const { t } = useTranslation()
+  const online = useOnline()
+  if (online) return null
+  return (
+    <p
+      role="status"
+      title={t('offline.badgeHint')}
+      className={cn(
+        'inline-flex w-fit items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground',
+        className,
+      )}
+    >
+      <WifiOff className="size-3.5" aria-hidden="true" />
+      {t('offline.badge')}
+    </p>
   )
 }

@@ -50,7 +50,16 @@ const CATALOG: Catalog = {
   ],
 }
 
-vi.mock('./catalog-data', () => ({ loadCatalog: () => Promise.resolve(CATALOG) }))
+vi.mock('./local-catalog', () => ({
+  OFFLINE: 'offline',
+  useCatalog: () => ({
+    catalog: CATALOG,
+    checkedAt: Date.UTC(2026, 8, 23, 8, 0),
+    syncing: false,
+    error: null,
+    retry: () => Promise.resolve(),
+  }),
+}))
 
 async function renderAt(path: string) {
   const router = createMemoryRouter(

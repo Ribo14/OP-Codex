@@ -1,7 +1,8 @@
 import { getSupabase } from '@/lib/supabase'
+import type { CatalogRows } from './catalog-sync'
 
-// L'intero catalogo caricato sul dispositivo: ricerca e filtri girano in locale (RIB-15),
-// e la stessa struttura servirà per la consultazione offline (RIB-16).
+// L'intero catalogo sul dispositivo: ricerca e filtri girano in locale (RIB-15) e,
+// grazie alla copia in IndexedDB, anche senza connessione (RIB-16).
 
 export interface CatalogPrinting {
   printId: string
@@ -58,76 +59,39 @@ async function fetchAll<T>(
   }
 }
 
-async function fetchCatalog(): Promise<Catalog> {
+/** Le righe cambiate dal momento `since` (orologio del server), oppure tutte con null. */
+export async function fetchRowsSince(since: string | null): Promise<CatalogRows> {
   const supabase = getSupabase()
+  const changed = <Q extends { gte: (column: 'updated_at', value: string) => Q }>(query: Q) =>
+    since === null ? query : query.gte('updated_at', since)
 
   const [sets, cards, printings] = await Promise.all([
     fetchAll((from, to) =>
-      supabase.from('sets').select('series_id, code, name').order('code').range(from, to),
+      changed(supabase.from('sets').select('series_id, code, name, updated_at'))
+        .order('series_id')
+        .range(from, to),
     ),
     fetchAll((from, to) =>
-      supabase
-        .from('cards')
-        .select(
-          'card_code, name, category, cost, life, power, counter, colors, attributes, types, block, effect, trigger, keywords',
-        )
+      changed(
+        supabase
+          .from('cards')
+          .select(
+            'card_code, name, category, cost, life, power, counter, colors, attributes, types, block, effect, trigger, keywords, updated_at',
+          ),
+      )
         .order('card_code')
         .range(from, to),
     ),
     fetchAll((from, to) =>
-      supabase
-        .from('printings')
-        .select('print_id, card_code, rarity, series_id, image_synced_at')
+      changed(
+        supabase
+          .from('printings')
+          .select('print_id, card_code, rarity, series_id, image_synced_at, updated_at'),
+      )
         .order('print_id')
         .range(from, to),
     ),
   ])
 
-  const setCodes = new Map(sets.map((s) => [s.series_id, s.code]))
-  const printingsByCard = new Map<string, CatalogPrinting[]>()
-  for (const p of printings) {
-    const list = printingsByCard.get(p.card_code) ?? []
-    const printing = {
-      printId: p.print_id,
-      rarity: p.rarity,
-      setCode: setCodes.get(p.series_id) ?? '',
-      hasImage: p.image_synced_at !== null,
-    }
-    // La Printing base (senza suffisso) va per prima.
-    if (p.print_id === p.card_code) list.unshift(printing)
-    else list.push(printing)
-    printingsByCard.set(p.card_code, list)
-  }
-
-  return {
-    sets: sets.map((s) => ({ seriesId: s.series_id, code: s.code, name: s.name })),
-    cards: cards.map((c) => ({
-      cardCode: c.card_code,
-      name: c.name,
-      category: c.category,
-      cost: c.cost,
-      life: c.life,
-      power: c.power,
-      counter: c.counter,
-      colors: c.colors,
-      attributes: c.attributes,
-      types: c.types,
-      block: c.block,
-      effect: c.effect,
-      trigger: c.trigger,
-      keywords: c.keywords,
-      printings: printingsByCard.get(c.card_code) ?? [],
-    })),
-  }
-}
-
-let cached: Promise<Catalog> | null = null
-
-/** Carica il catalogo una volta per sessione; in caso di errore si potrà riprovare. */
-export function loadCatalog(): Promise<Catalog> {
-  cached ??= fetchCatalog().catch((error: unknown) => {
-    cached = null
-    throw error
-  })
-  return cached
+  return { sets, cards, printings }
 }

@@ -3,12 +3,12 @@ import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useMatch } from 'react-router'
 import { cn } from '@/lib/utils'
-import { useAsync } from '@/lib/use-async'
 import type { CatalogOutletContext } from './CardDetailRoute'
-import { loadCatalog } from './catalog-data'
 import { CatalogResults, type CatalogView } from './CatalogResults'
 import { catalogFacets, countActiveFilters, filterCatalog } from './filters'
 import { FiltersPanel } from './FiltersPanel'
+import { OFFLINE, useCatalog } from './local-catalog'
+import { SetImagesDownload } from './SetImagesDownload'
 import { useCatalogFilters } from './use-catalog-filters'
 
 const VIEW_KEY = 'op-codex-catalog-view'
@@ -26,11 +26,9 @@ function readView(): CatalogView {
   }
 }
 
-const load = () => loadCatalog()
-
 export function CatalogPage() {
   const { t } = useTranslation()
-  const catalog = useAsync('catalog', load)
+  const { catalog, checkedAt, syncing, error, retry } = useCatalog()
   const { filters, update, reset } = useCatalogFilters()
   const deferredFilters = useDeferredValue(filters)
   const [view, setViewState] = useState<CatalogView>(readView)
@@ -47,12 +45,9 @@ export function CatalogPage() {
     }
   }
 
-  const facets = useMemo(
-    () => (catalog.status === 'ready' ? catalogFacets(catalog.data.cards) : null),
-    [catalog],
-  )
+  const facets = useMemo(() => (catalog ? catalogFacets(catalog.cards) : null), [catalog])
   const entries = useMemo(
-    () => (catalog.status === 'ready' ? filterCatalog(catalog.data.cards, deferredFilters) : []),
+    () => (catalog ? filterCatalog(catalog.cards, deferredFilters) : []),
     [catalog, deferredFilters],
   )
   const active = countActiveFilters(filters)
@@ -69,18 +64,34 @@ export function CatalogPage() {
     }
   }, [panelOpen])
 
-  if (catalog.status === 'loading' || catalog.status === 'idle') {
-    return <p className="text-muted-foreground">{t('catalog.loading')}</p>
+  if (!catalog) {
+    // Primo avvio: il catalogo non è ancora sul dispositivo.
+    if (!error) return <p className="text-muted-foreground">{t('catalog.loading')}</p>
+    return (
+      <div role="alert" className="flex flex-col items-start gap-3">
+        <p>{t('offline.firstLoadError')}</p>
+        {error !== OFFLINE && (
+          <p className="text-sm text-muted-foreground">{t('catalog.error', { message: error })}</p>
+        )}
+        <button
+          type="button"
+          disabled={syncing}
+          onClick={() => {
+            void retry()
+          }}
+          className="h-10 rounded-full bg-foreground px-4 text-sm font-medium text-background disabled:opacity-50"
+        >
+          {t('offline.retry')}
+        </button>
+      </div>
+    )
   }
-  if (catalog.status === 'error') {
-    return <p role="alert">{t('catalog.error', { message: catalog.message })}</p>
-  }
-  if (catalog.data.cards.length === 0 || !facets) {
+  if (catalog.cards.length === 0 || !facets) {
     return <p className="text-muted-foreground">{t('catalog.empty')}</p>
   }
 
   const panel = (
-    <FiltersPanel filters={filters} update={update} facets={facets} sets={catalog.data.sets} />
+    <FiltersPanel filters={filters} update={update} facets={facets} sets={catalog.sets} />
   )
 
   return (
@@ -149,7 +160,16 @@ export function CatalogPage() {
             {t('catalog.reset')}
           </button>
         )}
+        <DataStatus
+          checkedAt={checkedAt}
+          syncing={syncing}
+          failed={error !== null && error !== OFFLINE}
+        />
       </div>
+
+      {filters.sets.length === 1 && filters.sets[0] && (
+        <SetImagesDownload key={filters.sets[0]} cards={catalog.cards} setCode={filters.sets[0]} />
+      )}
 
       <div className="flex items-start gap-6">
         {/* Desktop: filtri a sinistra dei risultati; col dettaglio aperto solo sugli schermi molto larghi */}
@@ -172,7 +192,7 @@ export function CatalogPage() {
         </div>
 
         {/* Dettaglio della Card (/carta/:cardCode) */}
-        <Outlet context={{ catalog: catalog.data } satisfies CatalogOutletContext} />
+        <Outlet context={{ catalog } satisfies CatalogOutletContext} />
       </div>
 
       {/* Telefono: filtri in un pannello a tutto schermo */}
@@ -220,5 +240,31 @@ export function CatalogPage() {
         </div>
       )}
     </section>
+  )
+}
+
+/** Quanto sono recenti i dati sul dispositivo. */
+function DataStatus({
+  checkedAt,
+  syncing,
+  failed,
+}: {
+  checkedAt: number | null
+  syncing: boolean
+  failed: boolean
+}) {
+  const { t, i18n } = useTranslation()
+  if (syncing) {
+    return <span className="ml-auto text-xs text-muted-foreground">{t('offline.syncing')}</span>
+  }
+  if (checkedAt === null) return null
+  const date = new Intl.DateTimeFormat(i18n.language, {
+    dateStyle: 'short',
+    timeStyle: 'short',
+  }).format(checkedAt)
+  return (
+    <span className="ml-auto text-xs text-muted-foreground">
+      {t(failed ? 'offline.dataFromFailed' : 'offline.dataFrom', { date })}
+    </span>
   )
 }

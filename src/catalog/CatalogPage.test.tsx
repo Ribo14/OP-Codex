@@ -39,7 +39,16 @@ const CATALOG: Catalog = {
         { printId: 'OP01-016_p1', rarity: 'R', setCode: 'OP-01', hasImage: false },
       ],
     }),
-    card({ cardCode: 'ST01-012', name: 'Monkey.D.Luffy', keywords: ['Rush'], cost: 5 }),
+    card({
+      cardCode: 'ST01-012',
+      name: 'Monkey.D.Luffy',
+      keywords: ['Rush'],
+      cost: 5,
+      printings: [
+        { printId: 'ST01-012', rarity: 'SR', setCode: 'ST-01', hasImage: false },
+        { printId: 'ST01-012_p1', rarity: 'SR', setCode: 'ST-01', hasImage: true },
+      ],
+    }),
     card({
       cardCode: 'OP02-008',
       name: 'Jozu',
@@ -50,7 +59,16 @@ const CATALOG: Catalog = {
   ],
 }
 
-vi.mock('./catalog-data', () => ({ loadCatalog: () => Promise.resolve(CATALOG) }))
+vi.mock('./local-catalog', () => ({
+  OFFLINE: 'offline',
+  useCatalog: () => ({
+    catalog: CATALOG,
+    checkedAt: Date.UTC(2026, 8, 23, 8, 0),
+    syncing: false,
+    error: null,
+    retry: () => Promise.resolve(),
+  }),
+}))
 
 async function renderAt(path: string) {
   const router = createMemoryRouter([{ path: '/', element: <CatalogPage /> }], {
@@ -142,5 +160,35 @@ describe('Catalogo', () => {
   it('senza risultati lo dice', async () => {
     await renderAt('/?q=nessunacarta')
     expect(await screen.findByText(it_.catalog.noResults)).toBeInTheDocument()
+  })
+
+  it('dice quanto sono recenti i dati sul dispositivo', async () => {
+    await renderAt('/')
+    expect(screen.getByText(/^Dati aggiornati al /)).toBeInTheDocument()
+  })
+
+  it('con un solo Set filtrato propone di scaricarne le immagini', async () => {
+    vi.stubEnv('VITE_SUPABASE_URL', 'https://example.supabase.co')
+    const fetcher = vi.fn(() => Promise.resolve(new Response('img')))
+    vi.stubGlobal('fetch', fetcher)
+    try {
+      await renderAt('/?set=ST-01')
+      fireEvent.click(screen.getByRole('button', { name: it_.offline.setDownload }))
+      expect(
+        await screen.findByText(
+          'Immagini di ST-01 salvate sul dispositivo: disponibili anche offline.',
+        ),
+      ).toBeInTheDocument()
+      // Miniatura e immagine grande dell'unica Printing di ST-01 con immagine.
+      expect(fetcher).toHaveBeenCalledTimes(2)
+    } finally {
+      vi.unstubAllGlobals()
+      vi.unstubAllEnvs()
+    }
+  })
+
+  it('senza filtro di Set, o con più Set, niente download', async () => {
+    await renderAt('/?set=OP-01,ST-01')
+    expect(screen.queryByRole('button', { name: it_.offline.setDownload })).not.toBeInTheDocument()
   })
 })

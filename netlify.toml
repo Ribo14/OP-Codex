@@ -22,14 +22,16 @@
   [headers.values]
     # Content-Security-Policy: una direttiva per riga, così è facile aggiungere domini.
     # Domini consentiti oltre a 'self':
-    #   - img-src:     en.onepiece-cardgame.com   immagini ufficiali delle carte (ADR-0005)
-    #   - connect-src: (vuoto)                    il dominio del progetto Supabase si aggiunge in RIB-7
+    #   - img-src:     *.supabase.co   immagini delle carte su Supabase Storage (ADR-0005)
+    #   - connect-src: (vuoto)         il dominio del progetto Supabase si aggiunge in RIB-7
+    # In RIB-7, quando esiste il progetto di produzione, *.supabase.co va sostituito
+    # con il suo dominio esatto (es. https://<ref>.supabase.co) sia in img-src sia in connect-src.
     # La barra a fine riga unisce le righe in un'unica intestazione.
     Content-Security-Policy = """\
       default-src 'self'; \
       script-src 'self'; \
       style-src 'self'; \
-      img-src 'self' data: blob: https://en.onepiece-cardgame.com; \
+      img-src 'self' data: blob: https://*.supabase.co; \
       font-src 'self'; \
       connect-src 'self'; \
       worker-src 'self'; \

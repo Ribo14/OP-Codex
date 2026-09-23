@@ -19,8 +19,9 @@ In origine avevamo deciso di caricare le immagini direttamente dagli URL ufficia
 
 ## Consequences
 
-- Circa 5.000 immagini in WebP occupano circa 250 MB dei 1 GB gratuiti di Storage; il traffico gratuito è 5 GB al mese più 5 GB dalla cache.
+- Per ogni Printing salviamo due versioni ricavate dallo stesso download: una miniatura da 300 px per la griglia (circa 27 KB) e l'immagine completa da 600 px per il dettaglio (circa 80 KB). Con circa 5.000 Printing sono circa 535 MB dei 1 GB gratuiti di Storage.
+- Sfogliare tutto il catalogo costa circa 135 MB di traffico per dispositivo (solo miniature); il traffico gratuito è 5 GB al mese più 5 GB dalla cache.
 - Il primo scaricamento completo richiede ore di richieste lente: va distribuito su più notti, rispettando le regole di cortesia del Catalog Sync (ADR-0004). Poi si scaricano solo le Printing nuove.
-- Tutti gli URL delle immagini sono generati da un'unica funzione (`cardImageUrl`); in sviluppo passa dal proxy di Vite finché il DB locale non ha le sue copie.
+- Tutti gli URL delle immagini sono generati da un'unica funzione (`cardImageUrl`). Anche in sviluppo le immagini arrivano dallo Storage locale, dopo `npm run sync:images`.
 - La Content-Security-Policy deve consentire il dominio di Supabase Storage invece di quello ufficiale.
 - Il rischio di copyright resta lo stesso dei link diretti; le immagini restano quelle con "SAMPLE".

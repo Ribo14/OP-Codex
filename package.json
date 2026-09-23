@@ -18,7 +18,8 @@
     "test:unit": "vitest run --project unit --project sync",
     "test:db": "vitest run --project db",
     "test:watch": "vitest",
-    "sync:set": "node catalog-sync/sync-set.ts",
+    "sync:set": "node --env-file-if-exists=.env.local catalog-sync/sync-set.ts",
+    "sync:images": "node --env-file-if-exists=.env.local catalog-sync/sync-images.ts",
     "db:types": "supabase gen types typescript --local > src/lib/database.types.ts",
     "prepare": "husky"
   },
@@ -54,6 +55,7 @@
     "postgres": "^3.4.9",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "sharp": "^0.35.4",
     "supabase": "^2.117.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",

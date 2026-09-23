@@ -68,6 +68,10 @@ const SET_CODES_WITHOUT_BRACKETS: Record<number, string> = {
 
 const PRINT_ID = /^(?<cardCode>[A-Z0-9]+-\d+)(?:_[pr]\d+)?$/
 
+export function isPrintId(value: string): boolean {
+  return PRINT_ID.test(value)
+}
+
 const CATEGORY_BY_LABEL: Record<string, Category> = {
   LEADER: 'Leader',
   CHARACTER: 'Character',

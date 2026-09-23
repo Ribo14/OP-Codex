@@ -5,6 +5,7 @@ const p = (printId: string, name = 'X'): SetPrinting => ({
   printId,
   cardCode: printId.split('_')[0] ?? printId,
   name,
+  hasImage: true,
 })
 
 describe('pickDisplayPrintings', () => {

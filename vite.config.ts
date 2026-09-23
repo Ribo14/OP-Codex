@@ -2,18 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
-import type { ProxyOptions } from 'vite'
 import { defineConfig } from 'vitest/config'
-
-// Immagini delle carte servite dal nostro dominio (vedi src/catalog/card-image.ts).
-const cardImagesProxy: Record<string, ProxyOptions> = {
-  '/card-images/': {
-    target: 'https://en.onepiece-cardgame.com',
-    changeOrigin: true,
-    rewrite: (path) => path.replace(/^\/card-images\//, '/images/cardlist/card/'),
-    headers: { 'User-Agent': 'OP-Codex dev server (+https://github.com/Ribo14/OP-Codex)' },
-  },
-}
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -45,8 +34,6 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  server: { proxy: cardImagesProxy },
-  preview: { proxy: cardImagesProxy },
   test: {
     projects: [
       {

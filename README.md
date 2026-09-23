@@ -20,16 +20,17 @@ Il dominio e le decisioni di progetto sono in [`CONTEXT.md`](CONTEXT.md) e [`doc
 npm install              # installa le dipendenze e attiva l'hook pre-commit
 npx supabase start       # avvia Supabase in Docker (la prima volta scarica le immagini)
 npm run sync:set         # scarica OP-01 dalla Official Card List nel DB locale
+npm run sync:images      # copia le immagini in WebP su Storage (lento: 3-8 s a immagine)
 npm run dev              # app su http://localhost:5173
 ```
 
 `npx supabase start` stampa gli URL e le chiavi del Supabase locale; lo Studio è su http://localhost:54323. Per fermarlo: `npx supabase stop`.
 
-Le variabili d'ambiente sono documentate in [`.env.example`](.env.example): copia il file in `.env.local` (che git ignora) e inserisci `API_URL` e `PUBLISHABLE_KEY` stampati da `npx supabase status`.
+Le variabili d'ambiente sono documentate in [`.env.example`](.env.example): copia il file in `.env.local` (che git ignora) e inserisci i valori stampati da `npx supabase status` (`API_URL`, `PUBLISHABLE_KEY`, `SECRET_KEY`).
 
 Per sincronizzare un altro Set passa il suo identificativo sul sito ufficiale, es. `npm run sync:set -- 569001` per ST-01 (gli identificativi sono i `value` del menu dei Set su https://en.onepiece-cardgame.com/cardlist/?series=569101).
 
-In sviluppo le immagini delle carte passano dal proxy di Vite (`/card-images/…`): il sito ufficiale non consente di mostrarle direttamente su un altro dominio.
+Le immagini delle carte sono copie WebP su Supabase Storage ([ADR-0005](docs/adr/0005-immagini-dal-sito-ufficiale.md)): per ogni Printing una miniatura da 300 px e l'immagine completa da 600 px. `npm run sync:images` scarica solo quelle mancanti, al massimo `--limit` per esecuzione (default 200) con una pausa di `--delay-ms` tra le richieste (default 2000). Finché una Printing non ha l'immagine, la griglia mostra un segnaposto.
 
 ## Script
 
@@ -42,6 +43,7 @@ In sviluppo le immagini delle carte passano dal proxy di Vite (`/card-images/…
 | `npm run test:unit`                       | Solo i test unitari                                       |
 | `npm run test:db`                         | Solo i test sul Supabase locale                           |
 | `npm run sync:set -- <id>`                | Sync di un Set dalla Official Card List (default OP-01)   |
+| `npm run sync:images -- --limit <n>`      | Image Sync delle immagini mancanti (default 200)          |
 | `npm run db:types`                        | Rigenera i tipi TypeScript dallo schema del DB locale     |
 | `npm run lint`                            | ESLint                                                    |
 | `npm run typecheck`                       | TypeScript in modalità strict                             |

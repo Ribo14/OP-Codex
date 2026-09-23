@@ -19,7 +19,7 @@ export async function fetchSets(): Promise<CatalogSet[]> {
 export async function fetchSetPrintings(seriesId: number): Promise<SetPrinting[]> {
   const { data, error } = await getSupabase()
     .from('printings')
-    .select('print_id, card_code, cards(name)')
+    .select('print_id, card_code, image_synced_at, cards(name)')
     .eq('series_id', seriesId)
     .order('print_id')
   if (error) throw new Error(error.message)
@@ -27,5 +27,6 @@ export async function fetchSetPrintings(seriesId: number): Promise<SetPrinting[]
     printId: row.print_id,
     cardCode: row.card_code,
     name: row.cards.name,
+    hasImage: row.image_synced_at !== null,
   }))
 }

@@ -2,6 +2,8 @@ export interface SetPrinting {
   printId: string
   cardCode: string
   name: string
+  /** L'Image Sync ha già caricato le immagini di questa Printing. */
+  hasImage: boolean
 }
 
 /**

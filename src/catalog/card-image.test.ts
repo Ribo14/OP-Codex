@@ -1,12 +1,22 @@
 import { describe, expect, it } from 'vitest'
 import { cardImageUrl } from './card-image'
 
+const SUPABASE = 'https://abc.supabase.co'
+
 describe('cardImageUrl', () => {
-  it('costruisce l’URL della Printing base e delle varianti', () => {
-    expect(cardImageUrl('OP01-001')).toBe('/card-images/OP01-001.png')
-    expect(cardImageUrl('OP01-001_p1')).toBe('/card-images/OP01-001_p1.png')
-    expect(cardImageUrl('OP01-006_r1')).toBe('/card-images/OP01-006_r1.png')
-    expect(cardImageUrl('P-014_p2')).toBe('/card-images/P-014_p2.png')
+  it('punta alla miniatura su Supabase Storage per default', () => {
+    expect(cardImageUrl('OP01-001', undefined, SUPABASE)).toBe(
+      'https://abc.supabase.co/storage/v1/object/public/card-images/thumb/OP01-001.webp',
+    )
+  })
+
+  it('punta all’immagine completa quando richiesta, anche per varianti e ristampe', () => {
+    expect(cardImageUrl('OP01-001_p1', 'full', SUPABASE)).toBe(
+      'https://abc.supabase.co/storage/v1/object/public/card-images/full/OP01-001_p1.webp',
+    )
+    expect(cardImageUrl('P-014_r1', 'thumb', `${SUPABASE}/`)).toBe(
+      'https://abc.supabase.co/storage/v1/object/public/card-images/thumb/P-014_r1.webp',
+    )
   })
 
   it('rifiuta tutto ciò che non è un Print ID', () => {
@@ -18,7 +28,11 @@ describe('cardImageUrl', () => {
       'op01-001',
       'OP01-001_x1',
     ]) {
-      expect(() => cardImageUrl(bad)).toThrow('Print ID non valido')
+      expect(() => cardImageUrl(bad, 'thumb', SUPABASE)).toThrow('Print ID non valido')
     }
+  })
+
+  it('segnala la configurazione mancante', () => {
+    expect(() => cardImageUrl('OP01-001', 'thumb', '')).toThrow('VITE_SUPABASE_URL mancante')
   })
 })

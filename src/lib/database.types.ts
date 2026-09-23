@@ -92,6 +92,7 @@ export type Database = {
         Row: {
           card_code: string
           created_at: string
+          image_synced_at: string | null
           print_id: string
           rarity: string
           series_id: number
@@ -100,6 +101,7 @@ export type Database = {
         Insert: {
           card_code: string
           created_at?: string
+          image_synced_at?: string | null
           print_id: string
           rarity: string
           series_id: number
@@ -108,6 +110,7 @@ export type Database = {
         Update: {
           card_code?: string
           created_at?: string
+          image_synced_at?: string | null
           print_id?: string
           rarity?: string
           series_id?: number

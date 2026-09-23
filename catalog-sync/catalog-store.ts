@@ -1,5 +1,6 @@
 import postgres from 'postgres'
 import type { ParsedCardListPage } from './card-list-parser.ts'
+import type { ImageSyncRepository } from './image-sync.ts'
 
 // Default del Supabase locale (`npx supabase start`): non è un segreto, vale solo in locale.
 export const LOCAL_DB_URL = 'postgresql://postgres:postgres@127.0.0.1:54322/postgres'
@@ -12,6 +13,32 @@ export function databaseUrl(env: NodeJS.ProcessEnv = process.env): string {
 
 export function connect(url = databaseUrl()): postgres.Sql {
   return postgres(url, { connect_timeout: 10, max: 1, onnotice: () => undefined })
+}
+
+/** Stato dell'Image Sync salvato sulla tabella printings. */
+export function imageSyncRepository(
+  sql: postgres.Sql | postgres.TransactionSql,
+): ImageSyncRepository {
+  return {
+    async pendingPrintIds(limit) {
+      const rows = await sql<{ print_id: string }[]>`
+        select print_id from public.printings
+        where image_synced_at is null
+        order by print_id
+        limit ${limit}
+      `
+      return rows.map((row) => row.print_id)
+    },
+    async countPending() {
+      const [row] = await sql<{ n: number }[]>`
+        select count(*)::int as n from public.printings where image_synced_at is null
+      `
+      return row?.n ?? 0
+    },
+    async markSynced(printId) {
+      await sql`update public.printings set image_synced_at = now() where print_id = ${printId}`
+    },
+  }
 }
 
 export interface UpsertSummary {

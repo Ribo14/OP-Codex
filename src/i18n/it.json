@@ -64,6 +64,32 @@
       "rarity": "Rarità"
     }
   },
+  "detail": {
+    "close": "Chiudi il dettaglio",
+    "notFound": "Carta non trovata",
+    "notFoundBody": "Il codice {{code}} non corrisponde a nessuna carta del catalogo.",
+    "printings": "Printing",
+    "printingLabel": "{{printId}} · {{set}} · {{rarity}}",
+    "category": "Categoria",
+    "colors": "Colore",
+    "life": "Vita",
+    "cost": "Costo",
+    "power": "Potenza",
+    "counter": "Counter",
+    "attributes": "Attributo",
+    "types": "Tipo",
+    "block": "Block",
+    "rarity": "Rarità",
+    "keywords": "Keyword",
+    "effect": "Effetto",
+    "trigger": "Trigger",
+    "noEffect": "Questa carta non ha effetti.",
+    "sets": "Dove compare",
+    "setColumn": "Set",
+    "printColumn": "Print ID",
+    "rarityColumn": "Rarità",
+    "officialText": "Testo ufficiale in inglese"
+  },
   "filters": {
     "colors": "Colore",
     "categories": "Categoria",

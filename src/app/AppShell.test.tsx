@@ -60,6 +60,16 @@ describe('App shell', () => {
     )
   })
 
+  it('nel dettaglio di una carta la voce Catalogo resta attiva', () => {
+    renderAt('/carta/OP01-001')
+    for (const nav of screen.getAllByRole('navigation', { name: it_.nav.label })) {
+      expect(within(nav).getByRole('link', { name: it_.nav.catalog })).toHaveAttribute(
+        'aria-current',
+        'page',
+      )
+    }
+  })
+
   it('un indirizzo sconosciuto mostra la pagina non trovata', () => {
     renderAt('/non-esiste')
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(it_.notFound.title)

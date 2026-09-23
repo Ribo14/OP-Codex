@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, NavLink, Outlet, useLocation } from 'react-router'
+import { Link, Outlet, useLocation } from 'react-router'
 import { cn } from '@/lib/utils'
 import { PRIVACY_PATH, SECTIONS } from './sections'
 import { ThemeCycleButton, ThemeSegmented } from './ThemeToggle'
@@ -11,11 +11,15 @@ export function AppShell() {
   const { t } = useTranslation()
   const mainRef = useRef<HTMLElement>(null)
   const { pathname } = useLocation()
+  // Il dettaglio di una Card (/carta/...) fa parte del Catalogo: aprirlo non cambia sezione.
+  const inCardDetail = pathname.startsWith('/carta/')
+  const sectionPath = inCardDetail ? '/' : pathname
+  const isActive = (path: string) => (path === '/' ? sectionPath === '/' : sectionPath === path)
 
-  // A ogni cambio di pagina si riparte dall'alto.
+  // A ogni cambio di sezione si riparte dall'alto (aprire una carta non perde la posizione).
   useEffect(() => {
     mainRef.current?.scrollTo({ top: 0 })
-  }, [pathname])
+  }, [sectionPath])
 
   return (
     <div className="flex h-svh bg-background text-foreground">
@@ -36,22 +40,20 @@ export function AppShell() {
         </Link>
         <nav aria-label={t('nav.label')} className="flex flex-col gap-1 px-3">
           {SECTIONS.map((section) => (
-            <NavLink
+            <Link
               key={section.key}
               to={section.path}
-              end={section.path === '/'}
-              className={({ isActive }) =>
-                cn(
-                  'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
-                  isActive
-                    ? 'bg-foreground font-medium text-background'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground',
-                )
-              }
+              aria-current={isActive(section.path) ? 'page' : undefined}
+              className={cn(
+                'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+                isActive(section.path)
+                  ? 'bg-foreground font-medium text-background'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+              )}
             >
               <section.icon className="size-[18px]" aria-hidden="true" />
               {t(`nav.${section.key}`)}
-            </NavLink>
+            </Link>
           ))}
         </nav>
         <div className="mt-auto space-y-4 px-6 py-5">
@@ -91,20 +93,18 @@ export function AppShell() {
         className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border/60 bg-background/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
       >
         {SECTIONS.map((section) => (
-          <NavLink
+          <Link
             key={section.key}
             to={section.path}
-            end={section.path === '/'}
-            className={({ isActive }) =>
-              cn(
-                'flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[11px] focus-visible:bg-muted focus-visible:outline-none',
-                isActive ? 'font-medium text-foreground' : 'text-muted-foreground',
-              )
-            }
+            aria-current={isActive(section.path) ? 'page' : undefined}
+            className={cn(
+              'flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[11px] focus-visible:bg-muted focus-visible:outline-none',
+              isActive(section.path) ? 'font-medium text-foreground' : 'text-muted-foreground',
+            )}
           >
             <section.icon className="size-5" aria-hidden="true" />
             {t(`nav.${section.key}`)}
-          </NavLink>
+          </Link>
         ))}
       </nav>
     </div>

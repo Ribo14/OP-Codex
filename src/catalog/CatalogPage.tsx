@@ -1,8 +1,10 @@
 import { LayoutGrid, List, Search, SlidersHorizontal, X } from 'lucide-react'
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Outlet, useMatch } from 'react-router'
 import { cn } from '@/lib/utils'
 import { useAsync } from '@/lib/use-async'
+import type { CatalogOutletContext } from './CardDetailRoute'
 import { loadCatalog } from './catalog-data'
 import { CatalogResults, type CatalogView } from './CatalogResults'
 import { catalogFacets, countActiveFilters, filterCatalog } from './filters'
@@ -33,6 +35,8 @@ export function CatalogPage() {
   const deferredFilters = useDeferredValue(filters)
   const [view, setViewState] = useState<CatalogView>(readView)
   const [panelOpen, setPanelOpen] = useState(false)
+  const detail = useMatch('/carta/:cardCode')
+  const openCode = detail?.params.cardCode?.toUpperCase() ?? null
 
   const setView = (next: CatalogView) => {
     setViewState(next)
@@ -147,11 +151,14 @@ export function CatalogPage() {
         )}
       </div>
 
-      <div className="flex items-start gap-8">
-        {/* Desktop: filtri sempre visibili a sinistra dei risultati */}
+      <div className="flex items-start gap-6">
+        {/* Desktop: filtri a sinistra dei risultati; col dettaglio aperto solo sugli schermi molto larghi */}
         <aside
           aria-label={t('catalog.filters')}
-          className="sticky top-0 hidden max-h-[calc(100svh-4rem)] w-72 shrink-0 overflow-y-auto pr-2 pb-8 lg:block"
+          className={cn(
+            'sticky top-0 hidden max-h-[calc(100svh-4rem)] w-72 shrink-0 overflow-y-auto pr-2 pb-8',
+            openCode ? '2xl:block' : 'lg:block',
+          )}
         >
           {panel}
         </aside>
@@ -160,9 +167,12 @@ export function CatalogPage() {
           {entries.length === 0 ? (
             <p className="py-10 text-center text-muted-foreground">{t('catalog.noResults')}</p>
           ) : (
-            <CatalogResults entries={entries} view={view} />
+            <CatalogResults entries={entries} view={view} openCode={openCode} />
           )}
         </div>
+
+        {/* Dettaglio della Card (/carta/:cardCode) */}
+        <Outlet context={{ catalog: catalog.data } satisfies CatalogOutletContext} />
       </div>
 
       {/* Telefono: filtri in un pannello a tutto schermo */}

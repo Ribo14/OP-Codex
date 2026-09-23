@@ -130,16 +130,17 @@ export async function upsertCatalog(
       block: c.block,
       effect: c.effect,
       trigger: c.trigger,
+      keywords: c.keywords,
     }))
     const result = await tx<{ inserted: boolean }[]>`
       insert into public.cards as c (
         card_code, name, category, cost, life, power, counter,
-        attributes, colors, types, block, effect, trigger
+        attributes, colors, types, block, effect, trigger, keywords
       )
       select * from jsonb_to_recordset(${tx.json(rows)}::jsonb) as r(
         card_code text, name text, category text, cost smallint, life smallint,
         power integer, counter integer, attributes text[], colors text[], types text[],
-        block text, effect text, trigger text
+        block text, effect text, trigger text, keywords text[]
       )
       on conflict (card_code) do update set
         name = excluded.name,
@@ -154,13 +155,14 @@ export async function upsertCatalog(
         block = excluded.block,
         effect = excluded.effect,
         trigger = excluded.trigger,
+        keywords = excluded.keywords,
         updated_at = now()
       where (c.name, c.category, c.cost, c.life, c.power, c.counter,
-             c.attributes, c.colors, c.types, c.block, c.effect, c.trigger)
+             c.attributes, c.colors, c.types, c.block, c.effect, c.trigger, c.keywords)
         is distinct from
             (excluded.name, excluded.category, excluded.cost, excluded.life, excluded.power,
              excluded.counter, excluded.attributes, excluded.colors, excluded.types,
-             excluded.block, excluded.effect, excluded.trigger)
+             excluded.block, excluded.effect, excluded.trigger, excluded.keywords)
       returning (xmax = 0) as inserted
     `
     count(result, stats.cards)

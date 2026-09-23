@@ -45,6 +45,7 @@ export type Database = {
           counter: number | null
           created_at: string
           effect: string | null
+          keywords: string[]
           life: number | null
           name: string
           power: number | null
@@ -62,6 +63,7 @@ export type Database = {
           counter?: number | null
           created_at?: string
           effect?: string | null
+          keywords?: string[]
           life?: number | null
           name: string
           power?: number | null
@@ -79,6 +81,7 @@ export type Database = {
           counter?: number | null
           created_at?: string
           effect?: string | null
+          keywords?: string[]
           life?: number | null
           name?: string
           power?: number | null

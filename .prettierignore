@@ -1,0 +1,8 @@
+dist
+dev-dist
+coverage
+package-lock.json
+supabase/.temp
+src/lib/database.types.ts
+catalog-sync/fixtures
+docs/Regole One Piece Card

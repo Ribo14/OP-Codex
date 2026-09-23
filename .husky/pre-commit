@@ -1,0 +1,8 @@
+# Blocca il commit se tra i file in stage c'è un segreto (repo pubblico).
+# Se gitleaks manca, il commit viene bloccato: meglio fermarsi che committare senza controllo.
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "pre-commit: gitleaks non trovato. Installalo (Windows: winget install Gitleaks.Gitleaks) e riapri il terminale." >&2
+  exit 1
+fi
+
+gitleaks git --pre-commit --staged --redact --no-banner --verbose

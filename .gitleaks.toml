@@ -1,0 +1,9 @@
+# Configurazione di gitleaks: regole di default più eccezioni mirate.
+# https://github.com/gitleaks/gitleaks#configuration
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Credenziali di default del Supabase locale: valgono solo sulla macchina di sviluppo"
+regexes = ['''postgresql://postgres:postgres@127\.0\.0\.1:54322/postgres''']

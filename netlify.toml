@@ -1,0 +1,64 @@
+# Configurazione Netlify di OP-Codex.
+# In produzione si pubblica solo il branch `main` (ADR-0010); le Pull Request verso `main`
+# hanno un deploy preview (0 crediti). Branch di produzione e preview si impostano nella UI
+# di Netlify; qui sotto annulliamo comunque i branch deploy (es. un push su `dev`).
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+  # Exit code 0 = build annullata. $CONTEXT: production | deploy-preview | branch-deploy.
+  ignore = "test \"$CONTEXT\" = \"branch-deploy\""
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# SPA: ogni percorso sconosciuto serve index.html (il routing è lato client).
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Content-Security-Policy: una direttiva per riga, così è facile aggiungere domini.
+    # Domini consentiti oltre a 'self':
+    #   - img-src:     progetto Supabase   immagini delle carte su Storage (ADR-0005)
+    #   - connect-src: progetto Supabase   API del database (ADR-0003)
+    # Il progetto Supabase di produzione è khxjggxukrodbnczoryn (unico progetto cloud, ADR-0002).
+    # La barra a fine riga unisce le righe in un'unica intestazione.
+    Content-Security-Policy = """\
+      default-src 'self'; \
+      script-src 'self'; \
+      style-src 'self'; \
+      img-src 'self' data: blob: https://khxjggxukrodbnczoryn.supabase.co; \
+      font-src 'self'; \
+      connect-src 'self' https://khxjggxukrodbnczoryn.supabase.co; \
+      worker-src 'self'; \
+      manifest-src 'self'; \
+      media-src 'self' blob:; \
+      object-src 'none'; \
+      base-uri 'self'; \
+      form-action 'self'; \
+      frame-ancestors 'none'; \
+      upgrade-insecure-requests\
+      """
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Cross-Origin-Opener-Policy = "same-origin"
+    # Fotocamera solo per l'app stessa (Scanner); tutto il resto spento.
+    Permissions-Policy = "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+
+# I file in /assets hanno l'hash nel nome: si possono tenere in cache per sempre.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Il service worker va sempre ricontrollato, altrimenti gli aggiornamenti non arrivano.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"

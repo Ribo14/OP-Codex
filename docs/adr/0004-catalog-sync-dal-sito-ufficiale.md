@@ -1,6 +1,6 @@
 # Catalog Sync dalla Official Card List, non da API della community
 
-Il catalogo si alimenta leggendo ogni notte, con GitHub Actions, l'HTML della Official Card List (en.onepiece-cardgame.com). È la fonte di verità, è renderizzato lato server e ha una struttura regolare: Print ID con suffisso `_pN` per le Printing. In più non ci lega a progetti di terzi che possono sparire.
+Il catalogo si alimenta leggendo ogni notte, con GitHub Actions, l'HTML della Official Card List (en.onepiece-cardgame.com). È la fonte di verità, è renderizzato lato server e ha una struttura regolare: Print ID con suffisso `_pN` per le parallel e `_rN` per le ristampe, e una sola richiesta (`/cardlist/?series=<id>`) restituisce tutte le carte di un Set. In più non ci lega a progetti di terzi che possono sparire.
 
 ## Considered Options
 

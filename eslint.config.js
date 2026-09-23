@@ -7,7 +7,7 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 export default defineConfig([
-  globalIgnores(['dist', 'dev-dist', 'coverage', 'supabase/.temp']),
+  globalIgnores(['dist', 'dev-dist', 'coverage', 'supabase/.temp', 'src/lib/database.types.ts']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -34,7 +34,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['tests/**/*.ts', 'vite.config.ts'],
+    files: ['tests/**/*.ts', 'catalog-sync/**/*.ts', 'vite.config.ts'],
     languageOptions: {
       globals: globals.node,
     },

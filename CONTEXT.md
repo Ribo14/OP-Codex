@@ -19,7 +19,7 @@ Una specifica stampa di una Card: la base, una parallel/alt-art o una ristampa i
 _Avoid_: variant, version, edizione
 
 **Print ID**:
-L'identificativo della Printing usato dal sito ufficiale: il Card Code più un eventuale suffisso, es. `OP01-001_p1`. La Printing base non ha suffisso.
+L'identificativo della Printing usato dal sito ufficiale: il Card Code più un eventuale suffisso, `_pN` per le parallel/alt-art (es. `OP01-001_p1`) o `_rN` per le ristampe in un altro Set (es. `OP01-006_r1`). La Printing base non ha suffisso.
 
 **Set**:
 Il prodotto in cui una Printing è stata pubblicata, es. OP-01, ST-10, EB-02, PRB-01, Promo.

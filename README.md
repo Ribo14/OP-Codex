@@ -19,12 +19,17 @@ Il dominio e le decisioni di progetto sono in [`CONTEXT.md`](CONTEXT.md) e [`doc
 ```sh
 npm install              # installa le dipendenze e attiva l'hook pre-commit
 npx supabase start       # avvia Supabase in Docker (la prima volta scarica le immagini)
+npm run sync:set         # scarica OP-01 dalla Official Card List nel DB locale
 npm run dev              # app su http://localhost:5173
 ```
 
 `npx supabase start` stampa gli URL e le chiavi del Supabase locale; lo Studio è su http://localhost:54323. Per fermarlo: `npx supabase stop`.
 
-Le variabili d'ambiente sono documentate in [`.env.example`](.env.example). Per cambiarle, copia il file in `.env.local`, che git ignora.
+Le variabili d'ambiente sono documentate in [`.env.example`](.env.example): copia il file in `.env.local` (che git ignora) e inserisci `API_URL` e `PUBLISHABLE_KEY` stampati da `npx supabase status`.
+
+Per sincronizzare un altro Set passa il suo identificativo sul sito ufficiale, es. `npm run sync:set -- 569001` per ST-01 (gli identificativi sono i `value` del menu dei Set su https://en.onepiece-cardgame.com/cardlist/?series=569101).
+
+In sviluppo le immagini delle carte passano dal proxy di Vite (`/card-images/…`): il sito ufficiale non consente di mostrarle direttamente su un altro dominio.
 
 ## Script
 
@@ -36,6 +41,8 @@ Le variabili d'ambiente sono documentate in [`.env.example`](.env.example). Per 
 | `npm test`                                | Tutti i test (unitari + database; serve Supabase avviato) |
 | `npm run test:unit`                       | Solo i test unitari                                       |
 | `npm run test:db`                         | Solo i test sul Supabase locale                           |
+| `npm run sync:set -- <id>`                | Sync di un Set dalla Official Card List (default OP-01)   |
+| `npm run db:types`                        | Rigenera i tipi TypeScript dallo schema del DB locale     |
 | `npm run lint`                            | ESLint                                                    |
 | `npm run typecheck`                       | TypeScript in modalità strict                             |
 | `npm run format` / `npm run format:check` | Prettier                                                  |

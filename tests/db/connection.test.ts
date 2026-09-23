@@ -1,17 +1,7 @@
-import postgres from 'postgres'
 import { afterAll, describe, expect, it } from 'vitest'
+import { connect } from '../../catalog-sync/catalog-store.ts'
 
-// Default del Supabase locale (`npx supabase start`): non è un segreto, vale solo in locale.
-const LOCAL_DB_URL = 'postgresql://postgres:postgres@127.0.0.1:54322/postgres'
-
-// Una variabile vuota (come in .env.example) vale come non impostata.
-const dbUrl = process.env.SUPABASE_DB_URL?.trim() ? process.env.SUPABASE_DB_URL : LOCAL_DB_URL
-
-const sql = postgres(dbUrl, {
-  connect_timeout: 5,
-  max: 1,
-  onnotice: () => undefined,
-})
+const sql = connect()
 
 afterAll(async () => {
   await sql.end()

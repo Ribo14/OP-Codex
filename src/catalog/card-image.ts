@@ -4,7 +4,7 @@
 // non mostra le sue immagini su un altro dominio. Le chiediamo al nostro stesso dominio, sotto
 // /card-images/, e ogni ambiente le inoltra al sito ufficiale:
 //   - sviluppo e preview: proxy di Vite (vite.config.ts)
-//   - produzione: da decidere (vedi RIB-9)
+//   - produzione: copie WebP su Supabase Storage (ADR-0005, RIB-36)
 
 const CARD_IMAGE_BASE = '/card-images'
 

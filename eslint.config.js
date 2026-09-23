@@ -28,7 +28,7 @@ export default defineConfig([
   },
   {
     // I componenti shadcn/ui esportano anche le varianti (es. buttonVariants).
-    files: ['src/components/ui/**/*.tsx'],
+    files: ['src/components/ui/**/*.tsx', 'src/prototype/**/*.tsx'],
     rules: {
       'react-refresh/only-export-components': 'off',
     },

@@ -1,0 +1,52 @@
+/* PROTOTIPO RIB-8 (usa e getta): token di stile per variante, sovrascrivono quelli di index.css. */
+@import '@fontsource-variable/geist-mono';
+@import '@fontsource-variable/fraunces';
+
+/* A · Galleria: neutro, molto arrotondato */
+.proto-a {
+  --radius: 1rem;
+}
+
+/* B · Archivio: grigio freddo, spigoli netti, numeri monospaziati */
+.proto-b {
+  --radius: 0.25rem;
+  --background: oklch(0.99 0.002 250);
+  --muted: oklch(0.955 0.006 250);
+  --muted-foreground: oklch(0.5 0.02 250);
+  --border: oklch(0.9 0.008 250);
+  --primary: oklch(0.3 0.03 255);
+  --primary-foreground: oklch(0.98 0 0);
+}
+.dark .proto-b {
+  --background: oklch(0.17 0.01 255);
+  --muted: oklch(0.23 0.012 255);
+  --muted-foreground: oklch(0.68 0.02 255);
+  --border: oklch(0.3 0.012 255);
+  --primary: oklch(0.85 0.03 255);
+  --primary-foreground: oklch(0.17 0.01 255);
+}
+.proto-b .font-mono {
+  font-family: 'Geist Mono Variable', ui-monospace, monospace;
+}
+
+/* C · Raccoglitore: carta avorio e blu notte, titoli serif */
+.proto-c {
+  --radius: 0.75rem;
+  --background: oklch(0.975 0.012 85);
+  --card: oklch(0.995 0.004 85);
+  --muted: oklch(0.94 0.014 85);
+  --muted-foreground: oklch(0.48 0.02 60);
+  --foreground: oklch(0.22 0.03 260);
+  --border: oklch(0.88 0.016 85);
+}
+.dark .proto-c {
+  --background: oklch(0.19 0.03 262);
+  --card: oklch(0.23 0.03 262);
+  --muted: oklch(0.26 0.03 262);
+  --muted-foreground: oklch(0.72 0.02 85);
+  --foreground: oklch(0.95 0.012 85);
+  --border: oklch(0.32 0.03 262);
+}
+.proto-c .font-serif {
+  font-family: 'Fraunces Variable', Georgia, serif;
+}

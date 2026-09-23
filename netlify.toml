@@ -19,6 +19,10 @@
 [build.environment]
   NODE_VERSION = "24"
 
+# PROTOTIPO RIB-8: solo su questo branch usa e getta, mai su main.
+[context.deploy-preview.environment]
+  VITE_PROTOTYPE = "true"
+
 # SPA: ogni percorso sconosciuto serve index.html (il routing è lato client).
 [[redirects]]
   from = "/*"

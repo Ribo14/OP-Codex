@@ -12,9 +12,10 @@ export interface DownloadProgress {
 
 /** Richieste in parallelo: poche, perché Supabase Storage limita la frequenza (429). */
 const CONCURRENCY = 3
-/** Tentativi in più per un'immagine rifiutata per troppe richieste (429) o server occupato (503). */
+/** Tentativi in più per un'immagine rifiutata per troppe richieste (429) o per un errore passeggero del server. */
 const RETRIES = 4
 const RETRY_BASE_MS = 1000
+const RETRY_STATUSES = new Set([429, 502, 503, 504])
 
 const sleep = (ms: number) =>
   new Promise<void>((resolve) => {
@@ -54,7 +55,7 @@ export async function downloadImages(
         await response.blob()
         return true
       }
-      const busy = response.status === 429 || response.status === 503
+      const busy = RETRY_STATUSES.has(response.status)
       if (!busy || attempt >= RETRIES || signal?.aborted) return false
       await wait(retryDelay(response, attempt))
     }

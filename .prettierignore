@@ -1,0 +1,6 @@
+dist
+dev-dist
+coverage
+package-lock.json
+supabase/.temp
+docs/Regole One Piece Card

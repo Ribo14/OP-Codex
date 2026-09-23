@@ -1,0 +1,30 @@
+# Dipendenze e build
+node_modules
+dist
+dist-ssr
+dev-dist
+coverage
+*.tsbuildinfo
+
+# Segreti: nessun file .env entra nel repo, tranne l'esempio senza valori
+.env*
+!.env.example
+*.pem
+*.key
+
+# Netlify
+.netlify
+
+# Log
+logs
+*.log
+npm-debug.log*
+
+# Editor e sistema
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.suo
+*.sw?

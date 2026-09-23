@@ -1,0 +1,62 @@
+# Configurazione Netlify di OP-Codex.
+# In produzione si pubblica solo il branch `main` (ADR-0010): il branch di produzione si imposta
+# nella UI di Netlify, qui sotto annulliamo comunque le build di tutti gli altri branch.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+  # Exit code 0 = build annullata. Si costruisce solo `main`, per non consumare crediti.
+  ignore = "test \"$BRANCH\" != \"main\""
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# SPA: ogni percorso sconosciuto serve index.html (il routing è lato client).
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Content-Security-Policy: una direttiva per riga, così è facile aggiungere domini.
+    # Domini consentiti oltre a 'self':
+    #   - img-src:     en.onepiece-cardgame.com   immagini ufficiali delle carte (ADR-0005)
+    #   - connect-src: (vuoto)                    il dominio del progetto Supabase si aggiunge in RIB-7
+    # La barra a fine riga unisce le righe in un'unica intestazione.
+    Content-Security-Policy = """\
+      default-src 'self'; \
+      script-src 'self'; \
+      style-src 'self'; \
+      img-src 'self' data: blob: https://en.onepiece-cardgame.com; \
+      font-src 'self'; \
+      connect-src 'self'; \
+      worker-src 'self'; \
+      manifest-src 'self'; \
+      media-src 'self' blob:; \
+      object-src 'none'; \
+      base-uri 'self'; \
+      form-action 'self'; \
+      frame-ancestors 'none'; \
+      upgrade-insecure-requests\
+      """
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Cross-Origin-Opener-Policy = "same-origin"
+    # Fotocamera solo per l'app stessa (Scanner); tutto il resto spento.
+    Permissions-Policy = "camera=(self), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+
+# I file in /assets hanno l'hash nel nome: si possono tenere in cache per sempre.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Il service worker va sempre ricontrollato, altrimenti gli aggiornamenti non arrivano.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"

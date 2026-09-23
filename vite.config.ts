@@ -10,22 +10,37 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
-      // Registrazione del service worker da file esterno: niente script inline, così la CSP resta 'self'.
-      injectRegister: 'script-defer',
-      includeAssets: ['favicon.svg'],
+      // Una nuova versione non si attiva da sola: l'app mostra "Nuova versione disponibile".
+      registerType: 'prompt',
+      // La registrazione la fa l'app (src/app/UpdatePrompt.tsx): niente script inline, la CSP resta 'self'.
+      injectRegister: false,
+      includeAssets: ['favicon.svg', 'icons/apple-touch-icon.png', 'theme-init.js'],
       manifest: {
+        id: '/',
         name: 'OP-Codex',
         short_name: 'OP-Codex',
         description: 'Catalogo, collezione e deck builder per il One Piece Card Game',
         lang: 'it',
+        dir: 'ltr',
         start_url: '/',
         scope: '/',
         display: 'standalone',
+        orientation: 'any',
+        categories: ['games', 'entertainment'],
+        // Colori della schermata di avvio (Android) e della barra di sistema.
         background_color: '#0b0f19',
         theme_color: '#0b0f19',
-        // Icona segnaposto: il logo definitivo arriverà più avanti.
-        icons: [{ src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' }],
+        // Icone segnaposto (scripts/generate-icons.mjs): il logo definitivo arriverà più avanti.
+        icons: [
+          { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          {
+            src: 'icons/maskable-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+        ],
       },
     }),
   ],

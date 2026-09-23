@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useLocation } from 'react-router'
+import { Download } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useInstall } from './install'
+import { InstallInvite } from './InstallInvite'
 import { PRIVACY_PATH, SECTIONS } from './sections'
 import { ThemeCycleButton, ThemeSegmented } from './ThemeToggle'
 
@@ -15,6 +18,7 @@ export function AppShell() {
   const inCardDetail = pathname.startsWith('/carta/')
   const sectionPath = inCardDetail ? '/' : pathname
   const isActive = (path: string) => (path === '/' ? sectionPath === '/' : sectionPath === path)
+  const { context, showInvite, canInstallFromMenu, install, dismiss } = useInstall()
 
   // A ogni cambio di sezione si riparte dall'alto (aprire una carta non perde la posizione).
   useEffect(() => {
@@ -57,6 +61,18 @@ export function AppShell() {
           ))}
         </nav>
         <div className="mt-auto space-y-4 px-6 py-5">
+          {canInstallFromMenu && (
+            <button
+              type="button"
+              onClick={() => {
+                void install()
+              }}
+              className="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+            >
+              <Download className="size-4" aria-hidden="true" />
+              {t('install.menu')}
+            </button>
+          )}
           <ThemeSegmented />
           <Footer />
         </div>
@@ -86,6 +102,17 @@ export function AppShell() {
           </div>
         </main>
       </div>
+
+      {/* Telefono: invito all'installazione, sopra la barra in basso */}
+      {showInvite && (
+        <InstallInvite
+          context={context}
+          onInstall={() => {
+            void install()
+          }}
+          onDismiss={dismiss}
+        />
+      )}
 
       {/* Telefono: barra in basso */}
       <nav

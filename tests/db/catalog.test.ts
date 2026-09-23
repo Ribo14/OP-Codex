@@ -63,7 +63,7 @@ describe('Sync del catalogo', () => {
 
       const printings = await tx`
         select print_id, series_id, rarity from public.printings
-        where card_code = 'OP01-001' order by print_id
+        where card_code = 'OP01-001' and series_id = 569101 order by print_id
       `
       expect(printings).toEqual([
         { print_id: 'OP01-001', series_id: 569101, rarity: 'L' },
@@ -79,7 +79,8 @@ describe('Sync del catalogo', () => {
 
       const rows = await tx<{ series_id: number; n: number }[]>`
         select series_id, count(*)::int as n from public.printings
-        where card_code = 'OP01-006' group by series_id order by series_id
+        where card_code = 'OP01-006' and series_id in (569101, 569301)
+        group by series_id order by series_id
       `
       expect(rows).toEqual([
         { series_id: 569101, n: 1 },

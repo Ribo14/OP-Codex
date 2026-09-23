@@ -7,7 +7,14 @@
   command = "npm run build"
   publish = "dist"
   # Exit code 0 = build annullata. $CONTEXT: production | deploy-preview | branch-deploy.
-  ignore = "test \"$CONTEXT\" = \"branch-deploy\""
+  # Si annullano i branch deploy e i deploy di produzione che non toccano il frontend
+  # (es. solo Catalog Sync o migrazioni): ognuno costerebbe 15 crediti per un sito identico.
+  ignore = """\
+    test "$CONTEXT" = "branch-deploy" || { test "$CONTEXT" = "production" \
+    && git diff --quiet "$CACHED_COMMIT_REF" "$COMMIT_REF" -- \
+    src public index.html package.json package-lock.json vite.config.ts netlify.toml \
+    tsconfig.json tsconfig.app.json components.json; }\
+    """
 
 [build.environment]
   NODE_VERSION = "22"

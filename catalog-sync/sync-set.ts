@@ -16,9 +16,11 @@ async function main(): Promise<void> {
 
   const sql = connect()
   try {
-    const summary = await sql.begin((tx) => upsertCatalogPage(tx, page))
+    const stats = await sql.begin((tx) => upsertCatalogPage(tx, page))
     console.log(
-      `Sync completato: ${summary.set} (${String(summary.cards)} Card, ${String(summary.printings)} Printing)`,
+      `Sync completato: ${page.set.code} (${String(page.cards.length)} Card, ${String(page.printings.length)} Printing; ` +
+        `nuove/aggiornate: Card ${String(stats.cards.inserted)}/${String(stats.cards.updated)}, ` +
+        `Printing ${String(stats.printings.inserted)}/${String(stats.printings.updated)})`,
     )
   } finally {
     await sql.end()

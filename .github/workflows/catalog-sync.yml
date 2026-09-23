@@ -1,0 +1,48 @@
+name: Catalog Sync notturno
+
+# Ogni notte: Catalog Sync completo dalla Official Card List, poi un lotto di immagini
+# (ADR-0004, ADR-0005). L'esecuzione quotidiana tiene attivo il progetto Supabase gratuito.
+# I segreti stanno nell'environment "production", disponibile solo al branch main.
+
+on:
+  schedule:
+    # 03:17 UTC: di notte in Italia e fuori dall'ora piena, quando GitHub è più carico.
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+    inputs:
+      image_limit:
+        description: Immagini massime da scaricare in questa esecuzione
+        default: '800'
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: catalog-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Catalog Sync e Image Sync
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 240
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+      SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+      IMAGE_LIMIT: ${{ inputs.image_limit || '800' }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Catalog Sync
+        run: node catalog-sync/sync-catalog.ts --delay-ms 3000
+      - name: Image Sync
+        run: node catalog-sync/sync-images.ts --limit "$IMAGE_LIMIT" --delay-ms 2000

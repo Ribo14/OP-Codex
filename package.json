@@ -19,6 +19,7 @@
     "test:db": "vitest run --project db",
     "test:watch": "vitest",
     "sync:set": "node --env-file-if-exists=.env.local catalog-sync/sync-set.ts",
+    "sync:catalog": "node --env-file-if-exists=.env.local catalog-sync/sync-catalog.ts",
     "sync:images": "node --env-file-if-exists=.env.local catalog-sync/sync-images.ts",
     "db:types": "supabase gen types typescript --local > src/lib/database.types.ts",
     "prepare": "husky"

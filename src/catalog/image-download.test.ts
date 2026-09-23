@@ -22,7 +22,7 @@ describe('download delle immagini di un Set', () => {
 
     expect(result).toEqual({ done: 20, failed: 1, total: 21 })
     expect(fetcher).toHaveBeenCalledTimes(21)
-    expect(peak).toBeLessThanOrEqual(6)
+    expect(peak).toBeLessThanOrEqual(3)
     expect(onProgress).toHaveBeenLastCalledWith({ done: 20, failed: 1, total: 21 })
     expect(fetcher).toHaveBeenCalledWith('u0', expect.objectContaining({ mode: 'cors' }))
   })
@@ -34,6 +34,26 @@ describe('download delle immagini di un Set', () => {
       .mockImplementation(ok)
     const result = await downloadImages(['a', 'b', 'c'], { fetcher })
     expect(result).toEqual({ done: 2, failed: 1, total: 3 })
+  })
+
+  it('se il server limita le richieste (429) aspetta e riprova', async () => {
+    const fetcher = vi
+      .fn<typeof fetch>()
+      .mockResolvedValueOnce(new Response('', { status: 429, headers: { 'Retry-After': '3' } }))
+      .mockResolvedValueOnce(new Response('', { status: 429 }))
+      .mockImplementation(ok)
+    const wait = vi.fn(() => Promise.resolve())
+    const result = await downloadImages(['a'], { fetcher, wait })
+    expect(result).toEqual({ done: 1, failed: 0, total: 1 })
+    expect(wait.mock.calls).toEqual([[3000], [2000]])
+  })
+
+  it('dopo troppi 429 rinuncia a quell’immagine', async () => {
+    const fetcher = vi.fn<typeof fetch>(() => Promise.resolve(new Response('', { status: 429 })))
+    const wait = vi.fn(() => Promise.resolve())
+    const result = await downloadImages(['a'], { fetcher, wait })
+    expect(result).toEqual({ done: 0, failed: 1, total: 1 })
+    expect(fetcher).toHaveBeenCalledTimes(5)
   })
 
   it('si ferma quando viene annullato', async () => {

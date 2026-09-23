@@ -10,8 +10,23 @@ export interface DownloadProgress {
   total: number
 }
 
-/** Richieste in parallelo: abbastanza da essere veloci, poche per non intasare la rete. */
-const CONCURRENCY = 6
+/** Richieste in parallelo: poche, perché Supabase Storage limita la frequenza (429). */
+const CONCURRENCY = 3
+/** Tentativi in più per un'immagine rifiutata per troppe richieste (429) o server occupato (503). */
+const RETRIES = 4
+const RETRY_BASE_MS = 1000
+
+const sleep = (ms: number) =>
+  new Promise<void>((resolve) => {
+    setTimeout(resolve, ms)
+  })
+
+/** Attesa prima di riprovare: Retry-After se il server lo indica, altrimenti 1, 2, 4, 8 s. */
+function retryDelay(response: Response, attempt: number): number {
+  const seconds = Number(response.headers.get('Retry-After'))
+  if (Number.isFinite(seconds) && seconds > 0) return Math.min(seconds, 30) * 1000
+  return RETRY_BASE_MS * 2 ** attempt
+}
 
 export async function downloadImages(
   urls: readonly string[],
@@ -19,27 +34,37 @@ export async function downloadImages(
     onProgress,
     signal,
     fetcher = fetch,
+    wait = sleep,
   }: {
     onProgress?: (progress: DownloadProgress) => void
     signal?: AbortSignal
     fetcher?: typeof fetch
+    wait?: (ms: number) => Promise<void>
   } = {},
 ): Promise<DownloadProgress> {
   const progress: DownloadProgress = { done: 0, failed: 0, total: urls.length }
   let next = 0
 
+  const fetchOne = async (url: string): Promise<boolean> => {
+    for (let attempt = 0; ; attempt++) {
+      // Come le <img crossOrigin="anonymous">: risposta CORS, che la cache può salvare.
+      const response = await fetcher(url, { mode: 'cors', credentials: 'omit', signal })
+      if (response.ok) {
+        // Il corpo va letto per intero, altrimenti la risposta non finisce in cache.
+        await response.blob()
+        return true
+      }
+      const busy = response.status === 429 || response.status === 503
+      if (!busy || attempt >= RETRIES || signal?.aborted) return false
+      await wait(retryDelay(response, attempt))
+    }
+  }
+
   const worker = async () => {
     for (let url = urls[next++]; url !== undefined && !signal?.aborted; url = urls[next++]) {
       try {
-        // Come le <img crossOrigin="anonymous">: risposta CORS, che la cache può salvare.
-        const response = await fetcher(url, { mode: 'cors', credentials: 'omit', signal })
-        if (response.ok) {
-          // Il corpo va letto per intero, altrimenti la risposta non finisce in cache.
-          await response.blob()
-          progress.done++
-        } else {
-          progress.failed++
-        }
+        if (await fetchOne(url)) progress.done++
+        else progress.failed++
       } catch {
         if (signal?.aborted) return
         progress.failed++

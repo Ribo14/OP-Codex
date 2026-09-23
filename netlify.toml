@@ -1,12 +1,13 @@
 # Configurazione Netlify di OP-Codex.
-# In produzione si pubblica solo il branch `main` (ADR-0010): il branch di produzione si imposta
-# nella UI di Netlify, qui sotto annulliamo comunque le build di tutti gli altri branch.
+# In produzione si pubblica solo il branch `main` (ADR-0010); le Pull Request verso `main`
+# hanno un deploy preview (0 crediti). Branch di produzione e preview si impostano nella UI
+# di Netlify; qui sotto annulliamo comunque i branch deploy (es. un push su `dev`).
 
 [build]
   command = "npm run build"
   publish = "dist"
-  # Exit code 0 = build annullata. Si costruisce solo `main`, per non consumare crediti.
-  ignore = "test \"$BRANCH\" != \"main\""
+  # Exit code 0 = build annullata. $CONTEXT: production | deploy-preview | branch-deploy.
+  ignore = "test \"$CONTEXT\" = \"branch-deploy\""
 
 [build.environment]
   NODE_VERSION = "22"
@@ -22,18 +23,17 @@
   [headers.values]
     # Content-Security-Policy: una direttiva per riga, così è facile aggiungere domini.
     # Domini consentiti oltre a 'self':
-    #   - img-src:     *.supabase.co   immagini delle carte su Supabase Storage (ADR-0005)
-    #   - connect-src: (vuoto)         il dominio del progetto Supabase si aggiunge in RIB-7
-    # In RIB-7, quando esiste il progetto di produzione, *.supabase.co va sostituito
-    # con il suo dominio esatto (es. https://<ref>.supabase.co) sia in img-src sia in connect-src.
+    #   - img-src:     progetto Supabase   immagini delle carte su Storage (ADR-0005)
+    #   - connect-src: progetto Supabase   API del database (ADR-0003)
+    # Il progetto Supabase di produzione è khxjggxukrodbnczoryn (unico progetto cloud, ADR-0002).
     # La barra a fine riga unisce le righe in un'unica intestazione.
     Content-Security-Policy = """\
       default-src 'self'; \
       script-src 'self'; \
       style-src 'self'; \
-      img-src 'self' data: blob: https://*.supabase.co; \
+      img-src 'self' data: blob: https://khxjggxukrodbnczoryn.supabase.co; \
       font-src 'self'; \
-      connect-src 'self'; \
+      connect-src 'self' https://khxjggxukrodbnczoryn.supabase.co; \
       worker-src 'self'; \
       manifest-src 'self'; \
       media-src 'self' blob:; \

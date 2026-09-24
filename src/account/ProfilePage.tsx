@@ -48,7 +48,13 @@ function WithProfile({
     return <p className="text-muted-foreground">{t('account.loading')}</p>
   }
   if (profile.status === 'error') {
-    return <FormMessage tone="error">{t('account.problem.generic')}</FormMessage>
+    // Anche senza profilo leggibile si deve poter uscire.
+    return (
+      <div className="mx-auto w-full max-w-sm space-y-4 py-4">
+        <FormMessage tone="error">{t('account.problem.generic')}</FormMessage>
+        <LogoutButton />
+      </div>
+    )
   }
   if (profile.status === 'missing') return <UsernameForm userId={user.id} onDone={reload} />
   return <>{children({ user, profile: profile.profile })}</>
@@ -133,20 +139,27 @@ export function ProfilePage() {
             </h2>
             <ChangePasswordForm email={user.email ?? ''} />
           </section>
-          <button
-            type="button"
-            onClick={() => {
-              // Solo questo dispositivo; "esci ovunque" arriverà con RIB-18.
-              void getSupabase().auth.signOut({ scope: 'local' })
-            }}
-            className="inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-medium hover:bg-muted"
-          >
-            <LogOut className="size-4" aria-hidden="true" />
-            {t('account.logout')}
-          </button>
+          <LogoutButton />
         </div>
       )}
     </RequireAccount>
+  )
+}
+
+function LogoutButton() {
+  const { t } = useTranslation()
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        // Solo questo dispositivo; "esci ovunque" arriverà con RIB-18.
+        void getSupabase().auth.signOut({ scope: 'local' })
+      }}
+      className="inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-medium hover:bg-muted"
+    >
+      <LogOut className="size-4" aria-hidden="true" />
+      {t('account.logout')}
+    </button>
   )
 }
 

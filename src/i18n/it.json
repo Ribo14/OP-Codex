@@ -48,6 +48,8 @@
     "problem": {
       "credentials": "Email o password non corrette.",
       "weakPassword": "La password non è abbastanza sicura: usane una di almeno {{min}} caratteri.",
+      "weakCharacters": "La password deve contenere tipi di caratteri diversi (per esempio lettere minuscole e maiuscole, cifre e simboli).",
+      "server": "Il server non ha risposto in tempo (per esempio nell'invio dell'email): riprova tra qualche minuto.",
       "short": "La password deve avere almeno {{min}} caratteri.",
       "pwned": "Questa password compare in violazioni di dati note: scegline un'altra.",
       "samePassword": "La nuova password deve essere diversa da quella attuale.",

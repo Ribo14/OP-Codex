@@ -59,6 +59,9 @@ export function createCatalogStore(deps: CatalogStoreDeps): CatalogStore {
   const loadLocal = () => {
     local ??= deps.readSnapshot().then((snapshot) => {
       if (snapshot) set({ catalog: buildCatalog(snapshot), checkedAt: snapshot.checkedAt })
+      // Nessuna copia letta (o lettura fallita): al prossimo tentativo si riprova a leggerla,
+      // così "Riprova" funziona anche offline invece di ripetere lo stesso risultato.
+      else local = null
       return snapshot
     })
     return local

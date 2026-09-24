@@ -22,13 +22,39 @@ function open(): Promise<IDBPDatabase<OpCodexDB>> {
   return db
 }
 
-/** La copia salvata, oppure null (primo avvio, o IndexedDB non disponibile). */
+/** Oltre questo tempo una lettura si considera bloccata e si riprova con una connessione nuova. */
+const READ_TIMEOUT_MS = 3000
+
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error('IndexedDB timeout'))
+    }, ms)
+    promise.then(resolve, reject).finally(() => {
+      clearTimeout(timer)
+    })
+  })
+}
+
+/**
+ * La copia salvata, oppure null (primo avvio, o IndexedDB non disponibile).
+ * Safari a volte perde la connessione a IndexedDB o la lascia appesa al primo accesso dopo
+ * una riapertura ("Connection to Indexed Database server lost"): si riprova una volta da capo.
+ */
 export async function readSnapshot(): Promise<CatalogSnapshot | null> {
-  try {
-    return (await (await open()).get('catalog', 'snapshot')) ?? null
-  } catch {
-    return null
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      return (
+        (await withTimeout(
+          open().then((database) => database.get('catalog', 'snapshot')),
+          READ_TIMEOUT_MS,
+        )) ?? null
+      )
+    } catch {
+      db = null
+    }
   }
+  return null
 }
 
 export async function writeSnapshot(snapshot: CatalogSnapshot): Promise<void> {

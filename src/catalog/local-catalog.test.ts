@@ -128,6 +128,20 @@ describe('store del catalogo', () => {
     expect(store.getState().catalog?.cards).toHaveLength(1)
   })
 
+  it('senza rete, se la copia salvata non si legge al primo colpo, "Riprova" la rilegge', async () => {
+    const readSnapshot = vi
+      .fn<CatalogStoreDeps['readSnapshot']>()
+      .mockResolvedValueOnce(null)
+      .mockResolvedValue(SAVED)
+    const store = createCatalogStore(deps({ readSnapshot, isOnline: () => false }))
+    await store.refresh()
+    expect(store.getState()).toMatchObject({ catalog: null, error: OFFLINE })
+
+    await store.refresh()
+    expect(readSnapshot).toHaveBeenCalledTimes(2)
+    expect(store.getState().catalog?.cards).toHaveLength(1)
+  })
+
   it('aggiornamenti contemporanei diventano uno solo', async () => {
     const d = deps()
     const store = createCatalogStore(d)

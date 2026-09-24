@@ -102,6 +102,18 @@ export function SubmitButton({ busy, children }: { busy: boolean; children: Reac
   )
 }
 
+/** Separatore tra "Continua con Google" e il modulo con email e password. */
+export function OrDivider() {
+  const { t } = useTranslation()
+  return (
+    <div className="flex items-center gap-3 text-xs text-muted-foreground" aria-hidden="true">
+      <span className="h-px flex-1 bg-border" />
+      {t('account.or')}
+      <span className="h-px flex-1 bg-border" />
+    </div>
+  )
+}
+
 /** Messaggio sotto il modulo: errore (annunciato subito) o conferma. */
 export function FormMessage({
   tone,

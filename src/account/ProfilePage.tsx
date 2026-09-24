@@ -2,13 +2,13 @@ import type { User } from '@supabase/supabase-js'
 import { LogOut } from 'lucide-react'
 import { useState, type SubmitEvent, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Navigate, useLocation } from 'react-router'
+import { Navigate, useLocation, useNavigate, useSearchParams } from 'react-router'
 import { getSupabase } from '@/lib/supabase'
 import { field } from './form-data'
 import { authProblem, type AuthProblem } from './errors'
 import { Field, FormMessage, PasswordField, SubmitButton } from './form'
 import { newPasswordProblem, PASSWORD_MIN, type PasswordProblem } from './new-password'
-import { loginPath } from './return-path'
+import { loginPath, RETURN_PARAM, safeReturnPath } from './return-path'
 import { useProfile, useSession, type Profile } from './session'
 import { Turnstile } from './Turnstile'
 import { USERNAME_MAX, USERNAME_MIN, usernameProblem, type UsernameProblem } from './username'
@@ -44,6 +44,14 @@ function WithProfile({
 }) {
   const { t } = useTranslation()
   const { profile, reload } = useProfile(user.id)
+  const navigate = useNavigate()
+  const [params] = useSearchParams()
+  // Arrivati qui dal controllo della shell (UsernameGate): scelto lo Username si torna indietro.
+  const returnTo = params.get(RETURN_PARAM)
+  const done = async () => {
+    await reload()
+    if (returnTo) void navigate(safeReturnPath(returnTo), { replace: true })
+  }
   if (profile.status === 'loading') {
     return <p className="text-muted-foreground">{t('account.loading')}</p>
   }
@@ -56,11 +64,11 @@ function WithProfile({
       </div>
     )
   }
-  if (profile.status === 'missing') return <UsernameForm userId={user.id} onDone={reload} />
+  if (profile.status === 'missing') return <UsernameForm userId={user.id} onDone={done} />
   return <>{children({ user, profile: profile.profile })}</>
 }
 
-function UsernameForm({ userId, onDone }: { userId: string; onDone: () => void }) {
+function UsernameForm({ userId, onDone }: { userId: string; onDone: () => Promise<void> }) {
   const { t } = useTranslation()
   const [busy, setBusy] = useState(false)
   const [problem, setProblem] = useState<UsernameProblem | 'taken' | 'generic' | null>(null)
@@ -82,7 +90,7 @@ function UsernameForm({ userId, onDone }: { userId: string; onDone: () => void }
       setProblem(
         error.code === '23505' ? 'taken' : error.code === '23514' ? 'characters' : 'generic',
       )
-    else onDone()
+    else await onDone()
   }
 
   return (

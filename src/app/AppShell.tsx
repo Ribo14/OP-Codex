@@ -2,15 +2,10 @@ import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useLocation } from 'react-router'
 import { Download, LogIn, Settings, WifiOff } from 'lucide-react'
-import {
-  CONFIRM_PATH,
-  LOGIN_PATH,
-  NEW_PASSWORD_PATH,
-  RECOVER_PATH,
-  SIGNUP_PATH,
-} from '@/account/paths'
+import { ACCOUNT_PATHS } from '@/account/paths'
 import { loginPath } from '@/account/return-path'
 import { useSession } from '@/account/session'
+import { UsernameGate } from '@/account/UsernameGate'
 import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { useInstall } from './install'
@@ -19,9 +14,6 @@ import { PRIVACY_PATH, SECTIONS, SETTINGS_PATH } from './sections'
 import { ThemeCycleButton, ThemeSegmented } from './ThemeToggle'
 
 // Struttura dell'app (docs/design.md): barra in basso su telefono, barra laterale da `lg`.
-
-/** Pagine di account: lì "Accedi" nell'intestazione sarebbe un doppione. */
-const ACCOUNT_PATHS = [LOGIN_PATH, SIGNUP_PATH, RECOVER_PATH, CONFIRM_PATH, NEW_PASSWORD_PATH]
 
 export function AppShell() {
   const { t } = useTranslation()
@@ -136,6 +128,7 @@ export function AppShell() {
           className="min-h-0 flex-1 overflow-y-auto focus:outline-none"
         >
           <div className="mx-auto w-full max-w-[1600px] px-4 pt-5 pb-8 lg:px-8 lg:pt-8">
+            <UsernameGate />
             <Outlet />
           </div>
           {/* Telefono: avviso e privacy in fondo a ogni pagina, sopra la barra */}

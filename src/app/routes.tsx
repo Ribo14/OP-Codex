@@ -2,10 +2,12 @@ import type { RouteObject } from 'react-router'
 import { ConfirmPage } from '@/account/ConfirmPage'
 import { LoginPage } from '@/account/LoginPage'
 import { NewPasswordPage } from '@/account/NewPasswordPage'
+import { OAuthCallbackPage } from '@/account/OAuthCallbackPage'
 import {
   CONFIRM_PATH,
   LOGIN_PATH,
   NEW_PASSWORD_PATH,
+  OAUTH_CALLBACK_PATH,
   PROFILE_PATH,
   RECOVER_PATH,
   SIGNUP_PATH,
@@ -45,6 +47,7 @@ export const routes: RouteObject[] = [
       { path: RECOVER_PATH, element: <RecoverPage /> },
       { path: CONFIRM_PATH, element: <ConfirmPage /> },
       { path: NEW_PASSWORD_PATH, element: <NewPasswordPage /> },
+      { path: OAUTH_CALLBACK_PATH, element: <OAuthCallbackPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

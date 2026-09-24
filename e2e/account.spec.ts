@@ -37,7 +37,7 @@ async function logout(page: Page) {
 
 test.describe.configure({ mode: 'serial' })
 
-test('registrazione, conferma, Username, uscita e accesso', async ({ page }) => {
+test('registrazione, conferma, Username, uscita e accesso', async ({ page, browser }) => {
   // Senza account il profilo porta all'accesso.
   await page.goto('/profilo')
   await expect(page).toHaveURL(/\/accesso\?torna=%2Fprofilo$/)
@@ -49,13 +49,28 @@ test('registrazione, conferma, Username, uscita e accesso', async ({ page }) => 
   await page.getByRole('button', { name: 'Registrati' }).click()
   await expect(page.getByRole('heading', { name: 'Controlla la tua email' })).toBeVisible()
 
+  // Il link si apre in un altro browser (es. l'app di posta del telefono): deve funzionare
+  // anche senza nulla di salvato da chi si è registrato.
   const confirm = await linkFromEmail(email, /Conferma/, '/account/conferma')
-  await page.goto(confirm)
+  const elsewhere = await browser.newContext()
+  const mailApp = await elsewhere.newPage()
+  await mailApp.goto(confirm)
+  await expect(mailApp.getByRole('heading', { name: 'Scegli il tuo Username' })).toBeVisible()
+  await elsewhere.close()
 
-  // Primo accesso: si sceglie lo Username.
+  // Accesso dal browser di partenza, verso il catalogo: prima però si sceglie lo Username.
+  await page.goto('/accesso?torna=%2F%3Fcolore%3DRed')
+  await page.getByLabel('Email').fill(email)
+  await page.getByLabel('Password', { exact: true }).fill(password)
+  await waitForCaptcha(page)
+  await page.getByRole('button', { name: 'Accedi' }).click()
+  await expect(page).toHaveURL(/\/profilo\?torna=%2F%3Fcolore%3DRed$/)
   await expect(page.getByRole('heading', { name: 'Scegli il tuo Username' })).toBeVisible()
   await page.getByLabel('Username').fill(username)
   await page.getByRole('button', { name: 'Conferma' }).click()
+  // Scelto lo Username si torna dove si voleva andare.
+  await expect(page).toHaveURL(/\/\?colore=Red$/)
+  await page.goto('/profilo')
   await expect(page.getByRole('heading', { level: 1, name: `@${username}` })).toBeVisible()
 
   await logout(page)

@@ -46,6 +46,13 @@
     "captchaMissing": "Il controllo anti-bot non è configurato: l'accesso non è disponibile.",
     "loading": "Caricamento dell'account…",
     "logout": "Esci",
+    "or": "oppure",
+    "google": {
+      "continue": "Continua con Google",
+      "title": "Accesso con Google",
+      "checking": "Accesso in corso…",
+      "failed": "L'accesso con Google non è riuscito o è stato annullato. Puoi riprovare, oppure accedere con email e password."
+    },
     "problem": {
       "credentials": "Email o password non corrette.",
       "weakPassword": "La password non è abbastanza sicura: usane una di almeno {{min}} caratteri.",
@@ -305,7 +312,7 @@
     "deviceTitle": "Sul tuo dispositivo",
     "device": "L'app salva sul dispositivo il tema scelto, i propri file (per aprirsi più in fretta), una copia del catalogo e le immagini delle carte viste o scaricate, per consultarle anche offline. Non usiamo cookie di profilazione, pubblicità o strumenti di analisi.",
     "providersTitle": "Servizi usati",
-    "providers": "Il sito è ospitato da Netlify; il database e le immagini delle carte sono su Supabase, con server nell'Unione Europea (Francoforte). Questi fornitori trattano i dati tecnici necessari a far funzionare il servizio (per esempio l'indirizzo IP nei log). Per gli account: il controllo anti-bot su accesso e registrazione è Cloudflare Turnstile, che analizza dati tecnici del browser; le email di conferma e di recupero partono da un indirizzo Gmail (Google); quando scegli una password l'app chiede al servizio Have I Been Pwned se compare in violazioni note, inviando solo i primi 5 caratteri della sua impronta cifrata, mai la password.",
+    "providers": "Il sito è ospitato da Netlify; il database e le immagini delle carte sono su Supabase, con server nell'Unione Europea (Francoforte). Questi fornitori trattano i dati tecnici necessari a far funzionare il servizio (per esempio l'indirizzo IP nei log). Per gli account: il controllo anti-bot su accesso e registrazione è Cloudflare Turnstile, che analizza dati tecnici del browser; le email di conferma e di recupero partono da un indirizzo Gmail (Google); se scegli «Continua con Google», Google ci comunica nome, email e immagine del profilo, che restano registrati con l'account (l'app usa solo l'email); quando scegli una password l'app chiede al servizio Have I Been Pwned se compare in violazioni note, inviando solo i primi 5 caratteri della sua impronta cifrata, mai la password.",
     "rightsTitle": "I tuoi diritti",
     "rights": "Puoi chiedere accesso, esportazione o cancellazione dei tuoi dati. Presto potrai esportarli ed eliminare l'account direttamente dall'app; fino ad allora basta chiederlo con i contatti qui sotto.",
     "contactTitle": "Contatti",

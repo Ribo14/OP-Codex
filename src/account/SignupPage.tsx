@@ -4,7 +4,8 @@ import { Link, Navigate } from 'react-router'
 import { getSupabase } from '@/lib/supabase'
 import { field } from './form-data'
 import { authProblem, type AuthProblem } from './errors'
-import { AuthLayout, Field, FormMessage, PasswordField, SubmitButton } from './form'
+import { AuthLayout, Field, FormMessage, OrDivider, PasswordField, SubmitButton } from './form'
+import { GoogleButton } from './GoogleButton'
 import { CONFIRM_PATH, LOGIN_PATH, PROFILE_PATH } from './paths'
 import { newPasswordProblem, PASSWORD_MIN, type PasswordProblem } from './new-password'
 import { useSession } from './session'
@@ -72,6 +73,8 @@ export function SignupPage() {
   return (
     <AuthLayout title={t('account.signup.title')}>
       <p className="text-sm text-muted-foreground">{t('account.signup.intro')}</p>
+      <GoogleButton returnTo={PROFILE_PATH} />
+      <OrDivider />
       <form onSubmit={(e) => void submit(e)} className="space-y-4" noValidate>
         <Field label={t('account.email')} name="email" type="email" autoComplete="email" required />
         <PasswordField

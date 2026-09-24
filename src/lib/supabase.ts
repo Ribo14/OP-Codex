@@ -5,7 +5,12 @@ import type { Database } from './database.types'
 const url = import.meta.env.VITE_SUPABASE_URL
 const publishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 
-const client = url && publishableKey ? createClient<Database>(url, publishableKey) : null
+// Flusso PKCE per gli accessi con reindirizzamento (Google, RIB-17): al ritorno l'indirizzo porta
+// solo un codice monouso, che vale soltanto per questo browser; i token non passano dall'URL.
+const client =
+  url && publishableKey
+    ? createClient<Database>(url, publishableKey, { auth: { flowType: 'pkce' } })
+    : null
 
 export function getSupabase(): SupabaseClient<Database> {
   if (!client) {

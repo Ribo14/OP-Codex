@@ -59,6 +59,23 @@ describe('App shell', () => {
     }
   })
 
+  it('senza account "Accedi" porta all’accesso e poi riporta alla pagina di partenza', async () => {
+    renderAt('/?colore=Red')
+    const links = await screen.findAllByRole('link', { name: it_.nav.login })
+    expect(links).toHaveLength(2)
+    for (const link of links) {
+      expect(link).toHaveAttribute('href', '/accesso?torna=%2F%3Fcolore%3DRed')
+    }
+  })
+
+  it('nelle pagine di account "Accedi" non si ripete nell’intestazione', async () => {
+    renderAt('/registrazione')
+    await screen.findByRole('heading', { level: 1, name: it_.account.signup.title })
+    // Resta solo il link della pagina ("Hai già un account? Accedi"), senza ritorno.
+    const links = screen.getAllByRole('link', { name: it_.nav.login })
+    expect(links.map((link) => link.getAttribute('href'))).toEqual(['/accesso'])
+  })
+
   it('le sezioni non ancora pronte mostrano "in arrivo"', () => {
     renderAt('/mazzi')
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Mazzi: in arrivo')

@@ -1,48 +1,78 @@
-// Genera le icone della PWA in public/icons a partire da un disegno SVG.
-// Sono segnaposto con la scritta "OP-Codex": quando arriverà il logo definitivo basterà
-// sostituire LOGO_SVG (o leggerlo da un file) e rilanciare `npm run icons`.
+// Genera le icone della PWA e la favicon a partire dal logo in brand/logo.png.
+// Per cambiare logo: sostituire brand/logo.png (quadrato, almeno 512 px) e rilanciare
+// `npm run icons`.
 import { mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 
-const BACKGROUND = '#0b0f19'
-const FOREGROUND = '#f5f5f5'
+const SOURCE = fileURLToPath(new URL('../brand/logo.png', import.meta.url))
+/** Colore di fondo del logo: riempie le icone a tutto quadrato (maskable, iOS). */
+const BACKGROUND = '#07090b'
+/** Raggio degli angoli, in proporzione al lato (toglie gli angoli neri del disegno). */
+const CORNER = 0.22
 
-/** Disegno su una tela quadrata; `inset` riduce il contenuto (area sicura delle icone maskable). */
-function logoSvg({ rounded, inset }) {
-  const size = 512
-  const scale = 1 - inset * 2
-  const offset = size * inset
-  return `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}">
-  <rect width="${size}" height="${size}" rx="${rounded ? 112 : 0}" fill="${BACKGROUND}"/>
-  <g transform="translate(${offset} ${offset}) scale(${scale})">
-    <text x="256" y="268" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif"
-      font-size="230" font-weight="800" fill="${FOREGROUND}" letter-spacing="-8">OP</text>
-    <text x="256" y="372" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif"
-      font-size="92" font-weight="600" fill="${FOREGROUND}" opacity="0.8">Codex</text>
-  </g>
-</svg>`
+/** Raggio del medaglione tondo del logo, in proporzione al lato (anello dorato compreso). */
+const MEDALLION = 0.475
+
+/**
+ * Il logo al lato richiesto, ritagliato: "rounded" = riquadro con angoli arrotondati e
+ * trasparenti; "circle" = solo il medaglione, per le icone su fondo pieno (niente bordo del
+ * riquadro che si intravede).
+ */
+async function roundedLogo(size, shape) {
+  const shapeSvg =
+    shape === 'circle'
+      ? `<circle cx="${size / 2}" cy="${size / 2}" r="${size * MEDALLION}" fill="#fff"/>`
+      : `<rect width="${size}" height="${size}" rx="${Math.round(size * CORNER)}" fill="#fff"/>`
+  const mask = Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">${shapeSvg}</svg>`,
+  )
+  return sharp(SOURCE)
+    .resize(size, size)
+    .composite([{ input: mask, blend: 'dest-in' }])
+    .png()
+    .toBuffer()
+}
+
+/**
+ * `inset` riduce il logo dentro la tela (area sicura delle icone maskable); `fill` riempie la
+ * tela col colore di fondo invece di lasciare gli angoli trasparenti.
+ */
+async function icon({ size, inset, fill }) {
+  const inner = Math.round(size * (1 - inset * 2))
+  const logo = await roundedLogo(inner, fill ? 'circle' : 'rounded')
+  const offset = Math.round((size - inner) / 2)
+  return (
+    sharp({
+      create: {
+        width: size,
+        height: size,
+        channels: 4,
+        background: fill ? BACKGROUND : { r: 0, g: 0, b: 0, alpha: 0 },
+      },
+    })
+      .composite([{ input: logo, left: offset, top: offset }])
+      // PNG a tavolozza: circa un quarto del peso, differenza invisibile a queste dimensioni.
+      .png({ palette: true, quality: 95, effort: 10, compressionLevel: 9 })
+  )
 }
 
 const ICONS = [
   // Icone normali: angoli arrotondati, trasparenza intorno.
-  { file: 'icon-192.png', size: 192, rounded: true, inset: 0 },
-  { file: 'icon-512.png', size: 512, rounded: true, inset: 0 },
-  // Maskable: sfondo pieno fino ai bordi, disegno nell'80% centrale (Android lo ritaglia).
-  { file: 'maskable-512.png', size: 512, rounded: false, inset: 0.1 },
+  { file: 'icons/icon-192.png', size: 192, inset: 0, fill: false },
+  { file: 'icons/icon-512.png', size: 512, inset: 0, fill: false },
+  // Maskable: sfondo pieno fino ai bordi, medaglione dentro il cerchio sicuro (40% del lato)
+  // che Android non ritaglia mai.
+  { file: 'icons/maskable-512.png', size: 512, inset: 0.1, fill: true },
   // iOS: niente trasparenza, gli angoli li arrotonda il sistema.
-  { file: 'apple-touch-icon.png', size: 180, rounded: false, inset: 0.06 },
+  { file: 'icons/apple-touch-icon.png', size: 180, inset: 0.02, fill: true },
+  // Favicon della scheda del browser.
+  { file: 'favicon.png', size: 64, inset: 0, fill: false },
 ]
 
-const outDir = new URL('../public/icons/', import.meta.url)
-mkdirSync(outDir, { recursive: true })
+mkdirSync(new URL('../public/icons/', import.meta.url), { recursive: true })
 
-for (const icon of ICONS) {
-  const svg = Buffer.from(logoSvg(icon))
-  await sharp(svg, { density: 300 })
-    .resize(icon.size, icon.size)
-    .png({ compressionLevel: 9 })
-    .toFile(fileURLToPath(new URL(icon.file, outDir)))
-  console.log(`public/icons/${icon.file} (${String(icon.size)}×${String(icon.size)})`)
+for (const spec of ICONS) {
+  await (await icon(spec)).toFile(fileURLToPath(new URL(`../public/${spec.file}`, import.meta.url)))
+  console.log(`public/${spec.file} (${String(spec.size)}×${String(spec.size)})`)
 }

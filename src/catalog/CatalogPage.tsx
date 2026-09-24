@@ -201,9 +201,10 @@ export function CatalogPage() {
           role="dialog"
           aria-modal="true"
           aria-label={t('catalog.filters')}
-          className="fixed inset-0 z-50 flex flex-col bg-background lg:hidden"
+          className="fixed inset-0 z-50 flex flex-col bg-background safe-x lg:hidden"
         >
-          <div className="flex h-14 shrink-0 items-center gap-3 border-b px-4">
+          {/* box-content: l'altezza di 3.5rem resta tutta sotto la barra di stato di iPhone */}
+          <div className="box-content flex h-14 shrink-0 items-center gap-3 border-b px-4 safe-top">
             <span className="font-semibold">{t('catalog.filters')}</span>
             {active > 0 && (
               <button

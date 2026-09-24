@@ -1,7 +1,16 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useLocation } from 'react-router'
-import { Download, Settings, WifiOff } from 'lucide-react'
+import { Download, LogIn, Settings, WifiOff } from 'lucide-react'
+import {
+  CONFIRM_PATH,
+  LOGIN_PATH,
+  NEW_PASSWORD_PATH,
+  RECOVER_PATH,
+  SIGNUP_PATH,
+} from '@/account/paths'
+import { loginPath } from '@/account/return-path'
+import { useSession } from '@/account/session'
 import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { useInstall } from './install'
@@ -10,6 +19,9 @@ import { PRIVACY_PATH, SECTIONS, SETTINGS_PATH } from './sections'
 import { ThemeCycleButton, ThemeSegmented } from './ThemeToggle'
 
 // Struttura dell'app (docs/design.md): barra in basso su telefono, barra laterale da `lg`.
+
+/** Pagine di account: lì "Accedi" nell'intestazione sarebbe un doppione. */
+const ACCOUNT_PATHS = [LOGIN_PATH, SIGNUP_PATH, RECOVER_PATH, CONFIRM_PATH, NEW_PASSWORD_PATH]
 
 export function AppShell() {
   const { t } = useTranslation()
@@ -64,6 +76,7 @@ export function AppShell() {
           ))}
         </nav>
         <div className="mt-auto space-y-4 px-6 py-5">
+          <LoginLink className="h-10 w-full" />
           <Link
             to={SETTINGS_PATH}
             aria-current={pathname === SETTINGS_PATH ? 'page' : undefined}
@@ -100,17 +113,20 @@ export function AppShell() {
           <Link to="/" className="text-lg font-semibold tracking-tight">
             {t('app.name')}
           </Link>
-          <OfflineBadge className="ml-auto" />
-          <ThemeCycleButton className="ml-auto" />
-          <Link
-            to={SETTINGS_PATH}
-            aria-label={t('settings.title')}
-            title={t('settings.title')}
-            aria-current={pathname === SETTINGS_PATH ? 'page' : undefined}
-            className="-mr-2 inline-flex size-10 items-center justify-center rounded-full text-foreground/80 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-[current=page]:bg-muted"
-          >
-            <Settings className="size-5" aria-hidden="true" />
-          </Link>
+          <div className="-mr-2 ml-auto flex items-center gap-1">
+            <OfflineBadge className="mr-1" />
+            <LoginLink className="mr-1 h-9 px-3" />
+            <ThemeCycleButton />
+            <Link
+              to={SETTINGS_PATH}
+              aria-label={t('settings.title')}
+              title={t('settings.title')}
+              aria-current={pathname === SETTINGS_PATH ? 'page' : undefined}
+              className="inline-flex size-10 items-center justify-center rounded-full text-foreground/80 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-[current=page]:bg-muted"
+            >
+              <Settings className="size-5" aria-hidden="true" />
+            </Link>
+          </div>
         </header>
 
         <main
@@ -176,6 +192,29 @@ function Footer() {
         {t('footer.privacy')}
       </Link>
     </footer>
+  )
+}
+
+/**
+ * "Accedi", solo per chi non ha fatto l'accesso e fuori dalle pagine di account: dopo l'accesso
+ * si torna alla pagina in cui si era (il catalogo resta consultabile anche senza account).
+ */
+function LoginLink({ className }: { className?: string }) {
+  const { t } = useTranslation()
+  const session = useSession()
+  const { pathname, search } = useLocation()
+  if (session.status !== 'signedOut' || ACCOUNT_PATHS.includes(pathname)) return null
+  return (
+    <Link
+      to={loginPath(pathname + search)}
+      className={cn(
+        'inline-flex items-center justify-center gap-2 rounded-full bg-foreground text-sm font-medium text-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none',
+        className,
+      )}
+    >
+      <LogIn className="size-4" aria-hidden="true" />
+      {t('nav.login')}
+    </Link>
   )
 }
 

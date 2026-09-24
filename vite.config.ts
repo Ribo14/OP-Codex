@@ -15,7 +15,7 @@ export default defineConfig({
       registerType: 'prompt',
       // La registrazione la fa l'app (src/app/UpdatePrompt.tsx): niente script inline, la CSP resta 'self'.
       injectRegister: false,
-      includeAssets: ['favicon.svg', 'icons/apple-touch-icon.png', 'theme-init.js'],
+      includeAssets: ['favicon.png', 'icons/apple-touch-icon.png', 'theme-init.js'],
       workbox: {
         // App e font (solo latino) sempre disponibili offline; icone e favicon arrivano da
         // includeAssets e dal manifest; le immagini delle carte da runtimeCaching.
@@ -37,7 +37,7 @@ export default defineConfig({
         // Colori della schermata di avvio (Android) e della barra di sistema.
         background_color: '#0b0f19',
         theme_color: '#0b0f19',
-        // Icone segnaposto (scripts/generate-icons.mjs): il logo definitivo arriverà più avanti.
+        // Icone generate da brand/logo.png (npm run icons, scripts/generate-icons.mjs).
         icons: [
           { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },

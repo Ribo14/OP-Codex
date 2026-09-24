@@ -7,11 +7,12 @@ import { linkFromEmail } from './mailpit.ts'
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL ?? 'http://127.0.0.1:54321'
 const PUBLISHABLE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? ''
 
-const run = `${String(Date.now())}${String(Math.floor(Math.random() * 1000))}`
+// Valori unici per ogni esecuzione, da un generatore crittografico (anche se sono solo di prova).
+const run = crypto.randomUUID().replaceAll('-', '')
 const email = `e2e-${run}@example.com`
 const username = `e2e_${run}`.slice(0, 20)
-const password = `Una frase lunga per OP-Codex ${run}`
-const newPassword = `Un'altra frase ancora più lunga ${run}`
+const password = `Una frase lunga per OP-Codex ${crypto.randomUUID()}`
+const newPassword = `Un'altra frase ancora più lunga ${crypto.randomUUID()}`
 
 /** La chiave di prova di Turnstile risolve il CAPTCHA da sola: si aspetta il token. */
 async function waitForCaptcha(page: Page) {

@@ -1,0 +1,15 @@
+<!-- Recupero della password (RIB-14). Il link porta all'app (RedirectTo = /account/conferma)
+     con un token_hash; l'app chiede poi la nuova password. Da copiare anche nella dashboard
+     di Supabase (Authentication → Emails → Reset password). -->
+<h2>Reimposta la password</h2>
+<p>Hai chiesto di reimpostare la password del tuo account OP-Codex. Scegline una nuova da qui:</p>
+<p>
+  <a href="{{ .RedirectTo }}?token_hash={{ .TokenHash }}&amp;type=recovery"
+    >Reimposta la password</a
+  >
+</p>
+<p>
+  Il link vale un'ora. Se non l'hai chiesto tu, ignora questa email: la password resta quella di
+  prima.
+</p>
+<p>OP-Codex, progetto amatoriale non affiliato a Bandai.</p>

@@ -8,7 +8,15 @@ import i18next from 'eslint-plugin-i18next'
 import tseslint from 'typescript-eslint'
 
 export default defineConfig([
-  globalIgnores(['dist', 'dev-dist', 'coverage', 'supabase/.temp', 'src/lib/database.types.ts']),
+  globalIgnores([
+    'dist',
+    'dev-dist',
+    'coverage',
+    'supabase/.temp',
+    'src/lib/database.types.ts',
+    'playwright-report',
+    'test-results',
+  ]),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -39,7 +47,7 @@ export default defineConfig([
           mode: 'jsx-only',
           'jsx-attributes': {
             exclude: [
-              '^(className|style|type|key|id|width|height|to|href|rel|target|role|src|loading|decoding|tabIndex|end|lang)$',
+              '^(className|style|type|key|id|width|height|to|href|rel|target|role|src|loading|decoding|tabIndex|end|lang|name|autoComplete|autoCapitalize)$',
               '^aria-(hidden|current|pressed|checked|modal)$',
             ],
           },
@@ -55,7 +63,13 @@ export default defineConfig([
     },
   },
   {
-    files: ['tests/**/*.ts', 'catalog-sync/**/*.ts', 'vite.config.ts'],
+    files: [
+      'tests/**/*.ts',
+      'e2e/**/*.ts',
+      'catalog-sync/**/*.ts',
+      'vite.config.ts',
+      'playwright.config.ts',
+    ],
     languageOptions: {
       globals: globals.node,
     },

@@ -20,12 +20,17 @@ export async function inRollback(
   }
 }
 
-/** Cambia ruolo come farebbe PostgREST per una richiesta anonima o di un utente loggato. */
-export async function actAs(tx: postgres.TransactionSql, role: 'anon' | 'authenticated') {
+/**
+ * Cambia ruolo come farebbe PostgREST per una richiesta anonima o di un utente loggato
+ * (`userId` = sub del JWT, cioè auth.uid()).
+ */
+export async function actAs(
+  tx: postgres.TransactionSql,
+  role: 'anon' | 'authenticated',
+  userId = '00000000-0000-0000-0000-000000000001',
+) {
   const claims =
-    role === 'authenticated'
-      ? { sub: '00000000-0000-0000-0000-000000000001', role: 'authenticated' }
-      : { role: 'anon' }
+    role === 'authenticated' ? { sub: userId, role: 'authenticated' } : { role: 'anon' }
   await tx`select set_config('request.jwt.claims', ${JSON.stringify(claims)}, true)`
   await tx.unsafe(`set local role ${role}`)
 }

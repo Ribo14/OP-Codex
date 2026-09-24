@@ -18,6 +18,7 @@
     "test:unit": "vitest run --project unit --project sync",
     "test:db": "vitest run --project db",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "sync:set": "node --env-file-if-exists=.env.local catalog-sync/sync-set.ts",
     "sync:catalog": "node --env-file-if-exists=.env.local catalog-sync/sync-catalog.ts",
     "sync:images": "node --env-file-if-exists=.env.local catalog-sync/sync-images.ts",
@@ -43,6 +44,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/vite": "^4.3.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",

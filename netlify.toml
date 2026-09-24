@@ -18,6 +18,9 @@
 
 [build.environment]
   NODE_VERSION = "24"
+  # Chiave pubblica del widget Cloudflare Turnstile (RIB-14): finisce nel bundle, non è un
+  # segreto. La chiave segreta sta solo nella dashboard di Supabase.
+  VITE_TURNSTILE_SITE_KEY = "0x4AAAAAAFCI-LgkiXhPHyrh"
 
 # SPA: ogni percorso sconosciuto serve index.html (il routing è lato client).
 [[redirects]]
@@ -32,15 +35,18 @@
     # Domini consentiti oltre a 'self':
     #   - img-src:     progetto Supabase   immagini delle carte su Storage (ADR-0005)
     #   - connect-src: progetto Supabase   API del database (ADR-0003)
+    #                  api.pwnedpasswords.com   controllo delle password trapelate (RIB-14)
+    #   - script-src, frame-src: challenges.cloudflare.com   CAPTCHA Turnstile (RIB-14)
     # Il progetto Supabase di produzione è khxjggxukrodbnczoryn (unico progetto cloud, ADR-0002).
     # La barra a fine riga unisce le righe in un'unica intestazione.
     Content-Security-Policy = """\
       default-src 'self'; \
-      script-src 'self'; \
+      script-src 'self' https://challenges.cloudflare.com; \
+      frame-src https://challenges.cloudflare.com; \
       style-src 'self'; \
       img-src 'self' data: blob: https://khxjggxukrodbnczoryn.supabase.co; \
       font-src 'self'; \
-      connect-src 'self' https://khxjggxukrodbnczoryn.supabase.co; \
+      connect-src 'self' https://khxjggxukrodbnczoryn.supabase.co https://api.pwnedpasswords.com; \
       worker-src 'self'; \
       manifest-src 'self'; \
       media-src 'self' blob:; \

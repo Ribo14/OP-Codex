@@ -14,7 +14,7 @@ export const SECTIONS: readonly Section[] = [
   { key: 'decks', path: '/mazzi', icon: Layers, ready: false },
   { key: 'collection', path: '/collezione', icon: WalletCards, ready: false },
   { key: 'rules', path: '/regole', icon: BookOpen, ready: false },
-  { key: 'profile', path: '/profilo', icon: User, ready: false },
+  { key: 'profile', path: '/profilo', icon: User, ready: true },
 ]
 
 export const PRIVACY_PATH = '/privacy'

@@ -1,10 +1,12 @@
-import { createHash } from 'node:crypto'
 import { describe, expect, it, vi } from 'vitest'
 import { isPwnedPassword } from './pwned'
 
-// Impronta SHA-1 di "password", calcolata qui con Node: il servizio riceve i primi 5 caratteri
-// e risponde con i restanti 35 delle impronte trapelate.
-const HASH = createHash('sha1').update('password').digest('hex').toUpperCase()
+// Impronta SHA-1 di "password", calcolata qui (Web Crypto): il servizio riceve i primi 5
+// caratteri e risponde con i restanti 35 delle impronte trapelate.
+const digest = await crypto.subtle.digest('SHA-1', new TextEncoder().encode('password'))
+const HASH = Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, '0'))
+  .join('')
+  .toUpperCase()
 const PREFIX = HASH.slice(0, 5)
 const SUFFIX = HASH.slice(5)
 

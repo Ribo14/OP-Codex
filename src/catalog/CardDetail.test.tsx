@@ -113,6 +113,34 @@ describe('Dettaglio Card', () => {
     expect(screen.getByRole('heading', { level: 2, name: 'Nami' })).toBe(heading)
   })
 
+  it('scorrendo l’immagine col dito si passa alla Printing successiva e alla precedente', async () => {
+    const { router } = await renderAt('/carta/OP01-016')
+    const image = within(screen.getByRole('complementary', { name: 'Nami' })).getByRole('img', {
+      name: it_.catalog.imagePending.replace('{{name}}', 'Nami'),
+    })
+    const swipe = async (fromX: number, toX: number, toY = 300) => {
+      await act(async () => {
+        fireEvent.touchStart(image, { touches: [{ clientX: fromX, clientY: 300 }] })
+        fireEvent.touchMove(image, { touches: [{ clientX: toX, clientY: toY }] })
+        fireEvent.touchEnd(image, { changedTouches: [{ clientX: toX, clientY: toY }] })
+        await Promise.resolve()
+      })
+    }
+
+    await swipe(300, 150) // verso sinistra: successiva
+    expect(router.state.location.search).toBe('?stampa=OP01-016_p1')
+    await swipe(300, 150)
+    expect(router.state.location.search).toBe('?stampa=OP01-016_p8')
+    await swipe(300, 150) // già all'ultima: resta lì
+    expect(router.state.location.search).toBe('?stampa=OP01-016_p8')
+    await swipe(150, 300) // verso destra: precedente
+    expect(router.state.location.search).toBe('?stampa=OP01-016_p1')
+    await swipe(300, 280) // movimento troppo corto: niente
+    expect(router.state.location.search).toBe('?stampa=OP01-016_p1')
+    await swipe(300, 200, 600) // gesto verticale (scorrimento della pagina): niente
+    expect(router.state.location.search).toBe('?stampa=OP01-016_p1')
+  })
+
   it('mostra i Set in cui compare ogni Printing', async () => {
     await renderAt('/carta/OP01-016')
     const table = screen.getByRole('table')
@@ -150,6 +178,40 @@ describe('Dettaglio Card', () => {
     })
     expect(router.state.location.pathname).toBe('/')
     expect(router.state.location.search).toBe('?colore=Red')
+  })
+
+  it('aprendo un’altra carta col dettaglio già aperto, chiudere torna ai risultati', async () => {
+    const { router } = await renderAt('/?colore=Red')
+    const open = async (name: RegExp) => {
+      await act(async () => {
+        fireEvent.click(screen.getByRole('link', { name }))
+        await Promise.resolve()
+      })
+    }
+    await open(/Nami/)
+    await open(/Carta di prova/)
+    await open(/Nami/)
+    expect(router.state.location.pathname).toBe('/carta/OP01-016')
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: it_.detail.close }))
+      await Promise.resolve()
+    })
+    expect(router.state.location.pathname).toBe('/')
+    expect(router.state.location.search).toBe('?colore=Red')
+  })
+
+  it('da un link diretto, aprendo un’altra carta e chiudendo si arriva ai risultati', async () => {
+    const { router } = await renderAt('/carta/OP01-016')
+    await act(async () => {
+      fireEvent.click(screen.getByRole('link', { name: /Carta di prova/ }))
+      await Promise.resolve()
+    })
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: it_.detail.close }))
+      await Promise.resolve()
+    })
+    expect(router.state.location.pathname).toBe('/')
   })
 
   it('Esc chiude il dettaglio', async () => {

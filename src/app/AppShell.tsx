@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useLocation } from 'react-router'
-import { Download } from 'lucide-react'
+import { Download, WifiOff } from 'lucide-react'
+import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { useInstall } from './install'
 import { InstallInvite } from './InstallInvite'
@@ -26,7 +27,8 @@ export function AppShell() {
   }, [sectionPath])
 
   return (
-    <div className="flex h-svh bg-background text-foreground">
+    // safe-x: in orizzontale su iPhone il contenuto resta fuori dal notch (vedi index.css).
+    <div className="flex h-svh bg-background safe-x text-foreground">
       <a
         href="#contenuto"
         className="sr-only z-50 rounded-full bg-foreground px-4 py-2 text-background focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
@@ -42,6 +44,7 @@ export function AppShell() {
         >
           {t('app.name')}
         </Link>
+        <OfflineBadge className="mx-6 mb-4" />
         <nav aria-label={t('nav.label')} className="flex flex-col gap-1 px-3">
           {SECTIONS.map((section) => (
             <Link
@@ -79,11 +82,12 @@ export function AppShell() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        {/* Telefono: intestazione */}
-        <header className="flex h-14 shrink-0 items-center gap-3 border-b border-border/60 px-4 lg:hidden">
+        {/* Telefono: intestazione, sotto la barra di stato di iPhone (box-content: 3.5rem più l'area sicura) */}
+        <header className="box-content flex h-14 shrink-0 items-center gap-3 border-b border-border/60 px-4 safe-top lg:hidden">
           <Link to="/" className="text-lg font-semibold tracking-tight">
             {t('app.name')}
           </Link>
+          <OfflineBadge className="ml-auto" />
           <ThemeCycleButton className="ml-auto" />
         </header>
 
@@ -117,7 +121,7 @@ export function AppShell() {
       {/* Telefono: barra in basso */}
       <nav
         aria-label={t('nav.label')}
-        className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border/60 bg-background/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border/60 bg-background/90 safe-x pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
       >
         {SECTIONS.map((section) => (
           <Link
@@ -150,5 +154,25 @@ function Footer() {
         {t('footer.privacy')}
       </Link>
     </footer>
+  )
+}
+
+/** Senza connessione: il catalogo e le immagini già salvate restano consultabili. */
+function OfflineBadge({ className }: { className?: string }) {
+  const { t } = useTranslation()
+  const online = useOnline()
+  if (online) return null
+  return (
+    <p
+      role="status"
+      title={t('offline.badgeHint')}
+      className={cn(
+        'inline-flex w-fit items-center gap-1.5 rounded-full bg-muted px-3 py-1 text-xs font-medium text-muted-foreground',
+        className,
+      )}
+    >
+      <WifiOff className="size-3.5" aria-hidden="true" />
+      {t('offline.badge')}
+    </p>
   )
 }

@@ -62,7 +62,7 @@ export function CardDetailRoute() {
   return (
     <aside
       aria-label={card?.name ?? t('detail.notFound')}
-      className="fixed inset-0 z-40 overflow-y-auto bg-background lg:sticky lg:top-0 lg:z-auto lg:max-h-[calc(100svh-4rem)] lg:w-[440px] lg:shrink-0 lg:rounded-2xl lg:border"
+      className="fixed inset-0 z-40 overflow-y-auto bg-background safe-x lg:sticky lg:top-0 lg:z-auto lg:max-h-[calc(100svh-4rem)] lg:w-[440px] lg:shrink-0 lg:rounded-2xl lg:border"
     >
       {card ? (
         <CardDetail
@@ -73,7 +73,7 @@ export function CardDetailRoute() {
           onClose={close}
         />
       ) : (
-        <div className="space-y-4 p-6">
+        <div className="space-y-4 p-6 pt-[calc(env(safe-area-inset-top)+1.5rem)]">
           <h2 className="text-xl font-semibold">{t('detail.notFound')}</h2>
           <p className="text-muted-foreground">{t('detail.notFoundBody', { code })}</p>
           <button

@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { defineConfig } from 'vitest/config'
+import { runtimeCaching } from './pwa/runtime-caching.ts'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -15,6 +16,12 @@ export default defineConfig({
       // La registrazione la fa l'app (src/app/UpdatePrompt.tsx): niente script inline, la CSP resta 'self'.
       injectRegister: false,
       includeAssets: ['favicon.svg', 'icons/apple-touch-icon.png', 'theme-init.js'],
+      workbox: {
+        // App e font (solo latino) sempre disponibili offline; icone e favicon arrivano da
+        // includeAssets e dal manifest; le immagini delle carte da runtimeCaching.
+        globPatterns: ['**/*.{js,css,html}', 'assets/geist-latin*.woff2'],
+        runtimeCaching,
+      },
       manifest: {
         id: '/',
         name: 'OP-Codex',
@@ -61,11 +68,11 @@ export default defineConfig({
         },
       },
       {
-        // Codice che gira in Node (Catalog Sync): nessun browser, nessun database.
+        // Codice che gira in Node (Catalog Sync, configurazione della PWA): niente browser né database.
         test: {
           name: 'sync',
           environment: 'node',
-          include: ['catalog-sync/**/*.test.ts'],
+          include: ['catalog-sync/**/*.test.ts', 'pwa/**/*.test.ts'],
         },
       },
       {

@@ -45,7 +45,11 @@ export function imageSyncRepository(sql: Sql): ImageSyncRepository {
       return row?.n ?? 0
     },
     async markSynced(printId) {
-      await sql`update public.printings set image_synced_at = now() where print_id = ${printId}`
+      // Anche updated_at: così l'aggiornamento incrementale dell'app vede la nuova immagine.
+      await sql`
+        update public.printings set image_synced_at = now(), updated_at = now()
+        where print_id = ${printId}
+      `
     },
   }
 }

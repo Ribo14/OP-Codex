@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { cardImageUrl } from './card-image'
 import type { CatalogCard, CatalogSet } from './catalog-data'
 import { gameColor } from './game-colors'
+import { useSwipe } from './use-swipe'
 
 // Dettaglio di una Card (docs/design.md): a tutto schermo su telefono (immagine sopra e dati
 // sotto, affiancati su tablet), pannello a destra dei risultati su desktop.
@@ -30,11 +31,33 @@ export function CardDetail({
   const printing = card.printings.find((p) => p.printId === printId) ?? card.printings[0]
   const setName = (code: string) => sets.find((s) => s.code === code)?.name ?? ''
 
+  // Su telefono si passa da una Printing all'altra scorrendo l'immagine col dito.
+  const index = card.printings.findIndex((p) => p.printId === printing?.printId)
+  const swipe = useSwipe({
+    canGo: (direction) => card.printings[index + direction] !== undefined,
+    onSwipe: (direction) => {
+      const next = card.printings[index + direction]
+      if (next) onSelectPrinting(next.printId)
+    },
+  })
+
   // All'apertura il focus va al titolo, così tastiera e lettori di schermo partono da qui;
   // senza far scorrere i risultati accanto (su desktop il pannello è affiancato).
   useEffect(() => {
     heading.current?.focus({ preventScroll: true })
   }, [card.cardCode])
+
+  // Con tante Printing la striscia scorre: quella scelta (anche con uno swipe) resta in vista.
+  const strip = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const el = strip.current
+    const selected = el?.querySelector<HTMLElement>('[aria-checked="true"]')
+    if (!el || !selected) return
+    el.scrollTo({
+      left: selected.offsetLeft - (el.clientWidth - selected.offsetWidth) / 2,
+      behavior: 'smooth',
+    })
+  }, [printing?.printId])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -57,7 +80,9 @@ export function CardDetail({
 
   return (
     <article aria-labelledby="dettaglio-titolo" className="pb-10">
-      <div className="sticky top-0 z-10 flex items-center gap-3 border-b border-border/60 bg-background/90 px-4 py-3 backdrop-blur lg:px-6">
+      {/* Su iPhone l'app installata disegna sotto la barra di stato (black-translucent):
+          la barra scende oltre notch/Dynamic Island e rientra dai bordi in orizzontale. */}
+      <div className="sticky top-0 z-10 flex items-center gap-3 border-b border-border/60 bg-background/90 px-4 pt-[calc(env(safe-area-inset-top)+0.75rem)] pb-3 backdrop-blur lg:px-6">
         <span className="truncate text-sm text-muted-foreground">
           {t('detail.printingLabel', {
             printId: printing?.printId ?? card.cardCode,
@@ -78,29 +103,43 @@ export function CardDetail({
       <div className="md:grid md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:block">
         {/* Immagine e selettore delle Printing */}
         <div className="bg-muted/40 px-6 py-6">
-          {printing?.hasImage ? (
-            <img
-              src={cardImageUrl(printing.printId, 'full')}
-              alt={card.name}
-              width={600}
-              height={838}
-              className="mx-auto h-auto w-full max-w-[340px] rounded-2xl shadow-2xl"
-            />
-          ) : (
-            <div
-              role="img"
-              aria-label={t('catalog.imagePending', { name: card.name })}
-              className="mx-auto flex aspect-[300/419] w-full max-w-[340px] items-center justify-center rounded-2xl bg-muted p-4 text-center text-sm text-muted-foreground"
-            >
-              {card.name}
-            </div>
-          )}
+          <div
+            {...(card.printings.length > 1 ? swipe.handlers : {})}
+            className={cn(
+              'touch-pan-y',
+              !swipe.swiping && 'transition-transform duration-200 ease-out',
+            )}
+            style={
+              swipe.swiping ? { transform: `translateX(${String(swipe.offset)}px)` } : undefined
+            }
+          >
+            {printing?.hasImage ? (
+              <img
+                src={cardImageUrl(printing.printId, 'full')}
+                crossOrigin="anonymous"
+                alt={card.name}
+                width={600}
+                height={838}
+                draggable={false}
+                className="mx-auto h-auto w-full max-w-[340px] rounded-2xl shadow-2xl select-none"
+              />
+            ) : (
+              <div
+                role="img"
+                aria-label={t('catalog.imagePending', { name: card.name })}
+                className="mx-auto flex aspect-[300/419] w-full max-w-[340px] items-center justify-center rounded-2xl bg-muted p-4 text-center text-sm text-muted-foreground"
+              >
+                {card.name}
+              </div>
+            )}
+          </div>
 
           {card.printings.length > 1 && (
             <div
               role="radiogroup"
               aria-label={t('detail.printings')}
-              className="mt-5 flex justify-center gap-2 overflow-x-auto pb-1"
+              ref={strip}
+              className="relative mt-5 flex justify-center-safe gap-2 overflow-x-auto pb-1"
             >
               {card.printings.map((p) => (
                 <button
@@ -127,6 +166,7 @@ export function CardDetail({
                   {p.hasImage ? (
                     <img
                       src={cardImageUrl(p.printId, 'thumb')}
+                      crossOrigin="anonymous"
                       alt=""
                       width={300}
                       height={419}

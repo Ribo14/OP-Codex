@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useSearchParams } from 'react-router'
+import { Link, useLocation, useSearchParams } from 'react-router'
 import { cn } from '@/lib/utils'
 import { cardImageUrl } from './card-image'
 import { cardPath } from './card-links'
@@ -38,6 +38,8 @@ function Thumbnail({ entry, className }: { entry: CatalogEntry; className?: stri
   return (
     <img
       src={cardImageUrl(printing.printId, 'thumb')}
+      // Richiesta CORS: così il service worker può salvarla per l'offline (RIB-16).
+      crossOrigin="anonymous"
       alt={card.name}
       width={THUMB_WIDTH}
       height={THUMB_HEIGHT}
@@ -89,6 +91,13 @@ export function CatalogResults({
   const key = (e: CatalogEntry) => e.printing.printId
   const to = (e: CatalogEntry) => cardPath(e.card.cardCode, params, e.printing.printId)
   const isOpen = (e: CatalogEntry) => e.card.cardCode === openCode
+  // Con un dettaglio già aperto (pannello affiancato su desktop e tablet) la nuova carta prende
+  // il posto della precedente nella cronologia, conservandone lo stato: così "chiudi" torna
+  // sempre ai risultati invece di ripercorrere a ritroso le carte aperte una dopo l'altra.
+  const location = useLocation()
+  const linkProps = openCode
+    ? { replace: true, state: location.state as unknown }
+    : { state: LINK_STATE }
 
   return (
     <>
@@ -105,7 +114,7 @@ export function CatalogResults({
             <li key={key(entry)} className="[content-visibility:auto]">
               <Link
                 to={to(entry)}
-                state={LINK_STATE}
+                {...linkProps}
                 aria-current={isOpen(entry) ? 'true' : undefined}
                 className="group block rounded-xl focus-visible:outline-none"
               >
@@ -152,7 +161,7 @@ export function CatalogResults({
                 <li key={key(entry)} className="border-b last:border-0">
                   <Link
                     to={to(entry)}
-                    state={LINK_STATE}
+                    {...linkProps}
                     aria-current={isOpen(entry) ? 'true' : undefined}
                     className={cn(
                       'grid grid-cols-[2.5rem_1fr_auto] items-center gap-3 px-3 py-2 text-sm hover:bg-muted/60 focus-visible:bg-muted focus-visible:outline-none',

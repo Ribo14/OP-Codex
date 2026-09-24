@@ -36,6 +36,24 @@
     "reload": "Aggiorna",
     "later": "Più tardi"
   },
+  "offline": {
+    "badge": "Offline",
+    "badgeHint": "Sei offline: puoi consultare il catalogo e le immagini già salvate sul dispositivo.",
+    "syncing": "Aggiornamento del catalogo…",
+    "dataFrom": "Dati aggiornati al {{date}}",
+    "dataFromFailed": "Dati aggiornati al {{date}} (aggiornamento non riuscito)",
+    "firstLoadError": "Non è stato possibile scaricare il catalogo. Serve una connessione la prima volta; poi resta consultabile anche offline.",
+    "retry": "Riprova",
+    "needsConnection": "Serve una connessione",
+    "setIntro_one": "Scarica l'immagine dell'unica carta di {{set}} per vederla anche offline.",
+    "setIntro_other": "Scarica le immagini delle {{count}} carte di {{set}} per vederle anche offline.",
+    "setDownload": "Scarica le immagini di questo Set",
+    "setProgress": "Download delle immagini: {{done}} di {{total}}…",
+    "setProgressLabel": "Avanzamento del download",
+    "setDone": "Immagini di {{set}} salvate sul dispositivo: disponibili anche offline.",
+    "setPartial_one": "{{count}} immagine non è stata scaricata.",
+    "setPartial_other": "{{count}} immagini non sono state scaricate."
+  },
   "comingSoon": {
     "title": "{{section}}: in arrivo",
     "body": "Questa sezione non è ancora disponibile. Arriverà con i prossimi aggiornamenti."
@@ -174,7 +192,7 @@
     "dataNow": "Oggi OP-Codex non ha account: si consulta il catalogo senza registrarsi e non raccogliamo dati personali.",
     "dataLater": "Quando arriveranno gli account conserveremo solo ciò che serve: email, Username, e i dati che inserisci tu (Collection e Deck). Questa pagina verrà aggiornata prima di allora.",
     "deviceTitle": "Sul tuo dispositivo",
-    "device": "L'app salva sul dispositivo solo il tema scelto e i propri file (per aprirsi più in fretta); più avanti anche una copia del catalogo, per consultarlo offline. Non usiamo cookie di profilazione, pubblicità o strumenti di analisi.",
+    "device": "L'app salva sul dispositivo il tema scelto, i propri file (per aprirsi più in fretta), una copia del catalogo e le immagini delle carte viste o scaricate, per consultarle anche offline. Non usiamo cookie di profilazione, pubblicità o strumenti di analisi.",
     "providersTitle": "Servizi usati",
     "providers": "Il sito è ospitato da Netlify; il database e le immagini delle carte sono su Supabase, con server nell'Unione Europea (Francoforte). Questi fornitori trattano i dati tecnici necessari a far funzionare il servizio (per esempio l'indirizzo IP nei log).",
     "rightsTitle": "I tuoi diritti",

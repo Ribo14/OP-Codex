@@ -136,3 +136,14 @@
     @apply font-sans;
   }
 }
+
+/* Aree sicure di iPhone (notch, Dynamic Island, angoli arrotondati): l'app installata usa la barra
+   di stato black-translucent e viewport-fit=cover, quindi disegna fino ai bordi dello schermo.
+   Fuori da iOS env() vale 0 e queste classi non cambiano nulla. */
+@utility safe-x {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+@utility safe-top {
+  padding-top: env(safe-area-inset-top);
+}

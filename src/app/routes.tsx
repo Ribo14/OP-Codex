@@ -1,4 +1,18 @@
 import type { RouteObject } from 'react-router'
+import { ConfirmPage } from '@/account/ConfirmPage'
+import { LoginPage } from '@/account/LoginPage'
+import { NewPasswordPage } from '@/account/NewPasswordPage'
+import {
+  CONFIRM_PATH,
+  LOGIN_PATH,
+  NEW_PASSWORD_PATH,
+  PROFILE_PATH,
+  RECOVER_PATH,
+  SIGNUP_PATH,
+} from '@/account/paths'
+import { ProfilePage } from '@/account/ProfilePage'
+import { RecoverPage } from '@/account/RecoverPage'
+import { SignupPage } from '@/account/SignupPage'
 import { CardDetailRoute } from '@/catalog/CardDetailRoute'
 import { CatalogPage } from '@/catalog/CatalogPage'
 import { AppShell } from './AppShell'
@@ -24,6 +38,13 @@ export const routes: RouteObject[] = [
       })),
       { path: PRIVACY_PATH, element: <PrivacyPage /> },
       { path: SETTINGS_PATH, element: <SettingsPage /> },
+      // Account (RIB-14)
+      { path: PROFILE_PATH, element: <ProfilePage /> },
+      { path: LOGIN_PATH, element: <LoginPage /> },
+      { path: SIGNUP_PATH, element: <SignupPage /> },
+      { path: RECOVER_PATH, element: <RecoverPage /> },
+      { path: CONFIRM_PATH, element: <ConfirmPage /> },
+      { path: NEW_PASSWORD_PATH, element: <NewPasswordPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

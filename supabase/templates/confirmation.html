@@ -1,0 +1,9 @@
+<!-- Conferma dell'indirizzo email alla registrazione (RIB-14).
+     Il link porta all'app (RedirectTo = /account/conferma) con un token_hash: funziona anche
+     se l'email si apre su un altro dispositivo o browser. Da copiare anche nella dashboard
+     di Supabase (Authentication → Emails → Confirm signup). -->
+<h2>Conferma il tuo indirizzo email</h2>
+<p>Ciao! Per completare la registrazione a OP-Codex conferma il tuo indirizzo email:</p>
+<p><a href="{{ .RedirectTo }}?token_hash={{ .TokenHash }}&amp;type=email">Conferma l'email</a></p>
+<p>Se non ti sei registrato tu, ignora questa email: senza conferma l'account non si attiva.</p>
+<p>OP-Codex, progetto amatoriale non affiliato a Bandai.</p>

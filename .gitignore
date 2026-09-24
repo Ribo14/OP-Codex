@@ -6,6 +6,11 @@ dev-dist
 coverage
 *.tsbuildinfo
 
+# Playwright (test E2E)
+playwright-report
+test-results
+blob-report
+
 # Segreti: nessun file .env entra nel repo, tranne l'esempio senza valori
 .env*
 !.env.example

@@ -36,6 +36,88 @@
     "reload": "Aggiorna",
     "later": "Più tardi"
   },
+  "account": {
+    "email": "Email",
+    "password": "Password",
+    "passwordRules": "Almeno {{min}} caratteri. Va bene anche una frase: più è lunga, meglio è.",
+    "showPassword": "Mostra la password",
+    "hidePassword": "Nascondi la password",
+    "captchaMissing": "Il controllo anti-bot non è configurato: l'accesso non è disponibile.",
+    "loading": "Caricamento dell'account…",
+    "logout": "Esci",
+    "problem": {
+      "credentials": "Email o password non corrette.",
+      "weakPassword": "La password non è abbastanza sicura: usane una di almeno {{min}} caratteri.",
+      "short": "La password deve avere almeno {{min}} caratteri.",
+      "pwned": "Questa password compare in violazioni di dati note: scegline un'altra.",
+      "samePassword": "La nuova password deve essere diversa da quella attuale.",
+      "captcha": "Il controllo anti-bot non è riuscito: riprova.",
+      "captchaMissing": "Attendi il controllo anti-bot qui sopra, poi riprova.",
+      "rateLimit": "Troppi tentativi: aspetta qualche minuto e riprova.",
+      "network": "Connessione assente o instabile: riprova quando sei online.",
+      "generic": "Qualcosa non ha funzionato: riprova tra poco."
+    },
+    "login": {
+      "title": "Accedi",
+      "submit": "Accedi",
+      "failed": "Email o password non corrette. Se ti sei appena registrato, conferma prima l'indirizzo con il link che ti abbiamo mandato.",
+      "forgot": "Password dimenticata?",
+      "noAccount": "Non hai un account?",
+      "signupLink": "Registrati"
+    },
+    "signup": {
+      "title": "Crea un account",
+      "intro": "Con un account potrai salvare la tua Collection e i tuoi Deck. Il catalogo resta consultabile anche senza.",
+      "submit": "Registrati",
+      "sentTitle": "Controlla la tua email",
+      "sent": "Se l'indirizzo è valido, ti abbiamo mandato un link per confermarlo.",
+      "sentHint": "Apri il link per attivare l'account, poi accedi. Se non trovi l'email, guarda anche nello spam.",
+      "toLogin": "Vai all'accesso",
+      "haveAccount": "Hai già un account?",
+      "loginLink": "Accedi"
+    },
+    "recover": {
+      "title": "Password dimenticata",
+      "intro": "Scrivi l'email del tuo account: ti mandiamo un link per sceglierne una nuova.",
+      "submit": "Mandami il link",
+      "sent": "Se l'indirizzo corrisponde a un account, riceverai a breve un'email con il link. Guarda anche nello spam.",
+      "back": "Torna all'accesso"
+    },
+    "confirm": {
+      "title": "Verifica del link",
+      "checking": "Verifica in corso…",
+      "failed": "Il link non è valido o è scaduto. Puoi accedere, oppure chiederne uno nuovo.",
+      "toLogin": "Vai all'accesso",
+      "toRecover": "Chiedi un nuovo link"
+    },
+    "newPassword": {
+      "title": "Scegli una nuova password",
+      "label": "Nuova password",
+      "submit": "Salva la password"
+    },
+    "username": {
+      "title": "Scegli il tuo Username",
+      "intro": "È il nome con cui ti vedranno gli altri giocatori, per esempio quando aggiungerai amici.",
+      "label": "Username",
+      "rules": "Da {{min}} a {{max}} caratteri: lettere, cifre e _. Maiuscole e minuscole contano solo per come si vede.",
+      "submit": "Conferma",
+      "problem": {
+        "length": "Lo Username deve avere da {{min}} a {{max}} caratteri.",
+        "characters": "Puoi usare solo lettere senza accenti, cifre e _.",
+        "reserved": "Questo Username è riservato: scegline un altro.",
+        "taken": "Questo Username è già in uso: scegline un altro.",
+        "generic": "Qualcosa non ha funzionato: riprova tra poco."
+      }
+    },
+    "changePassword": {
+      "title": "Cambia la password",
+      "current": "Password attuale",
+      "next": "Nuova password",
+      "submit": "Cambia la password",
+      "done": "Password aggiornata.",
+      "wrongCurrent": "La password attuale non è corretta."
+    }
+  },
   "settings": {
     "title": "Impostazioni",
     "images": {
@@ -212,17 +294,17 @@
   },
   "privacy": {
     "title": "Privacy",
-    "updated": "Ultimo aggiornamento: 23 settembre 2026",
+    "updated": "Ultimo aggiornamento: 24 settembre 2026",
     "intro": "OP-Codex è un progetto amatoriale e non commerciale per giocatori del One Piece Card Game. Questa pagina spiega quali dati tratta e perché.",
     "dataTitle": "Quali dati",
-    "dataNow": "Oggi OP-Codex non ha account: si consulta il catalogo senza registrarsi e non raccogliamo dati personali.",
-    "dataLater": "Quando arriveranno gli account conserveremo solo ciò che serve: email, Username, e i dati che inserisci tu (Collection e Deck). Questa pagina verrà aggiornata prima di allora.",
+    "dataNow": "Il catalogo si consulta senza account. Se ti registri conserviamo solo ciò che serve: l'email, lo Username che scegli e la password in forma cifrata, che nemmeno noi possiamo leggere.",
+    "dataLater": "Con le prossime funzioni si aggiungeranno i dati che inserisci tu (Collection e Deck). Questa pagina verrà aggiornata prima di allora.",
     "deviceTitle": "Sul tuo dispositivo",
     "device": "L'app salva sul dispositivo il tema scelto, i propri file (per aprirsi più in fretta), una copia del catalogo e le immagini delle carte viste o scaricate, per consultarle anche offline. Non usiamo cookie di profilazione, pubblicità o strumenti di analisi.",
     "providersTitle": "Servizi usati",
-    "providers": "Il sito è ospitato da Netlify; il database e le immagini delle carte sono su Supabase, con server nell'Unione Europea (Francoforte). Questi fornitori trattano i dati tecnici necessari a far funzionare il servizio (per esempio l'indirizzo IP nei log).",
+    "providers": "Il sito è ospitato da Netlify; il database e le immagini delle carte sono su Supabase, con server nell'Unione Europea (Francoforte). Questi fornitori trattano i dati tecnici necessari a far funzionare il servizio (per esempio l'indirizzo IP nei log). Per gli account: il controllo anti-bot su accesso e registrazione è Cloudflare Turnstile, che analizza dati tecnici del browser; le email di conferma e di recupero partono da un indirizzo Gmail (Google); quando scegli una password l'app chiede al servizio Have I Been Pwned se compare in violazioni note, inviando solo i primi 5 caratteri della sua impronta cifrata, mai la password.",
     "rightsTitle": "I tuoi diritti",
-    "rights": "Puoi chiedere accesso, esportazione o cancellazione dei tuoi dati. Con gli account potrai esportarli ed eliminarli direttamente dall'app.",
+    "rights": "Puoi chiedere accesso, esportazione o cancellazione dei tuoi dati. Presto potrai esportarli ed eliminare l'account direttamente dall'app; fino ad allora basta chiederlo con i contatti qui sotto.",
     "contactTitle": "Contatti",
     "contact": "Per domande su questa pagina apri una segnalazione nel repository del progetto:",
     "contactLink": "github.com/Ribo14/OP-Codex",

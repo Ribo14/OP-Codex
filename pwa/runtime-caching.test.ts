@@ -26,6 +26,12 @@ describe('cache delle immagini', () => {
     expect(thumb.test(`http://evil.example/?u=${BASE}/thumb/OP01-001.webp`)).toBe(false)
   })
 
+  it('le cache bastano per tutto il catalogo (~4.900 Printing), come chiede "Scarica tutte"', () => {
+    for (const entry of runtimeCaching) {
+      expect(entry.options?.expiration?.maxEntries).toBeGreaterThanOrEqual(6000)
+    }
+  })
+
   it('usa CacheFirst con un limite di voci e senza risposte opache', () => {
     expect(runtimeCaching).toHaveLength(2)
     for (const entry of runtimeCaching) {

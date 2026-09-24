@@ -3,7 +3,8 @@ import { CardDetailRoute } from '@/catalog/CardDetailRoute'
 import { CatalogPage } from '@/catalog/CatalogPage'
 import { AppShell } from './AppShell'
 import { ComingSoonPage, NotFoundPage, PrivacyPage } from './pages'
-import { PRIVACY_PATH, SECTIONS } from './sections'
+import { PRIVACY_PATH, SECTIONS, SETTINGS_PATH } from './sections'
+import { SettingsPage } from './SettingsPage'
 
 /** Tutte le pagine dell'app, dentro la shell. Condivise tra app e test. */
 export const routes: RouteObject[] = [
@@ -22,6 +23,7 @@ export const routes: RouteObject[] = [
         element: <ComingSoonPage section={s.key} />,
       })),
       { path: PRIVACY_PATH, element: <PrivacyPage /> },
+      { path: SETTINGS_PATH, element: <SettingsPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

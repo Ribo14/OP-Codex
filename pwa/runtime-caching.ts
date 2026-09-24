@@ -1,22 +1,10 @@
 import type { VitePWAOptions } from 'vite-plugin-pwa'
+import { IMAGE_CACHE_LIMITS, IMAGE_CACHES } from '../src/catalog/image-caches.ts'
 
 // Cache del service worker per le immagini delle carte (RIB-16, ADR-0005): una volta viste
-// (o scaricate con "Scarica le immagini di questo Set") restano disponibili offline.
+// (o scaricate per Set o tutte dalle Impostazioni) restano disponibili offline.
 
 type RuntimeCaching = NonNullable<NonNullable<VitePWAOptions['workbox']>['runtimeCaching']>[number]
-
-export const IMAGE_CACHES = {
-  thumb: 'card-images-thumb',
-  full: 'card-images-full',
-} as const
-
-/** Limiti delle cache: oltre, si scartano le immagini usate meno di recente. */
-export const IMAGE_CACHE_LIMITS = {
-  // Tutte le miniature del catalogo (~4.900 × 25 KB ≈ 120 MB) con margine per i nuovi Set.
-  thumb: 6000,
-  // Immagini grandi (~80 KB): qualche Set scaricato per intero più le carte aperte.
-  full: 1500,
-} as const
 
 const MAX_AGE_SECONDS = 180 * 24 * 60 * 60
 

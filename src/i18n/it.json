@@ -36,6 +36,32 @@
     "reload": "Aggiorna",
     "later": "Più tardi"
   },
+  "settings": {
+    "title": "Impostazioni",
+    "images": {
+      "title": "Immagini offline",
+      "intro": "Salva sul dispositivo le immagini di tutte le carte, miniature e immagini grandi, per vederle anche senza connessione. Le immagini delle carte che apri si salvano comunque da sole.",
+      "counting": "Controllo delle immagini già sul dispositivo…",
+      "onDevice": "Sul dispositivo: {{cached}} immagini su {{total}}",
+      "progressLabel": "Immagini sul dispositivo",
+      "toDownload_one": "Manca {{count}} immagine, circa {{size}}.",
+      "toDownload_other": "Mancano {{count}} immagini, circa {{size}}.",
+      "free": "Spazio disponibile per l'app: circa {{size}}.",
+      "noSpace": "Non c'è abbastanza spazio sul dispositivo per scaricarle tutte.",
+      "allDone": "Tutte le immagini del catalogo sono sul dispositivo.",
+      "keepOpen": "Download in corso. Tieni l'app aperta finché non finisce: puoi usare le altre sezioni.",
+      "stopped": "Download interrotto: le immagini già scaricate restano, puoi riprendere quando vuoi.",
+      "offline": "Serve una connessione per scaricare le immagini.",
+      "downloadAll": "Scarica tutte le immagini",
+      "resume": "Scarica le immagini mancanti",
+      "stop": "Interrompi",
+      "clear": "Elimina le immagini salvate",
+      "clearConfirm_one": "Eliminare {{count}} immagine (circa {{size}})? Si vedrà di nuovo quando la riapri con la connessione.",
+      "clearConfirm_other": "Eliminare {{count}} immagini (circa {{size}})? Si vedranno di nuovo quando le riapri con la connessione.",
+      "clearYes": "Elimina",
+      "clearNo": "Annulla"
+    }
+  },
   "offline": {
     "badge": "Offline",
     "badgeHint": "Sei offline: puoi consultare il catalogo e le immagini già salvate sul dispositivo.",

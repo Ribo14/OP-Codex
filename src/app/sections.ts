@@ -18,3 +18,5 @@ export const SECTIONS: readonly Section[] = [
 ]
 
 export const PRIVACY_PATH = '/privacy'
+/** Fuori dalla barra delle sezioni: ingranaggio nell'intestazione e nella barra laterale. */
+export const SETTINGS_PATH = '/impostazioni'

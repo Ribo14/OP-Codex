@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useLocation } from 'react-router'
-import { Download, WifiOff } from 'lucide-react'
+import { Download, Settings, WifiOff } from 'lucide-react'
 import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { useInstall } from './install'
 import { InstallInvite } from './InstallInvite'
-import { PRIVACY_PATH, SECTIONS } from './sections'
+import { PRIVACY_PATH, SECTIONS, SETTINGS_PATH } from './sections'
 import { ThemeCycleButton, ThemeSegmented } from './ThemeToggle'
 
 // Struttura dell'app (docs/design.md): barra in basso su telefono, barra laterale da `lg`.
@@ -64,6 +64,19 @@ export function AppShell() {
           ))}
         </nav>
         <div className="mt-auto space-y-4 px-6 py-5">
+          <Link
+            to={SETTINGS_PATH}
+            aria-current={pathname === SETTINGS_PATH ? 'page' : undefined}
+            className={cn(
+              'flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+              pathname === SETTINGS_PATH
+                ? 'bg-muted font-medium text-foreground'
+                : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+            )}
+          >
+            <Settings className="size-4" aria-hidden="true" />
+            {t('settings.title')}
+          </Link>
           {canInstallFromMenu && (
             <button
               type="button"
@@ -89,6 +102,15 @@ export function AppShell() {
           </Link>
           <OfflineBadge className="ml-auto" />
           <ThemeCycleButton className="ml-auto" />
+          <Link
+            to={SETTINGS_PATH}
+            aria-label={t('settings.title')}
+            title={t('settings.title')}
+            aria-current={pathname === SETTINGS_PATH ? 'page' : undefined}
+            className="-mr-2 inline-flex size-10 items-center justify-center rounded-full text-foreground/80 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-[current=page]:bg-muted"
+          >
+            <Settings className="size-5" aria-hidden="true" />
+          </Link>
         </header>
 
         <main

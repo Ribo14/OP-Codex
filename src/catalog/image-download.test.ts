@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import type { CatalogCard } from './catalog-data'
-import { downloadImages, setImageUrls } from './image-download'
+import { IMAGE_AVERAGE_BYTES } from './image-caches'
+import { allImageUrls, downloadImages, estimateBytes, setImageUrls } from './image-download'
 
 const ok = () => Promise.resolve(new Response('img'))
 
@@ -83,5 +84,32 @@ describe('download delle immagini di un Set', () => {
     expect(urls[0]).toMatch(/\/thumb\/OP01-001\.webp$/)
     expect(urls[1]).toMatch(/\/full\/OP01-001\.webp$/)
     vi.unstubAllEnvs()
+  })
+
+  it('tutte le immagini: ogni Printing con immagine, di qualunque Set', () => {
+    vi.stubEnv('VITE_SUPABASE_URL', 'https://example.supabase.co')
+    const cards = [
+      {
+        printings: [
+          { printId: 'OP01-001', rarity: 'L', setCode: 'OP-01', hasImage: true },
+          { printId: 'OP01-001_p1', rarity: 'L', setCode: 'OP-01', hasImage: false },
+        ],
+      },
+      { printings: [{ printId: 'ST01-001', rarity: 'L', setCode: 'ST-01', hasImage: true }] },
+    ] as CatalogCard[]
+    expect(allImageUrls(cards).map((u) => u.replace(/^.*card-images\//, ''))).toEqual([
+      'thumb/OP01-001.webp',
+      'full/OP01-001.webp',
+      'thumb/ST01-001.webp',
+      'full/ST01-001.webp',
+    ])
+    vi.unstubAllEnvs()
+  })
+
+  it('stima lo spazio col peso medio di miniature e immagini grandi', () => {
+    expect(estimateBytes(['x/thumb/a.webp', 'x/full/a.webp', 'x/full/b.webp'])).toBe(
+      IMAGE_AVERAGE_BYTES.thumb + 2 * IMAGE_AVERAGE_BYTES.full,
+    )
+    expect(estimateBytes([])).toBe(0)
   })
 })

@@ -38,6 +38,27 @@ describe('App shell', () => {
     }
   })
 
+  it('le Impostazioni si aprono dall’ingranaggio (telefono) e dalla barra laterale', async () => {
+    const router = renderAt('/')
+    const links = screen.getAllByRole('link', { name: it_.settings.title })
+    expect(links).toHaveLength(2)
+    const [gear] = links
+    if (!gear) throw new Error('ingranaggio mancante')
+
+    await act(async () => {
+      fireEvent.click(gear)
+      await Promise.resolve()
+    })
+    expect(router.state.location.pathname).toBe('/impostazioni')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(it_.settings.title)
+    expect(
+      screen.getByRole('heading', { level: 2, name: it_.settings.images.title }),
+    ).toBeInTheDocument()
+    for (const link of screen.getAllByRole('link', { name: it_.settings.title })) {
+      expect(link).toHaveAttribute('aria-current', 'page')
+    }
+  })
+
   it('le sezioni non ancora pronte mostrano "in arrivo"', () => {
     renderAt('/mazzi')
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Mazzi: in arrivo')

@@ -1,5 +1,6 @@
 import { cardImageUrl } from './card-image'
 import type { CatalogCard } from './catalog-data'
+import { IMAGE_AVERAGE_BYTES, IMAGE_CACHES } from './image-caches'
 
 // "Scarica le immagini di questo Set" (RIB-16): basta richiederle, il service worker le
 // salva nella sua cache (pwa/runtime-caching.ts) e da lì le serve anche offline.
@@ -87,12 +88,46 @@ export async function countCached(urls: readonly string[]): Promise<number> {
 
 /** Le immagini (miniatura e grande) di tutte le Printing di un Set. */
 export function setImageUrls(cards: readonly CatalogCard[], setCode: string): string[] {
+  return allImageUrls(cards, (p) => p.setCode === setCode)
+}
+
+/** Le immagini (miniatura e grande) di tutte le Printing che ne hanno una. */
+export function allImageUrls(
+  cards: readonly CatalogCard[],
+  include: (printing: CatalogCard['printings'][number]) => boolean = () => true,
+): string[] {
   const urls: string[] = []
   for (const card of cards) {
     for (const p of card.printings) {
-      if (p.setCode !== setCode || !p.hasImage) continue
+      if (!p.hasImage || !include(p)) continue
       urls.push(cardImageUrl(p.printId, 'thumb'), cardImageUrl(p.printId, 'full'))
     }
   }
   return urls
+}
+
+/** Stima dello spazio occupato da queste immagini, dal peso medio di miniature e grandi. */
+export function estimateBytes(urls: readonly string[]): number {
+  return urls.reduce(
+    (sum, url) =>
+      sum + (url.includes('/full/') ? IMAGE_AVERAGE_BYTES.full : IMAGE_AVERAGE_BYTES.thumb),
+    0,
+  )
+}
+
+/** Gli URL delle immagini già nelle cache del service worker. */
+export async function cachedImageUrls(): Promise<Set<string>> {
+  if (typeof caches === 'undefined') return new Set()
+  const found = new Set<string>()
+  for (const name of Object.values(IMAGE_CACHES)) {
+    if (!(await caches.has(name))) continue
+    for (const request of await (await caches.open(name)).keys()) found.add(request.url)
+  }
+  return found
+}
+
+/** Svuota le cache delle immagini: si riempiono di nuovo man mano che si guardano le carte. */
+export async function clearImageCaches(): Promise<void> {
+  if (typeof caches === 'undefined') return
+  await Promise.all(Object.values(IMAGE_CACHES).map((name) => caches.delete(name)))
 }

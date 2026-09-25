@@ -7,6 +7,7 @@ import {
   filterCatalog,
   filtersFromSearchParams,
   filtersToSearchParams,
+  relatedFilters,
   type CatalogFilters,
 } from './filters'
 
@@ -213,5 +214,96 @@ describe('supporto all’interfaccia', () => {
     expect(facets.keywords).toHaveLength(10)
     expect(facets.types).toEqual(['Straw Hat Crew', 'Supernovas', 'Whitebeard Pirates'])
     expect(facets.blocks).toEqual(['1', '2'])
+  })
+})
+
+describe('filtro possedute', () => {
+  const nami = card({
+    cardCode: 'OP01-016',
+    name: 'Nami',
+    printings: [
+      { printId: 'OP01-016', rarity: 'R', setCode: 'OP-01', hasImage: true },
+      { printId: 'OP01-016_r1', rarity: 'R', setCode: 'PRB-01', hasImage: true },
+    ],
+  })
+  const zoro = card({ cardCode: 'OP01-025', name: 'Zoro' })
+  const cards = [nami, zoro]
+  const owned = new Set(['OP01-016'])
+  const names = (f: Partial<CatalogFilters>, ownership: Set<string> | null = owned) =>
+    filterCatalog(cards, { ...EMPTY_FILTERS, ...f }, ownership).map(
+      (e) => `${e.card.name} ${e.printing.printId}`,
+    )
+
+  it('solo possedute o solo non possedute, per Card', () => {
+    expect(names({ owned: true })).toEqual(['Nami OP01-016'])
+    expect(names({ owned: false })).toEqual(['Zoro OP01-025'])
+    expect(names({ owned: null })).toHaveLength(2)
+  })
+
+  it('con un filtro Set conta solo la Printing di quel Set', () => {
+    expect(names({ owned: true, sets: ['PRB-01'] })).toEqual([])
+    expect(names({ owned: false, sets: ['PRB-01'] })).toEqual(['Nami OP01-016_r1'])
+  })
+
+  it('con tutte le Printing guarda ogni singola Printing', () => {
+    expect(names({ owned: false, allPrintings: true })).toEqual([
+      'Nami OP01-016_r1',
+      'Zoro OP01-025',
+    ])
+  })
+
+  it('senza accesso il filtro si ignora; si combina con gli altri e va nell’URL', () => {
+    expect(names({ owned: true }, null)).toHaveLength(2)
+    expect(names({ owned: false, q: 'nami' })).toEqual([])
+    const f = { ...EMPTY_FILTERS, owned: false }
+    expect(filtersToSearchParams(f).toString()).toBe('possedute=no')
+    expect(filtersFromSearchParams(new URLSearchParams('possedute=si')).owned).toBe(true)
+    expect(countActiveFilters(f)).toBe(1)
+  })
+})
+
+describe('carte correlate', () => {
+  const aokiji = card({
+    cardCode: 'OP02-049',
+    name: 'Kuzan',
+    category: 'Leader',
+    colors: ['Blue'],
+    types: ['Navy'],
+    effect: '[Activate: Main] You may trash 1 card from your hand: Draw 1 card.',
+  })
+
+  it('da un Leader: stessi colori, tipi ed effetti, solo carte da mettere nel Deck', () => {
+    expect(relatedFilters(aokiji)).toEqual({
+      ...EMPTY_FILTERS,
+      colors: ['Blue'],
+      types: ['Navy'],
+      effects: ['draw', 'trash'],
+      categories: ['Character', 'Event', 'Stage'],
+    })
+  })
+
+  it('da un’altra carta: senza limiti di categoria; niente effetti se il testo non ne ha', () => {
+    const plain = card({ cardCode: 'OP01-010', name: 'Vanilla', colors: ['Red', 'Green'] })
+    expect(relatedFilters(plain)).toEqual({ ...EMPTY_FILTERS, colors: ['Red', 'Green'] })
+  })
+
+  it('i filtri correlati trovano le carte simili e finiscono nell’URL', () => {
+    const cards = [
+      aokiji,
+      card({
+        cardCode: 'OP02-060',
+        name: 'Smoker',
+        colors: ['Blue'],
+        types: ['Navy'],
+        effect: 'Trash 1 card from your hand.',
+      }),
+      card({ cardCode: 'OP02-061', name: 'Rosso', colors: ['Red'], types: ['Navy'] }),
+      card({ cardCode: 'OP02-062', name: 'Pirata', colors: ['Blue'], types: ['Pirates'] }),
+    ]
+    const found = filterCatalog(cards, relatedFilters(aokiji)).map((e) => e.card.name)
+    expect(found).toEqual(['Smoker'])
+    expect(filtersToSearchParams(relatedFilters(aokiji)).toString()).toBe(
+      'colore=Blue&categoria=Character&categoria=Event&categoria=Stage&tipo=Navy&effetto=draw&effetto=trash',
+    )
   })
 })

@@ -214,6 +214,18 @@ describe('Dettaglio Card', () => {
     expect(router.state.location.pathname).toBe('/')
   })
 
+  it('"Cerca carte correlate" apre il catalogo con colori, tipi ed effetti della carta', async () => {
+    const { router } = await renderAt('/carta/OP01-016')
+    const related = screen.getByRole('link', { name: it_.detail.related })
+    expect(related).toHaveAttribute('href', '/?colore=Red&tipo=Straw+Hat+Crew&effetto=lookTop')
+    await act(async () => {
+      fireEvent.click(related)
+      await Promise.resolve()
+    })
+    expect(router.state.location.pathname).toBe('/')
+    expect(screen.queryByRole('heading', { level: 2, name: 'Nami' })).toBeNull()
+  })
+
   it('Esc chiude il dettaglio', async () => {
     const { router } = await renderAt('/carta/OP01-016')
     await act(async () => {

@@ -35,11 +35,14 @@ export function FiltersPanel({
   update,
   facets,
   sets,
+  showOwned = false,
 }: {
   filters: CatalogFilters
   update: Update
   facets: Facets
   sets: readonly CatalogSet[]
+  /** Filtro "possedute" (RIB-22): solo per chi ha fatto l'accesso. */
+  showOwned?: boolean
 }) {
   const { t } = useTranslation()
   const [allKeywords, setAllKeywords] = useState(false)
@@ -50,6 +53,28 @@ export function FiltersPanel({
 
   return (
     <div className="space-y-6">
+      {showOwned && (
+        <Group title={t('filters.owned')}>
+          {(
+            [
+              [null, t('filters.ownedAny')],
+              [true, t('filters.ownedYes')],
+              [false, t('filters.ownedNo')],
+            ] as const
+          ).map(([value, label]) => (
+            <Chip
+              key={String(value)}
+              selected={filters.owned === value}
+              onClick={() => {
+                update({ owned: value })
+              }}
+            >
+              {label}
+            </Chip>
+          ))}
+        </Group>
+      )}
+
       <Group title={t('filters.colors')}>
         {COLORS.map((color) => (
           <Chip

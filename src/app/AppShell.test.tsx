@@ -1,10 +1,10 @@
-import { act, fireEvent, render, screen, within } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { createMemoryRouter, RouterProvider } from 'react-router'
 import { afterEach, describe, expect, it } from 'vitest'
 import '@/i18n'
 import it_ from '@/i18n/it.json'
 import { routes } from './routes'
-import { SECTIONS } from './sections'
+import { navSections, SECTIONS } from './sections'
 import { THEME_STORAGE_KEY } from './theme'
 import { ThemeProvider } from './ThemeProvider'
 
@@ -25,17 +25,31 @@ afterEach(() => {
 
 const PATHS = ['/', '/mazzi', '/collezione', '/regole', '/profilo', '/privacy', '/non-esiste']
 
+describe('navigazione con e senza account', () => {
+  it('con l’accesso compaiono tutte le sezioni', () => {
+    expect(navSections(true)).toEqual(SECTIONS)
+  })
+
+  it('senza accesso restano solo le sezioni consultabili senza account', () => {
+    expect(navSections(false).map((s) => s.key)).toEqual(['catalog', 'rules'])
+  })
+})
+
 describe('App shell', () => {
-  it('ha una navigazione per telefono e una per desktop con tutte le sezioni', () => {
+  it('senza account la barra del telefono ha Catalogo, Regole e Accedi; il desktop le sezioni', async () => {
     renderAt('/')
     const navs = screen.getAllByRole('navigation', { name: it_.nav.label })
     expect(navs).toHaveLength(2)
-    for (const nav of navs) {
-      const labels = within(nav)
+    const [desktop, phone] = navs
+    if (!desktop || !phone) throw new Error('navigazione mancante')
+    const labels = (nav: HTMLElement) =>
+      within(nav)
         .getAllByRole('link')
         .map((a) => a.textContent)
-      expect(labels).toEqual(SECTIONS.map((s) => it_.nav[s.key]))
-    }
+    await waitFor(() => {
+      expect(labels(phone)).toEqual([it_.nav.catalog, it_.nav.rules, it_.nav.login])
+    })
+    expect(labels(desktop)).toEqual([it_.nav.catalog, it_.nav.rules])
   })
 
   it('le Impostazioni si aprono dall’ingranaggio (telefono) e dalla barra laterale', async () => {
@@ -61,24 +75,27 @@ describe('App shell', () => {
 
   it('senza account "Accedi" porta all’accesso e poi riporta alla pagina di partenza', async () => {
     renderAt('/?colore=Red')
-    const links = await screen.findAllByRole('link', { name: it_.nav.login })
-    expect(links).toHaveLength(2)
-    for (const link of links) {
+    // Barra laterale (desktop) e barra in basso (telefono); nessun doppione nell'intestazione.
+    await waitFor(() => {
+      expect(screen.getAllByRole('link', { name: it_.nav.login })).toHaveLength(2)
+    })
+    for (const link of screen.getAllByRole('link', { name: it_.nav.login })) {
       expect(link).toHaveAttribute('href', '/accesso?torna=%2F%3Fcolore%3DRed')
     }
   })
 
-  it('nelle pagine di account "Accedi" non si ripete nell’intestazione', async () => {
+  it('nelle pagine di account "Accedi" è la voce attiva della barra, senza ritorno', async () => {
     renderAt('/registrazione')
     await screen.findByRole('heading', { level: 1, name: it_.account.signup.title })
-    // Resta solo il link della pagina ("Hai già un account? Accedi"), senza ritorno.
+    // La voce della barra e il link della pagina ("Hai già un account? Accedi").
     const links = screen.getAllByRole('link', { name: it_.nav.login })
-    expect(links.map((link) => link.getAttribute('href'))).toEqual(['/accesso'])
+    expect(links.map((link) => link.getAttribute('href'))).toEqual(['/accesso', '/accesso'])
+    expect(links[1]).toHaveAttribute('aria-current', 'page')
   })
 
   it('le sezioni non ancora pronte mostrano "in arrivo"', () => {
-    renderAt('/mazzi')
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Mazzi: in arrivo')
+    renderAt('/regole')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Regole: in arrivo')
   })
 
   it('si naviga tra le sezioni e la voce attiva è segnalata', async () => {
@@ -87,12 +104,12 @@ describe('App shell', () => {
     if (!nav) throw new Error('navigazione mancante')
 
     await act(async () => {
-      fireEvent.click(within(nav).getByRole('link', { name: it_.nav.collection }))
+      fireEvent.click(within(nav).getByRole('link', { name: it_.nav.rules }))
       await Promise.resolve()
     })
 
-    expect(router.state.location.pathname).toBe('/collezione')
-    expect(within(nav).getByRole('link', { name: it_.nav.collection })).toHaveAttribute(
+    expect(router.state.location.pathname).toBe('/regole')
+    expect(within(nav).getByRole('link', { name: it_.nav.rules })).toHaveAttribute(
       'aria-current',
       'page',
     )

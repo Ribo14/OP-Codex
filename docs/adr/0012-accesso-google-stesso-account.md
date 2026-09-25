@@ -14,5 +14,5 @@ Un nuovo User arrivato da Google sceglie lo Username prima di proseguire: `Usern
 ## Consequences
 
 - Nella schermata di Google compare il dominio del progetto Supabase (`khxjggxukrodbnczoryn.supabase.co`), non quello del sito: per cambiarlo servirebbe un dominio personalizzato su Supabase (a pagamento).
-- Nella PWA installata su iPhone, l'accesso con Google può aprirsi in una finestra di Safari separata dall'app: se al ritorno la sessione resta in Safari, il workaround è accedere con email e password nell'app. Da verificare sul dispositivo (RIB-17).
+- Nella PWA installata l'accesso con Google torna nell'app: verificato su Android e iPhone il 2026-09-25 (RIB-17).
 - Chi ha solo l'accesso Google e vuole anche una password può usare "Password dimenticata" con la stessa email.

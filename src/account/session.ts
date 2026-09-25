@@ -1,12 +1,16 @@
 import type { User } from '@supabase/supabase-js'
 import { useCallback, useEffect, useSyncExternalStore } from 'react'
 import { getSupabase } from '@/lib/supabase'
+import { needsCode } from './mfa'
 
 // Sessione dell'utente (RIB-14), come la vede tutta l'app. Supabase la tiene nel browser e la
 // rinnova da solo; qui la si espone ai componenti.
 
 export type SessionState =
-  { status: 'loading' } | { status: 'signedOut' } | { status: 'signedIn'; user: User }
+  | { status: 'loading' }
+  | { status: 'signedOut' }
+  /** needsCode: ha la verifica in due passaggi e deve ancora dare il codice (RIB-18). */
+  | { status: 'signedIn'; user: User; needsCode: boolean }
 
 let state: SessionState = { status: 'loading' }
 const listeners = new Set<() => void>()
@@ -18,7 +22,9 @@ function start() {
   try {
     // Prima notifica: INITIAL_SESSION, con la sessione salvata o null.
     getSupabase().auth.onAuthStateChange((_event, session) => {
-      state = session ? { status: 'signedIn', user: session.user } : { status: 'signedOut' }
+      state = session
+        ? { status: 'signedIn', user: session.user, needsCode: needsCode(session) }
+        : { status: 'signedOut' }
       for (const listener of listeners) listener()
     })
   } catch {

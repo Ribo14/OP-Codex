@@ -1,9 +1,11 @@
 import type { RouteObject } from 'react-router'
+import { CodePage } from '@/account/CodePage'
 import { ConfirmPage } from '@/account/ConfirmPage'
 import { LoginPage } from '@/account/LoginPage'
 import { NewPasswordPage } from '@/account/NewPasswordPage'
 import { OAuthCallbackPage } from '@/account/OAuthCallbackPage'
 import {
+  CODE_PATH,
   CONFIRM_PATH,
   LOGIN_PATH,
   NEW_PASSWORD_PATH,
@@ -15,11 +17,18 @@ import {
 import { ProfilePage } from '@/account/ProfilePage'
 import { RecoverPage } from '@/account/RecoverPage'
 import { SignupPage } from '@/account/SignupPage'
+import { AdminPage } from '@/admin/AdminPage'
+import { CollectionPage } from '@/collection/CollectionPage'
+import { DeckEditorPage } from '@/decks/DeckEditorPage'
+import { DecksPage } from '@/decks/DecksPage'
+import { LeaderPickerPage } from '@/decks/LeaderPickerPage'
+import { ImportDeckPage } from '@/decks/ImportDeckPage'
+import { DECKS_PATH, IMPORT_DECK_PATH, NEW_DECK_PATH } from '@/decks/paths'
 import { CardDetailRoute } from '@/catalog/CardDetailRoute'
 import { CatalogPage } from '@/catalog/CatalogPage'
 import { AppShell } from './AppShell'
 import { ComingSoonPage, NotFoundPage, PrivacyPage } from './pages'
-import { PRIVACY_PATH, SECTIONS, SETTINGS_PATH } from './sections'
+import { ADMIN_PATH, PRIVACY_PATH, SECTIONS, SETTINGS_PATH } from './sections'
 import { SettingsPage } from './SettingsPage'
 
 /** Tutte le pagine dell'app, dentro la shell. Condivise tra app e test. */
@@ -38,6 +47,13 @@ export const routes: RouteObject[] = [
         path: s.path,
         element: <ComingSoonPage section={s.key} />,
       })),
+      { path: '/collezione', element: <CollectionPage /> },
+      // Mazzi (RIB-21)
+      { path: DECKS_PATH, element: <DecksPage /> },
+      { path: NEW_DECK_PATH, element: <LeaderPickerPage /> },
+      { path: IMPORT_DECK_PATH, element: <ImportDeckPage /> },
+      { path: `${DECKS_PATH}/:deckId`, element: <DeckEditorPage /> },
+      { path: `${DECKS_PATH}/:deckId/leader`, element: <LeaderPickerPage /> },
       { path: PRIVACY_PATH, element: <PrivacyPage /> },
       { path: SETTINGS_PATH, element: <SettingsPage /> },
       // Account (RIB-14)
@@ -48,6 +64,8 @@ export const routes: RouteObject[] = [
       { path: CONFIRM_PATH, element: <ConfirmPage /> },
       { path: NEW_PASSWORD_PATH, element: <NewPasswordPage /> },
       { path: OAUTH_CALLBACK_PATH, element: <OAuthCallbackPage /> },
+      { path: CODE_PATH, element: <CodePage /> },
+      { path: ADMIN_PATH, element: <AdminPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

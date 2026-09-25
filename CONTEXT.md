@@ -78,6 +78,9 @@ La rappresentazione testuale di un Deck nel formato `4xOP01-016`, usata per impo
 Una violazione delle regole di costruzione trovata in un Deck. Non impedisce di salvarlo.
 _Avoid_: errore, deck invalido
 
+**Format** (Formato):
+Le regole di torneo con cui si valuta un Deck: Standard (Block Number System: ammessi solo i Block recenti, il minimo sale ogni 1° aprile; il Block "X" è sempre valido) oppure Extra (tutti i Block). Ogni Deck ha il suo, predefinito Standard.
+
 **Ban List** (Lista carte bandite/limitate):
 L'elenco corrente delle Card bandite o limitate nel numero di copie, gestito da un Admin.
 

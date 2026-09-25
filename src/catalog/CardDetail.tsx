@@ -1,26 +1,34 @@
-import { X } from 'lucide-react'
+import { ScanSearch, X } from 'lucide-react'
 import { useEffect, useRef, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
+import { CollectionControls } from '@/collection/CollectionControls'
 import { cn } from '@/lib/utils'
 import { cardImageUrl } from './card-image'
+import { catalogPath } from './card-links'
 import type { CatalogCard, CatalogSet } from './catalog-data'
+import { filtersToSearchParams, relatedFilters } from './filters'
+import { LegalityTags } from './LegalityTags'
 import { gameColor } from './game-colors'
 import { useSwipe } from './use-swipe'
 
 // Dettaglio di una Card (docs/design.md): a tutto schermo su telefono (immagine sopra e dati
 // sotto, affiancati su tablet), pannello a destra dei risultati su desktop.
 // Testi ufficiali sempre come testo: React fa l'escape, niente HTML grezzo.
-// Spazi che arriveranno nelle fasi successive, qui sotto le statistiche:
-// Card Explanation (fase 3), prezzi (fase 5), copie possedute (fase 2).
+// Sotto il nome, le copie possedute della Printing mostrata (RIB-20). Spazi che arriveranno
+// nelle fasi successive, qui sotto le statistiche: Card Explanation (fase 3), prezzi (fase 5).
 
 export function CardDetail({
   card,
+  cards,
   sets,
   printId,
   onSelectPrinting,
   onClose,
 }: {
   card: CatalogCard
+  /** Tutto il catalogo: per i nomi delle carte citate dai tag (coppie bandite). */
+  cards: readonly CatalogCard[]
   sets: readonly CatalogSet[]
   printId: string
   onSelectPrinting: (printId: string) => void
@@ -80,8 +88,8 @@ export function CardDetail({
 
   return (
     <article aria-labelledby="dettaglio-titolo" className="pb-10">
-      {/* Su iPhone l'app installata disegna sotto la barra di stato (black-translucent):
-          la barra scende oltre notch/Dynamic Island e rientra dai bordi in orizzontale. */}
+      {/* Su iPhone la barra rispetta le aree sicure: scende oltre notch/Dynamic Island se la pagina
+          arriva sotto la barra di stato e rientra dai bordi in orizzontale. */}
       <div className="sticky top-0 z-10 flex items-center gap-3 border-b border-border/60 bg-background/90 px-4 pt-[calc(env(safe-area-inset-top)+0.75rem)] pb-3 backdrop-blur lg:px-6">
         <span className="truncate text-sm text-muted-foreground">
           {t('detail.printingLabel', {
@@ -224,7 +232,20 @@ export function CardDetail({
                 </span>
               ))}
             </div>
+            {/* RIB-41: il catalogo con colori, tipi ed effetti comuni di questa carta. */}
+            <Link
+              to={catalogPath(filtersToSearchParams(relatedFilters(card)))}
+              className="mt-3 inline-flex h-9 items-center gap-2 rounded-full border px-3 text-sm font-medium hover:bg-muted"
+            >
+              <ScanSearch className="size-4" aria-hidden="true" />
+              {t('detail.related')}
+            </Link>
           </div>
+
+          {/* RIB-29: tag rossi della Ban List e arancione per il formato Standard. */}
+          <LegalityTags card={card} cards={cards} />
+
+          {printing && <CollectionControls printId={printing.printId} />}
 
           <dl className="grid grid-cols-3 gap-2">
             {stats.map(([label, value]) => (

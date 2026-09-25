@@ -19,6 +19,29 @@ export type AuthProblem =
   | 'server'
   | 'generic'
 
+/** Verifica del codice (RIB-18): 'format' se non sono 6 cifre, 'wrong' se l'app ne mostrava un altro. */
+export type CodeProblem = 'format' | 'wrong' | AuthProblem
+
+export function codeProblem(error: unknown): CodeProblem {
+  if (isAuthError(error) && error.code === 'mfa_verification_failed') return 'wrong'
+  return authProblem(error)
+}
+
+/**
+ * Eliminazione dell'account (RIB-18), dai messaggi di public.elimina_account: 'reauth' se
+ * l'accesso non è recente o la sessione non vale più, 'username' se la conferma non corrisponde.
+ */
+export type DeleteProblem = 'reauth' | 'username' | 'generic'
+
+export function deleteProblem(error: { message?: string; code?: string }): DeleteProblem {
+  const message = error.message ?? ''
+  if (message.includes('accesso_non_recente') || message.includes('accesso_non_valido')) {
+    return 'reauth'
+  }
+  if (message.includes('username_errato')) return 'username'
+  return 'generic'
+}
+
 export function authProblem(error: unknown): AuthProblem {
   if (!isAuthError(error)) return 'generic'
   // Password rifiutata da Supabase: il motivo conta (lunghezza, tipi di caratteri, trapelata).

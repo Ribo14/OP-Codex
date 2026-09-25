@@ -34,6 +34,75 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor: string | null
+          after: Json | null
+          at: string
+          before: Json | null
+          id: number
+          record_id: string | null
+          table_name: string
+        }
+        Insert: {
+          action: string
+          actor?: string | null
+          after?: Json | null
+          at?: string
+          before?: Json | null
+          id?: never
+          record_id?: string | null
+          table_name: string
+        }
+        Update: {
+          action?: string
+          actor?: string | null
+          after?: Json | null
+          at?: string
+          before?: Json | null
+          id?: never
+          record_id?: string | null
+          table_name?: string
+        }
+        Relationships: []
+      }
+      ban_list_entries: {
+        Row: {
+          card_code: string
+          created_at: string
+          effective_from: string
+          id: number
+          kind: string
+          max_copies: number | null
+          pair_code: string | null
+          source: string | null
+          updated_at: string
+        }
+        Insert: {
+          card_code: string
+          created_at?: string
+          effective_from: string
+          id?: never
+          kind: string
+          max_copies?: number | null
+          pair_code?: string | null
+          source?: string | null
+          updated_at?: string
+        }
+        Update: {
+          card_code?: string
+          created_at?: string
+          effective_from?: string
+          id?: never
+          kind?: string
+          max_copies?: number | null
+          pair_code?: string | null
+          source?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cards: {
         Row: {
           attributes: string[]
@@ -90,6 +159,135 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      collection_entries: {
+        Row: {
+          created_at: string
+          language: string
+          print_id: string
+          quantity: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          language?: string
+          print_id: string
+          quantity: number
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          language?: string
+          print_id?: string
+          quantity?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collection_entries_print_id_fkey"
+            columns: ["print_id"]
+            isOneToOne: false
+            referencedRelation: "printings"
+            referencedColumns: ["print_id"]
+          },
+        ]
+      }
+      deck_cards: {
+        Row: {
+          card_code: string
+          deck_id: string
+          print_id: string | null
+          quantity: number
+        }
+        Insert: {
+          card_code: string
+          deck_id: string
+          print_id?: string | null
+          quantity: number
+        }
+        Update: {
+          card_code?: string
+          deck_id?: string
+          print_id?: string | null
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deck_cards_card_code_fkey"
+            columns: ["card_code"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["card_code"]
+          },
+          {
+            foreignKeyName: "deck_cards_deck_id_fkey"
+            columns: ["deck_id"]
+            isOneToOne: false
+            referencedRelation: "decks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deck_cards_print_id_fkey"
+            columns: ["print_id"]
+            isOneToOne: false
+            referencedRelation: "printings"
+            referencedColumns: ["print_id"]
+          },
+        ]
+      }
+      decks: {
+        Row: {
+          created_at: string
+          format: string
+          id: string
+          leader_code: string
+          leader_print_id: string | null
+          name: string
+          updated_at: string
+          user_id: string
+          visibility: string
+        }
+        Insert: {
+          created_at?: string
+          format?: string
+          id?: string
+          leader_code: string
+          leader_print_id?: string | null
+          name: string
+          updated_at?: string
+          user_id?: string
+          visibility?: string
+        }
+        Update: {
+          created_at?: string
+          format?: string
+          id?: string
+          leader_code?: string
+          leader_print_id?: string | null
+          name?: string
+          updated_at?: string
+          user_id?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "decks_leader_code_fkey"
+            columns: ["leader_code"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["card_code"]
+          },
+          {
+            foreignKeyName: "decks_leader_print_id_fkey"
+            columns: ["leader_print_id"]
+            isOneToOne: false
+            referencedRelation: "printings"
+            referencedColumns: ["print_id"]
+          },
+        ]
       }
       job_runs: {
         Row: {
@@ -219,7 +417,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      cambia_carte_mazzo: {
+        Args: { p_card_code: string; p_deck_id: string; p_delta: number }
+        Returns: number
+      }
+      cambia_copie: {
+        Args: { p_delta: number; p_language: string; p_print_id: string }
+        Returns: number
+      }
+      duplica_mazzo: { Args: { p_deck_id: string }; Returns: string }
+      elimina_account: {
+        Args: { conferma_username: string }
+        Returns: undefined
+      }
+      stato_admin: { Args: never; Returns: string }
     }
     Enums: {
       [_ in never]: never

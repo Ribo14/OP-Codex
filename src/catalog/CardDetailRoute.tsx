@@ -67,6 +67,7 @@ export function CardDetailRoute() {
       {card ? (
         <CardDetail
           card={card}
+          cards={catalog.cards}
           sets={catalog.sets}
           printId={printId}
           onSelectPrinting={selectPrinting}

@@ -6,10 +6,15 @@
     <!-- iOS: icona e nome sulla schermata Home -->
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="OP-Codex" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- Barra di stato "default", non black-translucent: su iOS 26 con black-translucent l'app installata
+         viene calcolata più corta della barra di stato e resta una striscia vuota in fondo
+         (WebKit bug 301108, RIB-39). -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#0b0f19" />
+    <!-- Colore della barra di stato: segue il tema del sistema (--background chiaro e scuro) -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0a0a" />
     <meta
       name="description"
       content="Catalogo, collezione e deck builder per il One Piece Card Game"

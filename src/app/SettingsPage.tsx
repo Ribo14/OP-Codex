@@ -1,6 +1,10 @@
+import { ShieldCheck } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
+import { useSession } from '@/account/session'
 import { OfflineImagesSettings } from '@/catalog/OfflineImagesSettings'
+import { ADMIN_PATH } from './sections'
 import { ThemeSegmented } from './ThemeToggle'
 
 // Impostazioni dell'app (RIB-37). Qui confluiranno anche installazione e account.
@@ -27,6 +31,26 @@ export function SettingsPage() {
           <ThemeSegmented />
         </div>
       </SettingsSection>
+      <AdminLink />
     </div>
+  )
+}
+
+/**
+ * Voce "Area Admin", solo per chi ha il ruolo nel token. È solo una scorciatoia: chi entra lo
+ * decide il database (RIB-19).
+ */
+function AdminLink() {
+  const { t } = useTranslation()
+  const session = useSession()
+  if (session.status !== 'signedIn' || session.user.app_metadata.admin !== true) return null
+  return (
+    <Link
+      to={ADMIN_PATH}
+      className="inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-medium hover:bg-muted"
+    >
+      <ShieldCheck className="size-4" aria-hidden="true" />
+      {t('admin.title')}
+    </Link>
   )
 }

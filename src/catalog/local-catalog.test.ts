@@ -24,9 +24,10 @@ const ROWS: CatalogRows = {
     },
   ],
   printings: [],
+  faqs: [],
 }
 
-const EMPTY: CatalogRows = { sets: [], cards: [], printings: [] }
+const EMPTY: CatalogRows = { sets: [], cards: [], printings: [], faqs: [] }
 
 const SAVED: CatalogSnapshot = {
   ...ROWS,

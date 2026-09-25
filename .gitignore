@@ -33,3 +33,6 @@ npm-debug.log*
 Thumbs.db
 *.suo
 *.sw?
+
+# Ambiente Python dello script delle FAQ (scripts/faq/)
+.venv-faq

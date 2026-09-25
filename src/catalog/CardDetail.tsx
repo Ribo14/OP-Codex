@@ -8,6 +8,7 @@ import { cardImageUrl } from './card-image'
 import { catalogPath } from './card-links'
 import type { CatalogCard, CatalogSet } from './catalog-data'
 import { filtersToSearchParams, relatedFilters } from './filters'
+import { CardFaqs } from './CardFaqs'
 import { LegalityTags } from './LegalityTags'
 import { gameColor } from './game-colors'
 import { useSwipe } from './use-swipe'
@@ -291,6 +292,8 @@ export function CardDetail({
               </div>
             )}
           </section>
+
+          <CardFaqs faqs={card.faqs ?? []} />
 
           <section>
             <h3 className="mb-2 text-sm font-medium text-muted-foreground">{t('detail.sets')}</h3>

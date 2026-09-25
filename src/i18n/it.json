@@ -427,12 +427,13 @@
     },
     "jobs": {
       "title": "Stato dei job",
-      "intro": "Le ultime {{count}} esecuzioni del Catalog Sync e dello scaricamento delle immagini.",
+      "intro": "Le ultime {{count}} esecuzioni del Catalog Sync, dello scaricamento delle immagini e del caricamento delle FAQ.",
       "reload": "Aggiorna",
       "empty": "Nessuna esecuzione registrata.",
       "name": {
         "catalog_sync": "Catalog Sync",
         "image_sync": "Immagini delle carte",
+        "faq_sync": "FAQ ufficiali",
         "other": "Altro job"
       },
       "status": {
@@ -558,7 +559,14 @@
     "setColumn": "Set",
     "printColumn": "Print ID",
     "rarityColumn": "Rarità",
-    "officialText": "Testo ufficiale in inglese"
+    "officialText": "Testo ufficiale in inglese",
+    "faq": {
+      "title": "FAQ ufficiali",
+      "count_one": "{{count}} domanda",
+      "count_other": "{{count}} domande",
+      "intro": "Domande e risposte ufficiali di Bandai, in inglese.",
+      "source": "Fonte: FAQ ufficiale {{source}}"
+    }
   },
   "filters": {
     "colors": "Colore",

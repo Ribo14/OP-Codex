@@ -44,5 +44,8 @@ jobs:
       - run: npm ci
       - name: Catalog Sync
         run: node catalog-sync/sync-catalog.ts --delay-ms 3000
+      # FAQ ufficiali (RIB-44) dal file versionato nel repo: idempotente, non chiede nulla a Bandai.
+      - name: FAQ Sync
+        run: node catalog-sync/sync-faqs.ts
       - name: Image Sync
         run: node catalog-sync/sync-images.ts --limit "$IMAGE_LIMIT" --delay-ms 2000

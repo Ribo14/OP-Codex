@@ -103,6 +103,27 @@ export type Database = {
         }
         Relationships: []
       }
+      card_faqs: {
+        Row: {
+          card_code: string
+          created_at: string
+          items: Json
+          updated_at: string
+        }
+        Insert: {
+          card_code: string
+          created_at?: string
+          items?: Json
+          updated_at?: string
+        }
+        Update: {
+          card_code?: string
+          created_at?: string
+          items?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cards: {
         Row: {
           attributes: string[]

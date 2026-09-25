@@ -217,6 +217,51 @@ describe('supporto all’interfaccia', () => {
   })
 })
 
+describe('filtro possedute', () => {
+  const nami = card({
+    cardCode: 'OP01-016',
+    name: 'Nami',
+    printings: [
+      { printId: 'OP01-016', rarity: 'R', setCode: 'OP-01', hasImage: true },
+      { printId: 'OP01-016_r1', rarity: 'R', setCode: 'PRB-01', hasImage: true },
+    ],
+  })
+  const zoro = card({ cardCode: 'OP01-025', name: 'Zoro' })
+  const cards = [nami, zoro]
+  const owned = new Set(['OP01-016'])
+  const names = (f: Partial<CatalogFilters>, ownership: Set<string> | null = owned) =>
+    filterCatalog(cards, { ...EMPTY_FILTERS, ...f }, ownership).map(
+      (e) => `${e.card.name} ${e.printing.printId}`,
+    )
+
+  it('solo possedute o solo non possedute, per Card', () => {
+    expect(names({ owned: true })).toEqual(['Nami OP01-016'])
+    expect(names({ owned: false })).toEqual(['Zoro OP01-025'])
+    expect(names({ owned: null })).toHaveLength(2)
+  })
+
+  it('con un filtro Set conta solo la Printing di quel Set', () => {
+    expect(names({ owned: true, sets: ['PRB-01'] })).toEqual([])
+    expect(names({ owned: false, sets: ['PRB-01'] })).toEqual(['Nami OP01-016_r1'])
+  })
+
+  it('con tutte le Printing guarda ogni singola Printing', () => {
+    expect(names({ owned: false, allPrintings: true })).toEqual([
+      'Nami OP01-016_r1',
+      'Zoro OP01-025',
+    ])
+  })
+
+  it('senza accesso il filtro si ignora; si combina con gli altri e va nell’URL', () => {
+    expect(names({ owned: true }, null)).toHaveLength(2)
+    expect(names({ owned: false, q: 'nami' })).toEqual([])
+    const f = { ...EMPTY_FILTERS, owned: false }
+    expect(filtersToSearchParams(f).toString()).toBe('possedute=no')
+    expect(filtersFromSearchParams(new URLSearchParams('possedute=si')).owned).toBe(true)
+    expect(countActiveFilters(f)).toBe(1)
+  })
+})
+
 describe('carte correlate', () => {
   const aokiji = card({
     cardCode: 'OP02-049',

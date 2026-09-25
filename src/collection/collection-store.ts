@@ -1,4 +1,6 @@
-import { useEffect, useSyncExternalStore } from 'react'
+import { useEffect, useMemo, useSyncExternalStore } from 'react'
+import { useSession } from '@/account/session'
+import type { Ownership } from '@/catalog/filters'
 import { getSupabase } from '@/lib/supabase'
 import {
   isLanguage,
@@ -168,14 +170,26 @@ export function collectionStore(): CollectionStore {
 }
 
 /** La Collection di `userId`: si scarica la prima volta e poi resta in memoria. */
-export function useCollection(userId: string, store: CollectionStore = collectionStore()) {
+export function useCollection(userId: string | null, store: CollectionStore = collectionStore()) {
   const state = useSyncExternalStore(store.subscribe, store.getState)
   useEffect(() => {
-    store.ensure(userId)
+    if (userId) store.ensure(userId)
   }, [store, userId])
   return {
-    state: store.userId() === userId ? state : LOADING,
+    state: userId !== null && store.userId() === userId ? state : LOADING,
     change: store.change,
     reload: store.reload,
   }
+}
+
+/**
+ * Per il filtro "possedute" (RIB-22): i Print ID della Collection di chi ha fatto l'accesso;
+ * null senza accesso o finché la Collection non è caricata (il filtro allora si ignora).
+ */
+export function useOwnership(): Ownership | null {
+  const session = useSession()
+  const userId = session.status === 'signedIn' && !session.needsCode ? session.user.id : null
+  const { state } = useCollection(userId)
+  const entries = state.status === 'ready' ? state.entries : null
+  return useMemo(() => (entries ? new Set(entries.map((e) => e.printId)) : null), [entries])
 }

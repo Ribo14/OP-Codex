@@ -25,7 +25,15 @@ export interface CatalogFilters {
   trigger: boolean | null
   /** Una voce per ogni Printing invece che una per Card Code. */
   allPrintings: boolean
+  /**
+   * Collection (RIB-22): true = solo possedute, false = solo non possedute, null = tutte.
+   * Vale solo con l'accesso: senza, il filtro si ignora.
+   */
+  owned: boolean | null
 }
+
+/** Cosa possiede l'utente, per il filtro "possedute": i Print ID nella sua Collection. */
+export type Ownership = ReadonlySet<string>
 
 export const EMPTY_FILTERS: CatalogFilters = {
   q: '',
@@ -43,6 +51,7 @@ export const EMPTY_FILTERS: CatalogFilters = {
   counter: [null, null],
   trigger: null,
   allPrintings: false,
+  owned: null,
 }
 
 export const COLORS = ['Red', 'Green', 'Blue', 'Purple', 'Black', 'Yellow'] as const
@@ -142,17 +151,30 @@ function matchesCard(card: CatalogCard, f: CatalogFilters, words: string[]): boo
 const matchesPrinting = (p: CatalogPrinting, f: CatalogFilters) =>
   anyOf(f.sets, [p.setCode]) && anyOf(f.rarities, [p.rarity])
 
-/** Applica ricerca e filtri al catalogo e restituisce le voci da mostrare, in ordine di Card Code. */
-export function filterCatalog(cards: readonly CatalogCard[], f: CatalogFilters): CatalogEntry[] {
+/**
+ * Applica ricerca e filtri al catalogo e restituisce le voci da mostrare, in ordine di Card Code.
+ * Il filtro "possedute" (RIB-22) guarda le Printing che passano gli altri filtri: senza filtro
+ * Set basta una qualsiasi Printing della Card; con "Set OP-05" conta solo quella di OP-05 (come
+ * nel completamento dei Set). Senza `ownership` (nessun accesso) il filtro si ignora.
+ */
+export function filterCatalog(
+  cards: readonly CatalogCard[],
+  f: CatalogFilters,
+  ownership: Ownership | null = null,
+): CatalogEntry[] {
   const words = normalize(f.q).split(/\s+/).filter(Boolean)
+  const byOwnership = f.owned !== null && ownership !== null
+  const owns = (p: CatalogPrinting) => ownership?.has(p.printId) ?? false
   const entries: CatalogEntry[] = []
   for (const card of cards) {
     if (!matchesCard(card, f, words)) continue
-    const printings = card.printings.filter((p) => matchesPrinting(p, f))
+    let printings = card.printings.filter((p) => matchesPrinting(p, f))
     if (printings.length === 0) continue
     if (f.allPrintings) {
+      if (byOwnership) printings = printings.filter((p) => owns(p) === f.owned)
       for (const printing of printings) entries.push({ card, printing })
     } else {
+      if (byOwnership && printings.some(owns) !== f.owned) continue
       // Una voce per Card: la base se passa i filtri, altrimenti la prima che li passa.
       const [first] = printings
       if (first) entries.push({ card, printing: first })
@@ -179,7 +201,8 @@ export function countActiveFilters(f: CatalogFilters): number {
     lists.filter((l) => l.length > 0).length +
     ranges.filter(([a, b]) => a !== null || b !== null).length +
     (f.trigger === null ? 0 : 1) +
-    (f.allPrintings ? 1 : 0)
+    (f.allPrintings ? 1 : 0) +
+    (f.owned === null ? 0 : 1)
   )
 }
 
@@ -246,12 +269,14 @@ export function filtersToSearchParams(f: CatalogFilters): URLSearchParams {
   }
   if (f.trigger !== null) params.set('trigger', f.trigger ? 'si' : 'no')
   if (f.allPrintings) params.set('printing', 'tutte')
+  if (f.owned !== null) params.set('possedute', f.owned ? 'si' : 'no')
   return params
 }
 
 export function filtersFromSearchParams(params: URLSearchParams): CatalogFilters {
   const list = (param: string) => [...new Set(params.getAll(param).filter(Boolean))]
   const trigger = params.get('trigger')
+  const owned = params.get('possedute')
   return {
     q: params.get('q') ?? '',
     colors: list(LIST_PARAMS.colors),
@@ -268,6 +293,7 @@ export function filtersFromSearchParams(params: URLSearchParams): CatalogFilters
     counter: parseRange(params.get(RANGE_PARAMS.counter)),
     trigger: trigger === 'si' ? true : trigger === 'no' ? false : null,
     allPrintings: params.get('printing') === 'tutte',
+    owned: owned === 'si' ? true : owned === 'no' ? false : null,
   }
 }
 

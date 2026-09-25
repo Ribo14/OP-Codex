@@ -4,6 +4,7 @@ import {
   filterCatalog,
   type CatalogEntry,
   type CatalogFilters,
+  type Ownership,
 } from '@/catalog/filters'
 
 // Deck (RIB-21): un Leader più 50 carte, contate per Card Code. Per ogni carta si può scegliere
@@ -106,10 +107,12 @@ export function deckRows(cards: readonly DeckCard[], catalog: readonly CatalogCa
 export function deckCandidates(
   catalog: readonly CatalogCard[],
   filters: CatalogFilters,
+  ownership: Ownership | null = null,
 ): CatalogEntry[] {
   return filterCatalog(
     catalog.filter((card) => card.category !== 'Leader' && card.category !== 'DON!!'),
     { ...filters, allPrintings: false },
+    ownership,
   )
 }
 

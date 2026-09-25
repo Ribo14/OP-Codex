@@ -2,6 +2,8 @@ import { LayoutGrid, List, Search, SlidersHorizontal, X } from 'lucide-react'
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet, useMatch } from 'react-router'
+import { useSession } from '@/account/session'
+import { useOwnership } from '@/collection/collection-store'
 import { cn } from '@/lib/utils'
 import type { CatalogOutletContext } from './CardDetailRoute'
 import { CatalogResults, type CatalogView } from './CatalogResults'
@@ -46,9 +48,12 @@ export function CatalogPage() {
   }
 
   const facets = useMemo(() => (catalog ? catalogFacets(catalog.cards) : null), [catalog])
+  // Filtro "possedute" (RIB-22): solo con l'accesso e la Collection caricata.
+  const ownership = useOwnership()
+  const signedIn = useSession().status === 'signedIn'
   const entries = useMemo(
-    () => (catalog ? filterCatalog(catalog.cards, deferredFilters) : []),
-    [catalog, deferredFilters],
+    () => (catalog ? filterCatalog(catalog.cards, deferredFilters, ownership) : []),
+    [catalog, deferredFilters, ownership],
   )
   const active = countActiveFilters(filters)
 
@@ -91,7 +96,13 @@ export function CatalogPage() {
   }
 
   const panel = (
-    <FiltersPanel filters={filters} update={update} facets={facets} sets={catalog.sets} />
+    <FiltersPanel
+      filters={filters}
+      update={update}
+      facets={facets}
+      sets={catalog.sets}
+      showOwned={signedIn}
+    />
   )
 
   return (

@@ -91,7 +91,26 @@ test('Collection: +/− dal dettaglio, lingue separate, totali nella pagina', as
     await expect(page.getByText('4 carte in tutto · 1 Card diverse')).toBeVisible()
     await expect(page.getByRole('link', { name: new RegExp(NAME) })).toHaveCount(2)
     await page.getByLabel('Ordina per').selectOption('quantity')
-    await expect(page.getByRole('listitem').first()).toContainText('EN 2 · JP 1')
+    await expect(page.getByRole('link', { name: new RegExp(NAME) }).first()).toContainText(
+      'EN 2 · JP 1',
+    )
+
+    // Completamento dei Set (RIB-22): la Card del Set di prova è posseduta, 1 su 1.
+    const setCode = `ZZ-${String(SERIES)}`
+    const setRow = page.getByRole('link', { name: new RegExp(setCode) })
+    await expect(setRow).toContainText('1/1')
+    await expect(
+      page.getByRole('progressbar', { name: `Completamento di ${setCode}` }),
+    ).toHaveAttribute('aria-valuenow', '100')
+    // Il Set apre il catalogo filtrato; con "Non possedute" la carta sparisce.
+    await setRow.click()
+    await expect(page).toHaveURL(new RegExp(`set=${setCode}`))
+    await expect(page.getByText(/^1 carta$/)).toBeVisible()
+    await page.goto(`/?set=${setCode}&possedute=no`)
+    await expect(page.getByText(/^0 carte$/)).toBeVisible()
+    await page.goto(`/?set=${setCode}&possedute=si`)
+    await expect(page.getByRole('link', { name: new RegExp(NAME) })).toHaveCount(1)
+    await page.goto('/collezione')
 
     // Portando tutto a 0 la Printing sparisce.
     await page

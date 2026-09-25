@@ -18,6 +18,7 @@ import {
   type OwnedItem,
 } from './collection'
 import { useCollection } from './collection-store'
+import { SetCompletionSection } from './SetCompletionSection'
 
 // Pagina Collezione (RIB-20): le Printing possedute con le copie, totali, ricerca e ordinamento.
 
@@ -88,6 +89,8 @@ function Collection({ userId }: { userId: string }) {
       <p className="text-sm text-muted-foreground" aria-live="polite">
         {t('collection.totals', { copies, cards: distinctCards })}
       </p>
+      <SetCompletionSection catalog={catalog} entries={entries} />
+      <h2 className="pt-2 text-lg font-semibold tracking-tight">{t('collection.yourCards')}</h2>
       <div className="flex flex-wrap gap-3">
         <label className="relative min-w-0 flex-1 basis-60">
           <span className="sr-only">{t('collection.search')}</span>

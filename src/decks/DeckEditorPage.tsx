@@ -20,6 +20,7 @@ import { catalogFacets, countActiveFilters, relatedFilters } from '@/catalog/fil
 import { FiltersPanel } from '@/catalog/FiltersPanel'
 import { useCatalog } from '@/catalog/local-catalog'
 import { useCatalogFilters } from '@/catalog/use-catalog-filters'
+import { useOwnership } from '@/collection/collection-store'
 import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { CardThumb } from './CardThumb'
@@ -466,7 +467,12 @@ function AddCards({
   const [limit, setLimit] = useState(PAGE)
   const [panelOpen, setPanelOpen] = useState(false)
   const facets = useMemo(() => catalogFacets(catalog.cards), [catalog])
-  const results = useMemo(() => deckCandidates(catalog.cards, deferred), [catalog, deferred])
+  // Filtro "possedute" (RIB-22): nell'editor si è sempre dentro, quindi c'è sempre.
+  const ownership = useOwnership()
+  const results = useMemo(
+    () => deckCandidates(catalog.cards, deferred, ownership),
+    [catalog, deferred, ownership],
+  )
   const active = countActiveFilters(filters)
 
   // Nuova ricerca: si riparte dal primo blocco.
@@ -572,7 +578,13 @@ function AddCards({
             </button>
           </div>
           <div className="flex-1 overflow-y-auto px-4 py-5">
-            <FiltersPanel filters={filters} update={update} facets={facets} sets={catalog.sets} />
+            <FiltersPanel
+              filters={filters}
+              update={update}
+              facets={facets}
+              sets={catalog.sets}
+              showOwned
+            />
           </div>
           <div className="shrink-0 border-t p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)]">
             <button

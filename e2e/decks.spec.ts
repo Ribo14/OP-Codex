@@ -60,7 +60,8 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     await page.goto(await linkFromEmail(email, /Conferma/, '/account/conferma'))
     await page.getByLabel('Username').fill(username)
     await page.getByRole('button', { name: 'Conferma' }).click()
-    await expect(page).toHaveURL(/\/profilo/)
+    // Il profilo compare solo a Username salvato: da qui si può cambiare pagina.
+    await expect(page.getByRole('heading', { level: 1, name: `@${username}` })).toBeVisible()
 
     // Nuovo mazzo: si sceglie il Leader, il mazzo prende il suo nome.
     await page
@@ -74,8 +75,15 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     await expect(page).toHaveURL(/\/mazzi\/[0-9a-f-]{36}$/)
     await expect(page.getByRole('heading', { level: 1, name: LEADER.name })).toBeVisible()
 
+    // Carte correlate al Leader (RIB-41): si apre "Aggiungi carte" coi filtri del Leader (Blu).
+    await page.getByRole('button', { name: 'Carte correlate al Leader' }).click()
+    await expect(page.getByRole('tab', { name: 'Aggiungi carte' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
+    await expect(page).toHaveURL(/colore=Blue/)
+
     // Aggiungi carte: 4 Alfa e 2 Beta; il Leader non è tra le carte aggiungibili.
-    await page.getByRole('tab', { name: 'Aggiungi carte' }).click()
     await page.getByPlaceholder(/Cerca per nome/).fill(TAG)
     await expect(
       page.locator('#pannello-add').getByText(LEADER.code, { exact: false }),

@@ -7,6 +7,7 @@ import {
   filterCatalog,
   filtersFromSearchParams,
   filtersToSearchParams,
+  relatedFilters,
   type CatalogFilters,
 } from './filters'
 
@@ -213,5 +214,51 @@ describe('supporto all’interfaccia', () => {
     expect(facets.keywords).toHaveLength(10)
     expect(facets.types).toEqual(['Straw Hat Crew', 'Supernovas', 'Whitebeard Pirates'])
     expect(facets.blocks).toEqual(['1', '2'])
+  })
+})
+
+describe('carte correlate', () => {
+  const aokiji = card({
+    cardCode: 'OP02-049',
+    name: 'Kuzan',
+    category: 'Leader',
+    colors: ['Blue'],
+    types: ['Navy'],
+    effect: '[Activate: Main] You may trash 1 card from your hand: Draw 1 card.',
+  })
+
+  it('da un Leader: stessi colori, tipi ed effetti, solo carte da mettere nel Deck', () => {
+    expect(relatedFilters(aokiji)).toEqual({
+      ...EMPTY_FILTERS,
+      colors: ['Blue'],
+      types: ['Navy'],
+      effects: ['draw', 'trash'],
+      categories: ['Character', 'Event', 'Stage'],
+    })
+  })
+
+  it('da un’altra carta: senza limiti di categoria; niente effetti se il testo non ne ha', () => {
+    const plain = card({ cardCode: 'OP01-010', name: 'Vanilla', colors: ['Red', 'Green'] })
+    expect(relatedFilters(plain)).toEqual({ ...EMPTY_FILTERS, colors: ['Red', 'Green'] })
+  })
+
+  it('i filtri correlati trovano le carte simili e finiscono nell’URL', () => {
+    const cards = [
+      aokiji,
+      card({
+        cardCode: 'OP02-060',
+        name: 'Smoker',
+        colors: ['Blue'],
+        types: ['Navy'],
+        effect: 'Trash 1 card from your hand.',
+      }),
+      card({ cardCode: 'OP02-061', name: 'Rosso', colors: ['Red'], types: ['Navy'] }),
+      card({ cardCode: 'OP02-062', name: 'Pirata', colors: ['Blue'], types: ['Pirates'] }),
+    ]
+    const found = filterCatalog(cards, relatedFilters(aokiji)).map((e) => e.card.name)
+    expect(found).toEqual(['Smoker'])
+    expect(filtersToSearchParams(relatedFilters(aokiji)).toString()).toBe(
+      'colore=Blue&categoria=Character&categoria=Event&categoria=Stage&tipo=Navy&effetto=draw&effetto=trash',
+    )
   })
 })

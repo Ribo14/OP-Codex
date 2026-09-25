@@ -38,9 +38,9 @@ async function roundedLogo(size, shape) {
  * `inset` riduce il logo dentro la tela (area sicura delle icone maskable); `fill` riempie la
  * tela col colore di fondo invece di lasciare gli angoli trasparenti.
  */
-async function icon({ size, inset, fill }) {
+async function icon({ size, inset, fill, shape }) {
   const inner = Math.round(size * (1 - inset * 2))
-  const logo = await roundedLogo(inner, fill ? 'circle' : 'rounded')
+  const logo = await roundedLogo(inner, shape ?? (fill ? 'circle' : 'rounded'))
   const offset = Math.round((size - inner) / 2)
   return (
     sharp({
@@ -68,6 +68,8 @@ const ICONS = [
   { file: 'icons/apple-touch-icon.png', size: 180, inset: 0.02, fill: true },
   // Favicon della scheda del browser.
   { file: 'favicon.png', size: 64, inset: 0, fill: false },
+  // Logo dentro l'app (intestazione e barra laterale): solo il medaglione, fondo trasparente.
+  { file: 'logo.png', size: 256, inset: 0, fill: false, shape: 'circle' },
 ]
 
 mkdirSync(new URL('../public/icons/', import.meta.url), { recursive: true })

@@ -183,6 +183,26 @@ export function countActiveFilters(f: CatalogFilters): number {
   )
 }
 
+/** Le scorciatoie degli effetti comuni che compaiono nel testo (effetto e Trigger) di una Card. */
+export function effectsOf(card: CatalogCard): EffectShortcutId[] {
+  const text = `${card.effect ?? ''}\n${card.trigger ?? ''}`
+  return EFFECT_SHORTCUTS.filter((s) => s.pattern.test(text)).map((s) => s.id)
+}
+
+/**
+ * "Cerca carte correlate" (RIB-41): stessi colori, tipi ed effetti comuni della Card. Per un
+ * Leader si cercano le carte da mettere nel suo Deck (niente Leader né DON!!).
+ */
+export function relatedFilters(card: CatalogCard): CatalogFilters {
+  return {
+    ...EMPTY_FILTERS,
+    colors: [...card.colors],
+    types: [...card.types],
+    effects: effectsOf(card),
+    categories: card.category === 'Leader' ? ['Character', 'Event', 'Stage'] : [],
+  }
+}
+
 // ---- URL: ogni ricerca si condivide copiando il link ----
 
 const LIST_PARAMS = {

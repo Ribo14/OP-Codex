@@ -15,7 +15,8 @@ export default defineConfig({
       registerType: 'prompt',
       // La registrazione la fa l'app (src/app/UpdatePrompt.tsx): niente script inline, la CSP resta 'self'.
       injectRegister: false,
-      includeAssets: ['favicon.png', 'icons/apple-touch-icon.png', 'theme-init.js'],
+      // logo.png: il logo nell'intestazione, visibile anche offline.
+      includeAssets: ['favicon.png', 'logo.png', 'icons/apple-touch-icon.png', 'theme-init.js'],
       workbox: {
         // App e font (solo latino) sempre disponibili offline; icone e favicon arrivano da
         // includeAssets e dal manifest; le immagini delle carte da runtimeCaching.

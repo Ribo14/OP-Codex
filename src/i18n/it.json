@@ -240,6 +240,7 @@
     "deleteConfirm": "Eliminare «{{name}}»? Non si può annullare.",
     "chooseLeader": "Scegli il Leader",
     "changeLeader": "Cambia Leader",
+    "related": "Carte correlate al Leader",
     "searchLeader": "Cerca un Leader per nome o codice",
     "showMore": "Mostra altre",
     "editor": "Editor del mazzo",
@@ -367,6 +368,7 @@
     }
   },
   "detail": {
+    "related": "Cerca carte correlate",
     "close": "Chiudi il dettaglio",
     "notFound": "Carta non trovata",
     "notFoundBody": "Il codice {{code}} non corrisponde a nessuna carta del catalogo.",

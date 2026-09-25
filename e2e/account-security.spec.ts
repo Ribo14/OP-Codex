@@ -66,7 +66,7 @@ test('esci ovunque, verifica in due passaggi ed eliminazione dell’account', as
   await page.goto(await linkFromEmail(email, /Conferma/, '/account/conferma'))
   await page.getByLabel('Username').fill(username)
   await page.getByRole('button', { name: 'Conferma' }).click()
-  await page.goto('/profilo')
+  // Il profilo compare solo a Username salvato: da qui si può cambiare pagina.
   await expect(page.getByRole('heading', { level: 1, name: `@${username}` })).toBeVisible()
 
   // Esci da tutti i dispositivi: anche questo.

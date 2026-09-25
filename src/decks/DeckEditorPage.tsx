@@ -1,4 +1,13 @@
-import { ArrowLeft, Minus, Pencil, Plus, Search, SlidersHorizontal, X } from 'lucide-react'
+import {
+  ArrowLeft,
+  Minus,
+  Pencil,
+  Plus,
+  ScanSearch,
+  Search,
+  SlidersHorizontal,
+  X,
+} from 'lucide-react'
 import { useDeferredValue, useEffect, useMemo, useState, type SubmitEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router'
@@ -7,7 +16,7 @@ import { RequireAccount } from '@/account/ProfilePage'
 import { useSession } from '@/account/session'
 import { SignedOutInvite } from '@/account/SignedOutInvite'
 import type { Catalog, CatalogCard, CatalogPrinting } from '@/catalog/catalog-data'
-import { catalogFacets, countActiveFilters } from '@/catalog/filters'
+import { catalogFacets, countActiveFilters, relatedFilters } from '@/catalog/filters'
 import { FiltersPanel } from '@/catalog/FiltersPanel'
 import { useCatalog } from '@/catalog/local-catalog'
 import { useCatalogFilters } from '@/catalog/use-catalog-filters'
@@ -54,6 +63,7 @@ function Editor({ deckId }: { deckId: string }) {
   const [tab, setTab] = useState<'deck' | 'add'>('deck')
   const [failed, setFailed] = useState(false)
   const online = useOnline()
+  const { update } = useCatalogFilters()
 
   if (state.status === 'loading' || !catalog) {
     return <p className="text-muted-foreground">{t('decks.loadingDeck')}</p>
@@ -89,7 +99,16 @@ function Editor({ deckId }: { deckId: string }) {
         {t('nav.decks')}
       </Link>
 
-      <DeckHeader deck={deck} catalog={catalog} editing={editing} />
+      <DeckHeader
+        deck={deck}
+        catalog={catalog}
+        editing={editing}
+        onRelated={(leader) => {
+          // RIB-41: la scheda "Aggiungi carte" con colori, tipi ed effetti del Leader.
+          update({ ...relatedFilters(leader), q: '' })
+          setTab('add')
+        }}
+      />
 
       {!online && <p className="text-sm text-muted-foreground">{t('decks.offline')}</p>}
       {failed && (
@@ -165,10 +184,12 @@ function DeckHeader({
   deck,
   catalog,
   editing,
+  onRelated,
 }: {
   deck: DeckSummary
   catalog: Catalog
   editing: Editing
+  onRelated: (leader: CatalogCard) => void
 }) {
   const { t } = useTranslation()
   const [renaming, setRenaming] = useState(false)
@@ -251,6 +272,18 @@ function DeckHeader({
           >
             {t('decks.changeLeader')}
           </Link>
+          {leader && (
+            <button
+              type="button"
+              onClick={() => {
+                onRelated(leader)
+              }}
+              className="inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-medium hover:bg-muted"
+            >
+              <ScanSearch className="size-3.5" aria-hidden="true" />
+              {t('decks.related')}
+            </button>
+          )}
         </div>
       </div>
     </div>

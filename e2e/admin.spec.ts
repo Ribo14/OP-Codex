@@ -67,6 +67,8 @@ test('area Admin: ruolo dal database, verifica obbligatoria, stato dei job', asy
     await page.goto(await linkFromEmail(email, /Conferma/, '/account/conferma'))
     await page.getByLabel('Username').fill(username)
     await page.getByRole('button', { name: 'Conferma' }).click()
+    // Il profilo compare solo a Username salvato: da qui si può cambiare pagina.
+    await expect(page.getByRole('heading', { level: 1, name: `@${username}` })).toBeVisible()
 
     // Senza ruolo: area riservata.
     await page.goto('/admin')

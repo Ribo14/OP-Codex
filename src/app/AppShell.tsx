@@ -48,9 +48,9 @@ export function AppShell() {
       <aside className="hidden w-60 shrink-0 flex-col border-r lg:flex">
         <Link
           to="/"
-          className="px-6 py-6 text-lg font-semibold tracking-tight focus-visible:underline focus-visible:outline-none"
+          className="mx-auto my-5 rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
         >
-          {t('app.name')}
+          <AppLogo className="size-28" />
         </Link>
         <OfflineBadge className="mx-6 mb-4" />
         <nav aria-label={t('nav.label')} className="flex flex-col gap-1 px-3">
@@ -106,8 +106,11 @@ export function AppShell() {
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Telefono: intestazione (box-content: 3.5rem più l'eventuale area sicura in alto) */}
         <header className="box-content flex h-14 shrink-0 items-center gap-3 border-b border-border/60 px-4 safe-top lg:hidden">
-          <Link to="/" className="text-lg font-semibold tracking-tight">
-            {t('app.name')}
+          <Link
+            to="/"
+            className="-ml-1 rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+          >
+            <AppLogo className="size-12" />
           </Link>
           <div className="-mr-2 ml-auto flex items-center gap-1">
             <OfflineBadge className="mr-1" />
@@ -187,6 +190,22 @@ function Footer() {
         {t('footer.privacy')}
       </Link>
     </footer>
+  )
+}
+
+/** Il logo (medaglione da brand/logo.png, `npm run icons`); il nome dell'app è il testo alternativo. */
+function AppLogo({ className }: { className?: string }) {
+  const { t } = useTranslation()
+  return (
+    <img
+      src="/logo.png"
+      alt={t('app.name')}
+      width={256}
+      height={256}
+      decoding="async"
+      className={cn('block drop-shadow-sm select-none', className)}
+      draggable={false}
+    />
   )
 }
 

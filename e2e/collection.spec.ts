@@ -57,7 +57,8 @@ test('Collection: +/− dal dettaglio, lingue separate, totali nella pagina', as
     await page.goto(await linkFromEmail(email, /Conferma/, '/account/conferma'))
     await page.getByLabel('Username').fill(username)
     await page.getByRole('button', { name: 'Conferma' }).click()
-    await expect(page).toHaveURL(/\/profilo/)
+    // Il profilo compare solo a Username salvato: da qui si può cambiare pagina.
+    await expect(page.getByRole('heading', { level: 1, name: `@${username}` })).toBeVisible()
 
     // Dettaglio Card: 2 copie EN e 1 JP della base, 1 EN della parallel.
     await page.goto(`/carta/${CODE}`)

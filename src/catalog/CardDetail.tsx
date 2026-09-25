@@ -1,10 +1,13 @@
-import { X } from 'lucide-react'
+import { ScanSearch, X } from 'lucide-react'
 import { useEffect, useRef, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 import { CollectionControls } from '@/collection/CollectionControls'
 import { cn } from '@/lib/utils'
 import { cardImageUrl } from './card-image'
+import { catalogPath } from './card-links'
 import type { CatalogCard, CatalogSet } from './catalog-data'
+import { filtersToSearchParams, relatedFilters } from './filters'
 import { gameColor } from './game-colors'
 import { useSwipe } from './use-swipe'
 
@@ -225,6 +228,14 @@ export function CardDetail({
                 </span>
               ))}
             </div>
+            {/* RIB-41: il catalogo con colori, tipi ed effetti comuni di questa carta. */}
+            <Link
+              to={catalogPath(filtersToSearchParams(relatedFilters(card)))}
+              className="mt-3 inline-flex h-9 items-center gap-2 rounded-full border px-3 text-sm font-medium hover:bg-muted"
+            >
+              <ScanSearch className="size-4" aria-hidden="true" />
+              {t('detail.related')}
+            </Link>
           </div>
 
           {printing && <CollectionControls printId={printing.printId} />}

@@ -2,13 +2,16 @@ import type { User } from '@supabase/supabase-js'
 import { LogOut } from 'lucide-react'
 import { useState, type SubmitEvent, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Navigate, useLocation, useNavigate, useSearchParams } from 'react-router'
+import { Link, Navigate, useLocation, useNavigate, useSearchParams } from 'react-router'
 import { getSupabase } from '@/lib/supabase'
 import { field } from './form-data'
-import { authProblem, type AuthProblem } from './errors'
+import { CodeField, CodeMessage } from './CodeField'
+import { authProblem, codeProblem, type AuthProblem, type CodeProblem } from './errors'
 import { Field, FormMessage, PasswordField, SubmitButton } from './form'
+import { cleanCode, verifiedTotp } from './mfa'
 import { newPasswordProblem, PASSWORD_MIN, type PasswordProblem } from './new-password'
-import { loginPath, RETURN_PARAM, safeReturnPath } from './return-path'
+import { codePath, loginPath, RETURN_PARAM, safeReturnPath } from './return-path'
+import { SecuritySection } from './SecuritySection'
 import { useProfile, useSession, type Profile } from './session'
 import { Turnstile } from './Turnstile'
 import { USERNAME_MAX, USERNAME_MIN, usernameProblem, type UsernameProblem } from './username'
@@ -31,6 +34,10 @@ export function RequireAccount({
   }
   if (session.status === 'signedOut') {
     return <Navigate to={loginPath(location.pathname + location.search)} replace />
+  }
+  // Con la verifica in due passaggi, prima il codice: senza, il database non apre il profilo.
+  if (session.needsCode) {
+    return <Navigate to={codePath(location.pathname + location.search)} replace />
   }
   return <WithProfile user={session.user}>{children}</WithProfile>
 }
@@ -125,8 +132,21 @@ function UsernameForm({ userId, onDone }: { userId: string; onDone: () => Promis
 export function ProfilePage() {
   const { t } = useTranslation()
   const location = useLocation()
-  const passwordChanged =
-    (location.state as { passwordChanged?: boolean } | null)?.passwordChanged === true
+  const state = location.state as { passwordChanged?: boolean; accountDeleted?: boolean } | null
+  const passwordChanged = state?.passwordChanged === true
+
+  // Appena eliminato l'account (RIB-18): la sessione non c'è più, resta la conferma.
+  if (state?.accountDeleted === true) {
+    return (
+      <section className="mx-auto w-full max-w-sm space-y-4 py-4">
+        <h1 className="text-2xl font-semibold tracking-tight">{t('account.delete.doneTitle')}</h1>
+        <p className="text-sm text-muted-foreground">{t('account.delete.done')}</p>
+        <Link to="/" className="text-sm underline underline-offset-2">
+          {t('account.delete.toCatalog')}
+        </Link>
+      </section>
+    )
+  }
 
   return (
     <RequireAccount>
@@ -145,9 +165,10 @@ export function ProfilePage() {
             <h2 className="text-lg font-semibold tracking-tight">
               {t('account.changePassword.title')}
             </h2>
-            <ChangePasswordForm email={user.email ?? ''} />
+            <ChangePasswordForm user={user} />
           </section>
           <LogoutButton />
+          <SecuritySection username={profile.username} />
         </div>
       )}
     </RequireAccount>
@@ -160,7 +181,7 @@ function LogoutButton() {
     <button
       type="button"
       onClick={() => {
-        // Solo questo dispositivo; "esci ovunque" arriverà con RIB-18.
+        // Solo questo dispositivo; "Esci da tutti i dispositivi" sta in Account e sicurezza.
         void getSupabase().auth.signOut({ scope: 'local' })
       }}
       className="inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-medium hover:bg-muted"
@@ -171,15 +192,21 @@ function LogoutButton() {
   )
 }
 
-/** Cambio password: serve quella attuale (verificata con un nuovo accesso, con CAPTCHA). */
-function ChangePasswordForm({ email }: { email: string }) {
+/**
+ * Cambio password: serve quella attuale (verificata con un nuovo accesso, con CAPTCHA) e, per chi
+ * ha la verifica in due passaggi, anche il codice: il nuovo accesso riparte da aal1 (RIB-18).
+ */
+function ChangePasswordForm({ user }: { user: User }) {
   const { t } = useTranslation()
+  const email = user.email ?? ''
+  const factor = verifiedTotp(user)
   const [captcha, setCaptcha] = useState<string | null>(null)
   const [resetKey, setResetKey] = useState(0)
   const [busy, setBusy] = useState(false)
   const [problem, setProblem] = useState<
     AuthProblem | PasswordProblem | 'captchaMissing' | 'current' | null
   >(null)
+  const [badCode, setBadCode] = useState<CodeProblem | null>(null)
   const [done, setDone] = useState(false)
 
   const submit = async (event: SubmitEvent<HTMLFormElement>) => {
@@ -188,8 +215,14 @@ function ChangePasswordForm({ email }: { email: string }) {
     const form = new FormData(formElement)
     const current = field(form, 'current')
     const next = field(form, 'next')
+    const code = factor ? cleanCode(field(form, 'code')) : null
     setProblem(null)
+    setBadCode(null)
     setDone(false)
+    if (factor && !code) {
+      setBadCode('format')
+      return
+    }
     setBusy(true)
     const weak = await newPasswordProblem(next)
     if (weak) {
@@ -214,6 +247,15 @@ function ChangePasswordForm({ email }: { email: string }) {
       const reason = authProblem(check.error)
       setProblem(reason === 'credentials' ? 'current' : reason)
       return
+    }
+    if (factor && code) {
+      const verified = await auth.mfa.challengeAndVerify({ factorId: factor.id, code })
+      if (verified.error) {
+        // Qui la sessione è tornata ad aal1: la shell chiederà di nuovo il codice.
+        setBusy(false)
+        setBadCode(codeProblem(verified.error))
+        return
+      }
     }
     const { error } = await auth.updateUser({ password: next })
     setBusy(false)
@@ -241,7 +283,9 @@ function ChangePasswordForm({ email }: { email: string }) {
         hint={t('account.passwordRules', { min: PASSWORD_MIN })}
         required
       />
+      {factor && <CodeField />}
       <Turnstile onToken={setCaptcha} resetKey={resetKey} />
+      {badCode && <CodeMessage problem={badCode} />}
       {problem && (
         <FormMessage tone="error">
           {problem === 'current'

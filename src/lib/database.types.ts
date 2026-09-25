@@ -219,7 +219,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      elimina_account: {
+        Args: { conferma_username: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

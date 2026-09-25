@@ -7,6 +7,8 @@ export const CONFIRM_PATH = '/account/conferma'
 export const NEW_PASSWORD_PATH = '/account/nuova-password'
 /** Ritorno da Google dopo "Continua con Google". */
 export const OAUTH_CALLBACK_PATH = '/account/google'
+/** Codice della verifica in due passaggi, dopo password o Google (RIB-18). */
+export const CODE_PATH = '/account/codice'
 export const PROFILE_PATH = '/profilo'
 
 /** Pagine del percorso di accesso: lì non si mostra "Accedi" e non si interrompe l'utente. */
@@ -17,4 +19,5 @@ export const ACCOUNT_PATHS: readonly string[] = [
   CONFIRM_PATH,
   NEW_PASSWORD_PATH,
   OAUTH_CALLBACK_PATH,
+  CODE_PATH,
 ]

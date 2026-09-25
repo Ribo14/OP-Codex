@@ -1,6 +1,20 @@
 import { AuthApiError, AuthRetryableFetchError, AuthWeakPasswordError } from '@supabase/supabase-js'
 import { describe, expect, it } from 'vitest'
-import { authProblem } from './errors'
+import { authProblem, codeProblem, deleteProblem } from './errors'
+
+describe('errori della sicurezza dell’account', () => {
+  it('un codice sbagliato ha il suo messaggio, gli altri errori quelli di sempre', () => {
+    expect(codeProblem(new AuthApiError('x', 422, 'mfa_verification_failed'))).toBe('wrong')
+    expect(codeProblem(new AuthApiError('x', 429, 'over_request_rate_limit'))).toBe('rateLimit')
+  })
+
+  it('l’eliminazione dice se rifare l’accesso o ricontrollare lo Username', () => {
+    expect(deleteProblem({ message: 'accesso_non_recente', code: 'P0001' })).toBe('reauth')
+    expect(deleteProblem({ message: 'accesso_non_valido', code: '42501' })).toBe('reauth')
+    expect(deleteProblem({ message: 'username_errato', code: 'P0001' })).toBe('username')
+    expect(deleteProblem({ message: 'TypeError: Failed to fetch' })).toBe('generic')
+  })
+})
 
 describe('errori di accesso e registrazione', () => {
   it('credenziali sbagliate ed email non confermata danno lo stesso messaggio', () => {

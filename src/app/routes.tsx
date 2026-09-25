@@ -1,9 +1,11 @@
 import type { RouteObject } from 'react-router'
+import { CodePage } from '@/account/CodePage'
 import { ConfirmPage } from '@/account/ConfirmPage'
 import { LoginPage } from '@/account/LoginPage'
 import { NewPasswordPage } from '@/account/NewPasswordPage'
 import { OAuthCallbackPage } from '@/account/OAuthCallbackPage'
 import {
+  CODE_PATH,
   CONFIRM_PATH,
   LOGIN_PATH,
   NEW_PASSWORD_PATH,
@@ -48,6 +50,7 @@ export const routes: RouteObject[] = [
       { path: CONFIRM_PATH, element: <ConfirmPage /> },
       { path: NEW_PASSWORD_PATH, element: <NewPasswordPage /> },
       { path: OAUTH_CALLBACK_PATH, element: <OAuthCallbackPage /> },
+      { path: CODE_PATH, element: <CodePage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

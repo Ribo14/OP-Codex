@@ -126,6 +126,58 @@
       "submit": "Cambia la password",
       "done": "Password aggiornata.",
       "wrongCurrent": "La password attuale non è corretta."
+    },
+    "code": {
+      "title": "Verifica in due passaggi",
+      "intro": "Apri l'app di autenticazione (per esempio Google Authenticator) e scrivi il codice di OP-Codex.",
+      "label": "Codice dell'app",
+      "hint": "{{length}} cifre, cambia ogni 30 secondi.",
+      "submit": "Verifica",
+      "lost": "Non hai più l'app o il telefono? Chiedi all'amministratore di disattivare la verifica sul tuo account.",
+      "cancel": "Esci e annulla l'accesso",
+      "problem": {
+        "format": "Il codice è fatto di {{length}} cifre.",
+        "wrong": "Codice non valido o scaduto: riprova con quello che l'app mostra adesso."
+      }
+    },
+    "security": {
+      "title": "Account e sicurezza"
+    },
+    "twoFactor": {
+      "title": "Verifica in due passaggi",
+      "off": "Non attiva. Se la attivi, a ogni accesso servirà anche un codice dall'app di autenticazione del telefono: nessuno potrà entrare con la sola password.",
+      "on": "Attiva: a ogni accesso chiediamo anche il codice dell'app.",
+      "enable": "Attiva",
+      "disable": "Disattiva",
+      "scan": "Inquadra il QR code con l'app di autenticazione (per esempio Google Authenticator), poi scrivi il codice che compare.",
+      "qrAlt": "QR code per aggiungere OP-Codex all'app di autenticazione",
+      "manual": "Non riesci a inquadrarlo? Inserisci a mano questa chiave:",
+      "confirm": "Conferma e attiva",
+      "cancel": "Annulla",
+      "done": {
+        "enabled": "Verifica in due passaggi attivata.",
+        "disabled": "Verifica in due passaggi disattivata."
+      }
+    },
+    "logoutEverywhere": {
+      "title": "Esci da tutti i dispositivi",
+      "intro": "Chiude subito l'accesso su tutti i telefoni e i computer, compreso questo. Utile se hai perso un dispositivo o hai fatto l'accesso su uno non tuo.",
+      "submit": "Esci da tutti i dispositivi"
+    },
+    "delete": {
+      "title": "Elimina l'account",
+      "intro": "Cancella per sempre l'account e tutti i tuoi dati (profilo e, in futuro, Collection e Deck). Non si può annullare.",
+      "confirmLabel": "Per confermare, scrivi il tuo Username: {{username}}",
+      "submit": "Elimina l'account per sempre",
+      "reauth": "Accedi di nuovo",
+      "problem": {
+        "reauth": "Per sicurezza serve un accesso fatto negli ultimi 10 minuti: accedi di nuovo e riprova.",
+        "username": "Lo Username non corrisponde.",
+        "generic": "Qualcosa non ha funzionato: riprova tra poco."
+      },
+      "doneTitle": "Account eliminato",
+      "done": "Il tuo account e tutti i tuoi dati sono stati cancellati.",
+      "toCatalog": "Torna al catalogo"
     }
   },
   "settings": {
@@ -307,14 +359,14 @@
     "updated": "Ultimo aggiornamento: 24 settembre 2026",
     "intro": "OP-Codex è un progetto amatoriale e non commerciale per giocatori del One Piece Card Game. Questa pagina spiega quali dati tratta e perché.",
     "dataTitle": "Quali dati",
-    "dataNow": "Il catalogo si consulta senza account. Se ti registri conserviamo solo ciò che serve: l'email, lo Username che scegli e la password in forma cifrata, che nemmeno noi possiamo leggere.",
+    "dataNow": "Il catalogo si consulta senza account. Se ti registri conserviamo solo ciò che serve: l'email, lo Username che scegli e la password in forma cifrata, che nemmeno noi possiamo leggere. Se attivi la verifica in due passaggi conserviamo anche la chiave che genera i codici.",
     "dataLater": "Con le prossime funzioni si aggiungeranno i dati che inserisci tu (Collection e Deck). Questa pagina verrà aggiornata prima di allora.",
     "deviceTitle": "Sul tuo dispositivo",
     "device": "L'app salva sul dispositivo il tema scelto, i propri file (per aprirsi più in fretta), una copia del catalogo e le immagini delle carte viste o scaricate, per consultarle anche offline. Non usiamo cookie di profilazione, pubblicità o strumenti di analisi.",
     "providersTitle": "Servizi usati",
     "providers": "Il sito è ospitato da Netlify; il database e le immagini delle carte sono su Supabase, con server nell'Unione Europea (Francoforte). Questi fornitori trattano i dati tecnici necessari a far funzionare il servizio (per esempio l'indirizzo IP nei log). Per gli account: il controllo anti-bot su accesso e registrazione è Cloudflare Turnstile, che analizza dati tecnici del browser; le email di conferma e di recupero partono da un indirizzo Gmail (Google); se scegli «Continua con Google», Google ci comunica nome, email e immagine del profilo, che restano registrati con l'account (l'app usa solo l'email); quando scegli una password l'app chiede al servizio Have I Been Pwned se compare in violazioni note, inviando solo i primi 5 caratteri della sua impronta cifrata, mai la password.",
     "rightsTitle": "I tuoi diritti",
-    "rights": "Puoi chiedere accesso, esportazione o cancellazione dei tuoi dati. Presto potrai esportarli ed eliminare l'account direttamente dall'app; fino ad allora basta chiederlo con i contatti qui sotto.",
+    "rights": "Puoi chiedere accesso, esportazione o cancellazione dei tuoi dati. Puoi eliminare l'account e tutti i tuoi dati in qualsiasi momento dal Profilo, in «Account e sicurezza»: la cancellazione è immediata e definitiva. Presto potrai anche esportarli dall'app; fino ad allora basta chiederlo con i contatti qui sotto.",
     "contactTitle": "Contatti",
     "contact": "Per domande su questa pagina apri una segnalazione nel repository del progetto:",
     "contactLink": "github.com/Ribo14/OP-Codex",

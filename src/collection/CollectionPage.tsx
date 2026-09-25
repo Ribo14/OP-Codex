@@ -1,11 +1,10 @@
-import { LogIn, Search } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { SIGNUP_PATH } from '@/account/paths'
 import { RequireAccount } from '@/account/ProfilePage'
-import { loginPath } from '@/account/return-path'
 import { useSession } from '@/account/session'
+import { SignedOutInvite } from '@/account/SignedOutInvite'
 import { cardImageUrl } from '@/catalog/card-image'
 import { cardPath } from '@/catalog/card-links'
 import type { CardLinkState } from '@/catalog/CardDetailRoute'
@@ -34,25 +33,7 @@ export function CollectionPage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">{t('nav.collection')}</h1>
       {session.status === 'signedOut' ? (
-        // Senza account (es. link diretto): un invito, non un rimando all'accesso.
-        <div className="max-w-md space-y-3 rounded-2xl border p-5">
-          <p>{t('collection.signedOut')}</p>
-          <div className="flex flex-wrap gap-2">
-            <Link
-              to={loginPath(COLLECTION_PATH)}
-              className="inline-flex h-10 items-center gap-2 rounded-full bg-foreground px-4 text-sm font-medium text-background"
-            >
-              <LogIn className="size-4" aria-hidden="true" />
-              {t('nav.login')}
-            </Link>
-            <Link
-              to={SIGNUP_PATH}
-              className="inline-flex h-10 items-center rounded-full border px-4 text-sm font-medium hover:bg-muted"
-            >
-              {t('account.login.signupLink')}
-            </Link>
-          </div>
-        </div>
+        <SignedOutInvite text={t('collection.signedOut')} returnTo={COLLECTION_PATH} />
       ) : (
         <RequireAccount>{({ user }) => <Collection userId={user.id} />}</RequireAccount>
       )}

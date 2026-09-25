@@ -94,8 +94,8 @@ describe('App shell', () => {
   })
 
   it('le sezioni non ancora pronte mostrano "in arrivo"', () => {
-    renderAt('/mazzi')
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Mazzi: in arrivo')
+    renderAt('/regole')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Regole: in arrivo')
   })
 
   it('si naviga tra le sezioni e la voce attiva è segnalata', async () => {

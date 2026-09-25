@@ -1,0 +1,133 @@
+import { expect, test } from '@playwright/test'
+import postgres from 'postgres'
+import { linkFromEmail } from './mailpit.ts'
+
+// Deck builder (RIB-21) sul Supabase locale, su schermo da telefono: nuovo Deck con Leader, carte
+// dalla scheda "Aggiungi carte", Printing mostrata, riapertura, duplica, rinomina, elimina.
+
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL ?? 'http://127.0.0.1:54321'
+const PUBLISHABLE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? ''
+// Database del Supabase locale (lo stesso in CI): qui si aggiungono Card di prova al catalogo.
+const DB_URL = 'postgresql://postgres:postgres@127.0.0.1:54322/postgres'
+
+const run = crypto.randomUUID().replaceAll('-', '')
+const email = `e2e-deck-${run}@example.com`
+const username = `deck_${run}`.slice(0, 20)
+const password = `Una frase lunga per i mazzi ${crypto.randomUUID()}`
+const SERIES = 980000 + Math.floor(Math.random() * 9000)
+const PREFIX = `YY${String(SERIES % 100).padStart(2, '0')}`
+const TAG = run.slice(0, 6)
+const LEADER = { code: `${PREFIX}-001`, name: `Leader ${TAG}` }
+const ALPHA = { code: `${PREFIX}-002`, name: `Alfa ${TAG}` }
+const BETA = { code: `${PREFIX}-003`, name: `Beta ${TAG}` }
+
+test.use({ viewport: { width: 390, height: 844 } })
+
+test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', async ({
+  page,
+  baseURL,
+}) => {
+  test.setTimeout(120_000)
+  const sql = postgres(DB_URL, { max: 1, onnotice: () => undefined })
+  try {
+    await sql`insert into public.sets (series_id, code, name) values (${SERIES}, ${`${PREFIX}-SET`}, 'Set di prova E2E')`
+    await sql`
+      insert into public.cards (card_code, name, category, cost, colors)
+      values (${LEADER.code}, ${LEADER.name}, 'Leader', null, '{Blue}'),
+             (${ALPHA.code}, ${ALPHA.name}, 'Character', 2, '{Blue}'),
+             (${BETA.code}, ${BETA.name}, 'Event', 1, '{Blue}')
+    `
+    await sql`
+      insert into public.printings (print_id, card_code, series_id, rarity)
+      values (${LEADER.code}, ${LEADER.code}, ${SERIES}, 'L'),
+             (${ALPHA.code}, ${ALPHA.code}, ${SERIES}, 'C'),
+             (${`${ALPHA.code}_p1`}, ${ALPHA.code}, ${SERIES}, 'SR'),
+             (${BETA.code}, ${BETA.code}, ${SERIES}, 'C')
+    `
+
+    // Account con Username.
+    const redirect = new URLSearchParams({ redirect_to: `${baseURL ?? ''}/account/conferma` })
+    const signup = await fetch(`${SUPABASE_URL}/auth/v1/signup?${redirect.toString()}`, {
+      method: 'POST',
+      headers: { apikey: PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        password,
+        gotrue_meta_security: { captcha_token: 'XXXX.DUMMY.TOKEN.XXXX' },
+      }),
+    })
+    expect(signup.ok).toBe(true)
+    await page.goto(await linkFromEmail(email, /Conferma/, '/account/conferma'))
+    await page.getByLabel('Username').fill(username)
+    await page.getByRole('button', { name: 'Conferma' }).click()
+    await expect(page).toHaveURL(/\/profilo/)
+
+    // Nuovo mazzo: si sceglie il Leader, il mazzo prende il suo nome.
+    await page
+      .getByRole('navigation', { name: 'Sezioni' })
+      .last()
+      .getByRole('link', { name: 'Mazzi' })
+      .click()
+    await page.getByRole('link', { name: 'Nuovo mazzo' }).click()
+    await page.getByPlaceholder('Cerca un Leader per nome o codice').fill(TAG)
+    await page.getByRole('button', { name: new RegExp(LEADER.name) }).click()
+    await expect(page).toHaveURL(/\/mazzi\/[0-9a-f-]{36}$/)
+    await expect(page.getByRole('heading', { level: 1, name: LEADER.name })).toBeVisible()
+
+    // Aggiungi carte: 4 Alfa e 2 Beta; il Leader non è tra le carte aggiungibili.
+    await page.getByRole('tab', { name: 'Aggiungi carte' }).click()
+    await page.getByPlaceholder(/Cerca per nome/).fill(TAG)
+    await expect(
+      page.locator('#pannello-add').getByText(LEADER.code, { exact: false }),
+    ).toHaveCount(0)
+    const addAlpha = page.getByRole('button', { name: `Aggiungi una copia di ${ALPHA.name}` })
+    for (let i = 0; i < 4; i++) await addAlpha.click()
+    const addBeta = page.getByRole('button', { name: `Aggiungi una copia di ${BETA.name}` })
+    await addBeta.click()
+    await addBeta.click()
+    await expect(page.getByRole('tab', { name: 'Mazzo 6/50' })).toBeVisible()
+
+    // Scheda Mazzo: Printing mostrata diversa, conteggio invariato.
+    await page.getByRole('tab', { name: 'Mazzo 6/50' }).click()
+    await page.getByLabel(`Stampa mostrata di ${ALPHA.name}`).selectOption(`${ALPHA.code}_p1`)
+    await page.getByRole('button', { name: `Togli una copia di ${BETA.name}` }).click()
+    await expect(page.getByRole('tab', { name: 'Mazzo 5/50' })).toBeVisible()
+
+    // Riaperto, il mazzo è com'era.
+    await page.reload()
+    await expect(page.getByRole('tab', { name: 'Mazzo 5/50' })).toBeVisible()
+    await expect(page.getByLabel(`Stampa mostrata di ${ALPHA.name}`)).toHaveValue(
+      `${ALPHA.code}_p1`,
+    )
+    // La scheda "Aggiungi carte" (nascosta) ha lo stesso contatore: si guarda la scheda Mazzo.
+    await expect(
+      page.locator('#pannello-deck').getByLabel(`Copie di ${ALPHA.name} nel mazzo`),
+    ).toHaveText('4')
+
+    // Elenco: duplica, rinomina la copia, elimina l'originale.
+    await page.getByRole('link', { name: 'Mazzi', exact: true }).first().click()
+    await expect(page.getByText('5/50 carte')).toBeVisible()
+    await page.getByRole('button', { name: 'Duplica' }).click()
+    await expect(page.getByText(`${LEADER.name} (copia)`)).toBeVisible()
+
+    const copy = page.getByRole('listitem').filter({ hasText: `${LEADER.name} (copia)` })
+    await copy.getByRole('button', { name: 'Rinomina' }).click()
+    await copy.getByLabel('Nome del mazzo').fill(`Blu ${TAG}`)
+    await copy.getByRole('button', { name: 'Salva' }).click()
+    await expect(page.getByText(`Blu ${TAG}`)).toBeVisible()
+
+    const original = page.getByRole('listitem').filter({ hasNotText: `Blu ${TAG}` })
+    await original.getByRole('button', { name: 'Elimina' }).click()
+    await page.getByRole('alertdialog').getByRole('button', { name: 'Elimina' }).click()
+    await expect(page.getByRole('listitem')).toHaveCount(1)
+    await expect(page.getByText(`Blu ${TAG}`)).toBeVisible()
+    // La copia è indipendente: ha ancora le sue carte.
+    await expect(page.getByText('5/50 carte')).toBeVisible()
+  } finally {
+    await sql`delete from auth.users where email = ${email}`
+    await sql`delete from public.printings where series_id = ${SERIES}`
+    await sql`delete from public.cards where card_code like ${`${PREFIX}-%`}`
+    await sql`delete from public.sets where series_id = ${SERIES}`
+    await sql.end()
+  }
+})

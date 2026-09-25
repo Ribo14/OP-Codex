@@ -159,6 +159,97 @@ export type Database = {
           },
         ]
       }
+      deck_cards: {
+        Row: {
+          card_code: string
+          deck_id: string
+          print_id: string | null
+          quantity: number
+        }
+        Insert: {
+          card_code: string
+          deck_id: string
+          print_id?: string | null
+          quantity: number
+        }
+        Update: {
+          card_code?: string
+          deck_id?: string
+          print_id?: string | null
+          quantity?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deck_cards_card_code_fkey"
+            columns: ["card_code"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["card_code"]
+          },
+          {
+            foreignKeyName: "deck_cards_deck_id_fkey"
+            columns: ["deck_id"]
+            isOneToOne: false
+            referencedRelation: "decks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deck_cards_print_id_fkey"
+            columns: ["print_id"]
+            isOneToOne: false
+            referencedRelation: "printings"
+            referencedColumns: ["print_id"]
+          },
+        ]
+      }
+      decks: {
+        Row: {
+          created_at: string
+          id: string
+          leader_code: string
+          leader_print_id: string | null
+          name: string
+          updated_at: string
+          user_id: string
+          visibility: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          leader_code: string
+          leader_print_id?: string | null
+          name: string
+          updated_at?: string
+          user_id?: string
+          visibility?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          leader_code?: string
+          leader_print_id?: string | null
+          name?: string
+          updated_at?: string
+          user_id?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "decks_leader_code_fkey"
+            columns: ["leader_code"]
+            isOneToOne: false
+            referencedRelation: "cards"
+            referencedColumns: ["card_code"]
+          },
+          {
+            foreignKeyName: "decks_leader_print_id_fkey"
+            columns: ["leader_print_id"]
+            isOneToOne: false
+            referencedRelation: "printings"
+            referencedColumns: ["print_id"]
+          },
+        ]
+      }
       job_runs: {
         Row: {
           error: string | null
@@ -287,10 +378,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cambia_carte_mazzo: {
+        Args: { p_card_code: string; p_deck_id: string; p_delta: number }
+        Returns: number
+      }
       cambia_copie: {
         Args: { p_delta: number; p_language: string; p_print_id: string }
         Returns: number
       }
+      duplica_mazzo: { Args: { p_deck_id: string }; Returns: string }
       elimina_account: {
         Args: { conferma_username: string }
         Returns: undefined

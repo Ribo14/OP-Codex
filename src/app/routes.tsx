@@ -19,6 +19,10 @@ import { RecoverPage } from '@/account/RecoverPage'
 import { SignupPage } from '@/account/SignupPage'
 import { AdminPage } from '@/admin/AdminPage'
 import { CollectionPage } from '@/collection/CollectionPage'
+import { DeckEditorPage } from '@/decks/DeckEditorPage'
+import { DecksPage } from '@/decks/DecksPage'
+import { LeaderPickerPage } from '@/decks/LeaderPickerPage'
+import { DECKS_PATH, NEW_DECK_PATH } from '@/decks/paths'
 import { CardDetailRoute } from '@/catalog/CardDetailRoute'
 import { CatalogPage } from '@/catalog/CatalogPage'
 import { AppShell } from './AppShell'
@@ -43,6 +47,11 @@ export const routes: RouteObject[] = [
         element: <ComingSoonPage section={s.key} />,
       })),
       { path: '/collezione', element: <CollectionPage /> },
+      // Mazzi (RIB-21)
+      { path: DECKS_PATH, element: <DecksPage /> },
+      { path: NEW_DECK_PATH, element: <LeaderPickerPage /> },
+      { path: `${DECKS_PATH}/:deckId`, element: <DeckEditorPage /> },
+      { path: `${DECKS_PATH}/:deckId/leader`, element: <LeaderPickerPage /> },
       { path: PRIVACY_PATH, element: <PrivacyPage /> },
       { path: SETTINGS_PATH, element: <SettingsPage /> },
       // Account (RIB-14)

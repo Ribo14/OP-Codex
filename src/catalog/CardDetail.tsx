@@ -8,6 +8,7 @@ import { cardImageUrl } from './card-image'
 import { catalogPath } from './card-links'
 import type { CatalogCard, CatalogSet } from './catalog-data'
 import { filtersToSearchParams, relatedFilters } from './filters'
+import { LegalityTags } from './LegalityTags'
 import { gameColor } from './game-colors'
 import { useSwipe } from './use-swipe'
 
@@ -19,12 +20,15 @@ import { useSwipe } from './use-swipe'
 
 export function CardDetail({
   card,
+  cards,
   sets,
   printId,
   onSelectPrinting,
   onClose,
 }: {
   card: CatalogCard
+  /** Tutto il catalogo: per i nomi delle carte citate dai tag (coppie bandite). */
+  cards: readonly CatalogCard[]
   sets: readonly CatalogSet[]
   printId: string
   onSelectPrinting: (printId: string) => void
@@ -237,6 +241,9 @@ export function CardDetail({
               {t('detail.related')}
             </Link>
           </div>
+
+          {/* RIB-29: tag rossi della Ban List e arancione per il formato Standard. */}
+          <LegalityTags card={card} cards={cards} />
 
           {printing && <CollectionControls printId={printing.printId} />}
 

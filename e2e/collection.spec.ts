@@ -42,6 +42,19 @@ test('Collection: +/− dal dettaglio, lingue separate, totali nella pagina', as
     await expect(phoneNav.getByRole('link', { name: 'Collezione' })).toHaveCount(0)
     await expect(page.getByRole('link', { name: /Accedi per registrare/ })).toBeVisible()
 
+    // Tag rosso (RIB-29): la carta diventa bandita; lo mostrano dettaglio e griglia.
+    await sql`
+      insert into public.ban_list_entries (card_code, kind, effective_from, source)
+      values (${CODE}, 'banned', current_date, 'E2E')
+    `
+    await page.reload()
+    await expect(page.getByLabel('Uso nei tornei').getByText('Bandita')).toBeVisible()
+    await page.goto(`/?q=${encodeURIComponent(NAME)}`)
+    await expect(
+      page.getByRole('link', { name: new RegExp(NAME) }).getByText('Bandita'),
+    ).toBeVisible()
+    await sql`delete from public.ban_list_entries where card_code = ${CODE}`
+
     // Account con Username.
     const redirect = new URLSearchParams({ redirect_to: `${baseURL ?? ''}/account/conferma` })
     const signup = await fetch(`${SUPABASE_URL}/auth/v1/signup?${redirect.toString()}`, {
@@ -124,6 +137,7 @@ test('Collection: +/− dal dettaglio, lingue separate, totali nella pagina', as
     await expect(page.getByText('3 carte in tutto · 1 Card diverse')).toBeVisible()
   } finally {
     await sql`delete from auth.users where email = ${email}`
+    await sql`delete from public.ban_list_entries where card_code = ${CODE}`
     await sql`delete from public.printings where card_code = ${CODE}`
     await sql`delete from public.cards where card_code = ${CODE}`
     await sql`delete from public.sets where series_id = ${SERIES}`

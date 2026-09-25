@@ -223,6 +223,24 @@
     "copies_one": "{{count}} copia",
     "copies_other": "{{count}} copie"
   },
+  "legality": {
+    "label": "Uso nei tornei",
+    "banned": "Bandita",
+    "restricted_one": "Limitata a {{count}} copia",
+    "restricted_other": "Limitata a {{count}} copie",
+    "pair": "Coppia bandita con",
+    "upcoming": {
+      "banned": "Bandita dal {{date}}",
+      "restricted": "Limitata dal {{date}}",
+      "pair": "Coppia bandita dal {{date}}"
+    },
+    "notStandard": "Non valida in Standard (Block {{block}}: ammessi dal {{min}})",
+    "badge": {
+      "banned": "Bandita",
+      "restricted": "Limitata",
+      "pair": "Coppia bandita"
+    }
+  },
   "decks": {
     "signedOut": "Con un account costruisci e salvi i tuoi mazzi: scegli il Leader e aggiungi le carte dal catalogo.",
     "new": "Nuovo mazzo",
@@ -309,6 +327,31 @@
     "notAdmin": "Questa area è riservata agli amministratori.",
     "needsTwoFactor": "Per entrare nell'area Admin serve la verifica in due passaggi: attivala nel Profilo, in «Account e sicurezza».",
     "toProfile": "Vai al Profilo",
+    "ban": {
+      "title": "Ban List",
+      "intro": "Carte bandite, limitate e coppie bandite. Valgono dalla data di entrata in vigore; ogni modifica finisce nel registro.",
+      "add": "Aggiungi",
+      "card": "Carta (Card Code)",
+      "kind": "Tipo",
+      "maxCopies": "Copie consentite",
+      "pairCard": "Altra carta della coppia",
+      "effectiveFrom": "In vigore dal",
+      "source": "Fonte (es. avviso ufficiale del …)",
+      "from": "dal {{date}}",
+      "editOf": "Modifica {{code}}",
+      "deleteOf": "Elimina {{code}}",
+      "delete": "Elimina",
+      "deleteConfirm": "Eliminare la voce?",
+      "saveFailed": "Modifica non salvata: riprova.",
+      "problem": {
+        "code": "Card Code non valido (es. OP06-047).",
+        "pairCode": "Serve il Card Code dell'altra carta della coppia.",
+        "samePair": "Le due carte della coppia devono essere diverse.",
+        "maxCopies": "Le copie consentite vanno da 0 a 3.",
+        "date": "Serve la data di entrata in vigore.",
+        "save": "Non salvata: la voce esiste già o manca l'autorizzazione."
+      }
+    },
     "jobs": {
       "title": "Stato dei job",
       "intro": "Le ultime {{count}} esecuzioni del Catalog Sync e dello scaricamento delle immagini.",

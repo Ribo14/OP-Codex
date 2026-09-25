@@ -16,6 +16,8 @@ const run = crypto.randomUUID().replaceAll('-', '')
 const email = `e2e-adm-${run}@example.com`
 const username = `adm_${run}`.slice(0, 20)
 const password = `Una frase lunga per l'Admin ${crypto.randomUUID()}`
+/** Card Code di prova per la Ban List (non serve che esista nel catalogo). */
+const testCode = `ZZ${String(Math.floor(Math.random() * 90) + 10)}-${String(Math.floor(Math.random() * 900) + 100)}`
 
 function totp(secret: string, step: number): string {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
@@ -112,6 +114,26 @@ test('area Admin: ruolo dal database, verifica obbligatoria, stato dei job', asy
     await expect(page.getByRole('heading', { name: 'Stato dei job' })).toBeVisible()
     await expect(page.getByText('Catalog Sync').first()).toBeVisible()
     await expect(page.getByText('3 min 20 s').first()).toBeVisible()
+
+    // Ban List (RIB-29): le voci ufficiali ci sono; l'Admin aggiunge una voce, poi la elimina.
+    await expect(page.getByRole('heading', { name: 'Ban List' })).toBeVisible()
+    await expect(page.getByText(/^OP06-047 ·/)).toBeVisible()
+    await page.getByRole('button', { name: 'Aggiungi' }).click()
+    await page.getByLabel('Carta (Card Code)').fill(testCode)
+    await page.getByLabel('Tipo').selectOption('restricted')
+    await page.getByLabel('Copie consentite').fill('1')
+    await page.getByLabel('In vigore dal').fill('2026-10-01')
+    await page.getByLabel(/^Fonte/).fill('E2E')
+    await page.getByRole('button', { name: 'Salva' }).click()
+    await expect(page.getByText(new RegExp(`^${testCode} ·`))).toBeVisible()
+    const logged = await sql<{ action: string }[]>`
+      select action from public.admin_audit_log
+      where table_name = 'public.ban_list_entries' and after ->> 'card_code' = ${testCode}
+    `
+    expect(logged.map((r) => r.action)).toEqual(['insert'])
+    await page.getByRole('button', { name: `Elimina ${testCode}` }).click()
+    await page.getByRole('alertdialog').getByRole('button', { name: 'Elimina' }).click()
+    await expect(page.getByText(new RegExp(`^${testCode} ·`))).toHaveCount(0)
 
     // Nuovo accesso: prima il codice, poi di nuovo l'area.
     await page.goto('/profilo')

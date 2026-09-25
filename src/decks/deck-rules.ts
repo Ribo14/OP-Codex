@@ -1,3 +1,4 @@
+import type { BanList } from '@/catalog/ban-list'
 import type { CatalogCard } from '@/catalog/catalog-data'
 import { DECK_SIZE, type DeckCard } from './deck'
 
@@ -15,16 +16,8 @@ export type DeckFormat = 'standard' | 'extra'
 export const DECK_FORMATS: readonly DeckFormat[] = ['standard', 'extra']
 export const MAX_COPIES = 4
 
-/** Ban List (la gestirà l'Admin con RIB-29): per Card Code, parallel comprese. */
-export interface BanList {
-  banned: ReadonlySet<string>
-  /** Card Code → copie massime. */
-  restricted: ReadonlyMap<string, number>
-  /** Coppie che non possono stare nello stesso Deck (Leader compreso). */
-  pairs: readonly (readonly [string, string])[]
-}
-
-export const EMPTY_BAN_LIST: BanList = { banned: new Set(), restricted: new Map(), pairs: [] }
+// La Ban List (RIB-29) vive nel catalogo: la usano anche i tag delle carte.
+export { EMPTY_BAN_LIST, type BanList } from '@/catalog/ban-list'
 
 export type WarningCode =
   | 'noLeader'

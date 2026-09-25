@@ -10,7 +10,8 @@ import type { CatalogCard } from '@/catalog/catalog-data'
 import { useCatalog } from '@/catalog/local-catalog'
 import { CardThumb } from './CardThumb'
 import { DECK_SIZE, shownPrinting, type DeckSummary } from './deck'
-import { checkDeck, EMPTY_BAN_LIST } from './deck-rules'
+import { useBanList } from '@/catalog/ban-list'
+import { checkDeck } from './deck-rules'
 import { deleteDeck, duplicateDeck, listDecks, renameDeck, type DeckDetail } from './decks-api'
 import { ValidityBadge } from './DeckWarnings'
 import { deckPath, DECKS_PATH, NEW_DECK_PATH } from './paths'
@@ -67,12 +68,13 @@ function DeckList() {
     () => new Map((catalog?.cards ?? []).map((card) => [card.cardCode, card])),
     [catalog],
   )
-  /** Avvisi di ogni Deck (null finché il catalogo non c'è). La Ban List arriverà con RIB-29. */
+  const banList = useBanList()
+  /** Avvisi di ogni Deck, Ban List compresa (null finché il catalogo non c'è). */
   const warningsOf = (detail: DeckDetail) =>
     catalog
       ? checkDeck({ leaderCode: detail.deck.leaderCode, cards: detail.cards }, byCode, {
           format: detail.deck.format,
-          banList: EMPTY_BAN_LIST,
+          banList,
           today: new Date(),
         }).length
       : null

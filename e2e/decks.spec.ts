@@ -44,6 +44,11 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
              (${`${ALPHA.code}_p1`}, ${ALPHA.code}, ${SERIES}, 'SR'),
              (${BETA.code}, ${BETA.code}, ${SERIES}, 'C')
     `
+    // Ban List (RIB-29): Alfa e Beta sono una coppia bandita, in vigore da ieri.
+    await sql`
+      insert into public.ban_list_entries (card_code, kind, pair_code, effective_from, source)
+      values (${ALPHA.code}, 'pair', ${BETA.code}, current_date - 1, 'E2E')
+    `
 
     // Account con Username.
     const redirect = new URLSearchParams({ redirect_to: `${baseURL ?? ''}/account/conferma` })
@@ -112,9 +117,11 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
       page.locator('#pannello-deck').getByLabel(`Copie di ${ALPHA.name} nel mazzo`),
     ).toHaveText('4')
 
-    // Deck Warning (RIB-23): con 5 carte su 50 c'è un avviso, che si apre; non blocca nulla.
-    await page.getByRole('button', { name: /1 avviso/ }).click()
+    // Deck Warning (RIB-23): 5 carte su 50 e la coppia bandita Alfa + Beta (RIB-29); gli avvisi
+    // si aprono e non bloccano nulla.
+    await page.getByRole('button', { name: /2 avvisi/ }).click()
     await expect(page.getByText('Il mazzo ha 5 carte: ne servono esattamente 50')).toBeVisible()
+    await expect(page.getByText(/^Coppia bandita: queste carte/)).toBeVisible()
     // Formato: Standard di base, si passa a Extra e resta dopo il ricaricamento.
     const formats = page.getByRole('radiogroup', { name: 'Formato del mazzo' })
     await expect(formats.getByRole('radio', { name: 'Standard' })).toHaveAttribute(
@@ -136,7 +143,7 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     // Elenco: duplica, rinomina la copia, elimina l'originale.
     await page.getByRole('link', { name: 'Mazzi', exact: true }).first().click()
     await expect(page.getByText('5/50 carte')).toBeVisible()
-    await expect(page.getByText('1 avviso')).toBeVisible()
+    await expect(page.getByText('2 avvisi')).toBeVisible()
     await page.getByRole('button', { name: 'Duplica' }).click()
     await expect(page.getByText(`${LEADER.name} (copia)`)).toBeVisible()
 
@@ -155,6 +162,7 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     await expect(page.getByText('5/50 carte')).toBeVisible()
   } finally {
     await sql`delete from auth.users where email = ${email}`
+    await sql`delete from public.ban_list_entries where card_code = ${ALPHA.code}`
     await sql`delete from public.printings where series_id = ${SERIES}`
     await sql`delete from public.cards where card_code like ${`${PREFIX}-%`}`
     await sql`delete from public.sets where series_id = ${SERIES}`

@@ -67,6 +67,42 @@ export type Database = {
         }
         Relationships: []
       }
+      ban_list_entries: {
+        Row: {
+          card_code: string
+          created_at: string
+          effective_from: string
+          id: number
+          kind: string
+          max_copies: number | null
+          pair_code: string | null
+          source: string | null
+          updated_at: string
+        }
+        Insert: {
+          card_code: string
+          created_at?: string
+          effective_from: string
+          id?: never
+          kind: string
+          max_copies?: number | null
+          pair_code?: string | null
+          source?: string | null
+          updated_at?: string
+        }
+        Update: {
+          card_code?: string
+          created_at?: string
+          effective_from?: string
+          id?: never
+          kind?: string
+          max_copies?: number | null
+          pair_code?: string | null
+          source?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cards: {
         Row: {
           attributes: string[]

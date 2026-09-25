@@ -35,7 +35,8 @@ import {
   type DeckRow,
   type DeckSummary,
 } from './deck'
-import { checkDeck, DECK_FORMATS, deckStats, EMPTY_BAN_LIST, flaggedCards } from './deck-rules'
+import { useBanList } from '@/catalog/ban-list'
+import { checkDeck, DECK_FORMATS, deckStats, flaggedCards } from './deck-rules'
 import { useDeck, type DeckStore } from './deck-store'
 import { DeckStatsPanel } from './DeckStats'
 import { DeckWarningsPanel } from './DeckWarnings'
@@ -74,18 +75,18 @@ function Editor({ deckId }: { deckId: string }) {
     [catalog],
   )
   const ready = state.status === 'ready' ? state : null
+  const banList = useBanList()
   // Deck Warning e statistiche (RIB-23), ricalcolati a ogni modifica: sono in memoria, istantanei.
-  // La Ban List arriverà con RIB-29.
   const warnings = useMemo(
     () =>
       ready
         ? checkDeck({ leaderCode: ready.deck.leaderCode, cards: ready.cards }, byCode, {
             format: ready.deck.format,
-            banList: EMPTY_BAN_LIST,
+            banList,
             today: new Date(),
           })
         : [],
-    [ready, byCode],
+    [ready, byCode, banList],
   )
   const stats = useMemo(() => deckStats(ready?.cards ?? [], byCode), [ready, byCode])
 

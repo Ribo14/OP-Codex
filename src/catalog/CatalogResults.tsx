@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useSearchParams } from 'react-router'
 import { cn } from '@/lib/utils'
+import { useBanKinds } from './ban-list'
+import { BanBadge } from './LegalityTags'
 import { cardImageUrl } from './card-image'
 import { cardPath } from './card-links'
 import type { CardLinkState } from './CardDetailRoute'
@@ -95,6 +97,7 @@ export function CatalogResults({
   // il posto della precedente nella cronologia, conservandone lo stato: così "chiudi" torna
   // sempre ai risultati invece di ripercorrere a ritroso le carte aperte una dopo l'altra.
   const location = useLocation()
+  const bans = useBanKinds()
   const linkProps = openCode
     ? { replace: true, state: location.state as unknown }
     : { state: LINK_STATE }
@@ -118,13 +121,22 @@ export function CatalogResults({
                 aria-current={isOpen(entry) ? 'true' : undefined}
                 className="group block rounded-xl focus-visible:outline-none"
               >
-                <Thumbnail
-                  entry={entry}
-                  className={cn(
-                    'rounded-xl shadow-sm transition duration-200 group-hover:-translate-y-1 group-hover:shadow-xl group-focus-visible:ring-2 group-focus-visible:ring-ring',
-                    isOpen(entry) && 'ring-2 ring-foreground',
+                <div className="relative">
+                  <Thumbnail
+                    entry={entry}
+                    className={cn(
+                      'rounded-xl shadow-sm transition duration-200 group-hover:-translate-y-1 group-hover:shadow-xl group-focus-visible:ring-2 group-focus-visible:ring-ring',
+                      isOpen(entry) && 'ring-2 ring-foreground',
+                    )}
+                  />
+                  {/* RIB-29: tag rosso per le carte bandite, limitate o in coppia bandita. */}
+                  {bans.has(entry.card.cardCode) && (
+                    <BanBadge
+                      kind={bans.get(entry.card.cardCode) ?? 'banned'}
+                      className="absolute top-2 left-2"
+                    />
                   )}
-                />
+                </div>
                 <span className="mt-2 block truncate text-sm font-medium">{entry.card.name}</span>
                 <span className="block text-xs text-muted-foreground">
                   {entry.printing.printId}
@@ -182,6 +194,9 @@ export function CatalogResults({
                       {printing.printId}
                     </span>
                     <span className="min-w-0">
+                      {bans.has(card.cardCode) && (
+                        <BanBadge kind={bans.get(card.cardCode) ?? 'banned'} className="mb-0.5" />
+                      )}
                       <span className="block truncate font-medium">{card.name}</span>
                       <span className="block truncate text-xs text-muted-foreground md:hidden">
                         {t('catalog.cardLabel', { code: printing.printId, name: category })}

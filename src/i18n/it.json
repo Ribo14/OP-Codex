@@ -565,9 +565,9 @@
   },
   "category": {
     "Leader": "Leader",
-    "Character": "Personaggio",
-    "Event": "Evento",
-    "Stage": "Luogo",
+    "Character": "Character",
+    "Event": "Event",
+    "Stage": "Stage",
     "DON!!": "DON!!"
   },
   "effect": {

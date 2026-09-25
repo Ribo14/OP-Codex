@@ -6,6 +6,7 @@ import {
   type DeckCard,
   type DeckSummary,
 } from './deck'
+import type { DeckFormat } from './deck-rules'
 import * as api from './decks-api'
 
 // Lo stato del Deck aperto nell'editor (RIB-21). Ogni modifica si salva da sola: i +/− cambiano
@@ -20,7 +21,7 @@ export type DeckState =
 
 export type DeckDeps = Pick<
   typeof api,
-  'loadDeck' | 'changeDeckCard' | 'setDeckCardPrint' | 'renameDeck' | 'setLeader'
+  'loadDeck' | 'changeDeckCard' | 'setDeckCardPrint' | 'renameDeck' | 'setLeader' | 'setDeckFormat'
 >
 
 export interface DeckStore {
@@ -34,6 +35,7 @@ export interface DeckStore {
   setPrint: (cardCode: string, printId: string | null) => Promise<boolean>
   rename: (name: string) => Promise<boolean>
   setLeader: (leaderCode: string, leaderPrintId: string | null) => Promise<boolean>
+  setFormat: (format: DeckFormat) => Promise<boolean>
 }
 
 const LOADING: DeckState = { status: 'loading' }
@@ -146,6 +148,19 @@ export function createDeckStore(deps: DeckDeps): DeckStore {
         return true
       } catch {
         update(deckId, (s) => ({ ...s, deck: { ...s.deck, name: previous } }))
+        return false
+      }
+    },
+    setFormat: async (format) => {
+      if (state.status !== 'ready' || !owner) return false
+      const deckId = owner
+      const previous = state.deck.format
+      update(deckId, (s) => ({ ...s, deck: { ...s.deck, format } }))
+      try {
+        await deps.setDeckFormat(deckId, format)
+        return true
+      } catch {
+        update(deckId, (s) => ({ ...s, deck: { ...s.deck, format: previous } }))
         return false
       }
     },

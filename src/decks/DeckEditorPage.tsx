@@ -6,6 +6,7 @@ import {
   ScanSearch,
   Search,
   SlidersHorizontal,
+  TriangleAlert,
   X,
 } from 'lucide-react'
 import { useDeferredValue, useEffect, useMemo, useState, type SubmitEvent } from 'react'
@@ -34,7 +35,10 @@ import {
   type DeckRow,
   type DeckSummary,
 } from './deck'
+import { checkDeck, DECK_FORMATS, deckStats, EMPTY_BAN_LIST, flaggedCards } from './deck-rules'
 import { useDeck, type DeckStore } from './deck-store'
+import { DeckStatsPanel } from './DeckStats'
+import { DeckWarningsPanel } from './DeckWarnings'
 import { deckLeaderPath, DECKS_PATH } from './paths'
 
 // Editor di un Deck (RIB-21). Ogni modifica si salva da sola. Sul telefono due schede, "Mazzo" e
@@ -65,6 +69,25 @@ function Editor({ deckId }: { deckId: string }) {
   const [failed, setFailed] = useState(false)
   const online = useOnline()
   const { update } = useCatalogFilters()
+  const byCode = useMemo(
+    () => new Map((catalog?.cards ?? []).map((card) => [card.cardCode, card])),
+    [catalog],
+  )
+  const ready = state.status === 'ready' ? state : null
+  // Deck Warning e statistiche (RIB-23), ricalcolati a ogni modifica: sono in memoria, istantanei.
+  // La Ban List arriverà con RIB-29.
+  const warnings = useMemo(
+    () =>
+      ready
+        ? checkDeck({ leaderCode: ready.deck.leaderCode, cards: ready.cards }, byCode, {
+            format: ready.deck.format,
+            banList: EMPTY_BAN_LIST,
+            today: new Date(),
+          })
+        : [],
+    [ready, byCode],
+  )
+  const stats = useMemo(() => deckStats(ready?.cards ?? [], byCode), [ready, byCode])
 
   if (state.status === 'loading' || !catalog) {
     return <p className="text-muted-foreground">{t('decks.loadingDeck')}</p>
@@ -110,6 +133,8 @@ function Editor({ deckId }: { deckId: string }) {
           setTab('add')
         }}
       />
+
+      <DeckWarningsPanel warnings={warnings} catalog={byCode} />
 
       {!online && <p className="text-sm text-muted-foreground">{t('decks.offline')}</p>}
       {failed && (
@@ -157,7 +182,15 @@ function Editor({ deckId }: { deckId: string }) {
           <h2 className="mb-3 hidden text-lg font-semibold tracking-tight lg:block">
             {t('decks.tabDeck', { count: deck.cardCount, size: DECK_SIZE })}
           </h2>
-          <DeckCards cards={cards} catalog={catalog} editing={editing} />
+          <div className="space-y-4">
+            <DeckStatsPanel stats={stats} />
+            <DeckCards
+              cards={cards}
+              catalog={catalog}
+              editing={editing}
+              flagged={flaggedCards(warnings)}
+            />
+          </div>
         </section>
         <section
           id="pannello-add"
@@ -253,9 +286,36 @@ function DeckHeader({
         <p className="text-sm text-muted-foreground">
           {t('decks.leader')}: <span className="text-foreground">{leaderName}</span>
         </p>
-        <p className="text-sm font-medium tabular-nums" aria-live="polite">
-          {t('decks.count', { count: deck.cardCount, size: DECK_SIZE })}
-        </p>
+        <div className="flex flex-wrap items-center gap-3">
+          <p className="text-sm font-medium tabular-nums" aria-live="polite">
+            {t('decks.count', { count: deck.cardCount, size: DECK_SIZE })}
+          </p>
+          {/* Formato (RIB-23): decide gli avvisi sul Block. */}
+          <div
+            role="radiogroup"
+            aria-label={t('decks.format')}
+            className="flex rounded-full bg-muted p-0.5 text-xs"
+          >
+            {DECK_FORMATS.map((format) => (
+              <button
+                key={format}
+                type="button"
+                role="radio"
+                aria-checked={deck.format === format}
+                disabled={editing.disabled}
+                onClick={() => {
+                  if (format !== deck.format) editing.save(editing.store.setFormat(format))
+                }}
+                className={cn(
+                  'rounded-full px-3 py-1 font-medium disabled:opacity-50',
+                  deck.format === format ? 'bg-background shadow-sm' : 'text-muted-foreground',
+                )}
+              >
+                {t(`decks.formats.${format}`)}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="flex flex-wrap items-center gap-2">
           {leader && leader.printings.length > 1 && (
             <PrintingSelect
@@ -375,10 +435,13 @@ function Stepper({
 function CardLine({
   card,
   printing,
+  flagged = false,
   children,
 }: {
   card: CatalogCard
   printing: CatalogPrinting | undefined
+  /** Coinvolta in un Deck Warning (RIB-23). */
+  flagged?: boolean
   children: React.ReactNode
 }) {
   const { t } = useTranslation()
@@ -386,7 +449,16 @@ function CardLine({
     <li className="flex items-center gap-3 py-2">
       <CardThumb printing={printing} name={card.name} className="w-11 shrink-0" />
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium">{card.name}</p>
+        <p className="flex items-center gap-1.5 truncate text-sm font-medium">
+          {flagged && (
+            <TriangleAlert
+              className="size-3.5 shrink-0 text-amber-600 dark:text-amber-400"
+              aria-label={t('decks.flagged')}
+              role="img"
+            />
+          )}
+          <span className="truncate">{card.name}</span>
+        </p>
         <p className="truncate text-xs text-muted-foreground">
           {card.cardCode}
           {card.cost !== null && ` · ${t('decks.cost', { cost: card.cost })}`}
@@ -401,10 +473,12 @@ function DeckCards({
   cards,
   catalog,
   editing,
+  flagged,
 }: {
   cards: readonly DeckCard[]
   catalog: Catalog
   editing: Editing
+  flagged: ReadonlySet<string>
 }) {
   const { t } = useTranslation()
   const rows = useMemo(() => deckRows(cards, catalog.cards), [cards, catalog])
@@ -424,7 +498,12 @@ function DeckCards({
           </h3>
           <ul className="divide-y">
             {list.map((row) => (
-              <CardLine key={row.card.cardCode} card={row.card} printing={row.printing}>
+              <CardLine
+                key={row.card.cardCode}
+                card={row.card}
+                printing={row.printing}
+                flagged={flagged.has(row.card.cardCode)}
+              >
                 <div className="flex flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3">
                   {row.card.printings.length > 1 && (
                     <PrintingSelect

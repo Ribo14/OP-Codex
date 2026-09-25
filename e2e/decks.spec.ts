@@ -112,9 +112,31 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
       page.locator('#pannello-deck').getByLabel(`Copie di ${ALPHA.name} nel mazzo`),
     ).toHaveText('4')
 
+    // Deck Warning (RIB-23): con 5 carte su 50 c'è un avviso, che si apre; non blocca nulla.
+    await page.getByRole('button', { name: /1 avviso/ }).click()
+    await expect(page.getByText('Il mazzo ha 5 carte: ne servono esattamente 50')).toBeVisible()
+    // Formato: Standard di base, si passa a Extra e resta dopo il ricaricamento.
+    const formats = page.getByRole('radiogroup', { name: 'Formato del mazzo' })
+    await expect(formats.getByRole('radio', { name: 'Standard' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    )
+    await formats.getByRole('radio', { name: 'Extra' }).click()
+    // Statistiche: la curva conta 4 carte di costo 2 e 1 di costo 1.
+    await page.getByText('Statistiche').click()
+    await expect(page.getByLabel('Costo 2: 4 carte')).toBeVisible()
+    await expect(page.getByLabel('Costo 1: 1 carta')).toBeVisible()
+    await page.reload()
+    await expect(
+      page
+        .getByRole('radiogroup', { name: 'Formato del mazzo' })
+        .getByRole('radio', { name: 'Extra' }),
+    ).toHaveAttribute('aria-checked', 'true')
+
     // Elenco: duplica, rinomina la copia, elimina l'originale.
     await page.getByRole('link', { name: 'Mazzi', exact: true }).first().click()
     await expect(page.getByText('5/50 carte')).toBeVisible()
+    await expect(page.getByText('1 avviso')).toBeVisible()
     await page.getByRole('button', { name: 'Duplica' }).click()
     await expect(page.getByText(`${LEADER.name} (copia)`)).toBeVisible()
 

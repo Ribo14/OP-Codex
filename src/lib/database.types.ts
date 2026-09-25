@@ -205,6 +205,7 @@ export type Database = {
       decks: {
         Row: {
           created_at: string
+          format: string
           id: string
           leader_code: string
           leader_print_id: string | null
@@ -215,6 +216,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          format?: string
           id?: string
           leader_code: string
           leader_print_id?: string | null
@@ -225,6 +227,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          format?: string
           id?: string
           leader_code?: string
           leader_print_id?: string | null

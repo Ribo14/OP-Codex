@@ -193,4 +193,25 @@ describe('Deck', () => {
       expect(await errorCodeOf(tx, (sp) => sp`select * from public.decks`)).toBe('42501')
     })
   })
+
+  it('il formato è Standard di base, si cambia in Extra e la copia lo mantiene (RIB-23)', async () => {
+    await inRollback(sql, async (tx) => {
+      await setup(tx)
+      await actAs(tx, 'authenticated', ANNA)
+      const deckId = await newDeck(tx)
+      const format = async (id: string) =>
+        (await tx<{ format: string }[]>`select format from public.decks where id = ${id}`)[0]
+          ?.format
+      expect(await format(deckId)).toBe('standard')
+      await tx`update public.decks set format = 'extra' where id = ${deckId}`
+      const [copy] = await tx<{ id: string }[]>`select public.duplica_mazzo(${deckId}) as id`
+      expect(await format(copy?.id ?? '')).toBe('extra')
+      expect(
+        await errorCodeOf(
+          tx,
+          (sp) => sp`update public.decks set format = 'libero' where id = ${deckId}`,
+        ),
+      ).toBe('23514')
+    })
+  })
 })

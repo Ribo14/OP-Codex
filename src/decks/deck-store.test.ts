@@ -9,6 +9,7 @@ const DECK = {
   leaderPrintId: null,
   updatedAt: '2026-09-25T10:00:00Z',
   cardCount: 0,
+  format: 'standard' as const,
 }
 
 /** Un server finto che risponde quando lo si decide. */
@@ -37,6 +38,7 @@ function fakeServer(cards: DeckCard[] = []) {
     setDeckCardPrint: () => later(() => undefined),
     renameDeck: () => later(() => undefined),
     setLeader: () => later(() => undefined),
+    setDeckFormat: () => later(() => undefined),
   }
   return { deps, waiting }
 }

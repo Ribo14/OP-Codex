@@ -1,4 +1,5 @@
 import type { CatalogCard, CatalogPrinting } from '@/catalog/catalog-data'
+import type { DeckFormat } from './deck-rules'
 import {
   EMPTY_FILTERS,
   filterCatalog,
@@ -20,6 +21,8 @@ export interface DeckSummary {
   leaderPrintId: string | null
   updatedAt: string
   cardCount: number
+  /** Formato per i Deck Warning (RIB-23). */
+  format: DeckFormat
 }
 
 export interface DeckCard {

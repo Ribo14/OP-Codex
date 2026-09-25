@@ -1,5 +1,5 @@
 import { Copy, Pencil, Plus, Trash2 } from 'lucide-react'
-import { useCallback, useEffect, useState, type SubmitEvent } from 'react'
+import { useCallback, useEffect, useMemo, useState, type SubmitEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { field } from '@/account/form-data'
@@ -10,7 +10,9 @@ import type { CatalogCard } from '@/catalog/catalog-data'
 import { useCatalog } from '@/catalog/local-catalog'
 import { CardThumb } from './CardThumb'
 import { DECK_SIZE, shownPrinting, type DeckSummary } from './deck'
-import { deleteDeck, duplicateDeck, listDecks, renameDeck } from './decks-api'
+import { checkDeck, EMPTY_BAN_LIST } from './deck-rules'
+import { deleteDeck, duplicateDeck, listDecks, renameDeck, type DeckDetail } from './decks-api'
+import { ValidityBadge } from './DeckWarnings'
 import { deckPath, DECKS_PATH, NEW_DECK_PATH } from './paths'
 
 // Pagina Mazzi (RIB-21): i miei Deck con l'immagine del Leader; rinomina, duplica, elimina.
@@ -31,7 +33,7 @@ export function DecksPage() {
 }
 
 type ListState =
-  { status: 'loading' } | { status: 'error' } | { status: 'ready'; decks: DeckSummary[] }
+  { status: 'loading' } | { status: 'error' } | { status: 'ready'; decks: DeckDetail[] }
 
 function DeckList() {
   const { t } = useTranslation()
@@ -61,7 +63,19 @@ function DeckList() {
     void read().then(setState)
   }
 
-  const leaders = new Map((catalog?.cards ?? []).map((card) => [card.cardCode, card]))
+  const byCode = useMemo(
+    () => new Map((catalog?.cards ?? []).map((card) => [card.cardCode, card])),
+    [catalog],
+  )
+  /** Avvisi di ogni Deck (null finché il catalogo non c'è). La Ban List arriverà con RIB-29. */
+  const warningsOf = (detail: DeckDetail) =>
+    catalog
+      ? checkDeck({ leaderCode: detail.deck.leaderCode, cards: detail.cards }, byCode, {
+          format: detail.deck.format,
+          banList: EMPTY_BAN_LIST,
+          today: new Date(),
+        }).length
+      : null
 
   return (
     <div className="space-y-5">
@@ -92,11 +106,12 @@ function DeckList() {
           <p className="text-muted-foreground">{t('decks.empty')}</p>
         ) : (
           <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-            {state.decks.map((deck) => (
+            {state.decks.map((detail) => (
               <DeckItem
-                key={deck.id}
-                deck={deck}
-                leader={leaders.get(deck.leaderCode)}
+                key={detail.deck.id}
+                deck={detail.deck}
+                leader={byCode.get(detail.deck.leaderCode)}
+                warnings={warningsOf(detail)}
                 onChanged={reload}
               />
             ))}
@@ -112,10 +127,13 @@ const ACTION =
 function DeckItem({
   deck,
   leader,
+  warnings,
   onChanged,
 }: {
   deck: DeckSummary
   leader: CatalogCard | undefined
+  /** Numero di Deck Warning (RIB-23); null finché non si può calcolare. */
+  warnings: number | null
   onChanged: () => void
 }) {
   const { t, i18n } = useTranslation()
@@ -165,6 +183,7 @@ function DeckItem({
           <p className="text-xs text-muted-foreground tabular-nums">
             {t('decks.count', { count: deck.cardCount, size: DECK_SIZE })} · {updated}
           </p>
+          {warnings !== null && <ValidityBadge warnings={warnings} />}
         </div>
       </Link>
 

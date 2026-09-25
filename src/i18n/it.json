@@ -258,7 +258,51 @@
     "add": "Aggiungi una copia di {{name}}",
     "remove": "Togli una copia di {{name}}",
     "copiesOf": "Copie di {{name}} nel mazzo",
-    "cost": "costo {{cost}}"
+    "cost": "costo {{cost}}",
+    "format": "Formato del mazzo",
+    "formats": {
+      "standard": "Standard",
+      "extra": "Extra"
+    },
+    "valid": "Valido",
+    "validDeck": "Mazzo valido: rispetta le regole di costruzione.",
+    "warningsCount_one": "{{count}} avviso",
+    "warningsCount_other": "{{count}} avvisi",
+    "show": "Mostra",
+    "hide": "Nascondi",
+    "flagged": "Coinvolta in un avviso",
+    "warning": {
+      "noLeader": "Manca il Leader.",
+      "size": "Il mazzo ha {{count}} carte: ne servono esattamente {{size}}, Leader escluso.",
+      "notDeckCard": "Nel mazzo vanno solo Character, Event e Stage: niente Leader né DON!!.",
+      "copies": "Al massimo {{max}} copie per carta (stesso numero).",
+      "color": "Colore diverso da quello del Leader ({{colors}}).",
+      "block": "Non valida nel formato Standard: sono ammessi i Block da {{block}} in su (e \"X\").",
+      "banned": "Carta bandita: non può stare in nessun mazzo.",
+      "restricted": "Carta limitata: al massimo {{max}} copie.",
+      "bannedPair": "Coppia bandita: queste carte non possono stare nello stesso mazzo.",
+      "leaderMaxCost": "Il Leader vieta le carte di costo {{cost}} o più.",
+      "leaderMaxEventCost": "Il Leader vieta gli Event di costo {{cost}} o più.",
+      "leaderOnlyType": "Il Leader ammette solo carte di tipo {{type}}."
+    },
+    "stats": {
+      "title": "Statistiche",
+      "curve": "Curva dei costi",
+      "costBar_one": "Costo {{cost}}: {{count}} carta",
+      "costBar_other": "Costo {{cost}}: {{count}} carte",
+      "categories": "Categorie",
+      "category": {
+        "Character": "Character",
+        "Event": "Event",
+        "Stage": "Stage"
+      },
+      "colors": "Colori",
+      "counter": "Counter",
+      "noCounter": "Senza",
+      "trigger": "Trigger",
+      "triggers_one": "{{count}} carta con Trigger",
+      "triggers_other": "{{count}} carte con Trigger"
+    }
   },
   "admin": {
     "title": "Area Admin",

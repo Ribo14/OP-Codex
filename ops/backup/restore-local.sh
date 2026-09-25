@@ -19,6 +19,14 @@ pg_restore="${PG_RESTORE:-pg_restore}"
 psql="${PSQL:-psql}"
 age="${AGE:-age}"
 
+# Prima di toccare il database: backup e chiave devono esserci.
+for f in "$file" "$key"; do
+  if [ ! -r "$f" ]; then
+    echo "File non trovato o non leggibile: $f" >&2
+    exit 1
+  fi
+done
+
 host="$(printf '%s' "$db" | sed -E 's#^[a-z]+://([^@/]*@)?([^:/?]+).*#\2#')"
 case "$host" in
   127.0.0.1 | localhost | host.docker.internal) ;;

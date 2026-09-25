@@ -18,6 +18,7 @@ import { ProfilePage } from '@/account/ProfilePage'
 import { RecoverPage } from '@/account/RecoverPage'
 import { SignupPage } from '@/account/SignupPage'
 import { AdminPage } from '@/admin/AdminPage'
+import { CollectionPage } from '@/collection/CollectionPage'
 import { CardDetailRoute } from '@/catalog/CardDetailRoute'
 import { CatalogPage } from '@/catalog/CatalogPage'
 import { AppShell } from './AppShell'
@@ -41,6 +42,7 @@ export const routes: RouteObject[] = [
         path: s.path,
         element: <ComingSoonPage section={s.key} />,
       })),
+      { path: '/collezione', element: <CollectionPage /> },
       { path: PRIVACY_PATH, element: <PrivacyPage /> },
       { path: SETTINGS_PATH, element: <SettingsPage /> },
       // Account (RIB-14)

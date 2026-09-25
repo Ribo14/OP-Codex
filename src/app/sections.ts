@@ -6,16 +6,26 @@ export interface Section {
   icon: LucideIcon
   /** false = la sezione mostra "in arrivo". */
   ready: boolean
+  /** true = serve l'account: senza accesso la voce non compare nella navigazione. */
+  account: boolean
 }
 
 /** Le sezioni principali, nell'ordine della navigazione. */
 export const SECTIONS: readonly Section[] = [
-  { key: 'catalog', path: '/', icon: LibraryBig, ready: true },
-  { key: 'decks', path: '/mazzi', icon: Layers, ready: false },
-  { key: 'collection', path: '/collezione', icon: WalletCards, ready: false },
-  { key: 'rules', path: '/regole', icon: BookOpen, ready: false },
-  { key: 'profile', path: '/profilo', icon: User, ready: true },
+  { key: 'catalog', path: '/', icon: LibraryBig, ready: true, account: false },
+  { key: 'decks', path: '/mazzi', icon: Layers, ready: false, account: true },
+  { key: 'collection', path: '/collezione', icon: WalletCards, ready: true, account: true },
+  { key: 'rules', path: '/regole', icon: BookOpen, ready: false, account: false },
+  { key: 'profile', path: '/profilo', icon: User, ready: true, account: true },
 ]
+
+/**
+ * Le voci della navigazione: senza accesso solo quelle che non richiedono l'account, così la
+ * barra resta leggera (al posto del Profilo, sul telefono, compare "Accedi").
+ */
+export function navSections(signedIn: boolean): readonly Section[] {
+  return signedIn ? SECTIONS : SECTIONS.filter((section) => !section.account)
+}
 
 export const PRIVACY_PATH = '/privacy'
 /** Fuori dalla barra delle sezioni: ingranaggio nell'intestazione e nella barra laterale. */

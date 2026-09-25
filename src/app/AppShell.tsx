@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useLocation } from 'react-router'
 import { Download, LogIn, Settings, WifiOff } from 'lucide-react'
-import { ACCOUNT_PATHS } from '@/account/paths'
+import { ACCOUNT_PATHS, LOGIN_PATH } from '@/account/paths'
 import { loginPath } from '@/account/return-path'
 import { useSession } from '@/account/session'
 import { UsernameGate } from '@/account/UsernameGate'
@@ -10,7 +10,7 @@ import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { useInstall } from './install'
 import { InstallInvite } from './InstallInvite'
-import { PRIVACY_PATH, SECTIONS, SETTINGS_PATH } from './sections'
+import { navSections, PRIVACY_PATH, SETTINGS_PATH } from './sections'
 import { ThemeCycleButton, ThemeSegmented } from './ThemeToggle'
 
 // Struttura dell'app (docs/design.md): barra in basso su telefono, barra laterale da `lg`.
@@ -24,6 +24,10 @@ export function AppShell() {
   const sectionPath = inCardDetail ? '/' : pathname
   const isActive = (path: string) => (path === '/' ? sectionPath === '/' : sectionPath === path)
   const { context, showInvite, canInstallFromMenu, install, dismiss } = useInstall()
+  // Senza accesso le voci che richiedono l'account non compaiono. Mentre la sessione si legge
+  // (pochi istanti) si mostra la barra completa, per non farla saltare a chi è già dentro.
+  const signedOut = useSession().status === 'signedOut'
+  const sections = navSections(!signedOut)
 
   // A ogni cambio di sezione si riparte dall'alto (aprire una carta non perde la posizione).
   useEffect(() => {
@@ -50,7 +54,7 @@ export function AppShell() {
         </Link>
         <OfflineBadge className="mx-6 mb-4" />
         <nav aria-label={t('nav.label')} className="flex flex-col gap-1 px-3">
-          {SECTIONS.map((section) => (
+          {sections.map((section) => (
             <Link
               key={section.key}
               to={section.path}
@@ -107,7 +111,7 @@ export function AppShell() {
           </Link>
           <div className="-mr-2 ml-auto flex items-center gap-1">
             <OfflineBadge className="mr-1" />
-            <LoginLink className="mr-1 h-9 px-3" />
+            {/* "Accedi" sul telefono sta nella barra in basso, al posto del Profilo. */}
             <ThemeCycleButton />
             <Link
               to={SETTINGS_PATH}
@@ -154,20 +158,18 @@ export function AppShell() {
         aria-label={t('nav.label')}
         className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border/60 bg-background safe-x pb-[env(safe-area-inset-bottom)] lg:hidden"
       >
-        {SECTIONS.map((section) => (
+        {sections.map((section) => (
           <Link
             key={section.key}
             to={section.path}
             aria-current={isActive(section.path) ? 'page' : undefined}
-            className={cn(
-              'flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[11px] focus-visible:bg-muted focus-visible:outline-none',
-              isActive(section.path) ? 'font-medium text-foreground' : 'text-muted-foreground',
-            )}
+            className={cn(BOTTOM_ITEM, isActive(section.path) ? BOTTOM_ACTIVE : BOTTOM_IDLE)}
           >
             <section.icon className="size-5" aria-hidden="true" />
             {t(`nav.${section.key}`)}
           </Link>
         ))}
+        {signedOut && <BottomLoginLink />}
       </nav>
     </div>
   )
@@ -188,9 +190,34 @@ function Footer() {
   )
 }
 
+const BOTTOM_ITEM =
+  'flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[11px] focus-visible:bg-muted focus-visible:outline-none'
+const BOTTOM_ACTIVE = 'font-medium text-foreground'
+const BOTTOM_IDLE = 'text-muted-foreground'
+
 /**
- * "Accedi", solo per chi non ha fatto l'accesso e fuori dalle pagine di account: dopo l'accesso
- * si torna alla pagina in cui si era (il catalogo resta consultabile anche senza account).
+ * Telefono, senza accesso: "Accedi" è l'ultima voce della barra, al posto del Profilo. Dopo
+ * l'accesso si torna alla pagina in cui si era; nelle pagine di account è la voce attiva.
+ */
+function BottomLoginLink() {
+  const { t } = useTranslation()
+  const { pathname, search } = useLocation()
+  const inAccountPages = ACCOUNT_PATHS.includes(pathname)
+  return (
+    <Link
+      to={inAccountPages ? LOGIN_PATH : loginPath(pathname + search)}
+      aria-current={inAccountPages ? 'page' : undefined}
+      className={cn(BOTTOM_ITEM, inAccountPages ? BOTTOM_ACTIVE : BOTTOM_IDLE)}
+    >
+      <LogIn className="size-5" aria-hidden="true" />
+      {t('nav.login')}
+    </Link>
+  )
+}
+
+/**
+ * Desktop: "Accedi" in fondo alla barra laterale, solo per chi non ha fatto l'accesso e fuori
+ * dalle pagine di account; dopo l'accesso si torna alla pagina in cui si era.
  */
 function LoginLink({ className }: { className?: string }) {
   const { t } = useTranslation()

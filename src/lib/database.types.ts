@@ -124,6 +124,41 @@ export type Database = {
         }
         Relationships: []
       }
+      collection_entries: {
+        Row: {
+          created_at: string
+          language: string
+          print_id: string
+          quantity: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          language?: string
+          print_id: string
+          quantity: number
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          language?: string
+          print_id?: string
+          quantity?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collection_entries_print_id_fkey"
+            columns: ["print_id"]
+            isOneToOne: false
+            referencedRelation: "printings"
+            referencedColumns: ["print_id"]
+          },
+        ]
+      }
       job_runs: {
         Row: {
           error: string | null
@@ -252,6 +287,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      cambia_copie: {
+        Args: { p_delta: number; p_language: string; p_print_id: string }
+        Returns: number
+      }
       elimina_account: {
         Args: { conferma_username: string }
         Returns: undefined

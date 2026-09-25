@@ -180,6 +180,43 @@
       "toCatalog": "Torna al catalogo"
     }
   },
+  "collection": {
+    "loginToTrack": "Accedi per registrare le carte che possiedi",
+    "signedOut": "Con un account registri le carte che possiedi, Printing per Printing, e vedi quante ne hai.",
+    "inYours": "Nella tua Collection",
+    "printingTotal_one": "{{count}} copia di questa stampa",
+    "printingTotal_other": "{{count}} copie di questa stampa",
+    "language": "Lingua di stampa",
+    "languageOption": "{{language}}, copie possedute: {{count}}",
+    "languages": {
+      "EN": "Inglese",
+      "JP": "Giapponese",
+      "FR": "Francese",
+      "CN": "Cinese",
+      "KR": "Coreano"
+    },
+    "add": "Aggiungi una copia in {{language}}",
+    "remove": "Togli una copia in {{language}}",
+    "copiesIn": "Copie in {{language}}",
+    "offline": "Sei offline: per cambiare la Collection serve la connessione.",
+    "loadFailed": "Non è stato possibile caricare la tua Collection.",
+    "saveFailed": "Modifica non salvata: controlla la connessione e riprova.",
+    "retry": "Riprova",
+    "loading": "Caricamento della Collection…",
+    "empty": "La tua Collection è vuota. Apri una carta dal Catalogo e usa + per aggiungerla.",
+    "toCatalog": "Vai al Catalogo",
+    "totals": "{{copies}} carte in tutto · {{cards}} Card diverse",
+    "search": "Cerca per nome o codice",
+    "sortLabel": "Ordina per",
+    "sort": {
+      "code": "Codice",
+      "recent": "Aggiunte di recente",
+      "quantity": "Quantità"
+    },
+    "noResults": "Nessuna carta della tua Collection corrisponde alla ricerca.",
+    "copies_one": "{{count}} copia",
+    "copies_other": "{{count}} copie"
+  },
   "admin": {
     "title": "Area Admin",
     "notAdmin": "Questa area è riservata agli amministratori.",
@@ -383,7 +420,7 @@
     "intro": "OP-Codex è un progetto amatoriale e non commerciale per giocatori del One Piece Card Game. Questa pagina spiega quali dati tratta e perché.",
     "dataTitle": "Quali dati",
     "dataNow": "Il catalogo si consulta senza account. Se ti registri conserviamo solo ciò che serve: l'email, lo Username che scegli e la password in forma cifrata, che nemmeno noi possiamo leggere. Se attivi la verifica in due passaggi conserviamo anche la chiave che genera i codici.",
-    "dataLater": "Con le prossime funzioni si aggiungeranno i dati che inserisci tu (Collection e Deck). Questa pagina verrà aggiornata prima di allora.",
+    "dataLater": "Conserviamo anche la tua Collection: quante copie possiedi di ogni carta e in che lingua. La vedi solo tu. Con i Deck si aggiungeranno i dati che inserirai lì; questa pagina verrà aggiornata prima di allora.",
     "deviceTitle": "Sul tuo dispositivo",
     "device": "L'app salva sul dispositivo il tema scelto, i propri file (per aprirsi più in fretta), una copia del catalogo e le immagini delle carte viste o scaricate, per consultarle anche offline. Non usiamo cookie di profilazione, pubblicità o strumenti di analisi.",
     "providersTitle": "Servizi usati",

@@ -1,6 +1,7 @@
 import { X } from 'lucide-react'
 import { useEffect, useRef, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CollectionControls } from '@/collection/CollectionControls'
 import { cn } from '@/lib/utils'
 import { cardImageUrl } from './card-image'
 import type { CatalogCard, CatalogSet } from './catalog-data'
@@ -10,8 +11,8 @@ import { useSwipe } from './use-swipe'
 // Dettaglio di una Card (docs/design.md): a tutto schermo su telefono (immagine sopra e dati
 // sotto, affiancati su tablet), pannello a destra dei risultati su desktop.
 // Testi ufficiali sempre come testo: React fa l'escape, niente HTML grezzo.
-// Spazi che arriveranno nelle fasi successive, qui sotto le statistiche:
-// Card Explanation (fase 3), prezzi (fase 5), copie possedute (fase 2).
+// Sotto il nome, le copie possedute della Printing mostrata (RIB-20). Spazi che arriveranno
+// nelle fasi successive, qui sotto le statistiche: Card Explanation (fase 3), prezzi (fase 5).
 
 export function CardDetail({
   card,
@@ -225,6 +226,8 @@ export function CardDetail({
               ))}
             </div>
           </div>
+
+          {printing && <CollectionControls printId={printing.printId} />}
 
           <dl className="grid grid-cols-3 gap-2">
             {stats.map(([label, value]) => (

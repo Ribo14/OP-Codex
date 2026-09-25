@@ -10,6 +10,7 @@ import { COLORS } from '@/catalog/filters'
 import { gameColor } from '@/catalog/game-colors'
 import { useCatalog } from '@/catalog/local-catalog'
 import { toggle } from '@/catalog/use-catalog-filters'
+import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { CardThumb } from './CardThumb'
 import { leaderCandidates } from './deck'
@@ -62,6 +63,8 @@ function Picker({ deckId }: { deckId: string | null }) {
     () => (catalog ? leaderCandidates(catalog.cards, { q: deferredQ, colors }) : []),
     [catalog, deferredQ, colors],
   )
+  // Offline (RIB-27) il Leader non si sceglie: servirebbe salvare sul server.
+  const online = useOnline()
 
   const pick = (card: CatalogCard) => {
     setBusy(true)
@@ -128,6 +131,7 @@ function Picker({ deckId }: { deckId: string | null }) {
           </button>
         ))}
       </div>
+      {!online && <p className="text-sm text-muted-foreground">{t('decks.offline')}</p>}
       {failed && (
         <p role="alert" className="text-sm text-destructive">
           {t('decks.saveFailed')}
@@ -141,7 +145,7 @@ function Picker({ deckId }: { deckId: string | null }) {
             <li key={card.cardCode}>
               <button
                 type="button"
-                disabled={busy}
+                disabled={busy || !online}
                 onClick={() => {
                   pick(card)
                 }}

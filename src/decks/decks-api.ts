@@ -1,3 +1,4 @@
+import { isOffline, readPersonal, withOfflineCopy, writePersonal } from '@/lib/personal-cache'
 import { getSupabase } from '@/lib/supabase'
 import type { DeckCard, DeckSummary } from './deck'
 import type { DeckFormat } from './deck-rules'
@@ -107,7 +108,13 @@ export async function loadSharedDeck(token: string): Promise<SharedDeck | null> 
 }
 
 /** I miei Deck, con le carte (servono all'indicatore valido/con avvisi dell'elenco). */
-export async function listDecks(): Promise<DeckDetail[]> {
+/** Utente della sessione salvata (disponibile anche offline). */
+async function currentUserId(): Promise<string | null> {
+  const { data } = await getSupabase().auth.getSession()
+  return data.session?.user.id ?? null
+}
+
+async function fetchDecks(): Promise<DeckDetail[]> {
   const { data, error } = await getSupabase()
     .from('decks')
     .select(DECK_COLUMNS)
@@ -116,15 +123,48 @@ export async function listDecks(): Promise<DeckDetail[]> {
   return data.map(toDetail)
 }
 
-/** Il Deck con le sue carte; null se non esiste o non è dell'utente. */
+/**
+ * I miei Deck, con le carte (servono all'indicatore valido/con avvisi dell'elenco). Online se ne
+ * salva una copia; offline si usa quella (RIB-27).
+ */
+export async function listDecks(): Promise<DeckDetail[]> {
+  const userId = await currentUserId()
+  return userId ? withOfflineCopy('decks', userId, fetchDecks) : fetchDecks()
+}
+
+/**
+ * Il Deck con le sue carte; null se non esiste o non è dell'utente. Online aggiorna anche la
+ * copia locale dell'elenco; offline lo prende da lì (RIB-27).
+ */
 export async function loadDeck(deckId: string): Promise<DeckDetail | null> {
-  const { data, error } = await getSupabase()
-    .from('decks')
-    .select(DECK_COLUMNS)
-    .eq('id', deckId)
-    .maybeSingle()
-  fail(error)
-  return data ? toDetail(data) : null
+  const userId = await currentUserId()
+  const fromCopy = async () => {
+    const saved = userId ? await readPersonal<DeckDetail[]>('decks', userId) : null
+    return saved?.find((d) => d.deck.id === deckId) ?? null
+  }
+  if (isOffline()) {
+    const copy = await fromCopy()
+    if (copy) return copy
+  }
+  try {
+    const { data, error } = await getSupabase()
+      .from('decks')
+      .select(DECK_COLUMNS)
+      .eq('id', deckId)
+      .maybeSingle()
+    fail(error)
+    const detail = data ? toDetail(data) : null
+    if (userId) {
+      const saved = (await readPersonal<DeckDetail[]>('decks', userId)) ?? []
+      const others = saved.filter((d) => d.deck.id !== deckId)
+      await writePersonal('decks', userId, detail ? [detail, ...others] : others)
+    }
+    return detail
+  } catch (error) {
+    const copy = await fromCopy()
+    if (copy) return copy
+    throw error
+  }
 }
 
 export async function setDeckFormat(deckId: string, format: DeckFormat): Promise<void> {

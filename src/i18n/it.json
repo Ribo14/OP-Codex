@@ -170,6 +170,16 @@
       "intro": "Chiude subito l'accesso su tutti i telefoni e i computer, compreso questo. Utile se hai perso un dispositivo o hai fatto l'accesso su uno non tuo.",
       "submit": "Esci da tutti i dispositivi"
     },
+    "export": {
+      "title": "Esporta i miei dati",
+      "rowHint": "Collezione, mazzi e profilo in un file",
+      "intro": "Scarica un file ZIP con la tua Collezione (CSV, si apre con Excel o Google Sheets), i tuoi mazzi (JSON e liste da importare) e il profilo. Utile come copia di sicurezza.",
+      "prepare": "Prepara il file",
+      "preparing": "Preparazione…",
+      "download": "Scarica il file ({{size}} kB)",
+      "offline": "Serve la connessione per preparare il file con i dati aggiornati.",
+      "failed": "Non siamo riusciti a preparare il file. Riprova tra poco."
+    },
     "delete": {
       "zone": "Zona pericolosa",
       "rowHint": "Cancella per sempre l'account e i tuoi dati",
@@ -257,6 +267,7 @@
     "loadFailed": "Non è stato possibile caricare i mazzi.",
     "saveFailed": "Modifica non salvata: controlla la connessione e riprova.",
     "offline": "Sei offline: per modificare il mazzo serve la connessione.",
+    "offlineReadOnly": "Sei offline: puoi consultare i mazzi salvati sul dispositivo; per crearli o modificarli serve la connessione.",
     "empty": "Non hai ancora nessun mazzo. Crea il primo scegliendo un Leader.",
     "notFound": "Questo mazzo non esiste o non è tuo.",
     "backToList": "Torna ai mazzi",

@@ -1,5 +1,6 @@
 import type { User } from '@supabase/supabase-js'
 import { useCallback, useEffect, useSyncExternalStore } from 'react'
+import { clearPersonal, withOfflineCopy } from '@/lib/personal-cache'
 import { getSupabase } from '@/lib/supabase'
 import { needsCode } from './mfa'
 
@@ -21,10 +22,13 @@ function start() {
   started = true
   try {
     // Prima notifica: INITIAL_SESSION, con la sessione salvata o null.
-    getSupabase().auth.onAuthStateChange((_event, session) => {
+    getSupabase().auth.onAuthStateChange((event, session) => {
       state = session
         ? { status: 'signedIn', user: session.user, needsCode: needsCode(session) }
         : { status: 'signedOut' }
+      // All'uscita si cancellano i dati personali salvati per l'offline (RIB-27): un dispositivo
+      // condiviso non deve mostrarli a chi viene dopo.
+      if (event === 'SIGNED_OUT') void clearPersonal()
       for (const listener of listeners) listener()
     })
   } catch {
@@ -67,15 +71,25 @@ function setProfile(userId: string, state: ProfileState) {
 }
 
 async function loadProfile(userId: string) {
-  const { data, error } = await getSupabase()
-    .from('profiles')
-    .select('username')
-    .eq('id', userId)
-    .maybeSingle()
+  let result: ProfileState
+  try {
+    // Offline si usa la copia salvata all'ultimo accesso online (RIB-27).
+    const data = await withOfflineCopy('profile', userId, async () => {
+      const { data, error } = await getSupabase()
+        .from('profiles')
+        .select('username')
+        .eq('id', userId)
+        .maybeSingle()
+      if (error) throw new Error(error.message)
+      return data
+    })
+    result = data ? { status: 'ready', profile: data } : { status: 'missing' }
+  } catch {
+    result = { status: 'error' }
+  }
   // Nel frattempo è cambiato utente: questo risultato non serve più.
   if (profile?.userId !== userId) return
-  if (error) setProfile(userId, { status: 'error' })
-  else setProfile(userId, data ? { status: 'ready', profile: data } : { status: 'missing' })
+  setProfile(userId, result)
 }
 
 function subscribeProfile(listener: () => void) {

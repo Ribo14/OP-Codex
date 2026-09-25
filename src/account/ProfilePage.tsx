@@ -7,6 +7,7 @@ import { getSupabase } from '@/lib/supabase'
 import { field } from './form-data'
 import { CodeField, CodeMessage } from './CodeField'
 import { authProblem, codeProblem, type AuthProblem, type CodeProblem } from './errors'
+import { ExportDataRow } from './ExportDataRow'
 import { Field, FormMessage, PasswordField, SubmitButton } from './form'
 import { cleanCode, verifiedTotp } from './mfa'
 import { newPasswordProblem, PASSWORD_MIN, type PasswordProblem } from './new-password'
@@ -189,6 +190,7 @@ export function ProfilePage() {
               </SettingsRow>
               <TwoFactorRow user={user} />
               <LogoutEverywhereRow />
+              <ExportDataRow user={user} />
             </div>
           </section>
 

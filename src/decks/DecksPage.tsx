@@ -8,6 +8,7 @@ import { useSession } from '@/account/session'
 import { SignedOutInvite } from '@/account/SignedOutInvite'
 import type { CatalogCard } from '@/catalog/catalog-data'
 import { useCatalog } from '@/catalog/local-catalog'
+import { useOnline } from '@/lib/use-online'
 import { CardThumb } from './CardThumb'
 import { DECK_SIZE, shownPrinting, type DeckSummary } from './deck'
 import { useBanList } from '@/catalog/ban-list'
@@ -39,6 +40,7 @@ type ListState =
 function DeckList() {
   const { t } = useTranslation()
   const { catalog } = useCatalog()
+  const online = useOnline()
   const [state, setState] = useState<ListState>({ status: 'loading' })
 
   const read = useCallback(
@@ -81,22 +83,29 @@ function DeckList() {
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap gap-2">
-        <Link
-          to={NEW_DECK_PATH}
-          className="inline-flex h-11 items-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background"
-        >
-          <Plus className="size-4" aria-hidden="true" />
-          {t('decks.new')}
-        </Link>
-        <Link
-          to={IMPORT_DECK_PATH}
-          className="inline-flex h-11 items-center gap-2 rounded-full border px-5 text-sm font-medium hover:bg-muted"
-        >
-          <ClipboardPaste className="size-4" aria-hidden="true" />
-          {t('decks.import.title')}
-        </Link>
-      </div>
+      {online ? (
+        <div className="flex flex-wrap gap-2">
+          <Link
+            to={NEW_DECK_PATH}
+            className="inline-flex h-11 items-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background"
+          >
+            <Plus className="size-4" aria-hidden="true" />
+            {t('decks.new')}
+          </Link>
+          <Link
+            to={IMPORT_DECK_PATH}
+            className="inline-flex h-11 items-center gap-2 rounded-full border px-5 text-sm font-medium hover:bg-muted"
+          >
+            <ClipboardPaste className="size-4" aria-hidden="true" />
+            {t('decks.import.title')}
+          </Link>
+        </div>
+      ) : (
+        // Offline (RIB-27): i mazzi salvati si consultano, ma per modificarli serve la rete.
+        <p role="status" className="rounded-2xl bg-muted px-4 py-3 text-sm text-muted-foreground">
+          {t('decks.offlineReadOnly')}
+        </p>
+      )}
       {state.status === 'loading' && <p className="text-muted-foreground">{t('decks.loading')}</p>}
       {state.status === 'error' && (
         <div className="space-y-3">
@@ -123,6 +132,7 @@ function DeckList() {
                 deck={detail.deck}
                 leader={byCode.get(detail.deck.leaderCode)}
                 warnings={warningsOf(detail)}
+                readOnly={!online}
                 onChanged={reload}
               />
             ))}
@@ -139,12 +149,15 @@ function DeckItem({
   deck,
   leader,
   warnings,
+  readOnly,
   onChanged,
 }: {
   deck: DeckSummary
   leader: CatalogCard | undefined
   /** Numero di Deck Warning (RIB-23); null finché non si può calcolare. */
   warnings: number | null
+  /** Offline (RIB-27): si consulta, ma niente rinomina, duplica o elimina. */
+  readOnly: boolean
   onChanged: () => void
 }) {
   const { t, i18n } = useTranslation()
@@ -255,7 +268,7 @@ function DeckItem({
         </div>
       )}
 
-      {mode === 'view' && (
+      {mode === 'view' && !readOnly && (
         <div className="flex flex-wrap gap-2">
           <button
             type="button"

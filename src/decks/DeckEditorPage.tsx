@@ -362,12 +362,15 @@ function DeckHeader({
               }}
             />
           )}
-          <Link
-            to={deckLeaderPath(deck.id)}
-            className="inline-flex h-9 items-center rounded-full border px-3 text-xs font-medium hover:bg-muted"
-          >
-            {t('decks.changeLeader')}
-          </Link>
+          {/* Offline (RIB-27) il Leader non si cambia: la voce sparisce. */}
+          {!editing.disabled && (
+            <Link
+              to={deckLeaderPath(deck.id)}
+              className="inline-flex h-9 items-center rounded-full border px-3 text-xs font-medium hover:bg-muted"
+            >
+              {t('decks.changeLeader')}
+            </Link>
+          )}
           {leader && (
             <button
               type="button"

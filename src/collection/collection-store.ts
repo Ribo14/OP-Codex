@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useSyncExternalStore } from 'react'
 import { useSession } from '@/account/session'
 import type { Ownership } from '@/catalog/filters'
+import { withOfflineCopy } from '@/lib/personal-cache'
 import { getSupabase } from '@/lib/supabase'
 import {
   isLanguage,
@@ -162,7 +163,8 @@ let defaultStore: CollectionStore | null = null
 
 export function collectionStore(): CollectionStore {
   defaultStore ??= createCollectionStore({
-    load: loadFromSupabase,
+    // Offline: la copia salvata all'ultimo accesso online (RIB-27).
+    load: (userId) => withOfflineCopy('collection', userId, () => loadFromSupabase(userId)),
     change: changeOnSupabase,
     now: () => new Date().toISOString(),
   })

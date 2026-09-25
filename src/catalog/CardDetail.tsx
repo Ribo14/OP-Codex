@@ -80,8 +80,8 @@ export function CardDetail({
 
   return (
     <article aria-labelledby="dettaglio-titolo" className="pb-10">
-      {/* Su iPhone l'app installata disegna sotto la barra di stato (black-translucent):
-          la barra scende oltre notch/Dynamic Island e rientra dai bordi in orizzontale. */}
+      {/* Su iPhone la barra rispetta le aree sicure: scende oltre notch/Dynamic Island se la pagina
+          arriva sotto la barra di stato e rientra dai bordi in orizzontale. */}
       <div className="sticky top-0 z-10 flex items-center gap-3 border-b border-border/60 bg-background/90 px-4 pt-[calc(env(safe-area-inset-top)+0.75rem)] pb-3 backdrop-blur lg:px-6">
         <span className="truncate text-sm text-muted-foreground">
           {t('detail.printingLabel', {

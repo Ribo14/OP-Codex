@@ -100,7 +100,7 @@ export function AppShell() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        {/* Telefono: intestazione, sotto la barra di stato di iPhone (box-content: 3.5rem più l'area sicura) */}
+        {/* Telefono: intestazione (box-content: 3.5rem più l'eventuale area sicura in alto) */}
         <header className="box-content flex h-14 shrink-0 items-center gap-3 border-b border-border/60 px-4 safe-top lg:hidden">
           <Link to="/" className="text-lg font-semibold tracking-tight">
             {t('app.name')}
@@ -152,7 +152,7 @@ export function AppShell() {
       {/* Telefono: barra in basso */}
       <nav
         aria-label={t('nav.label')}
-        className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border/60 bg-background/90 safe-x pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border/60 bg-background safe-x pb-[env(safe-area-inset-bottom)] lg:hidden"
       >
         {SECTIONS.map((section) => (
           <Link

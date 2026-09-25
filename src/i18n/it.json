@@ -298,6 +298,13 @@
       "createAnyway_one": "Crea mazzo comunque ({{count}} riga ignorata)",
       "createAnyway_other": "Crea mazzo comunque ({{count}} righe ignorate)"
     },
+    "missing": {
+      "none": "Hai tutte le carte di questo mazzo.",
+      "count_one": "Ti manca {{count}} carta",
+      "count_other": "Ti mancano {{count}} carte",
+      "have": "ne hai {{owned}} su {{required}}",
+      "copy": "Copia lista mancanti"
+    },
     "list": {
       "copy": "Copia lista",
       "copied": "Lista copiata",

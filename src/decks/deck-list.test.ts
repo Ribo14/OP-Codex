@@ -102,6 +102,45 @@ describe('Deck List Codec', () => {
     ).toBe('1xOP02-049\n3xOP02-060\n4xOP02-051\n4xST01-006\n2xOP02-050')
   })
 
+  it('legge una lista reale esportata da OPTCG Sim ("quantità codice nome", senza la x)', () => {
+    // Esportata da OPTCG Sim il 2026-09-25 (Leader Rocks.D.Xebec).
+    const sim = [
+      '1 OP17-039 Rocks.D.Xebec',
+      '2 OP08-051 Buckin',
+      '3 OP17-050 Streusen',
+      '4 OP17-045 Kyo',
+      '4 OP17-054 Miss Buckingham Stussy',
+      '4 OP17-046 Gloriosa',
+      '3 OP17-044 Captain John',
+      '4 OP17-041 Wang Zhi',
+      '4 OP17-049 Charlotte Linlin',
+      '4 OP17-040 Edward.Newgate',
+      '4 OP17-048 Shiki',
+      '4 OP17-118 Rocks.D.Xebec',
+      '4 OP17-056 Rocks Pirates',
+      "4 OP17-055 There's No Authority in the World That Lasts Forever!!!",
+      "2 EB02-030 And That's When Somebody Makes Fun of Their Friend's Dream!!!!",
+    ].join('\n')
+    const events = new Set(['OP17-056', 'OP17-055', 'EB02-030'])
+    const codes = [...sim.matchAll(/ ([A-Z0-9]+-\d+) /g)].map((m) => m[1] ?? '')
+    const catalog = new Map(
+      codes.map((code) => [
+        code,
+        card(
+          code,
+          code === 'OP17-039' ? 'Leader' : events.has(code) ? 'Event' : 'Character',
+          code === 'OP17-039' ? null : 1,
+        ),
+      ]),
+    )
+    const parsed = parseDeckList(sim, catalog)
+    expect(parsed.leaderCode).toBe('OP17-039')
+    expect(parsed.errors).toEqual([])
+    expect(parsed.cards).toHaveLength(14)
+    expect(parsed.cards.reduce((n, c) => n + c.quantity, 0)).toBe(50)
+    expect(parsed.cards).toContainEqual({ cardCode: 'EB02-030', quantity: 2 })
+  })
+
   it('andata e ritorno senza perdite', () => {
     const text = '1xOP02-049\n3xOP02-060\n4xOP02-051\n4xST01-006\n2xOP02-050'
     const parsed = parseDeckList(text, CATALOG)

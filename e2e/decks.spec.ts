@@ -121,6 +121,17 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
       page.locator('#pannello-deck').getByLabel(`Copie di ${ALPHA.name} nel mazzo`),
     ).toHaveText('4')
 
+    // Carte mancanti (RIB-25): la Collection è vuota, quindi mancano il Leader e le 5 carte.
+    await expect(page.locator('#pannello-deck').getByLabel('ne hai 0 su 4')).toBeVisible()
+    await page.getByText('Ti mancano 6 carte').click()
+    await page.getByRole('button', { name: 'Copia lista mancanti' }).click()
+    await expect(page.getByRole('button', { name: 'Lista copiata' })).toBeVisible()
+    const missing = String(await page.evaluate('navigator.clipboard.readText()')).replace(
+      /\r\n/g,
+      '\n',
+    )
+    expect(missing).toBe(`1x${LEADER.code}\n1x${BETA.code}\n4x${ALPHA.code}`)
+
     // Deck Warning (RIB-23): 5 carte su 50 e la coppia bandita Alfa + Beta (RIB-29); gli avvisi
     // si aprono e non bloccano nulla.
     await page.getByRole('button', { name: /2 avvisi/ }).click()

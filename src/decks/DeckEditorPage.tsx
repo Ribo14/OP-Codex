@@ -21,7 +21,7 @@ import { catalogFacets, countActiveFilters, relatedFilters } from '@/catalog/fil
 import { FiltersPanel } from '@/catalog/FiltersPanel'
 import { useCatalog } from '@/catalog/local-catalog'
 import { useCatalogFilters } from '@/catalog/use-catalog-filters'
-import { useOwnership } from '@/collection/collection-store'
+import { useCollection, useOwnership } from '@/collection/collection-store'
 import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { CardThumb } from './CardThumb'
@@ -42,6 +42,8 @@ import { DeckListActions } from './DeckListActions'
 import { useDeck, type DeckStore } from './deck-store'
 import { DeckStatsPanel } from './DeckStats'
 import { DeckWarningsPanel } from './DeckWarnings'
+import { deckOwnership, type MissingRow } from './missing-cards'
+import { MissingCardsPanel, OwnedBadge } from './MissingCardsPanel'
 import { deckLeaderPath, DECKS_PATH } from './paths'
 
 // Editor di un Deck (RIB-21). Ogni modifica si salva da sola. Sul telefono due schede, "Mazzo" e
@@ -91,6 +93,23 @@ function Editor({ deckId }: { deckId: string }) {
     [ready, byCode, banList],
   )
   const stats = useMemo(() => deckStats(ready?.cards ?? [], byCode), [ready, byCode])
+  // Carte mancanti rispetto alla Collection (RIB-25).
+  const session = useSession()
+  const { state: collection } = useCollection(
+    session.status === 'signedIn' ? session.user.id : null,
+  )
+  const collectionEntries = collection.status === 'ready' ? collection.entries : null
+  const ownership = useMemo(
+    () =>
+      ready && collectionEntries
+        ? deckOwnership(ready.deck.leaderCode, ready.cards, collectionEntries)
+        : [],
+    [ready, collectionEntries],
+  )
+  const ownershipByCode = useMemo(
+    () => new Map(ownership.map((row) => [row.cardCode, row])),
+    [ownership],
+  )
 
   if (state.status === 'loading' || !catalog) {
     return <p className="text-muted-foreground">{t('decks.loadingDeck')}</p>
@@ -139,6 +158,12 @@ function Editor({ deckId }: { deckId: string }) {
       />
 
       <DeckWarningsPanel warnings={warnings} catalog={byCode} />
+      <MissingCardsPanel
+        leaderCode={deck.leaderCode}
+        rows={ownership}
+        catalog={byCode}
+        loading={collectionEntries === null}
+      />
 
       {!online && <p className="text-sm text-muted-foreground">{t('decks.offline')}</p>}
       {failed && (
@@ -193,6 +218,7 @@ function Editor({ deckId }: { deckId: string }) {
               catalog={catalog}
               editing={editing}
               flagged={flaggedCards(warnings)}
+              ownership={ownershipByCode}
             />
           </div>
         </section>
@@ -444,12 +470,15 @@ function CardLine({
   card,
   printing,
   flagged = false,
+  owned,
   children,
 }: {
   card: CatalogCard
   printing: CatalogPrinting | undefined
   /** Coinvolta in un Deck Warning (RIB-23). */
   flagged?: boolean
+  /** Copie possedute sulle richieste (RIB-25), solo nella lista del Deck. */
+  owned?: MissingRow
   children: React.ReactNode
 }) {
   const { t } = useTranslation()
@@ -466,6 +495,7 @@ function CardLine({
             />
           )}
           <span className="truncate">{card.name}</span>
+          {owned && <OwnedBadge row={owned} />}
         </p>
         <p className="truncate text-xs text-muted-foreground">
           {card.cardCode}
@@ -482,11 +512,14 @@ function DeckCards({
   catalog,
   editing,
   flagged,
+  ownership,
 }: {
   cards: readonly DeckCard[]
   catalog: Catalog
   editing: Editing
   flagged: ReadonlySet<string>
+  /** Copie possedute per carta (RIB-25); vuota finché la Collection non c'è. */
+  ownership: ReadonlyMap<string, MissingRow>
 }) {
   const { t } = useTranslation()
   const rows = useMemo(() => deckRows(cards, catalog.cards), [cards, catalog])
@@ -511,6 +544,7 @@ function DeckCards({
                 card={row.card}
                 printing={row.printing}
                 flagged={flagged.has(row.card.cardCode)}
+                owned={ownership.get(row.card.cardCode)}
               >
                 <div className="flex flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3">
                   {row.card.printings.length > 1 && (

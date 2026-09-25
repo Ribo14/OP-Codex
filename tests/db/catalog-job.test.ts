@@ -161,7 +161,13 @@ describe('job_runs', () => {
     it(`il ruolo ${role} non può leggere né scrivere`, async () => {
       await inRollback(sql, async (tx) => {
         await actAs(tx, role)
-        expect(await errorCodeOf(tx, (sp) => sp`select * from public.job_runs`)).toBe('42501')
+        // authenticated ha il permesso di lettura, ma la policy apre le righe solo all'Admin
+        // attivo (RIB-19, tests/db/admin.test.ts).
+        if (role === 'anon') {
+          expect(await errorCodeOf(tx, (sp) => sp`select * from public.job_runs`)).toBe('42501')
+        } else {
+          expect(await tx`select * from public.job_runs`).toEqual([])
+        }
         expect(
           await errorCodeOf(
             tx,

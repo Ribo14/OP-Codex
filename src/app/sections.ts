@@ -20,3 +20,5 @@ export const SECTIONS: readonly Section[] = [
 export const PRIVACY_PATH = '/privacy'
 /** Fuori dalla barra delle sezioni: ingranaggio nell'intestazione e nella barra laterale. */
 export const SETTINGS_PATH = '/impostazioni'
+/** Area Admin (RIB-19): fuori dalla navigazione, voce nelle Impostazioni solo per gli Admin. */
+export const ADMIN_PATH = '/admin'

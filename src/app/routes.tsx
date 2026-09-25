@@ -17,11 +17,12 @@ import {
 import { ProfilePage } from '@/account/ProfilePage'
 import { RecoverPage } from '@/account/RecoverPage'
 import { SignupPage } from '@/account/SignupPage'
+import { AdminPage } from '@/admin/AdminPage'
 import { CardDetailRoute } from '@/catalog/CardDetailRoute'
 import { CatalogPage } from '@/catalog/CatalogPage'
 import { AppShell } from './AppShell'
 import { ComingSoonPage, NotFoundPage, PrivacyPage } from './pages'
-import { PRIVACY_PATH, SECTIONS, SETTINGS_PATH } from './sections'
+import { ADMIN_PATH, PRIVACY_PATH, SECTIONS, SETTINGS_PATH } from './sections'
 import { SettingsPage } from './SettingsPage'
 
 /** Tutte le pagine dell'app, dentro la shell. Condivise tra app e test. */
@@ -51,6 +52,7 @@ export const routes: RouteObject[] = [
       { path: NEW_PASSWORD_PATH, element: <NewPasswordPage /> },
       { path: OAUTH_CALLBACK_PATH, element: <OAuthCallbackPage /> },
       { path: CODE_PATH, element: <CodePage /> },
+      { path: ADMIN_PATH, element: <AdminPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

@@ -34,6 +34,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor: string | null
+          after: Json | null
+          at: string
+          before: Json | null
+          id: number
+          record_id: string | null
+          table_name: string
+        }
+        Insert: {
+          action: string
+          actor?: string | null
+          after?: Json | null
+          at?: string
+          before?: Json | null
+          id?: never
+          record_id?: string | null
+          table_name: string
+        }
+        Update: {
+          action?: string
+          actor?: string | null
+          after?: Json | null
+          at?: string
+          before?: Json | null
+          id?: never
+          record_id?: string | null
+          table_name?: string
+        }
+        Relationships: []
+      }
       cards: {
         Row: {
           attributes: string[]
@@ -223,6 +256,7 @@ export type Database = {
         Args: { conferma_username: string }
         Returns: undefined
       }
+      stato_admin: { Args: never; Returns: string }
     }
     Enums: {
       [_ in never]: never

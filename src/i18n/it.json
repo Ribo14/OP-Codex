@@ -180,6 +180,29 @@
       "toCatalog": "Torna al catalogo"
     }
   },
+  "admin": {
+    "title": "Area Admin",
+    "notAdmin": "Questa area è riservata agli amministratori.",
+    "needsTwoFactor": "Per entrare nell'area Admin serve la verifica in due passaggi: attivala nel Profilo, in «Account e sicurezza».",
+    "toProfile": "Vai al Profilo",
+    "jobs": {
+      "title": "Stato dei job",
+      "intro": "Le ultime {{count}} esecuzioni del Catalog Sync e dello scaricamento delle immagini.",
+      "reload": "Aggiorna",
+      "empty": "Nessuna esecuzione registrata.",
+      "name": {
+        "catalog_sync": "Catalog Sync",
+        "image_sync": "Immagini delle carte",
+        "other": "Altro job"
+      },
+      "status": {
+        "success": "Riuscito",
+        "running": "In corso",
+        "error": "Errore",
+        "other": "Sconosciuto"
+      }
+    }
+  },
   "settings": {
     "title": "Impostazioni",
     "images": {

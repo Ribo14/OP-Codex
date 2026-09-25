@@ -36,7 +36,9 @@ import {
   type DeckSummary,
 } from './deck'
 import { useBanList } from '@/catalog/ban-list'
+import { formatDeckList } from './deck-list'
 import { checkDeck, DECK_FORMATS, deckStats, flaggedCards } from './deck-rules'
+import { DeckListActions } from './DeckListActions'
 import { useDeck, type DeckStore } from './deck-store'
 import { DeckStatsPanel } from './DeckStats'
 import { DeckWarningsPanel } from './DeckWarnings'
@@ -128,6 +130,7 @@ function Editor({ deckId }: { deckId: string }) {
         deck={deck}
         catalog={catalog}
         editing={editing}
+        listText={formatDeckList(deck.leaderCode, cards, byCode)}
         onRelated={(leader) => {
           // RIB-41: la scheda "Aggiungi carte" con colori, tipi ed effetti del Leader.
           update({ ...relatedFilters(leader), q: '' })
@@ -219,11 +222,14 @@ function DeckHeader({
   deck,
   catalog,
   editing,
+  listText,
   onRelated,
 }: {
   deck: DeckSummary
   catalog: Catalog
   editing: Editing
+  /** La Deck List da copiare o condividere (RIB-24). */
+  listText: string
   onRelated: (leader: CatalogCard) => void
 }) {
   const { t } = useTranslation()
@@ -346,6 +352,7 @@ function DeckHeader({
               {t('decks.related')}
             </button>
           )}
+          <DeckListActions name={deck.name} text={listText} />
         </div>
       </div>
     </div>

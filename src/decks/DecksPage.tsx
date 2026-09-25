@@ -1,4 +1,4 @@
-import { Copy, Pencil, Plus, Trash2 } from 'lucide-react'
+import { ClipboardPaste, Copy, Pencil, Plus, Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState, type SubmitEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
@@ -14,7 +14,7 @@ import { useBanList } from '@/catalog/ban-list'
 import { checkDeck } from './deck-rules'
 import { deleteDeck, duplicateDeck, listDecks, renameDeck, type DeckDetail } from './decks-api'
 import { ValidityBadge } from './DeckWarnings'
-import { deckPath, DECKS_PATH, NEW_DECK_PATH } from './paths'
+import { deckPath, DECKS_PATH, IMPORT_DECK_PATH, NEW_DECK_PATH } from './paths'
 
 // Pagina Mazzi (RIB-21): i miei Deck con l'immagine del Leader; rinomina, duplica, elimina.
 
@@ -81,13 +81,22 @@ function DeckList() {
 
   return (
     <div className="space-y-5">
-      <Link
-        to={NEW_DECK_PATH}
-        className="inline-flex h-11 items-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background"
-      >
-        <Plus className="size-4" aria-hidden="true" />
-        {t('decks.new')}
-      </Link>
+      <div className="flex flex-wrap gap-2">
+        <Link
+          to={NEW_DECK_PATH}
+          className="inline-flex h-11 items-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background"
+        >
+          <Plus className="size-4" aria-hidden="true" />
+          {t('decks.new')}
+        </Link>
+        <Link
+          to={IMPORT_DECK_PATH}
+          className="inline-flex h-11 items-center gap-2 rounded-full border px-5 text-sm font-medium hover:bg-muted"
+        >
+          <ClipboardPaste className="size-4" aria-hidden="true" />
+          {t('decks.import.title')}
+        </Link>
+      </div>
       {state.status === 'loading' && <p className="text-muted-foreground">{t('decks.loading')}</p>}
       {state.status === 'error' && (
         <div className="space-y-3">

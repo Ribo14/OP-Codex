@@ -21,7 +21,11 @@ const LEADER = { code: `${PREFIX}-001`, name: `Leader ${TAG}` }
 const ALPHA = { code: `${PREFIX}-002`, name: `Alfa ${TAG}` }
 const BETA = { code: `${PREFIX}-003`, name: `Beta ${TAG}` }
 
-test.use({ viewport: { width: 390, height: 844 } })
+// Permessi degli appunti: servono per leggere cosa ha copiato "Copia lista".
+test.use({
+  viewport: { width: 390, height: 844 },
+  permissions: ['clipboard-read', 'clipboard-write'],
+})
 
 test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', async ({
   page,
@@ -160,6 +164,32 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     await expect(page.getByText(`Blu ${TAG}`)).toBeVisible()
     // La copia è indipendente: ha ancora le sue carte.
     await expect(page.getByText('5/50 carte')).toBeVisible()
+
+    // Importa mazzo (RIB-24): una riga sbagliata non blocca le altre.
+    await page.getByRole('link', { name: 'Importa mazzo' }).click()
+    await page
+      .getByLabel('Incolla la lista del mazzo')
+      .fill(`1x${LEADER.code}\n4 x ${ALPHA.code}\n${BETA.code} x2\n3xZZ00-000`)
+    await expect(page.getByText(`Leader: ${LEADER.name} (${LEADER.code})`)).toBeVisible()
+    await expect(page.getByText('6/50 carte')).toBeVisible()
+    await expect(
+      page.getByText('Riga 4: «3xZZ00-000» (codice non presente nel catalogo)'),
+    ).toBeVisible()
+    await page.getByLabel('Nome del mazzo').fill(`Importato ${TAG}`)
+    await page.getByRole('button', { name: 'Crea mazzo comunque (1 riga ignorata)' }).click()
+    await expect(page.getByRole('heading', { level: 1, name: `Importato ${TAG}` })).toBeVisible()
+    await expect(page.getByRole('tab', { name: 'Mazzo 6/50' })).toBeVisible()
+
+    // Copia lista: formato standard, Leader per primo, poi per costo.
+    await page.getByRole('button', { name: 'Copia lista' }).click()
+    await expect(page.getByRole('button', { name: 'Lista copiata' })).toBeVisible()
+    // Script come testo: i test E2E non hanno i tipi del browser (navigator).
+    // Su Windows gli appunti restituiscono gli a capo come \r\n.
+    const copied = String(await page.evaluate('navigator.clipboard.readText()')).replace(
+      /\r\n/g,
+      '\n',
+    )
+    expect(copied).toBe(`1x${LEADER.code}\n2x${BETA.code}\n4x${ALPHA.code}`)
   } finally {
     await sql`delete from auth.users where email = ${email}`
     await sql`delete from public.ban_list_entries where card_code = ${ALPHA.code}`

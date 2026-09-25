@@ -277,6 +277,33 @@
     "remove": "Togli una copia di {{name}}",
     "copiesOf": "Copie di {{name}} nel mazzo",
     "cost": "costo {{cost}}",
+    "import": {
+      "title": "Importa mazzo",
+      "label": "Incolla la lista del mazzo",
+      "placeholder": "1xOP01-060\n4xOP01-016\n4xOP01-025\n…",
+      "hint": "Una riga per carta, come 4xOP01-016 (il formato di OPTCG Sim). Il Leader va nella prima riga. Le stampe alternative si scelgono dopo, nell'editor.",
+      "preview": "Anteprima",
+      "leader": "Leader: {{name}} ({{code}})",
+      "noLeader": "Nessun Leader trovato: serve una riga con un Leader, per esempio 1xOP01-001.",
+      "ignored_one": "{{count}} riga non riconosciuta verrà ignorata",
+      "ignored_other": "{{count}} righe non riconosciute verranno ignorate",
+      "lineError": "Riga {{line}}: «{{text}}» ({{reason}})",
+      "problem": {
+        "format": "formato non riconosciuto",
+        "unknown": "codice non presente nel catalogo",
+        "extraLeader": "c'è già un Leader",
+        "notDeckCard": "le DON!! non vanno nel mazzo"
+      },
+      "create": "Crea mazzo",
+      "createAnyway_one": "Crea mazzo comunque ({{count}} riga ignorata)",
+      "createAnyway_other": "Crea mazzo comunque ({{count}} righe ignorate)"
+    },
+    "list": {
+      "copy": "Copia lista",
+      "copied": "Lista copiata",
+      "copyFailed": "Non è stato possibile copiare: riprova.",
+      "share": "Condividi"
+    },
     "format": "Formato del mazzo",
     "formats": {
       "standard": "Standard",

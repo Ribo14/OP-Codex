@@ -83,6 +83,33 @@ export async function createDeck(name: string, leaderCode: string): Promise<stri
   return data.id
 }
 
+/**
+ * Crea un Deck già pieno (import di una lista, RIB-24): il Deck e poi tutte le carte in una sola
+ * richiesta. Se le carte non si salvano, il Deck appena creato si elimina: niente mezzi import.
+ */
+export async function createDeckWithCards(
+  name: string,
+  leaderCode: string,
+  cards: readonly Pick<DeckCard, 'cardCode' | 'quantity'>[],
+): Promise<string> {
+  const deckId = await createDeck(name, leaderCode)
+  if (cards.length === 0) return deckId
+  const { error } = await getSupabase()
+    .from('deck_cards')
+    .insert(
+      cards.map((c) => ({
+        deck_id: deckId,
+        card_code: c.cardCode,
+        quantity: Math.min(c.quantity, 50),
+      })),
+    )
+  if (error) {
+    await deleteDeck(deckId).catch(() => undefined)
+    throw new Error(error.message)
+  }
+  return deckId
+}
+
 export async function renameDeck(deckId: string, name: string): Promise<void> {
   const { error } = await getSupabase().from('decks').update({ name }).eq('id', deckId)
   fail(error)

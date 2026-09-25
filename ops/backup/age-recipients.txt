@@ -1,0 +1,3 @@
+# Chiave pubblica age dei backup (RIB-35). La chiave privata la tiene solo il proprietario del
+# progetto, fuori da questo repo. Una riga "age1..." per destinatario.
+age1djkhp9m45gjsckha0fz6ceyh64lvte3ddepyflqvzngm9xjruyys2g5hnx

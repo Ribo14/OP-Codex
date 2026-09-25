@@ -1,12 +1,19 @@
 import { fileURLToPath, URL } from 'node:url'
 import tailwindcss from '@tailwindcss/vite'
+import { sentryVitePlugin } from '@sentry/vite-plugin'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { defineConfig } from 'vitest/config'
 import { runtimeCaching } from './pwa/runtime-caching.ts'
 
+// Source map per Sentry (RIB-35): solo con il token di Sentry (build di Netlify). Si generano
+// "hidden" (senza riferimento nei file .js), si caricano su Sentry e poi si cancellano da dist:
+// non vengono mai pubblicate sul sito.
+const sentryUpload = Boolean(process.env.SENTRY_AUTH_TOKEN)
+
 // https://vite.dev/config/
 export default defineConfig({
+  build: { sourcemap: sentryUpload ? 'hidden' : false },
   plugins: [
     react(),
     tailwindcss(),
@@ -50,6 +57,16 @@ export default defineConfig({
           },
         ],
       },
+    }),
+    // Per ultimo: carica le source map dopo che tutto è stato scritto. SENTRY_ORG, SENTRY_PROJECT
+    // e SENTRY_AUTH_TOKEN stanno nelle variabili di Netlify (il token è un segreto).
+    sentryVitePlugin({
+      disable: !sentryUpload,
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      telemetry: false,
+      sourcemaps: { filesToDeleteAfterUpload: ['dist/**/*.map'] },
     }),
   ],
   resolve: {

@@ -214,4 +214,25 @@ describe('Deck', () => {
       ).toBe('23514')
     })
   })
+  it('al massimo 200 Deck per utente, anche duplicando (RIB-35)', async () => {
+    await inRollback(sql, async (tx) => {
+      await setup(tx)
+      await actAs(tx, 'authenticated', ANNA)
+      await tx`
+        insert into public.decks (name, leader_code)
+        select 'Mazzo ' || n, 'ZZ98-001' from generate_series(1, 199) as n
+      `
+      const last = await newDeck(tx, 'Il duecentesimo')
+      expect(
+        await errorCodeOf(
+          tx,
+          (sp) => sp`insert into public.decks (name, leader_code) values ('Troppi', 'ZZ98-001')`,
+        ),
+      ).toBe('23514')
+      expect(await errorCodeOf(tx, (sp) => sp`select public.duplica_mazzo(${last})`)).toBe('23514')
+      // Il limite è per utente: Bruno crea i suoi senza problemi.
+      await actAs(tx, 'authenticated', BRUNO)
+      expect(await newDeck(tx, 'Di Bruno')).toBeTruthy()
+    })
+  })
 })

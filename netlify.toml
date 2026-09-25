@@ -21,6 +21,11 @@
   # Chiave pubblica del widget Cloudflare Turnstile (RIB-14): finisce nel bundle, non è un
   # segreto. La chiave segreta sta solo nella dashboard di Supabase.
   VITE_TURNSTILE_SITE_KEY = "0x4AAAAAAFCI-LgkiXhPHyrh"
+  # Sentry (RIB-35, docs/sentry.md): DSN, organizzazione e progetto sono pubblici. Il token per le
+  # source map (SENTRY_AUTH_TOKEN) è un segreto e sta solo nelle variabili di Netlify.
+  VITE_SENTRY_DSN = "https://1029e612a2d3106c6609521bbd4d6a24@o4512148413874176.ingest.de.sentry.io/4512148448018512"
+  SENTRY_ORG = "op-codex"
+  SENTRY_PROJECT = "op-codex"
 
 # SPA: ogni percorso sconosciuto serve index.html (il routing è lato client).
 [[redirects]]
@@ -36,6 +41,7 @@
     #   - img-src:     progetto Supabase   immagini delle carte su Storage (ADR-0005)
     #   - connect-src: progetto Supabase   API del database (ADR-0003)
     #                  api.pwnedpasswords.com   controllo delle password trapelate (RIB-14)
+    #                  o4512148413874176.ingest.de.sentry.io   errori a Sentry, server in UE (RIB-35)
     #   - script-src, frame-src: challenges.cloudflare.com   CAPTCHA Turnstile (RIB-14)
     # Il progetto Supabase di produzione è khxjggxukrodbnczoryn (unico progetto cloud, ADR-0002).
     # La barra a fine riga unisce le righe in un'unica intestazione.
@@ -46,7 +52,7 @@
       style-src 'self'; \
       img-src 'self' data: blob: https://khxjggxukrodbnczoryn.supabase.co; \
       font-src 'self'; \
-      connect-src 'self' https://khxjggxukrodbnczoryn.supabase.co https://api.pwnedpasswords.com; \
+      connect-src 'self' https://khxjggxukrodbnczoryn.supabase.co https://api.pwnedpasswords.com https://o4512148413874176.ingest.de.sentry.io; \
       worker-src 'self'; \
       manifest-src 'self'; \
       media-src 'self' blob:; \

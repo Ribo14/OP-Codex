@@ -23,6 +23,8 @@ export interface DeckSummary {
   cardCount: number
   /** Formato per i Deck Warning (RIB-23). */
   format: DeckFormat
+  /** Token dello Share Link attivo (RIB-26), null se il Deck è privato. */
+  shareToken: string | null
 }
 
 export interface DeckCard {

@@ -69,14 +69,21 @@ test('esci ovunque, verifica in due passaggi ed eliminazione dell’account', as
   // Il profilo compare solo a Username salvato: da qui si può cambiare pagina.
   await expect(page.getByRole('heading', { level: 1, name: `@${username}` })).toBeVisible()
 
+  // Il Profilo mostra le voci chiuse (RIB-46): nessun modulo aperto finché non si tocca.
+  await expect(page.getByLabel('Password attuale')).toBeHidden()
+
   // Esci da tutti i dispositivi: anche questo.
-  await page.getByRole('button', { name: 'Esci da tutti i dispositivi' }).click()
+  await page.locator('summary', { hasText: 'Dispositivi' }).click()
+  await page.getByRole('button', { name: 'Esci da tutti i dispositivi', exact: true }).click()
   await expect(page).toHaveURL(/\/accesso\?torna=%2Fprofilo$/)
 
   // Attivazione della verifica in due passaggi.
   await login(page)
   await expect(page.getByRole('heading', { level: 1, name: `@${username}` })).toBeVisible()
-  await page.getByRole('button', { name: 'Attiva' }).click()
+  const twoFactorRow = page.locator('summary', { hasText: 'Verifica in due passaggi' })
+  await expect(twoFactorRow).toContainText('Non attiva')
+  await twoFactorRow.click()
+  await page.getByRole('button', { name: 'Attiva', exact: true }).click()
   await expect(page.getByRole('img', { name: /QR code/ })).toBeVisible()
   const secret = (await page.locator('code').innerText()).trim()
   const enrolledAt = currentStep()
@@ -98,6 +105,7 @@ test('esci ovunque, verifica in due passaggi ed eliminazione dell’account', as
   await expect(page.getByRole('heading', { level: 1, name: `@${username}` })).toBeVisible()
 
   // Eliminazione: lo Username sbagliato non basta, quello giusto cancella tutto.
+  await page.locator('summary', { hasText: "Elimina l'account" }).click()
   const confirm = page.getByLabel(/Per confermare, scrivi il tuo Username/)
   await confirm.fill('qualcun_altro')
   const deleteButton = page.getByRole('button', { name: "Elimina l'account per sempre" })

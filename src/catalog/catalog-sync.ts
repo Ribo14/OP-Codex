@@ -1,4 +1,4 @@
-import type { Catalog, CatalogPrinting } from './catalog-data'
+import type { CardFaq, Catalog, CatalogPrinting } from './catalog-data'
 
 // Copia locale del catalogo (RIB-16): righe del database salvate sul dispositivo e
 // aggiornate in modo incrementale, chiedendo al server solo ciò che è cambiato.
@@ -37,10 +37,18 @@ export interface RawPrinting {
   updated_at: string
 }
 
+/** FAQ ufficiali di una carta (RIB-44); `items` come nel database, controllato in buildCatalog. */
+export interface RawFaq {
+  card_code: string
+  items: unknown
+  updated_at: string
+}
+
 export interface CatalogRows {
   sets: RawSet[]
   cards: RawCard[]
   printings: RawPrinting[]
+  faqs: RawFaq[]
 }
 
 export interface CatalogSnapshot extends CatalogRows {
@@ -66,7 +74,7 @@ export function sinceFor(watermark: string | null): string | null {
 
 function latest(current: string | null, rows: CatalogRows): string | null {
   let max = current
-  for (const row of [...rows.sets, ...rows.cards, ...rows.printings]) {
+  for (const row of [...rows.sets, ...rows.cards, ...rows.printings, ...rows.faqs]) {
     if (max === null || new Date(row.updated_at) > new Date(max)) max = row.updated_at
   }
   return max
@@ -89,18 +97,46 @@ export function mergeSnapshot(
   delta: CatalogRows,
   checkedAt: number,
 ): CatalogSnapshot {
-  const base: CatalogRows = local ?? { sets: [], cards: [], printings: [] }
+  const base: CatalogRows = local ?? { sets: [], cards: [], printings: [], faqs: [] }
   return {
     sets: upsert(base.sets, delta.sets, (s) => s.series_id),
     cards: upsert(base.cards, delta.cards, (c) => c.card_code),
     printings: upsert(base.printings, delta.printings, (p) => p.print_id),
+    faqs: upsert(base.faqs, delta.faqs, (f) => f.card_code),
     watermark: latest(local?.watermark ?? null, delta),
     checkedAt,
   }
 }
 
 export function isEmpty(rows: CatalogRows): boolean {
-  return rows.sets.length === 0 && rows.cards.length === 0 && rows.printings.length === 0
+  return (
+    rows.sets.length === 0 &&
+    rows.cards.length === 0 &&
+    rows.printings.length === 0 &&
+    rows.faqs.length === 0
+  )
+}
+
+/**
+ * Una copia salvata da una versione dell'app senza FAQ (prima di RIB-44): si usa subito così com'è,
+ * ma senza watermark, così il prossimo aggiornamento riscarica tutto una volta e prende anche le
+ * FAQ (con il watermark vecchio quelle già caricate sul server non arriverebbero mai).
+ */
+export function upgradeSnapshot(stored: CatalogSnapshot): CatalogSnapshot {
+  const faqs = (stored as Partial<CatalogSnapshot>).faqs
+  return Array.isArray(faqs) ? stored : { ...stored, faqs: [], watermark: null }
+}
+
+/** Le FAQ valide di una riga (il campo arriva dal database come JSON generico). */
+function faqItems(items: unknown): CardFaq[] {
+  if (!Array.isArray(items)) return []
+  return items.flatMap((item: unknown) => {
+    if (typeof item !== 'object' || item === null) return []
+    const { question, answer, source } = item as Record<string, unknown>
+    return typeof question === 'string' && typeof answer === 'string' && typeof source === 'string'
+      ? [{ question, answer, source }]
+      : []
+  })
 }
 
 /** Aggiorna la copia locale: tutto al primo avvio, poi solo le righe cambiate. */
@@ -133,6 +169,8 @@ export function buildCatalog(rows: CatalogRows): Catalog {
     printingsByCard.set(p.card_code, list)
   }
 
+  const faqsByCard = new Map(rows.faqs.map((f) => [f.card_code, faqItems(f.items)]))
+
   return {
     sets: sets.map((s) => ({ seriesId: s.series_id, code: s.code, name: s.name })),
     cards: [...rows.cards]
@@ -153,6 +191,7 @@ export function buildCatalog(rows: CatalogRows): Catalog {
         trigger: c.trigger,
         keywords: c.keywords,
         printings: printingsByCard.get(c.card_code) ?? [],
+        faqs: faqsByCard.get(c.card_code) ?? [],
       })),
   }
 }

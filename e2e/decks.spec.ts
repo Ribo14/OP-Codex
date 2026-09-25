@@ -14,6 +14,9 @@ const run = crypto.randomUUID().replaceAll('-', '')
 const email = `e2e-deck-${run}@example.com`
 const username = `deck_${run}`.slice(0, 20)
 const password = `Una frase lunga per i mazzi ${crypto.randomUUID()}`
+// Un secondo utente, per controllare che l'export (RIB-28) non contenga i suoi dati.
+const otherEmail = `e2e-altro-${run}@example.com`
+const otherUsername = `altro_${run}`.slice(0, 20)
 const SERIES = 980000 + Math.floor(Math.random() * 9000)
 const PREFIX = `YY${String(SERIES % 100).padStart(2, '0')}`
 const TAG = run.slice(0, 6)
@@ -30,6 +33,7 @@ test.use({
 test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', async ({
   page,
   baseURL,
+  browser,
 }) => {
   test.setTimeout(120_000)
   const sql = postgres(DB_URL, { max: 1, onnotice: () => undefined })
@@ -132,6 +136,24 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     )
     expect(missing).toBe(`1x${LEADER.code}\n1x${BETA.code}\n4x${ALPHA.code}`)
 
+    // Share Link (RIB-26): chi non ha l'account vede il mazzo; dopo la revoca non più.
+    await page.getByText('Condividi mazzo').click()
+    await page.getByRole('button', { name: 'Crea link' }).click()
+    const link = (await page.getByText(/\/m\/[A-Za-z0-9_-]{22}$/).innerText()).trim()
+    const visitor = await browser.newContext({ viewport: { width: 390, height: 844 } })
+    const guest = await visitor.newPage()
+    await guest.goto(link)
+    await expect(guest.getByRole('heading', { level: 1, name: LEADER.name })).toBeVisible()
+    await expect(guest.getByText(`di @${username}`)).toBeVisible()
+    await expect(guest.getByText('5/50 carte')).toBeVisible()
+    await expect(guest.getByRole('button', { name: 'Salva nei miei mazzi' })).toHaveCount(0)
+    await page.getByRole('button', { name: 'Revoca link' }).click()
+    await page.getByRole('alertdialog').getByRole('button', { name: 'Revoca link' }).click()
+    await expect(page.getByRole('button', { name: 'Crea link' })).toBeVisible()
+    await guest.reload()
+    await expect(guest.getByText('Questo link non esiste o è stato revocato')).toBeVisible()
+    await visitor.close()
+
     // Deck Warning (RIB-23): 5 carte su 50 e la coppia bandita Alfa + Beta (RIB-29); gli avvisi
     // si aprono e non bloccano nulla.
     await page.getByRole('button', { name: /2 avvisi/ }).click()
@@ -176,6 +198,18 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     // La copia è indipendente: ha ancora le sue carte.
     await expect(page.getByText('5/50 carte')).toBeVisible()
 
+    // Offline (RIB-27): l'elenco si riapre dalla copia sul dispositivo, senza modifiche.
+    const nav = page.getByRole('navigation', { name: 'Sezioni' }).last()
+    await page.context().setOffline(true)
+    await nav.getByRole('link', { name: 'Catalogo' }).click()
+    await nav.getByRole('link', { name: 'Mazzi' }).click()
+    await expect(page.getByText(/^Sei offline: puoi consultare i mazzi/)).toBeVisible()
+    await expect(page.getByText(`Blu ${TAG}`)).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Duplica' })).toHaveCount(0)
+    await expect(page.getByRole('link', { name: 'Nuovo mazzo' })).toHaveCount(0)
+    await page.context().setOffline(false)
+    await expect(page.getByRole('link', { name: 'Nuovo mazzo' })).toBeVisible()
+
     // Importa mazzo (RIB-24): una riga sbagliata non blocca le altre.
     await page.getByRole('link', { name: 'Importa mazzo' }).click()
     await page
@@ -201,8 +235,71 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
       '\n',
     )
     expect(copied).toBe(`1x${LEADER.code}\n2x${BETA.code}\n4x${ALPHA.code}`)
+
+    // All'uscita non resta nessun dato personale sul dispositivo (RIB-27).
+    const personalRecords = async () =>
+      Number(
+        await page.evaluate(`new Promise((resolve) => {
+          const request = indexedDB.open('op-codex-personal')
+          request.onsuccess = () => {
+            const db = request.result
+            if (!db.objectStoreNames.contains('personal')) { db.close(); resolve(0); return }
+            const count = db.transaction('personal', 'readonly').objectStore('personal').count()
+            count.onsuccess = () => { db.close(); resolve(count.result) }
+          }
+        })`),
+      )
+    await expect.poll(personalRecords).toBeGreaterThan(0)
+
+    // Esporta i miei dati (RIB-28): i propri dati e nient'altro, anche con un secondo utente.
+    const [me] = await sql<{ id: string }[]>`select id from auth.users where email = ${email}`
+    await sql`
+      insert into public.collection_entries (user_id, print_id, language, quantity)
+      values (${me?.id ?? ''}, ${`${ALPHA.code}_p1`}, 'EN', 2)
+    `
+    await sql`
+      with altro as (
+        insert into auth.users (id, aud, role, email)
+        values (gen_random_uuid(), 'authenticated', 'authenticated', ${otherEmail})
+        returning id
+      ), profilo as (
+        insert into public.profiles (id, username) select id, ${otherUsername} from altro
+      ), mazzo as (
+        insert into public.decks (user_id, name, leader_code)
+        select id, ${`Segreto ${TAG}`}, ${LEADER.code} from altro
+      )
+      insert into public.collection_entries (user_id, print_id, language, quantity)
+      select id, ${BETA.code}, 'JP', 3 from altro
+    `
+    await page.goto('/profilo')
+    await page.locator('summary', { hasText: 'Esporta i miei dati' }).click()
+    await page.getByRole('button', { name: 'Prepara il file' }).click()
+    const downloading = page.waitForEvent('download')
+    await page.getByRole('button', { name: /^Scarica il file/ }).click()
+    const download = await downloading
+    expect(download.suggestedFilename()).toMatch(
+      new RegExp(`^op-codex-${username}-\\d{4}-\\d{2}-\\d{2}\\.zip$`),
+    )
+    const stream = await download.createReadStream()
+    const chunks: Buffer[] = []
+    for await (const chunk of stream) chunks.push(chunk as Buffer)
+    // ZIP senza compressione: il testo dei file si legge direttamente.
+    const zip = Buffer.concat(chunks).toString('utf8')
+    expect(zip).toContain('collezione.csv')
+    expect(zip).toContain(`"username": "${username}"`)
+    expect(zip).toContain(`${ALPHA.code}_p1;${ALPHA.code};${ALPHA.name};${PREFIX}-SET;`)
+    expect(zip).toContain(`"name": "Blu ${TAG}"`)
+    expect(zip).toContain(`mazzi/Importato ${TAG}.txt`)
+    expect(zip).toContain(`1x${LEADER.code}\n2x${BETA.code}\n4x${ALPHA.code}`)
+    expect(zip).not.toContain(`Segreto ${TAG}`)
+    expect(zip).not.toContain(otherUsername)
+    expect(zip).not.toContain(`${BETA.code};${BETA.code}`)
+
+    await page.getByRole('button', { name: 'Esci', exact: true }).click()
+    await expect(page).toHaveURL(/\/accesso/)
+    await expect.poll(personalRecords).toBe(0)
   } finally {
-    await sql`delete from auth.users where email = ${email}`
+    await sql`delete from auth.users where email in (${email}, ${otherEmail})`
     await sql`delete from public.ban_list_entries where card_code = ${ALPHA.code}`
     await sql`delete from public.printings where series_id = ${SERIES}`
     await sql`delete from public.cards where card_code like ${`${PREFIX}-%`}`

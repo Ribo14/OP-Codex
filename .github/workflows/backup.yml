@@ -1,0 +1,64 @@
+name: Backup settimanale
+
+# Backup cifrato del database di produzione (RIB-35, ADR-0009): dump dei dati cifrato con age
+# (chiave pubblica in ops/backup/age-recipients.txt, chiave privata solo del proprietario) e
+# caricato come release di un repository privato. Si tengono le ultime 8 copie.
+# Il dump in chiaro non tocca mai il disco né i log: passa in una pipe direttamente ad age.
+# Nessun artifact. Procedura di ripristino: docs/backup.md.
+
+on:
+  schedule:
+    # Domenica alle 02:41 UTC, prima del Catalog Sync notturno.
+    - cron: '41 2 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    name: Backup cifrato
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 30
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      # Repository privato dei backup (es. Ribo14/op-codex-backups) e token con permesso di
+      # scrittura SOLO su quel repository.
+      BACKUP_REPO: ${{ vars.BACKUP_REPO }}
+      GH_TOKEN: ${{ secrets.BACKUP_REPO_TOKEN }}
+      PGSSLMODE: require
+      KEEP: 8
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Installa pg_dump 17 e age
+        run: |
+          sudo apt-get install -y -q postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y -q postgresql-client-17 age
+      - name: Backup cifrato
+        run: |
+          name="op-codex-$(date -u +%Y-%m-%d-%H%M).dump.age"
+          echo "NAME=$name" >> "$GITHUB_ENV"
+          PG_DUMP=/usr/lib/postgresql/17/bin/pg_dump bash ops/backup/backup.sh "$RUNNER_TEMP/$name"
+      - name: Carica nel repository privato
+        run: |
+          tag="${NAME%.dump.age}"
+          gh release create "$tag" "$RUNNER_TEMP/$NAME" --repo "$BACKUP_REPO" \
+            --title "$tag" --notes "Backup cifrato con age (docs/backup.md in OP-Codex)."
+      - name: Tieni solo le ultime copie
+        run: |
+          gh release list --repo "$BACKUP_REPO" --limit 100 --json tagName,createdAt \
+            --jq 'sort_by(.createdAt) | reverse | .[(env.KEEP | tonumber):] | .[].tagName' \
+            | while read -r tag; do
+                gh release delete "$tag" --repo "$BACKUP_REPO" --yes --cleanup-tag
+              done
+      - name: Cancella il file dal runner
+        if: always()
+        run: rm -f "$RUNNER_TEMP"/*.dump.age

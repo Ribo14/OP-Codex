@@ -120,6 +120,8 @@
       }
     },
     "changePassword": {
+      "row": "Password",
+      "rowHint": "Cambia la password dell'account",
       "title": "Cambia la password",
       "current": "Password attuale",
       "next": "Nuova password",
@@ -144,6 +146,8 @@
       "title": "Account e sicurezza"
     },
     "twoFactor": {
+      "statusOn": "Attiva",
+      "statusOff": "Non attiva",
       "title": "Verifica in due passaggi",
       "off": "Non attiva. Se la attivi, a ogni accesso servirà anche un codice dall'app di autenticazione del telefono: nessuno potrà entrare con la sola password.",
       "on": "Attiva: a ogni accesso chiediamo anche il codice dell'app.",
@@ -160,11 +164,25 @@
       }
     },
     "logoutEverywhere": {
+      "row": "Dispositivi",
+      "rowHint": "Esci da tutti i telefoni e computer",
       "title": "Esci da tutti i dispositivi",
       "intro": "Chiude subito l'accesso su tutti i telefoni e i computer, compreso questo. Utile se hai perso un dispositivo o hai fatto l'accesso su uno non tuo.",
       "submit": "Esci da tutti i dispositivi"
     },
+    "export": {
+      "title": "Esporta i miei dati",
+      "rowHint": "Collezione, mazzi e profilo in un file",
+      "intro": "Scarica un file ZIP con la tua Collezione (CSV, si apre con Excel o Google Sheets), i tuoi mazzi (JSON e liste da importare) e il profilo. Utile come copia di sicurezza.",
+      "prepare": "Prepara il file",
+      "preparing": "Preparazione…",
+      "download": "Scarica il file ({{size}} kB)",
+      "offline": "Serve la connessione per preparare il file con i dati aggiornati.",
+      "failed": "Non siamo riusciti a preparare il file. Riprova tra poco."
+    },
     "delete": {
+      "zone": "Zona pericolosa",
+      "rowHint": "Cancella per sempre l'account e i tuoi dati",
       "title": "Elimina l'account",
       "intro": "Cancella per sempre l'account e tutti i tuoi dati (profilo e, in futuro, Collection e Deck). Non si può annullare.",
       "confirmLabel": "Per confermare, scrivi il tuo Username: {{username}}",
@@ -249,6 +267,7 @@
     "loadFailed": "Non è stato possibile caricare i mazzi.",
     "saveFailed": "Modifica non salvata: controlla la connessione e riprova.",
     "offline": "Sei offline: per modificare il mazzo serve la connessione.",
+    "offlineReadOnly": "Sei offline: puoi consultare i mazzi salvati sul dispositivo; per crearli o modificarli serve la connessione.",
     "empty": "Non hai ancora nessun mazzo. Crea il primo scegliendo un Leader.",
     "notFound": "Questo mazzo non esiste o non è tuo.",
     "backToList": "Torna ai mazzi",
@@ -298,6 +317,26 @@
       "createAnyway_one": "Crea mazzo comunque ({{count}} riga ignorata)",
       "createAnyway_other": "Crea mazzo comunque ({{count}} righe ignorate)"
     },
+    "share": {
+      "title": "Condividi mazzo",
+      "private": "Privato",
+      "active": "Link attivo",
+      "intro": "Crea un link per far vedere il mazzo a chiunque, anche a chi non ha un account. Lo potrai revocare quando vuoi.",
+      "create": "Crea link",
+      "activeHint": "Chi ha questo link vede il mazzo in sola lettura, con il tuo Username.",
+      "copy": "Copia link",
+      "copied": "Link copiato",
+      "send": "Condividi link",
+      "revoke": "Revoca link",
+      "revokeConfirm": "Revocare il link?",
+      "revokeHint": "Il link smetterà di funzionare per tutti; un nuovo link avrà un indirizzo diverso."
+    },
+    "shared": {
+      "title": "Mazzo condiviso",
+      "by": "di @{{username}}",
+      "missing": "Questo link non esiste o è stato revocato da chi l'ha creato.",
+      "save": "Salva nei miei mazzi"
+    },
     "missing": {
       "none": "Hai tutte le carte di questo mazzo.",
       "count_one": "Ti manca {{count}} carta",
@@ -309,7 +348,7 @@
       "copy": "Copia lista",
       "copied": "Lista copiata",
       "copyFailed": "Non è stato possibile copiare: riprova.",
-      "share": "Condividi"
+      "share": "Condividi lista"
     },
     "format": "Formato del mazzo",
     "formats": {
@@ -388,12 +427,13 @@
     },
     "jobs": {
       "title": "Stato dei job",
-      "intro": "Le ultime {{count}} esecuzioni del Catalog Sync e dello scaricamento delle immagini.",
+      "intro": "Le ultime {{count}} esecuzioni del Catalog Sync, dello scaricamento delle immagini e del caricamento delle FAQ.",
       "reload": "Aggiorna",
       "empty": "Nessuna esecuzione registrata.",
       "name": {
         "catalog_sync": "Catalog Sync",
         "image_sync": "Immagini delle carte",
+        "faq_sync": "FAQ ufficiali",
         "other": "Altro job"
       },
       "status": {
@@ -519,7 +559,14 @@
     "setColumn": "Set",
     "printColumn": "Print ID",
     "rarityColumn": "Rarità",
-    "officialText": "Testo ufficiale in inglese"
+    "officialText": "Testo ufficiale in inglese",
+    "faq": {
+      "title": "FAQ ufficiali",
+      "count_one": "{{count}} domanda",
+      "count_other": "{{count}} domande",
+      "intro": "Domande e risposte ufficiali di Bandai, in inglese.",
+      "source": "Fonte: FAQ ufficiale {{source}}"
+    }
   },
   "filters": {
     "colors": "Colore",
@@ -565,9 +612,9 @@
   },
   "category": {
     "Leader": "Leader",
-    "Character": "Personaggio",
-    "Event": "Evento",
-    "Stage": "Luogo",
+    "Character": "Character",
+    "Event": "Event",
+    "Stage": "Stage",
     "DON!!": "DON!!"
   },
   "effect": {

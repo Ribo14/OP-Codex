@@ -45,6 +45,7 @@ import { DeckWarningsPanel } from './DeckWarnings'
 import { deckOwnership, type MissingRow } from './missing-cards'
 import { MissingCardsPanel, OwnedBadge } from './MissingCardsPanel'
 import { deckLeaderPath, DECKS_PATH } from './paths'
+import { ShareDeckSection } from './ShareDeckSection'
 
 // Editor di un Deck (RIB-21). Ogni modifica si salva da sola. Sul telefono due schede, "Mazzo" e
 // "Aggiungi carte", che non perdono ricerca e filtri; su schermi larghi sono affiancate.
@@ -164,6 +165,7 @@ function Editor({ deckId }: { deckId: string }) {
         catalog={byCode}
         loading={collectionEntries === null}
       />
+      <ShareDeckSection deck={deck} store={store} disabled={!online} />
 
       {!online && <p className="text-sm text-muted-foreground">{t('decks.offline')}</p>}
       {failed && (
@@ -360,12 +362,15 @@ function DeckHeader({
               }}
             />
           )}
-          <Link
-            to={deckLeaderPath(deck.id)}
-            className="inline-flex h-9 items-center rounded-full border px-3 text-xs font-medium hover:bg-muted"
-          >
-            {t('decks.changeLeader')}
-          </Link>
+          {/* Offline (RIB-27) il Leader non si cambia: la voce sparisce. */}
+          {!editing.disabled && (
+            <Link
+              to={deckLeaderPath(deck.id)}
+              className="inline-flex h-9 items-center rounded-full border px-3 text-xs font-medium hover:bg-muted"
+            >
+              {t('decks.changeLeader')}
+            </Link>
+          )}
           {leader && (
             <button
               type="button"

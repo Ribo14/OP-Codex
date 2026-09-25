@@ -41,6 +41,14 @@ const CATALOG: Catalog = {
         { printId: 'OP01-016_p1', rarity: 'R', setCode: 'OP-01', hasImage: false },
         { printId: 'OP01-016_p8', rarity: 'SP CARD', setCode: 'PRB-01', hasImage: false },
       ],
+      faqs: [
+        { question: 'Can I add a <b>Nami</b>?', answer: 'Yes, you can.', source: 'qa_op01.pdf' },
+        {
+          question: 'What happens with 4 or less cards?',
+          answer: 'You look at all of them.\nThe deck is not considered 0.',
+          source: 'qa_op14_eb04.pdf',
+        },
+      ],
     }),
     card({
       cardCode: 'ZZ99-001',
@@ -156,6 +164,25 @@ describe('Dettaglio Card', () => {
     expect(container.querySelector('script')).toBeNull()
     expect(container.querySelector('b')).toBeNull()
     expect(container.querySelector('img[src="x"]')).toBeNull()
+  })
+
+  it('FAQ ufficiali: chiuse di default, si aprono, testo e fonte (RIB-44)', async () => {
+    const { container } = await renderAt('/carta/OP01-016')
+    const summary = screen.getByText(it_.detail.faq.title).closest('summary')
+    expect(summary).toHaveTextContent('2 domande')
+    const details = summary?.parentElement
+    expect(details).not.toHaveAttribute('open')
+    if (summary) fireEvent.click(summary)
+    expect(details).toHaveAttribute('open')
+    expect(screen.getByText('Can I add a <b>Nami</b>?')).toBeInTheDocument()
+    expect(container.querySelector('details b')).toBeNull()
+    expect(screen.getByText('Fonte: FAQ ufficiale OP01')).toBeInTheDocument()
+    expect(screen.getByText('Fonte: FAQ ufficiale OP14 / EB04')).toBeInTheDocument()
+  })
+
+  it('senza FAQ la sezione non compare', async () => {
+    await renderAt('/carta/ZZ99-001')
+    expect(screen.queryByText(it_.detail.faq.title)).toBeNull()
   })
 
   it('un Card Code inesistente lo dice', async () => {

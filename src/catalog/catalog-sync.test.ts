@@ -5,7 +5,9 @@ import {
   OVERLAP_MS,
   sinceFor,
   syncSnapshot,
+  upgradeSnapshot,
   type CatalogRows,
+  type CatalogSnapshot,
   type RawCard,
   type RawPrinting,
 } from './catalog-sync'
@@ -48,9 +50,19 @@ const FULL: CatalogRows = {
     rawPrinting('OP01-001', 'OP01-001'),
     rawPrinting('OP01-002', 'OP01-002'),
   ],
+  faqs: [
+    {
+      card_code: 'OP01-001',
+      items: [
+        { question: 'Can I?', answer: 'Yes, you can.', source: 'qa_op01.pdf' },
+        { question: 'Broken' },
+      ],
+      updated_at: T1,
+    },
+  ],
 }
 
-const NOTHING: CatalogRows = { sets: [], cards: [], printings: [] }
+const NOTHING: CatalogRows = { sets: [], cards: [], printings: [], faqs: [] }
 
 describe('buildCatalog', () => {
   it('ordina le carte e mette la Printing base per prima, col codice del Set', () => {
@@ -64,6 +76,30 @@ describe('buildCatalog', () => {
       hasImage: false,
     })
     expect(catalog.sets).toEqual([{ seriesId: 1, code: 'OP-01', name: 'ROMANCE DAWN' }])
+  })
+
+  it('FAQ ufficiali sulla carta, solo quelle ben formate (RIB-44)', () => {
+    const catalog = buildCatalog(FULL)
+    expect(catalog.cards[0]?.faqs).toEqual([
+      { question: 'Can I?', answer: 'Yes, you can.', source: 'qa_op01.pdf' },
+    ])
+    expect(catalog.cards[1]?.faqs).toEqual([])
+  })
+})
+
+describe('copia salvata da una versione senza FAQ', () => {
+  it('si usa subito, ma senza watermark: il prossimo aggiornamento riscarica tutto', () => {
+    const old: Partial<CatalogSnapshot> = mergeSnapshot(null, FULL, 1000)
+    delete old.faqs
+    const upgraded = upgradeSnapshot(old as CatalogSnapshot)
+    expect(upgraded).toMatchObject({ faqs: [], watermark: null, checkedAt: 1000 })
+    expect(upgraded.cards).toHaveLength(2)
+    expect(sinceFor(upgraded.watermark)).toBeNull()
+  })
+
+  it('una copia già con le FAQ resta com’è', () => {
+    const current = mergeSnapshot(null, FULL, 1000)
+    expect(upgradeSnapshot(current)).toBe(current)
   })
 })
 
@@ -94,6 +130,7 @@ describe('sincronizzazione incrementale', () => {
       sets: [],
       cards: [rawCard('OP01-002', 'Trafalgar Law (errata)', T2), rawCard('OP01-003', 'Nuova', T2)],
       printings: [{ ...rawPrinting('OP01-003', 'OP01-003', T2), image_synced_at: T2 }],
+      faqs: [{ card_code: 'OP01-001', items: [], updated_at: T2 }],
     }
     const { snapshot, changed } = await syncSnapshot(local, () => Promise.resolve(delta), 2000)
     expect(changed).toBe(true)
@@ -106,6 +143,8 @@ describe('sincronizzazione incrementale', () => {
       'Nuova',
     ])
     expect(catalog.cards[2]?.printings[0]?.hasImage).toBe(true)
+    // Le FAQ tolte dai PDF arrivano come elenco vuoto.
+    expect(catalog.cards[0]?.faqs).toEqual([])
   })
 
   it('un errore di rete non tocca la copia locale', async () => {

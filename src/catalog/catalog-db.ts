@@ -1,5 +1,5 @@
 import { openDB, type DBSchema, type IDBPDatabase } from 'idb'
-import type { CatalogSnapshot } from './catalog-sync'
+import { upgradeSnapshot, type CatalogSnapshot } from './catalog-sync'
 
 // La copia locale del catalogo in IndexedDB: un solo record, letto e scritto per intero
 // (qualche MB: più semplice e abbastanza veloce).
@@ -44,12 +44,12 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
 export async function readSnapshot(): Promise<CatalogSnapshot | null> {
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      return (
-        (await withTimeout(
-          open().then((database) => database.get('catalog', 'snapshot')),
-          READ_TIMEOUT_MS,
-        )) ?? null
+      const stored = await withTimeout(
+        open().then((database) => database.get('catalog', 'snapshot')),
+        READ_TIMEOUT_MS,
       )
+      // Una copia di una versione precedente dell'app si aggiorna al formato attuale (RIB-44).
+      return stored ? upgradeSnapshot(stored) : null
     } catch {
       db = null
     }

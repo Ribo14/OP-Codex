@@ -23,7 +23,8 @@ import { DeckEditorPage } from '@/decks/DeckEditorPage'
 import { DecksPage } from '@/decks/DecksPage'
 import { LeaderPickerPage } from '@/decks/LeaderPickerPage'
 import { ImportDeckPage } from '@/decks/ImportDeckPage'
-import { DECKS_PATH, IMPORT_DECK_PATH, NEW_DECK_PATH } from '@/decks/paths'
+import { DECKS_PATH, IMPORT_DECK_PATH, NEW_DECK_PATH, SHARED_DECK_PATH } from '@/decks/paths'
+import { SharedDeckPage } from '@/decks/SharedDeckPage'
 import { CardDetailRoute } from '@/catalog/CardDetailRoute'
 import { CatalogPage } from '@/catalog/CatalogPage'
 import { AppShell } from './AppShell'
@@ -52,6 +53,8 @@ export const routes: RouteObject[] = [
       { path: DECKS_PATH, element: <DecksPage /> },
       { path: NEW_DECK_PATH, element: <LeaderPickerPage /> },
       { path: IMPORT_DECK_PATH, element: <ImportDeckPage /> },
+      // Share Link (RIB-26): pubblico, anche senza account
+      { path: SHARED_DECK_PATH, element: <SharedDeckPage /> },
       { path: `${DECKS_PATH}/:deckId`, element: <DeckEditorPage /> },
       { path: `${DECKS_PATH}/:deckId/leader`, element: <LeaderPickerPage /> },
       { path: PRIVACY_PATH, element: <PrivacyPage /> },

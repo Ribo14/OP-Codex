@@ -10,6 +10,7 @@ const DECK = {
   updatedAt: '2026-09-25T10:00:00Z',
   cardCount: 0,
   format: 'standard' as const,
+  shareToken: null,
 }
 
 /** Un server finto che risponde quando lo si decide. */

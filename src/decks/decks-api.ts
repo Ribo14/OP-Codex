@@ -15,7 +15,7 @@ function fail(error: { message: string } | null): asserts error is null {
 }
 
 const DECK_COLUMNS =
-  'id, name, leader_code, leader_print_id, format, updated_at, deck_cards(card_code, quantity, print_id)'
+  'id, name, leader_code, leader_print_id, format, share_token, updated_at, deck_cards(card_code, quantity, print_id)'
 
 interface DeckRow {
   id: string
@@ -23,6 +23,7 @@ interface DeckRow {
   leader_code: string
   leader_print_id: string | null
   format: string
+  share_token: string | null
   updated_at: string
   deck_cards: { card_code: string; quantity: number; print_id: string | null }[]
 }
@@ -42,8 +43,66 @@ function toDetail(row: DeckRow): DeckDetail {
       updatedAt: row.updated_at,
       cardCount: cards.reduce((sum, c) => sum + c.quantity, 0),
       format: row.format === 'extra' ? 'extra' : 'standard',
+      shareToken: row.share_token,
     },
     cards,
+  }
+}
+
+// ---- Share Link (RIB-26) ----
+
+/** Crea lo Share Link (o restituisce quello attivo) e ne restituisce il token. */
+export async function createShareLink(deckId: string): Promise<string> {
+  const { data, error } = await getSupabase().rpc('crea_link_mazzo', { p_deck_id: deckId })
+  fail(error)
+  return data
+}
+
+/** Revoca lo Share Link: il vecchio link smette di funzionare. */
+export async function revokeShareLink(deckId: string): Promise<void> {
+  const { error } = await getSupabase().rpc('revoca_link_mazzo', { p_deck_id: deckId })
+  fail(error)
+}
+
+export interface SharedDeck {
+  name: string
+  leaderCode: string
+  leaderPrintId: string | null
+  format: 'standard' | 'extra'
+  updatedAt: string
+  /** Username dell'autore (null se non l'ha ancora scelto). */
+  username: string | null
+  cards: DeckCard[]
+}
+
+interface SharedRow {
+  name: string
+  leader_code: string
+  leader_print_id: string | null
+  format: string
+  updated_at: string
+  username: string | null
+  cards: { card_code: string; quantity: number; print_id: string | null }[]
+}
+
+/** Il Deck di uno Share Link, anche senza account; null se il link non esiste o è stato revocato. */
+export async function loadSharedDeck(token: string): Promise<SharedDeck | null> {
+  const { data, error } = await getSupabase().rpc('mazzo_condiviso', { p_token: token })
+  fail(error)
+  if (!data) return null
+  const row = data as unknown as SharedRow
+  return {
+    name: row.name,
+    leaderCode: row.leader_code,
+    leaderPrintId: row.leader_print_id,
+    format: row.format === 'extra' ? 'extra' : 'standard',
+    updatedAt: row.updated_at,
+    username: row.username,
+    cards: row.cards.map((c) => ({
+      cardCode: c.card_code,
+      quantity: c.quantity,
+      printId: c.print_id,
+    })),
   }
 }
 
@@ -90,7 +149,7 @@ export async function createDeck(name: string, leaderCode: string): Promise<stri
 export async function createDeckWithCards(
   name: string,
   leaderCode: string,
-  cards: readonly Pick<DeckCard, 'cardCode' | 'quantity'>[],
+  cards: readonly (Pick<DeckCard, 'cardCode' | 'quantity'> & { printId?: string | null })[],
 ): Promise<string> {
   const deckId = await createDeck(name, leaderCode)
   if (cards.length === 0) return deckId
@@ -101,6 +160,7 @@ export async function createDeckWithCards(
         deck_id: deckId,
         card_code: c.cardCode,
         quantity: Math.min(c.quantity, 50),
+        print_id: c.printId ?? null,
       })),
     )
   if (error) {

@@ -1,6 +1,6 @@
-import type { Factor } from '@supabase/supabase-js'
-import { LogOut, ShieldCheck, Trash2 } from 'lucide-react'
-import { useCallback, useEffect, useState, type ReactNode, type SubmitEvent } from 'react'
+import type { Factor, User } from '@supabase/supabase-js'
+import { LogOut, MonitorSmartphone, ShieldCheck, Trash2 } from 'lucide-react'
+import { useCallback, useEffect, useState, type SubmitEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import { getSupabase } from '@/lib/supabase'
@@ -14,52 +14,64 @@ import {
 } from './errors'
 import { Field, FormMessage } from './form'
 import { field } from './form-data'
-import { cleanCode, qrSource } from './mfa'
+import { cn } from '@/lib/utils'
+import { cleanCode, qrSource, verifiedTotp } from './mfa'
 import { PROFILE_PATH } from './paths'
+import { SettingsRow } from './SettingsRow'
 
 // "Account e sicurezza" nel Profilo (RIB-18, ADR-0013): verifica in due passaggi, uscita da
-// tutti i dispositivi, eliminazione dell'account.
+// tutti i dispositivi, eliminazione dell'account. Voci chiuse di default (RIB-46).
 
-export function SecuritySection({ username }: { username: string }) {
+/** Verifica in due passaggi, con lo stato visibile anche da chiusa. */
+export function TwoFactorRow({ user }: { user: User }) {
   const { t } = useTranslation()
+  const active = verifiedTotp(user) !== undefined
   return (
-    <section className="space-y-4" aria-labelledby="sicurezza-titolo">
-      <h2 id="sicurezza-titolo" className="text-lg font-semibold tracking-tight">
-        {t('account.security.title')}
-      </h2>
-      <Card title={t('account.twoFactor.title')}>
-        <TwoFactor />
-      </Card>
-      <Card title={t('account.logoutEverywhere.title')}>
-        <LogoutEverywhere />
-      </Card>
-      <Card title={t('account.delete.title')} danger>
-        <DeleteAccount username={username} />
-      </Card>
-    </section>
+    <SettingsRow
+      icon={ShieldCheck}
+      title={t('account.twoFactor.title')}
+      status={
+        <span
+          className={cn(
+            'shrink-0 rounded-full px-2 py-0.5 text-xs font-medium',
+            active
+              ? 'bg-emerald-600/10 text-emerald-700 dark:text-emerald-400'
+              : 'bg-muted text-muted-foreground',
+          )}
+        >
+          {active ? t('account.twoFactor.statusOn') : t('account.twoFactor.statusOff')}
+        </span>
+      }
+    >
+      <TwoFactor />
+    </SettingsRow>
   )
 }
 
-function Card({
-  title,
-  danger = false,
-  children,
-}: {
-  title: string
-  danger?: boolean
-  children: ReactNode
-}) {
+export function LogoutEverywhereRow() {
+  const { t } = useTranslation()
   return (
-    <div
-      className={
-        danger
-          ? 'space-y-3 rounded-2xl border border-destructive/40 p-5'
-          : 'space-y-3 rounded-2xl border p-5'
-      }
+    <SettingsRow
+      icon={MonitorSmartphone}
+      title={t('account.logoutEverywhere.row')}
+      hint={t('account.logoutEverywhere.rowHint')}
     >
-      <h3 className="font-semibold">{title}</h3>
-      {children}
-    </div>
+      <LogoutEverywhere />
+    </SettingsRow>
+  )
+}
+
+export function DeleteAccountRow({ username }: { username: string }) {
+  const { t } = useTranslation()
+  return (
+    <SettingsRow
+      icon={Trash2}
+      title={t('account.delete.title')}
+      hint={t('account.delete.rowHint')}
+      danger
+    >
+      <DeleteAccount username={username} />
+    </SettingsRow>
   )
 }
 

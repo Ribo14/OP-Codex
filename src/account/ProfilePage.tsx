@@ -1,5 +1,5 @@
 import type { User } from '@supabase/supabase-js'
-import { LogOut } from 'lucide-react'
+import { KeyRound, LogOut } from 'lucide-react'
 import { useState, type SubmitEvent, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Navigate, useLocation, useNavigate, useSearchParams } from 'react-router'
@@ -11,7 +11,8 @@ import { Field, FormMessage, PasswordField, SubmitButton } from './form'
 import { cleanCode, verifiedTotp } from './mfa'
 import { newPasswordProblem, PASSWORD_MIN, type PasswordProblem } from './new-password'
 import { codePath, loginPath, RETURN_PARAM, safeReturnPath } from './return-path'
-import { SecuritySection } from './SecuritySection'
+import { DeleteAccountRow, LogoutEverywhereRow, TwoFactorRow } from './SecuritySection'
+import { SettingsRow } from './SettingsRow'
 import { useProfile, useSession, type Profile } from './session'
 import { Turnstile } from './Turnstile'
 import { USERNAME_MAX, USERNAME_MIN, usernameProblem, type UsernameProblem } from './username'
@@ -152,23 +153,58 @@ export function ProfilePage() {
     <RequireAccount>
       {({ user, profile }) => (
         <div className="mx-auto max-w-2xl space-y-6">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">
-              @{profile.username}
-            </h1>
-            <p className="mt-1 text-sm text-muted-foreground">{user.email}</p>
+          {/* Intestazione (RIB-46): iniziale, Username ed email; sotto, voci chiuse di default. */}
+          <div className="flex items-center gap-4">
+            <span
+              className="inline-flex size-14 shrink-0 items-center justify-center rounded-full bg-foreground text-xl font-semibold text-background uppercase"
+              aria-hidden="true"
+            >
+              {profile.username.charAt(0)}
+            </span>
+            <div className="min-w-0">
+              <h1 className="truncate text-2xl font-semibold tracking-tight lg:text-3xl">
+                @{profile.username}
+              </h1>
+              <p className="truncate text-sm text-muted-foreground">{user.email}</p>
+            </div>
           </div>
           {passwordChanged && (
             <FormMessage tone="success">{t('account.changePassword.done')}</FormMessage>
           )}
-          <section className="space-y-3 rounded-2xl border p-5">
-            <h2 className="text-lg font-semibold tracking-tight">
-              {t('account.changePassword.title')}
+
+          <section aria-labelledby="account-titolo" className="space-y-2">
+            <h2
+              id="account-titolo"
+              className="px-1 text-xs font-medium tracking-wide text-muted-foreground uppercase"
+            >
+              {t('account.security.title')}
             </h2>
-            <ChangePasswordForm user={user} />
+            <div className="divide-y overflow-hidden rounded-2xl border">
+              <SettingsRow
+                icon={KeyRound}
+                title={t('account.changePassword.row')}
+                hint={t('account.changePassword.rowHint')}
+              >
+                <ChangePasswordForm user={user} />
+              </SettingsRow>
+              <TwoFactorRow user={user} />
+              <LogoutEverywhereRow />
+            </div>
           </section>
+
           <LogoutButton />
-          <SecuritySection username={profile.username} />
+
+          <section aria-labelledby="pericolo-titolo" className="space-y-2">
+            <h2
+              id="pericolo-titolo"
+              className="px-1 text-xs font-medium tracking-wide text-destructive uppercase"
+            >
+              {t('account.delete.zone')}
+            </h2>
+            <div className="overflow-hidden rounded-2xl border border-destructive/40">
+              <DeleteAccountRow username={profile.username} />
+            </div>
+          </section>
         </div>
       )}
     </RequireAccount>
@@ -184,7 +220,7 @@ function LogoutButton() {
         // Solo questo dispositivo; "Esci da tutti i dispositivi" sta in Account e sicurezza.
         void getSupabase().auth.signOut({ scope: 'local' })
       }}
-      className="inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-medium hover:bg-muted"
+      className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border text-sm font-medium hover:bg-muted"
     >
       <LogOut className="size-4" aria-hidden="true" />
       {t('account.logout')}

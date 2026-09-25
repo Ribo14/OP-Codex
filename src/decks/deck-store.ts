@@ -36,6 +36,8 @@ export interface DeckStore {
   rename: (name: string) => Promise<boolean>
   setLeader: (leaderCode: string, leaderPrintId: string | null) => Promise<boolean>
   setFormat: (format: DeckFormat) => Promise<boolean>
+  /** Aggiorna lo Share Link mostrato, dopo averlo creato o revocato sul server (RIB-26). */
+  showShareToken: (token: string | null) => void
 }
 
 const LOADING: DeckState = { status: 'loading' }
@@ -150,6 +152,9 @@ export function createDeckStore(deps: DeckDeps): DeckStore {
         update(deckId, (s) => ({ ...s, deck: { ...s.deck, name: previous } }))
         return false
       }
+    },
+    showShareToken: (token) => {
+      if (owner) update(owner, (s) => ({ ...s, deck: { ...s.deck, shareToken: token } }))
     },
     setFormat: async (format) => {
       if (state.status !== 'ready' || !owner) return false

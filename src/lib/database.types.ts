@@ -246,6 +246,7 @@ export type Database = {
           leader_code: string
           leader_print_id: string | null
           name: string
+          share_token: string | null
           updated_at: string
           user_id: string
           visibility: string
@@ -257,6 +258,7 @@ export type Database = {
           leader_code: string
           leader_print_id?: string | null
           name: string
+          share_token?: string | null
           updated_at?: string
           user_id?: string
           visibility?: string
@@ -268,6 +270,7 @@ export type Database = {
           leader_code?: string
           leader_print_id?: string | null
           name?: string
+          share_token?: string | null
           updated_at?: string
           user_id?: string
           visibility?: string
@@ -425,11 +428,14 @@ export type Database = {
         Args: { p_delta: number; p_language: string; p_print_id: string }
         Returns: number
       }
+      crea_link_mazzo: { Args: { p_deck_id: string }; Returns: string }
       duplica_mazzo: { Args: { p_deck_id: string }; Returns: string }
       elimina_account: {
         Args: { conferma_username: string }
         Returns: undefined
       }
+      mazzo_condiviso: { Args: { p_token: string }; Returns: Json }
+      revoca_link_mazzo: { Args: { p_deck_id: string }; Returns: undefined }
       stato_admin: { Args: never; Returns: string }
     }
     Enums: {

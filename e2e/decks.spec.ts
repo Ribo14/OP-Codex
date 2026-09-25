@@ -30,6 +30,7 @@ test.use({
 test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', async ({
   page,
   baseURL,
+  browser,
 }) => {
   test.setTimeout(120_000)
   const sql = postgres(DB_URL, { max: 1, onnotice: () => undefined })
@@ -131,6 +132,24 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
       '\n',
     )
     expect(missing).toBe(`1x${LEADER.code}\n1x${BETA.code}\n4x${ALPHA.code}`)
+
+    // Share Link (RIB-26): chi non ha l'account vede il mazzo; dopo la revoca non più.
+    await page.getByText('Condividi mazzo').click()
+    await page.getByRole('button', { name: 'Crea link' }).click()
+    const link = (await page.getByText(/\/m\/[A-Za-z0-9_-]{22}$/).innerText()).trim()
+    const visitor = await browser.newContext({ viewport: { width: 390, height: 844 } })
+    const guest = await visitor.newPage()
+    await guest.goto(link)
+    await expect(guest.getByRole('heading', { level: 1, name: LEADER.name })).toBeVisible()
+    await expect(guest.getByText(`di @${username}`)).toBeVisible()
+    await expect(guest.getByText('5/50 carte')).toBeVisible()
+    await expect(guest.getByRole('button', { name: 'Salva nei miei mazzi' })).toHaveCount(0)
+    await page.getByRole('button', { name: 'Revoca link' }).click()
+    await page.getByRole('alertdialog').getByRole('button', { name: 'Revoca link' }).click()
+    await expect(page.getByRole('button', { name: 'Crea link' })).toBeVisible()
+    await guest.reload()
+    await expect(guest.getByText('Questo link non esiste o è stato revocato')).toBeVisible()
+    await visitor.close()
 
     // Deck Warning (RIB-23): 5 carte su 50 e la coppia bandita Alfa + Beta (RIB-29); gli avvisi
     // si aprono e non bloccano nulla.

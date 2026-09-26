@@ -1,6 +1,6 @@
 import type { User } from '@supabase/supabase-js'
 import { getSupabase } from '@/lib/supabase'
-import type { ExportCollectionEntry, ExportData, ExportDeck } from './data-export'
+import type { ExportCollectionEntry, ExportData, ExportDeck, ExportReport } from './data-export'
 
 // Lettura dei dati per "Esporta i miei dati" (RIB-28). Le policy RLS fanno già vedere solo i
 // propri dati; il filtro sull'utente resta comunque esplicito, così quando arriveranno i Deck
@@ -29,7 +29,7 @@ export async function loadExportData(
   shareUrl: (token: string) => string,
 ): Promise<ExportData> {
   const supabase = getSupabase()
-  const [profile, collection, decks] = await Promise.all([
+  const [profile, collection, decks, reports] = await Promise.all([
     supabase.from('profiles').select('username, created_at, updated_at').eq('id', user.id).single(),
     allPages((from, to) =>
       supabase
@@ -46,6 +46,17 @@ export async function loadExportData(
         .select(
           'id, name, leader_code, leader_print_id, format, visibility, share_token, created_at, updated_at, deck_cards(card_code, quantity, print_id)',
         )
+        .eq('user_id', user.id)
+        .order('created_at')
+        .order('id')
+        .range(from, to),
+    ),
+    // Segnalazioni e richieste di spiegazione (RIB-54): l'Admin le legge tutte, quindi il filtro
+    // sull'utente qui serve davvero.
+    allPages((from, to) =>
+      supabase
+        .from('explanation_reports')
+        .select('card_code, kind, reason, note, status, created_at, updated_at')
         .eq('user_id', user.id)
         .order('created_at')
         .order('id')
@@ -82,6 +93,15 @@ export async function loadExportData(
       cards: row.deck_cards
         .map((c) => ({ cardCode: c.card_code, quantity: c.quantity, printId: c.print_id }))
         .sort((a, b) => a.cardCode.localeCompare(b.cardCode, 'en', { numeric: true })),
+    })),
+    reports: reports.map((row): ExportReport => ({
+      cardCode: row.card_code,
+      kind: row.kind,
+      reason: row.reason,
+      note: row.note,
+      status: row.status,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
     })),
   }
 }

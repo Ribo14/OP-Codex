@@ -38,11 +38,23 @@ export interface ExportDeck {
   cards: { cardCode: string; quantity: number; printId: string | null }[]
 }
 
+/** Segnalazione o richiesta di spiegazione (RIB-54). */
+export interface ExportReport {
+  cardCode: string
+  kind: string
+  reason: string | null
+  note: string | null
+  status: string
+  createdAt: string
+  updatedAt: string
+}
+
 export interface ExportData {
   exportedAt: string
   profile: ExportProfile
   collection: ExportCollectionEntry[]
   decks: ExportDeck[]
+  reports: ExportReport[]
 }
 
 // ---- CSV della Collection ----
@@ -122,6 +134,7 @@ profilo.json     Username, email e date dell'account.
 collezione.csv   La Collection: una riga per Printing e lingua (separatore ";", UTF-8).
 mazzi.json       Tutti i mazzi con le carte (Card Code, copie, Printing scelta).
 mazzi/*.txt      Ogni mazzo come lista "4xOP01-016", da importare in OP-Codex o in OPTCG Sim.
+segnalazioni.json Le segnalazioni e le richieste di spiegazione che hai inviato.
 
 Versione del formato: ${String(EXPORT_VERSION)}.
 `
@@ -142,6 +155,7 @@ export function exportFiles(data: ExportData, catalog: Catalog): ZipEntry[] {
       name: `mazzi/${names[i] ?? 'Mazzo'}.txt`,
       content: `${formatDeckList(deck.leaderCode, deck.cards, cardsByCode)}\n`,
     })),
+    { name: 'segnalazioni.json', content: json({ ...meta, reports: data.reports }) },
   ]
 }
 

@@ -8,6 +8,7 @@ import { RequireAccount } from '@/account/ProfilePage'
 import { getSupabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
 import { BanListSection } from './BanListSection'
+import { ExplanationQueueSection } from './ExplanationQueueSection'
 import { duration, JOB_RUNS_LIMIT, statsSummary, type JobRun } from './job-runs'
 
 // Area Admin (RIB-19, ADR-0014). Il database decide chi entra (private.admin_attivo): Admin,
@@ -66,6 +67,7 @@ function AdminArea() {
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">{t('admin.title')}</h1>
+      <ExplanationQueueSection />
       <BanListSection />
       <JobRuns />
     </div>

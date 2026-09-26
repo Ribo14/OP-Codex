@@ -7,13 +7,14 @@ Il file si chiama `op-codex-<username>-<AAAA-MM-GG>.zip`.
 
 ## Contenuto
 
-| File             | Formato                            | Contenuto                                                                                                                                                                  |
-| ---------------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `LEGGIMI.txt`    | testo                              | Descrizione breve dei file, per chi apre l'archivio.                                                                                                                       |
-| `profilo.json`   | JSON                               | `{ version, exportedAt, profile: { username, email, createdAt, updatedAt } }`                                                                                              |
-| `collezione.csv` | CSV UTF-8 con BOM, `;`, righe CRLF | Colonne: Print ID, Card Code, Nome, Set, Nome del Set, Lingua, Quantità. Una riga per Printing e lingua.                                                                   |
-| `mazzi.json`     | JSON                               | `{ version, exportedAt, decks: [{ id, name, leaderCode, leaderPrintId, format, visibility, shareLink, createdAt, updatedAt, cards: [{ cardCode, quantity, printId }] }] }` |
-| `mazzi/*.txt`    | Deck List (`4xOP01-016`, RIB-24)   | Un file per Deck, il Leader per primo. Si reimporta in OP-Codex o in OPTCG Sim.                                                                                            |
+| File                | Formato                            | Contenuto                                                                                                                                                                     |
+| ------------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `LEGGIMI.txt`       | testo                              | Descrizione breve dei file, per chi apre l'archivio.                                                                                                                          |
+| `profilo.json`      | JSON                               | `{ version, exportedAt, profile: { username, email, createdAt, updatedAt } }`                                                                                                 |
+| `collezione.csv`    | CSV UTF-8 con BOM, `;`, righe CRLF | Colonne: Print ID, Card Code, Nome, Set, Nome del Set, Lingua, Quantità. Una riga per Printing e lingua.                                                                      |
+| `mazzi.json`        | JSON                               | `{ version, exportedAt, decks: [{ id, name, leaderCode, leaderPrintId, format, visibility, shareLink, createdAt, updatedAt, cards: [{ cardCode, quantity, printId }] }] }`    |
+| `mazzi/*.txt`       | Deck List (`4xOP01-016`, RIB-24)   | Un file per Deck, il Leader per primo. Si reimporta in OP-Codex o in OPTCG Sim.                                                                                               |
+| `segnalazioni.json` | JSON                               | `{ version, exportedAt, reports: [{ cardCode, kind, reason, note, status, createdAt, updatedAt }] }`: segnalazioni (`report`) e richieste (`request`) di spiegazione, RIB-54. |
 
 Nome e Set della Collection vengono dal catalogo sul dispositivo; una Printing non più nel catalogo
 resta comunque nel file, con le colonne che si conoscono.

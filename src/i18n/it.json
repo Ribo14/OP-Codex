@@ -408,6 +408,24 @@
     "notAdmin": "Questa area è riservata agli amministratori.",
     "needsTwoFactor": "Per entrare nell'area Admin serve la verifica in due passaggi: attivala nel Profilo, in «Account e sicurezza».",
     "toProfile": "Vai al Profilo",
+    "queue": {
+      "title": "Segnalazioni e richieste",
+      "intro": "Spiegazioni segnalate dagli utenti e carte di cui chiedono la spiegazione, raggruppate per carta. Copia l'elenco per la prossima sessione di lavoro sulle spiegazioni, poi chiudi le voci.",
+      "empty": "Nessuna segnalazione o richiesta aperta.",
+      "copy": "Copia elenco",
+      "copied": "Elenco copiato",
+      "kind": {
+        "report_one": "{{count}} segnalazione",
+        "report_other": "{{count}} segnalazioni",
+        "request_one": "{{count}} richiesta",
+        "request_other": "{{count}} richieste"
+      },
+      "set": {
+        "in_progress": "In lavorazione",
+        "resolved": "Risolta",
+        "dismissed": "Scarta"
+      }
+    },
     "ban": {
       "title": "Ban List",
       "intro": "Carte bandite, limitate e coppie bandite. Valgono dalla data di entrata in vigore; ogni modifica finisce nel registro.",
@@ -602,6 +620,48 @@
     "explanation": {
       "title": "Come funziona",
       "disclaimer": "Spiegazione scritta da OP-Codex, non ufficiale: in caso di dubbio valgono il testo della carta, le FAQ e il regolamento."
+    },
+    "feedback": {
+      "noExplanation": "Questa carta non ha ancora una spiegazione in italiano.",
+      "action": {
+        "report": "Segnala un problema",
+        "request": "Chiedi una spiegazione"
+      },
+      "reasonLabel": "Cosa non va?",
+      "reason": {
+        "wrong": "È sbagliata",
+        "unclear": "Non è chiara",
+        "other": "Altro"
+      },
+      "noteLabel": "Dettagli (facoltativo)",
+      "noteHint": "Ancora {{count}} caratteri.",
+      "send": "Invia",
+      "cancel": "Annulla",
+      "sent": {
+        "report": "Grazie: la segnalazione è arrivata all'Admin.",
+        "request": "Richiesta inviata: la spiegazione arriverà con un prossimo aggiornamento."
+      },
+      "pending": {
+        "report": "Hai segnalato questa spiegazione: {{status}}.",
+        "request": "Hai chiesto la spiegazione di questa carta: {{status}}."
+      },
+      "last": {
+        "report": "La tua ultima segnalazione: {{status}}.",
+        "request": "La tua ultima richiesta: {{status}}."
+      },
+      "status": {
+        "open": "in coda",
+        "in_progress": "in lavorazione",
+        "resolved": "risolta",
+        "dismissed": "chiusa senza modifiche"
+      },
+      "offline": "Serve la connessione per inviare segnalazioni o richieste.",
+      "problem": {
+        "duplicate": "Hai già una segnalazione aperta per questa carta.",
+        "limit": "Hai raggiunto il limite di 10 segnalazioni o richieste al giorno: riprova domani.",
+        "invalid": "La nota è troppo lunga o vuota.",
+        "generic": "Qualcosa non ha funzionato: riprova tra poco."
+      }
     }
   },
   "filters": {

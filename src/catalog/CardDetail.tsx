@@ -13,6 +13,7 @@ import type { CatalogCard, CatalogSet } from './catalog-data'
 import { filtersToSearchParams, relatedFilters } from './filters'
 import { CardExplanation } from './CardExplanation'
 import { CardFaqs } from './CardFaqs'
+import { ExplanationFeedback } from './ExplanationFeedback'
 import { LegalityTags } from './LegalityTags'
 import { gameColor } from './game-colors'
 import { useSwipe } from './use-swipe'
@@ -315,6 +316,8 @@ export function CardDetail({
 
           {/* RIB-52: la spiegazione in italiano, dopo il testo ufficiale e prima delle FAQ. */}
           <CardExplanation markdown={card.explanation} />
+          {/* RIB-54: segnala la spiegazione o chiedine una. */}
+          <ExplanationFeedback card={card} />
 
           <CardFaqs faqs={card.faqs ?? []} />
 

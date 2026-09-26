@@ -30,4 +30,5 @@ Le spiegazioni in italiano delle carte si scrivono in anticipo, nelle sessioni d
 
 ## Stato
 
-- 2026-09-26: tutti i 142 Leader (RIB-52). Prossimo: le carte con effetto dei Set legali in Standard, a blocchi (RIB-55), e le richieste degli utenti dalla coda Admin (RIB-54).
+- 2026-09-26: tutti i 142 Leader (RIB-52) e tutte le carte con effetto di OP-17 (RIB-55, primo blocco).
+- Da fare (RIB-55): le altre carte con effetto dei Set legali in Standard (Block 2 e successivi, circa 1.640), un Set per blocco dal più recente, dando la precedenza alle richieste della coda Admin (RIB-54).

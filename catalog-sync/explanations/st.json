@@ -86,5 +86,805 @@
   {
     "cardCode": "ST30-001",
     "body": "Se hai un Character con 7000 potenza base o più, il Leader ha −2000 potenza (parte da 6000).\n\nNel turno avversario tutte le tue carte [Portgas.D.Ace] e [Monkey.D.Luffy] hanno **+3000 potenza**: molto difficili da battere."
+  },
+  {
+    "cardCode": "ST10-004",
+    "body": "Quando lo giochi, se l’avversario ha un Character con 5000 potenza o più, guadagna [Rush]."
+  },
+  {
+    "cardCode": "ST10-005",
+    "body": "Con almeno 1 DON!! dato, quando attacca dai −2000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "ST10-006",
+    "body": "Ha [Rush].\n\nUna volta per turno, quando l’avversario attiva [Blocker], metti K.O. un Character avversario con 8000 potenza o meno (anche quello che blocca: allora la battaglia finisce)."
+  },
+  {
+    "cardCode": "ST10-007",
+    "body": "Una volta per turno, nel tuo turno, quando un tuo DON!! torna nel mazzo DON!! (anche per effetto avversario), metti K.O. un Character avversario a riposo di costo 3 o meno."
+  },
+  {
+    "cardCode": "ST10-008",
+    "body": "Quando lo giochi, se hai 3 DON!! o meno in campo, prendi fino a 2 DON!! a riposo."
+  },
+  {
+    "cardCode": "ST10-009",
+    "body": "Quando lo giochi puoi pagare 1 DON!! (a riposo): prendi 1 DON!! attivo dal mazzo DON!!."
+  },
+  {
+    "cardCode": "ST10-010",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi pagare DON!! −1: se l’avversario ha 7 o più carte in mano, **scegli tu** 2 carte a caso (coperte) e le mandi nel cestino."
+  },
+  {
+    "cardCode": "ST10-011",
+    "body": "Una volta per turno, nel tuo turno, quando un tuo DON!! torna nel mazzo DON!!, ha +2000 potenza fino all’inizio del tuo prossimo turno."
+  },
+  {
+    "cardCode": "ST10-012",
+    "body": "Quando lo giochi e quando attacca, se l’avversario ha più DON!! in campo di te, prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "ST10-013",
+    "body": "Quando lo giochi e quando attacca puoi pagare DON!! −1: il tuo Leader ha +1000 potenza fino all’inizio del tuo prossimo turno."
+  },
+  {
+    "cardCode": "ST10-014",
+    "body": "Ha [Blocker].\n\nUna volta per turno, quando un tuo DON!! torna nel mazzo DON!! (anche per effetto avversario), peschi 1 carta e ne scarti 1 (obbligatorio)."
+  },
+  {
+    "cardCode": "ST10-015",
+    "body": "Counter da 1 DON!!: il Leader o un Character ha +2000 potenza per la battaglia e metti K.O. un Character avversario con 2000 potenza o meno."
+  },
+  {
+    "cardCode": "ST10-016",
+    "body": "Costa 5: metti K.O. un Character avversario con 7000 potenza o meno.\n\nIl [Trigger] dà +1000 potenza al tuo Leader fino alla fine del tuo prossimo turno."
+  },
+  {
+    "cardCode": "ST10-017",
+    "body": "Metti a riposo un Character avversario di costo 2 o meno e prendi 1 DON!! a riposo.\n\nIl [Trigger] ti dà 1 DON!! attivo."
+  },
+  {
+    "cardCode": "ST11-002",
+    "body": "Ha [Blocker].\n\nAlla fine del tuo turno puoi scartare un Event per rendere attivo un tuo Character {FILM}."
+  },
+  {
+    "cardCode": "ST11-003",
+    "body": "Se il Leader è [Uta], scegli: metti a riposo un Character avversario di costo 5 o meno, oppure metti K.O. un Character avversario a riposo di costo 5 o meno."
+  },
+  {
+    "cardCode": "ST11-004",
+    "body": "Se il Leader è [Uta], guardi le prime 3 carte e prendi una carta {FILM} (non questa); poi rendi attivo 1 DON!!."
+  },
+  {
+    "cardCode": "ST11-005",
+    "body": "Costa 3: il tuo Leader [Uta] torna attivo (può attaccare di nuovo).\n\nIl [Trigger] dà +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "ST12-002",
+    "body": "Nella tua Main Phase puoi metterla a riposo: metti a riposo un Character avversario di costo 4 o meno.\n\nCon il [Trigger] la giochi gratis."
+  },
+  {
+    "cardCode": "ST12-003",
+    "body": "Quando lo giochi, se hai 2 Character o meno (lui compreso), giochi gratis dalla mano, a riposo, un Character {Muggy Kingdom} o <Slash> di costo 4 o meno (non [Dracule Mihawk])."
+  },
+  {
+    "cardCode": "ST12-006",
+    "body": "Con almeno 1 DON!! dato, quando attacca scegli: metti a riposo un Character avversario di costo 2 o meno, oppure metti K.O. un Character avversario a riposo di costo 2 o meno."
+  },
+  {
+    "cardCode": "ST12-007",
+    "body": "Quando la giochi puoi pagare 2 DON!! (a riposo): se l’avversario ha 3 o più Vite, rendi attivo un tuo Character <Slash> di costo 4 o meno."
+  },
+  {
+    "cardCode": "ST12-008",
+    "body": "Con almeno 1 DON!! dato, quando attacca metti a riposo un Character avversario di costo 6 o meno."
+  },
+  {
+    "cardCode": "ST12-010",
+    "body": "Quando lo giochi riveli la prima carta del mazzo: se è un Character di costo 2 puoi giocarlo, altrimenti la metti in cima o in fondo.\n\nUna volta per turno, quando attacca, peschi 1 carta se hai 6 carte o meno in mano."
+  },
+  {
+    "cardCode": "ST12-011",
+    "body": "Con almeno 1 DON!! dato, quando attacca, se hai 5 carte o meno in mano, ha +2000 potenza fino all’inizio del tuo prossimo turno."
+  },
+  {
+    "cardCode": "ST12-012",
+    "body": "Nella tua Main Phase puoi rimandarla in mano: utile per rigiocarla o per liberare un posto in campo."
+  },
+  {
+    "cardCode": "ST12-013",
+    "body": "Quando lo giochi guardi le prime 3 carte e le rimetti in cima o in fondo nell’ordine che vuoi.\n\nQuando attacca riveli la prima carta: se è un Character di costo 2 puoi giocarlo a riposo, altrimenti la metti in cima o in fondo."
+  },
+  {
+    "cardCode": "ST12-014",
+    "body": "Ha [Blocker].\n\nQuando lo giochi guardi le prime 3 carte e le rimetti in cima o in fondo nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "ST12-016",
+    "body": "Si usa nella Main Phase o come Counter: metti a riposo il Leader o un Character avversario di costo 4 o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "ST12-017",
+    "body": "Counter: il Leader o un Character ha +2000 potenza per la battaglia; poi riveli la prima carta del mazzo e, se è un Character di costo 2, puoi giocarlo."
+  },
+  {
+    "cardCode": "ST13-004",
+    "body": "Quando lo giochi aggiungi la prima carta del mazzo in cima alla Vita; poi guardi tutte le Vite, ne metti una in cima al mazzo e rimetti le altre nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "ST13-005",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi mettere nel cestino la prima o l’ultima carta della Vita: metti coperto in cima alla Vita un Character di costo 5 dalla mano (mostrandolo)."
+  },
+  {
+    "cardCode": "ST13-006",
+    "body": "Ha [Blocker].\n\nQuando la giochi giochi gratis dalla mano un [Sabo], un [Portgas.D.Ace] e un [Monkey.D.Luffy] di costo 2 (quelli che hai)."
+  },
+  {
+    "cardCode": "ST13-007",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: riveli la prima carta della Vita; se è un [Sabo] di costo 5 puoi giocarlo e, se lo fai, il tuo Leader ha +2000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "ST13-008",
+    "body": "Quando lo giochi puoi mettere nel cestino la prima o l’ultima carta della Vita: metti K.O. un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "ST13-009",
+    "body": "Quando lo giochi puoi girare a faccia in giù una tua Vita a faccia in su: se l’avversario ha 7 o più carte in mano, metti nel cestino la prima della sua Vita."
+  },
+  {
+    "cardCode": "ST13-010",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: riveli la prima carta della Vita; se è un [Portgas.D.Ace] di costo 5 puoi giocarlo e, se lo fai, il tuo Leader ha +2000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "ST13-011",
+    "body": "Quando lo giochi, se hai 2 Vite o meno, guadagna [Rush]."
+  },
+  {
+    "cardCode": "ST13-012",
+    "body": "Quando la giochi puoi prendere in mano la prima o l’ultima carta della Vita: guardi le Vite rimaste e le rimetti nell’ordine che vuoi (quelle a faccia in su restano a faccia in su)."
+  },
+  {
+    "cardCode": "ST13-013",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi un [Sabo], un [Portgas.D.Ace] o un [Monkey.D.Luffy] di costo 5 o meno."
+  },
+  {
+    "cardCode": "ST13-014",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: riveli la prima carta della Vita; se è un [Monkey.D.Luffy] di costo 5 puoi giocarlo e, se lo fai, il tuo Leader ha +2000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "ST13-015",
+    "body": "Una volta per turno, nella tua Main Phase, ha +2000 potenza fino all’inizio del tuo prossimo turno; poi, se hai almeno 1 Vita, peschi 1 carta e metti nel cestino la prima carta della Vita."
+  },
+  {
+    "cardCode": "ST13-016",
+    "body": "Ha [Rush].\n\nQuando la giochi guardi tutte le Vite, ne metti una in cima al mazzo e rimetti le altre nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "ST13-017",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +4000 potenza per la battaglia, poi guardi le tue Vite e le riordini.\n\nIl [Trigger]: puoi prendere in mano la prima o l’ultima Vita e rimettere in cima una carta dalla mano."
+  },
+  {
+    "cardCode": "ST13-018",
+    "body": "Counter: il Leader o un Character ha +2000 potenza per la battaglia; se hai 0 Vite peschi 1 carta.\n\nIl [Trigger]: puoi prendere in mano la prima o l’ultima Vita e rimettere in cima una carta dalla mano."
+  },
+  {
+    "cardCode": "ST13-019",
+    "body": "Guardi le prime 5 carte e prendi un [Sabo], un [Portgas.D.Ace] o un [Monkey.D.Luffy] di costo 5 o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "ST14-002",
+    "body": "Con almeno 1 DON!! dato, quando attacca, se hai un Character di costo 8 o più (anche lui), metti K.O. un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "ST14-003",
+    "body": "Quando lo giochi, se hai un Character di costo 6 o più (anche lui, grazie ai bonus di costo), metti K.O. un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "ST14-004",
+    "body": "Una volta per turno, nella tua Main Phase, un tuo Character nero {Straw Hat Crew} ha +2 costo fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "ST14-006",
+    "body": "Ha [Blocker].\n\nQuando la giochi, se hai 6 carte o meno in mano e un Character di costo 8 o più, peschi 1 carta."
+  },
+  {
+    "cardCode": "ST14-007",
+    "body": "Quando la giochi e quando attacca, se hai un Character di costo 8 o più, dai −5 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "ST14-008",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: un tuo Character nero {Straw Hat Crew} ha +2 costo fino alla fine del prossimo turno avversario; poi, se hai un Character di costo 8 o più, peschi 1 carta e ne scarti 1."
+  },
+  {
+    "cardCode": "ST14-009",
+    "body": "Con almeno 1 DON!! dato, nel turno avversario, se hai un Character di costo 6 o più, ha +2000 potenza e non può essere messo K.O. dagli effetti avversari."
+  },
+  {
+    "cardCode": "ST14-011",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: un tuo Character nero {Straw Hat Crew} ha +2 costo fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "ST14-012",
+    "body": "Se hai un Character di costo 10 o più (anche lui), ha [Rush]."
+  },
+  {
+    "cardCode": "ST14-014",
+    "body": "Counter: se hai un Character di costo 8 o più, il Leader o un Character ha +3000 potenza per la battaglia.\n\nIl [Trigger] riprende in mano dal cestino un tuo Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "ST14-015",
+    "body": "Il Leader o un Character ha +3000 potenza per il turno; poi, se hai un Character di costo 8 o più, metti K.O. un Character avversario di costo 2 o meno.\n\nIl [Trigger]: con un Character di costo 8 o più, metti K.O. uno di costo 5 o meno."
+  },
+  {
+    "cardCode": "ST14-016",
+    "body": "Peschi 1 carta, poi un tuo Character ha +3 costo fino alla fine del prossimo turno avversario.\n\nIl [Trigger] mette K.O. un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "ST14-017",
+    "body": "Stage. I tuoi Character neri {Straw Hat Crew} in campo hanno +1 costo.\n\nQuando lo giochi, se il Leader è {Straw Hat Crew}, peschi 1 carta."
+  },
+  {
+    "cardCode": "ST15-001",
+    "body": "Quando attacca, se il Leader è [Edward.Newgate], per il resto del turno non puoi prendere Vite in mano con i tuoi effetti."
+  },
+  {
+    "cardCode": "ST15-002",
+    "body": "Quando lo giochi dai 1 DON!! a riposo al Leader o a un Character.\n\nNella tua Main Phase puoi metterlo a riposo: metti K.O. un Character avversario con 5000 potenza o meno."
+  },
+  {
+    "cardCode": "ST15-003",
+    "body": "Ha [Blocker].\n\nSe nel turno avversario viene messo K.O. da un effetto, il tuo Leader ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "ST15-004",
+    "body": "Quando lo giochi, se il Leader è “Whitebeard Pirates”, dai −2000 potenza per il turno a un Character avversario; poi devi prendere in mano la prima carta della Vita (se ne hai)."
+  },
+  {
+    "cardCode": "ST15-005",
+    "body": "Se il Leader è “Whitebeard Pirates”, ha [Rush].\n\nUna volta per turno, se sta per lasciare il campo per un effetto avversario, puoi invece dargli −2000 potenza per il turno."
+  },
+  {
+    "cardCode": "ST16-001",
+    "body": "Ha [Blocker].\n\nUna volta per turno, nella tua Main Phase, puoi scartare una carta {FILM} per dare 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "ST16-002",
+    "body": "Ha [Blocker].\n\nQuando l’avversario attacca, puoi scartare quante carte {Music} vuoi: il Leader o **un** Character ha +1000 potenza per carta in quella battaglia."
+  },
+  {
+    "cardCode": "ST16-003",
+    "body": "Se il Leader è {FILM} e hai 6 o più carte a riposo (anche lui), ha +2000 potenza."
+  },
+  {
+    "cardCode": "ST16-004",
+    "body": "Quando lo giochi metti K.O. un Character avversario **a riposo** qualsiasi."
+  },
+  {
+    "cardCode": "ST16-005",
+    "body": "Se hai una [Uta] a riposo (anche il Leader), ha +1000 potenza."
+  },
+  {
+    "cardCode": "ST17-001",
+    "body": "Quando lo giochi riveli la prima carta del mazzo: se è {The Seven Warlords of the Sea}, peschi 2 carte (compresa quella) e ne rimetti 1 in cima al mazzo; altrimenti torna coperta in cima."
+  },
+  {
+    "cardCode": "ST17-002",
+    "body": "Quando lo giochi puoi rimandare in mano un tuo Character: se il Leader è {The Seven Warlords of the Sea}, rimandi in mano anche un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "ST17-003",
+    "body": "Quando lo giochi guardi le prime 3 carte e le rimetti in cima nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "ST17-004",
+    "body": "Ha [Blocker].\n\nQuando la giochi guardi le prime 3 carte e le rimetti in cima o in fondo; poi dai 1 DON!! a riposo a un tuo Leader o Character {The Seven Warlords of the Sea}."
+  },
+  {
+    "cardCode": "ST17-005",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mettere 1 carta della mano in cima al mazzo: dai fino a 2 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "ST18-001",
+    "body": "Quando lo giochi, con 8 o più DON!! in campo, metti a riposo un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "ST18-002",
+    "body": "Ha [Blocker].\n\nQuando la giochi, con 8 o più DON!! in campo, scarti 1 carta (se ne hai) e peschi 2 carte."
+  },
+  {
+    "cardCode": "ST18-003",
+    "body": "Una volta per turno, quando attacca, con 8 o più DON!! in campo, peschi 1 carta."
+  },
+  {
+    "cardCode": "ST18-004",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi una carta viola {Straw Hat Crew}."
+  },
+  {
+    "cardCode": "ST18-005",
+    "body": "Quando lo giochi puoi pagare DON!! −1: giochi gratis dalla mano un Character viola {Straw Hat Crew} di costo 5 o meno."
+  },
+  {
+    "cardCode": "ST19-001",
+    "body": "Quando lo giochi puoi scartare una carta nera {Navy}: fino a 2 Character avversari di costo 4 o meno non possono attaccare fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "ST19-002",
+    "body": "Quando lo giochi puoi scartare 2 carte nere {Navy}: se il Leader è {Navy}, peschi 3 carte."
+  },
+  {
+    "cardCode": "ST19-003",
+    "body": "Quando la giochi, se il Leader è [Smoker], dai −4 costo per il turno a un Character avversario.\n\nUna volta per turno, nella tua Main Phase, se l’hai giocata in questo turno, **mandi nel cestino** un Character avversario di costo 0 (senza K.O.)."
+  },
+  {
+    "cardCode": "ST19-004",
+    "body": "Con almeno 1 DON!! dato, nel turno avversario ha +4 costo.\n\nUna volta per turno, nella tua Main Phase, puoi mettere 1 carta del cestino in fondo al mazzo per dare 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "ST19-005",
+    "body": "Ha [Blocker].\n\nUna volta per turno, nella tua Main Phase, puoi mettere 1 carta del cestino in fondo al mazzo: dai −1 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "ST20-001",
+    "body": "Ha [Blocker].\n\nUna volta per turno, nella tua Main Phase, puoi girare a faccia in su la prima carta della Vita (se è coperta): dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "ST20-002",
+    "body": "Una volta per turno, se sta per essere messo K.O. da un effetto, puoi invece mettere nel cestino la prima carta della Vita.\n\nIl [Trigger]: scarti 1 carta per giocarlo gratis."
+  },
+  {
+    "cardCode": "ST20-003",
+    "body": "Il [Trigger] guarda la prima carta della Vita tua o avversaria (la lasci in cima o la metti in fondo), poi ti fa prendere in mano questa carta."
+  },
+  {
+    "cardCode": "ST20-004",
+    "body": "Quando la giochi puoi prendere in mano la prima carta della Vita: rendi attivo un tuo Character {Big Mom Pirates} di costo 3 o meno.\n\nIl [Trigger] mette a riposo un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "ST20-005",
+    "body": "Quando la giochi puoi scartare 1 carta: **l’avversario sceglie** se scartare 2 carte dalla sua mano oppure mettere nel cestino la prima carta della sua Vita."
+  },
+  {
+    "cardCode": "ST21-002",
+    "body": "Con almeno 2 DON!! dati, nel turno avversario ha +2000 potenza (5000 in difesa)."
+  },
+  {
+    "cardCode": "ST21-003",
+    "body": "Quando lo giochi scegli un tuo Character {Straw Hat Crew} con 6000 potenza o più: se attacca in questo turno, l’avversario non può usare [Blocker] contro **quell’attacco** (gli altri attacchi si possono bloccare)."
+  },
+  {
+    "cardCode": "ST21-004",
+    "body": "Con almeno 2 DON!! dati, quando viene messa K.O. peschi 1 carta ([On K.O.])."
+  },
+  {
+    "cardCode": "ST21-007",
+    "body": "Ha solo [Blocker]: può mettersi a riposo per diventare il bersaglio di un attacco avversario."
+  },
+  {
+    "cardCode": "ST21-009",
+    "body": "Una volta per turno, nella tua Main Phase, dai fino a 2 DON!! a riposo a un tuo Leader o Character {Straw Hat Crew}."
+  },
+  {
+    "cardCode": "ST21-010",
+    "body": "Con almeno 2 DON!! dati, quando attacca metti K.O. un Character avversario con 4000 potenza o meno."
+  },
+  {
+    "cardCode": "ST21-011",
+    "body": "Con almeno 2 DON!! dati, nel turno avversario tutti i tuoi Character {Straw Hat Crew} con potenza **base** 4000 o meno hanno +1000 potenza."
+  },
+  {
+    "cardCode": "ST21-012",
+    "body": "Quando attacca dai fino a 2 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "ST21-014",
+    "body": "Ha [Rush].\n\nQuando attacca dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "ST21-015",
+    "body": "Con almeno 2 DON!! dati ha [Rush].\n\nQuando viene messo K.O. giochi gratis dalla mano un Character rosso con 6000 potenza o meno che non sia un [Roronoa Zoro] (funziona anche nel turno avversario)."
+  },
+  {
+    "cardCode": "ST21-016",
+    "body": "Il Leader o un Character ha +1000 potenza per il turno; poi un Character avversario con 4000 potenza o meno non può usare [Blocker] in questo turno.\n\nIl [Trigger] mette K.O. un Character avversario con 4000 potenza o meno."
+  },
+  {
+    "cardCode": "ST21-017",
+    "body": "Dai −5000 potenza per il turno a un Character avversario; poi, se hai un Character con 6000 potenza o più, metti K.O. un Character avversario con 2000 potenza o meno (anche un altro).\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "ST22-002",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi una carta “Whitebeard Pirates” (non [Izo]).\n\nQuando l’avversario attacca puoi metterlo nel cestino: peschi 1 carta e ne metti 1 dalla mano in fondo al mazzo."
+  },
+  {
+    "cardCode": "ST22-003",
+    "body": "Ha [Double Attack].\n\nQuando lo giochi riveli la prima carta: se è “Whitebeard Pirates” peschi 2 carte (compresa quella), altrimenti torna coperta in cima."
+  },
+  {
+    "cardCode": "ST22-005",
+    "body": "Se sta per lasciare il campo per un effetto avversario, puoi invece scartare 2 carte (ne servono almeno 2 in mano).\n\nUna volta per turno, nella tua Main Phase, puoi mettere a riposo 3 DON!! e rimandare in mano un altro tuo Character: torna attivo."
+  },
+  {
+    "cardCode": "ST22-006",
+    "body": "Quando lo giochi riveli la prima carta: se è “Whitebeard Pirates” peschi 2 carte (compresa quella) e ne scarti 1, altrimenti torna coperta in cima."
+  },
+  {
+    "cardCode": "ST22-007",
+    "body": "Una volta per turno, nella tua Main Phase, riveli la prima carta (poi torna coperta in cima): se è “Whitebeard Pirates” dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "ST22-009",
+    "body": "Ha solo [Blocker]: può mettersi a riposo per diventare il bersaglio di un attacco avversario."
+  },
+  {
+    "cardCode": "ST22-011",
+    "body": "Quando lo giochi nel tuo turno puoi mostrare 2 carte “Whitebeard Pirates” dalla mano: il tuo Leader “Whitebeard Pirates” ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "ST22-012",
+    "body": "Una volta per turno, se sta per essere messo K.O. da un effetto avversario, puoi invece scartare 1 carta.\n\nQuando attacca riveli la prima carta (poi torna coperta in cima): se è “Whitebeard Pirates” ha +1000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "ST22-015",
+    "body": "Se il Leader è “Whitebeard Pirates”, giochi gratis un [Edward.Newgate] dalla mano; poi puoi prendere in mano la prima o l’ultima Vita: se lo fai il Leader ha +2000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "ST22-016",
+    "body": "Counter: riveli la prima carta (poi torna coperta in cima); se è “Whitebeard Pirates” il Leader o un Character ha +4000 potenza per la battaglia.\n\nIl [Trigger] pesca 1 carta."
+  },
+  {
+    "cardCode": "ST22-017",
+    "body": "Puoi mostrare 2 carte “Whitebeard Pirates” dalla mano: peschi 1 carta, poi metti in fondo al mazzo del proprietario un Character di costo 5 o meno.\n\nIl [Trigger] rimanda in mano un Character di costo 3 o meno."
+  },
+  {
+    "cardCode": "ST23-001",
+    "body": "In mano costa 4 in meno se hai un Character con 10000 potenza o più (conta anche la potenza data dai DON!!).\n\nHa [Blocker]."
+  },
+  {
+    "cardCode": "ST23-002",
+    "body": "In mano costa 3 in meno se l’avversario ha un Character con potenza **base** 8000 o più.\n\nQuando lo giochi, se il Leader è {Red-Haired Pirates} o [Uta], il Leader ha +2000 potenza fino alla fine della prossima End Phase avversaria."
+  },
+  {
+    "cardCode": "ST23-003",
+    "body": "Quando lo giochi puoi scartare 1 carta: se il Leader è {Red-Haired Pirates}, metti K.O. un Character avversario con potenza **base** 4000 o meno."
+  },
+  {
+    "cardCode": "ST23-004",
+    "body": "Nella tua Main Phase puoi mettere a riposo 1 DON!! e questo Character: dai −1000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "ST23-005",
+    "body": "Una volta per turno, nella tua Main Phase, dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "ST24-001",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, se hai 6 o più carte a riposo, peschi 1 carta e ne scarti 1."
+  },
+  {
+    "cardCode": "ST24-002",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi una carta {Supernovas}.\n\nQuando l’avversario attacca puoi metterlo nel cestino: rendi attivo 1 DON!! (utile per pagare altri effetti in difesa)."
+  },
+  {
+    "cardCode": "ST24-003",
+    "body": "Alla fine del tuo turno rendi attivo 1 DON!!."
+  },
+  {
+    "cardCode": "ST24-004",
+    "body": "Quando lo giochi metti a riposo un Character avversario qualsiasi, che **non torna attivo** nella sua prossima Refresh Phase; poi, se l’avversario ha 2 o più Character a riposo, il Leader ha +2000 potenza fino alla fine della prossima End Phase avversaria."
+  },
+  {
+    "cardCode": "ST24-005",
+    "body": "Quando lo giochi, se il Leader è {Supernovas}, metti a riposo un Character avversario di costo 5 o meno; alla fine del turno (dopo gli effetti di fine turno) rendi attivo 1 DON!!."
+  },
+  {
+    "cardCode": "ST25-001",
+    "body": "Con 2 o più Character di costo **base** 5 o più ha +1 costo.\n\nQuando lo giochi, se il Leader è [Buggy], peschi 3 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "ST25-002",
+    "body": "Con 2 o più Character di costo **base** 5 o più ha [Blocker] e +1 costo.\n\nNel turno avversario ha +5000 potenza (6000 in difesa)."
+  },
+  {
+    "cardCode": "ST25-003",
+    "body": "Quando lo giochi peschi 2 carte e ne scarti 1, poi giochi gratis dalla mano un Character {Cross Guild} di costo 4 o meno.\n\nUna volta per turno, se un tuo Character {Cross Guild} (anche lui) sta per lasciare il campo per un effetto avversario, puoi invece scartare 1 carta."
+  },
+  {
+    "cardCode": "ST25-004",
+    "body": "Nella tua Main Phase puoi scartare 1 carta e mettere questo Character nel cestino: se il Leader è [Buggy], giochi gratis dalla mano un Character {Cross Guild} di costo 6 o meno."
+  },
+  {
+    "cardCode": "ST25-005",
+    "body": "Con 2 o più Character di costo **base** 5 o più ha [Blocker] e +1 costo.\n\nQuando viene messo K.O., se il Leader è [Buggy] e hai 3 carte o meno in mano, peschi 1 carta."
+  },
+  {
+    "cardCode": "ST26-001",
+    "body": "In mano costa 5 in meno se hai un [San-Gorou] o un [Sanji] con potenza **base** 7000 o più (lo sconto non si somma).\n\nQuando lo giochi rimandi in mano **tutti** i tuoi [San-Gorou] e [Sanji] in campo."
+  },
+  {
+    "cardCode": "ST26-002",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi pagare DON!! −2: metti a riposo un DON!! avversario oppure un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "ST26-003",
+    "body": "Quando la giochi puoi pagare DON!! −2: prendi 1 DON!! attivo dal mazzo DON!!."
+  },
+  {
+    "cardCode": "ST26-004",
+    "body": "Quando lo giochi puoi pagare DON!! −2: dai −2000 potenza per il turno a fino a 2 Character avversari."
+  },
+  {
+    "cardCode": "ST26-005",
+    "body": "Quando lo giochi e quando attacca puoi pagare DON!! −2: se il Leader è multicolore e l’avversario ha 5 o più DON!! in campo, il tuo Leader {Straw Hat Crew} ha potenza **base** 7000 fino alla fine della prossima End Phase avversaria (usarlo due volte non la aumenta)."
+  },
+  {
+    "cardCode": "ST27-001",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mettere a riposo un tuo [Fullalead]: se il Leader è {Blackbeard Pirates}, ha +4000 potenza per il turno.\n\nQuando viene messo K.O. peschi 1 carta."
+  },
+  {
+    "cardCode": "ST27-002",
+    "body": "Nella tua Main Phase puoi metterla nel cestino: se il Leader è {Blackbeard Pirates}, dai −1 costo per il turno a un Character avversario (mandarla nel cestino così non è un K.O.).\n\nQuando viene messa K.O. peschi 1 carta."
+  },
+  {
+    "cardCode": "ST27-003",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O. giochi dal cestino, a riposo, un Character {Blackbeard Pirates} di costo 5 o meno."
+  },
+  {
+    "cardCode": "ST27-004",
+    "body": "Se il Leader è {Blackbeard Pirates}, ha [Blocker] e +1 costo ogni 4 carte nel tuo cestino.\n\nQuando lo giochi scarti 1 carta (obbligatorio)."
+  },
+  {
+    "cardCode": "ST27-005",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: metti K.O. un Character di costo 3 o meno (anche tuo).\n\nQuando viene messo K.O. riprendi in mano dal cestino una carta nera (anche lui stesso)."
+  },
+  {
+    "cardCode": "ST28-001",
+    "body": "Quando lo giochi, se il Leader è {Land of Wano} e l’avversario ha 3 o più Vite, metti K.O. un Character avversario di costo **base** 5 o meno."
+  },
+  {
+    "cardCode": "ST28-002",
+    "body": "Con almeno 2 DON!! dati ha [Blocker].\n\nQuando lo giochi il tuo Leader {Land of Wano} guadagna [Banish] per il turno."
+  },
+  {
+    "cardCode": "ST28-003",
+    "body": "Il [Trigger] lo gioca gratis se il Leader è {Land of Wano} e l’avversario ha 3 Vite o meno."
+  },
+  {
+    "cardCode": "ST28-004",
+    "body": "Nel tuo turno, se hai 2 Vite o meno, il Leader ha +1000 potenza.\n\nUna volta per turno, nella tua Main Phase, puoi riportare a riposo nell’area costo 2 DON!! dati (anche da carte diverse): guadagna [Rush] e +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "ST28-005",
+    "body": "Con almeno 2 DON!! dati, nel tuo turno ha +3000 potenza.\n\nQuando lo giochi guardi le prime 5 carte e prendi una carta {Land of Wano} di costo 2 o più."
+  },
+  {
+    "cardCode": "ST29-002",
+    "body": "Quando lo giochi e quando attacca metti a riposo un Character avversario con costo pari o inferiore al numero di Vite dell’avversario."
+  },
+  {
+    "cardCode": "ST29-003",
+    "body": "Se hai un numero di Vite pari o inferiore a quelle avversarie, ha +1000 potenza.\n\nIl [Trigger] mette K.O. un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "ST29-004",
+    "body": "Quando lo giochi guardi le prime 4 carte e prendi una carta {Straw Hat Crew}.\n\nCon il [Trigger] puoi scartare 1 carta per giocarlo gratis."
+  },
+  {
+    "cardCode": "ST29-005",
+    "body": "Il [Trigger] lo gioca gratis se il Leader è [Monkey.D.Luffy]."
+  },
+  {
+    "cardCode": "ST29-007",
+    "body": "Quando viene messo K.O. puoi prendere in mano la prima o l’ultima Vita: rimetti in cima alla Vita una carta dalla mano (con 0 Vite non si può usare).\n\nIl [Trigger] dà +2000 potenza per il turno a un tuo [Monkey.D.Luffy]."
+  },
+  {
+    "cardCode": "ST29-008",
+    "body": "Se un tuo Character {Egghead} sta per essere messo K.O. da un effetto avversario, puoi invece girare a faccia in su la prima carta della Vita (deve essere coperta).\n\nIl [Trigger] la gioca gratis se il Leader è [Monkey.D.Luffy]."
+  },
+  {
+    "cardCode": "ST29-009",
+    "body": "Ha [Blocker].\n\nIl [Trigger] la gioca gratis se il Leader è [Monkey.D.Luffy]."
+  },
+  {
+    "cardCode": "ST29-011",
+    "body": "Ha solo [Blocker]: può mettersi a riposo per diventare il bersaglio di un attacco avversario."
+  },
+  {
+    "cardCode": "ST29-012",
+    "body": "Una volta per turno, nella tua Main Phase, dai 1 DON!! a riposo a un tuo [Monkey.D.Luffy] (Leader o Character).\n\nCon il [Trigger] lo giochi gratis."
+  },
+  {
+    "cardCode": "ST29-013",
+    "body": "Il [Trigger] mette K.O. un Character avversario con costo pari o inferiore alla somma delle Vite tue e avversarie (senza contare la carta che ha attivato il Trigger)."
+  },
+  {
+    "cardCode": "ST29-014",
+    "body": "Ha [Rush: Character]: nel turno in cui lo giochi può attaccare solo Character (a riposo).\n\nUna volta per turno, nella tua Main Phase, puoi scartare una carta con [Trigger]: peschi 1 carta e dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "ST29-015",
+    "body": "Counter: il Leader o un Character ha +2000 potenza per la battaglia; poi, se hai 1 Vita o meno, dai −2000 potenza per il turno al Leader o a un Character avversario.\n\nIl [Trigger] pesca 1 carta."
+  },
+  {
+    "cardCode": "ST29-016",
+    "body": "Due usi: nella Main Phase il tuo Leader [Monkey.D.Luffy] guadagna [Unblockable] per il turno; come Counter il Leader ha +3000 potenza per la battaglia.\n\n[Unblockable] impedisce solo [Blocker]: gli effetti che cambiano il bersaglio funzionano comunque."
+  },
+  {
+    "cardCode": "ST29-017",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +4000 potenza per la battaglia; poi, se hai 2 Vite o meno, metti K.O. un Character avversario di costo 3 o meno.\n\nIl [Trigger] pesca 2 carte e ne scarta 1."
+  },
+  {
+    "cardCode": "ST30-002",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi un Character con **esattamente** 6000 potenza."
+  },
+  {
+    "cardCode": "ST30-003",
+    "body": "Nel tuo turno tutti i tuoi Character con potenza **base** esattamente 6000 hanno +1000 potenza."
+  },
+  {
+    "cardCode": "ST30-004",
+    "body": "Quando lo giochi puoi mostrare 2 Character con esattamente 6000 potenza dalla mano: peschi 3 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "ST30-006",
+    "body": "Quando lo giochi puoi scartare un Character con esattamente 6000 potenza: peschi 2 carte."
+  },
+  {
+    "cardCode": "ST30-007",
+    "body": "Quando lo giochi puoi mettere a riposo 1 DON!! **attivo**: guadagna [Rush] per il turno.\n\nQuando attacca dai −1000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "ST30-008",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O. puoi scartare un Character con esattamente 6000 potenza: lo rigiochi dal cestino a riposo."
+  },
+  {
+    "cardCode": "ST30-009",
+    "body": "Se un tuo Character con potenza **base** esattamente 6000 sta per lasciare il campo per un effetto avversario, puoi invece mettere questo Character nel cestino e pescare 1 carta."
+  },
+  {
+    "cardCode": "ST30-010",
+    "body": "Ha [Blocker].\n\nQuando lo giochi scegli un Character avversario **a riposo**: non torna attivo nella sua prossima Refresh Phase."
+  },
+  {
+    "cardCode": "ST30-011",
+    "body": "Se un tuo Character con potenza **base** esattamente 6000 sta per lasciare il campo per un effetto avversario, puoi invece mettere a riposo questo Character.\n\nHa [Blocker]."
+  },
+  {
+    "cardCode": "ST30-012",
+    "body": "Quando lo giochi puoi mettere a riposo 1 DON!! **attivo**: guadagna [Rush] per il turno.\n\nQuando attacca metti a riposo un Character avversario con [Blocker]."
+  },
+  {
+    "cardCode": "ST30-014",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: dai fino a 2 DON!! a riposo **ciascuno** a fino a 2 tuoi Character con potenza base esattamente 6000."
+  },
+  {
+    "cardCode": "ST30-015",
+    "body": "Counter: se hai 2 o più Character con potenza base esattamente 6000, il Leader o un Character ha +4000 potenza per la battaglia.\n\nIl [Trigger] mette K.O. un Character avversario con 6000 potenza o meno."
+  },
+  {
+    "cardCode": "ST30-016",
+    "body": "Counter: il Leader o un Character ha +3000 potenza per la battaglia; poi, se hai in campo sia un [Portgas.D.Ace] sia un [Monkey.D.Luffy] con potenza base esattamente 6000, peschi 1 carta."
+  },
+  {
+    "cardCode": "ST30-017",
+    "body": "Guardi le prime 5 carte e prendi un Character con esattamente 6000 potenza.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "ST31-001",
+    "body": "Con almeno 2 DON!! dati ha [Rush].\n\nQuando lo giochi peschi 1 carta e giochi gratis dalla mano un Character {Straw Hat Crew} di costo 5 o meno che non sia un [Sanji]."
+  },
+  {
+    "cardCode": "ST31-002",
+    "body": "Ha [Blocker].\n\nQuando lo giochi peschi 1 carta e giochi gratis dalla mano una carta {Straw Hat Crew} di costo 1 (anche uno Stage, come la Thousand Sunny)."
+  },
+  {
+    "cardCode": "ST31-003",
+    "body": "Nel turno avversario, se hai in totale 3 o più DON!! dati (su Leader e Character), ha [Blocker] e +3000 potenza. La condizione va rispettata nel momento in cui blocchi."
+  },
+  {
+    "cardCode": "ST31-004",
+    "body": "Se hai in totale 3 o più DON!! dati (su tutte le tue carte), ha [Rush].\n\nQuando lo giochi dai −1000 potenza per il turno a un Character avversario per ogni carta {Straw Hat Crew} che hai in campo."
+  },
+  {
+    "cardCode": "ST31-005",
+    "body": "Stage. Quando lo giochi guardi le prime 5 carte e prendi una carta {Straw Hat Crew}.\n\nNella tua Main Phase puoi metterlo a riposo: dai 1 DON!! a riposo a un tuo [Monkey.D.Luffy]."
+  },
+  {
+    "cardCode": "ST32-001",
+    "body": "Quando lo giochi puoi mettere a riposo il tuo Leader <Slash> oppure 1 DON!!: peschi 2 carte e ne scarti 1."
+  },
+  {
+    "cardCode": "ST32-002",
+    "body": "Quando lo giochi peschi 1 carta e scegli un Character avversario di costo **base** 6 o meno: non può essere messo a riposo fino alla fine della prossima End Phase avversaria."
+  },
+  {
+    "cardCode": "ST32-003",
+    "body": "Nel tuo turno, quando viene messo a riposo (per esempio attaccando), peschi 1 carta e ne scarti 1.\n\nQuando lo giochi, se il Leader è <Slash>, giochi gratis dalla mano un Character di costo 5 o meno che sia [Perona] oppure <Slash>."
+  },
+  {
+    "cardCode": "ST32-004",
+    "body": "Se il Leader è <Slash> ha [Rush: Character] (il turno in cui lo giochi può attaccare Character a riposo).\n\nQuando lo giochi metti a riposo fino a 2 Character avversari di costo 2 o meno."
+  },
+  {
+    "cardCode": "ST32-005",
+    "body": "Ha [Rush: Character] (il turno in cui lo giochi può attaccare Character a riposo).\n\nQuando lo giochi, se il Leader è <Slash>, metti a riposo un Character avversario di costo 2 o meno."
+  },
+  {
+    "cardCode": "ST33-001",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi scartare 1 carta per pescarne 1 (senza carte in mano non si può)."
+  },
+  {
+    "cardCode": "ST33-002",
+    "body": "Quando attacca puoi scartare 1 carta: se l’avversario ha 6 o più carte in mano, ne scarta 1 (sceglie lui).\n\nQuando viene messo K.O. giochi gratis dalla mano un Character {Navy} di costo 4 o meno."
+  },
+  {
+    "cardCode": "ST33-003",
+    "body": "Quando lo giochi puoi scartare 1 carta: metti in fondo al mazzo del proprietario fino a 2 Character avversari di costo 2 o meno."
+  },
+  {
+    "cardCode": "ST33-004",
+    "body": "In mano costa 3 in meno nel turno in cui una carta della tua mano è stata mandata nel cestino da un effetto (anche avversario).\n\nHa [Blocker]."
+  },
+  {
+    "cardCode": "ST33-005",
+    "body": "Quando lo giochi, se il Leader è {Navy}, giochi gratis dalla mano un Character blu {Navy} con 8000 potenza o meno che non sia un [Monkey.D.Garp]."
+  },
+  {
+    "cardCode": "ST34-001",
+    "body": "Una volta per turno, nel tuo turno, quando un tuo DON!! torna nel mazzo DON!!, se il Leader è {Big Mom Pirates}, prendi fino a 2 DON!! a riposo.\n\nQuando viene messo K.O. giochi gratis dalla mano un Character con 8000 potenza o meno."
+  },
+  {
+    "cardCode": "ST34-002",
+    "body": "Quando lo giochi, se il Leader è {Big Mom Pirates}, prendi 1 DON!! a riposo; poi metti K.O. un Character avversario di costo 2 o meno (le due parti funzionano anche separatamente)."
+  },
+  {
+    "cardCode": "ST34-003",
+    "body": "Quando la giochi guardi le prime 3 carte e prendi una carta {Big Mom Pirates}."
+  },
+  {
+    "cardCode": "ST34-004",
+    "body": "Quando la giochi puoi pagare DON!! −4 e scartare 1 carta: aggiungi la prima carta del mazzo in cima alla Vita, poi un Character avversario ha potenza **base** 0 per il turno.\n\nSe altri effetti cambiano la potenza base dello stesso Character, vale il valore più alto."
+  },
+  {
+    "cardCode": "ST34-005",
+    "body": "Quando attacca puoi pagare DON!! −1: metti K.O. un Character avversario con potenza **base** 2000 o meno."
+  },
+  {
+    "cardCode": "ST35-001",
+    "body": "Ha [Blocker].\n\nQuando lo giochi metti K.O. un Character avversario con potenza **base** 2000 o meno."
+  },
+  {
+    "cardCode": "ST35-002",
+    "body": "Quando lo giochi dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "ST35-003",
+    "body": "Quando attacca puoi mettere nel cestino le prime 2 carte del mazzo: se l’avversario ha 7 o più carte in mano, ne scarta 1 (sceglie lui)."
+  },
+  {
+    "cardCode": "ST35-004",
+    "body": "Ha sempre [Blocker] e +1 costo.\n\nQuando la giochi dai 1 DON!! a riposo al Leader, poi giochi gratis dalla mano **o dal cestino** un Character {Revolutionary Army} con 4000 potenza o meno."
+  },
+  {
+    "cardCode": "ST35-005",
+    "body": "Ha sempre +3 costo (in campo vale 8).\n\nQuando lo giochi dai 1 DON!! a riposo al Leader, poi giochi gratis dalla mano **o dal cestino** un Character {Revolutionary Army} con 4000 potenza o meno."
+  },
+  {
+    "cardCode": "ST36-001",
+    "body": "Quando viene messo K.O. puoi scartare 1 carta: aggiungi la prima carta del mazzo in cima alla Vita."
+  },
+  {
+    "cardCode": "ST36-002",
+    "body": "Quando lo giochi nel tuo turno, se il Leader è {Kid Pirates}, aggiungi la prima carta del mazzo in cima alla Vita (se lo giochi nel turno avversario, per esempio col Trigger, non si attiva).\n\nIl [Trigger] lo gioca gratis se l’avversario ha 3 Vite o meno."
+  },
+  {
+    "cardCode": "ST36-003",
+    "body": "Il [Trigger] pesca 1 carta e, se il Leader è {Supernovas}, la sua potenza **base** diventa 7000 per il turno."
+  },
+  {
+    "cardCode": "ST36-004",
+    "body": "Quando lo giochi puoi scartare una carta {Supernovas}: peschi 2 carte."
+  },
+  {
+    "cardCode": "ST36-005",
+    "body": "Una volta per turno, quando l’avversario attacca, puoi girare a faccia in giù la prima o l’ultima Vita (se è scoperta): l’attacco viene spostato su un tuo [Eustass\"Captain\"Kid] con potenza base 5000 o più.\n\nUna volta per turno, nella tua Main Phase, puoi girare a faccia in su la prima o l’ultima Vita (coperta): dai 1 DON!! a riposo al Leader."
   }
 ]

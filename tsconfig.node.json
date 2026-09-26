@@ -28,6 +28,7 @@
     "tests",
     "e2e",
     "catalog-sync",
-    "pwa"
+    "pwa",
+    "scripts/**/*.ts"
   ]
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP09-001",
+    "body": "Una volta per turno, **quando l’avversario attacca**, dai −1000 potenza per il turno al suo Leader o a un suo Character.\n\nDi solito si indebolisce la carta che sta attaccando, così servono meno Counter per difendersi. Non costa nulla e non richiede DON!!."
+  },
+  {
+    "cardCode": "OP09-022",
+    "body": "I tuoi Character **entrano in campo a riposo**: non possono bloccare nel turno in cui li giochi.\n\nUna volta per turno, nella tua Main Phase, puoi mettere a riposo 3 DON!!: prendi 1 DON!! dal mazzo DON!! (a riposo) e giochi gratis dalla mano un Character {ODYSSEY} di costo 5 o meno. Accelera molto, ma il campo è più vulnerabile."
+  },
+  {
+    "cardCode": "OP09-042",
+    "body": "Nella tua Main Phase puoi mettere a riposo 5 DON!! e scartare 1 carta: giochi dalla mano **un Character {Cross Guild} qualsiasi**, senza limite di costo.\n\nPer 5 DON!! puoi mettere in campo anche i Character più costosi. Non è limitato a una volta per turno, se hai DON!! e carte sufficienti."
+  },
+  {
+    "cardCode": "OP09-061",
+    "body": "Con almeno 1 DON!! dato al Leader, **tutti i tuoi Character hanno +1 costo** (utile contro gli effetti che colpiscono i costi bassi).\n\nUna volta per turno, nel tuo turno, quando 2 o più DON!! del tuo campo tornano nel mazzo DON!! (per esempio con DON!! −2), prendi 1 DON!! attivo e 1 a riposo dal mazzo DON!!: in pratica recuperi i DON!! spesi."
+  },
+  {
+    "cardCode": "OP09-062",
+    "body": "Il Leader ha [Banish]: la Vita che toglie va nel cestino e il suo [Trigger] non si attiva.\n\nQuando attacca puoi scartare dalla mano una carta con [Trigger]: prendi 1 DON!! dal mazzo DON!! e lo metti a riposo."
+  },
+  {
+    "cardCode": "OP09-081",
+    "body": "**I tuoi effetti [On Play] non funzionano.** Il mazzo usa quindi Character senza [On Play] o con effetti di altro tipo.\n\nNella tua Main Phase puoi scartare 1 carta: gli effetti [On Play] dell’avversario non funzionano fino alla fine del suo prossimo turno. Blocca le carte più forti dell’avversario per un turno intero."
+  }
+]

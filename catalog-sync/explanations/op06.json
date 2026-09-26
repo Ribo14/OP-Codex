@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP06-001",
+    "body": "Quando il Leader attacca puoi scartare dalla mano una carta {FILM}: dai −2000 potenza per il turno a un Character avversario, poi prendi 1 DON!! dal mazzo DON!! e lo metti **a riposo**.\n\nIndebolisci un Character avversario (per batterlo in battaglia) e guadagni un DON!! per il turno successivo."
+  },
+  {
+    "cardCode": "OP06-020",
+    "body": "Nella tua Main Phase puoi mettere a riposo il Leader: metti a riposo un DON!! avversario o un Character avversario di costo 3 o meno. Dopo, per il resto del turno, non puoi prendere Vite in mano con i tuoi effetti.\n\nUsarlo vuol dire rinunciare all’attacco del Leader, quindi conviene quando togliere un [Blocker] o un DON!! all’avversario vale di più."
+  },
+  {
+    "cardCode": "OP06-021",
+    "body": "Una volta per turno, nella tua Main Phase, scegli una delle due:\n- metti a riposo un Character avversario di costo 4 o meno;\n- dai −1 costo per il turno a un Character avversario.\n\nLa prima toglie un possibile [Blocker] o attaccante; la seconda prepara gli effetti neri che mettono K.O. i Character di costo basso."
+  },
+  {
+    "cardCode": "OP06-022",
+    "body": "Il Leader ha [Double Attack]: quando colpisce il Leader avversario toglie 2 Vite.\n\nUna volta per turno, nella tua Main Phase, se l’avversario ha 3 Vite o meno, dai fino a 2 DON!! a riposo a un tuo Character. Il mazzo diventa molto aggressivo quando l’avversario ha poche Vite."
+  },
+  {
+    "cardCode": "OP06-042",
+    "body": "Una volta per turno, nel tuo turno, quando un DON!! del tuo campo torna nel mazzo DON!! (per esempio con un costo DON!! −X), **peschi 1 carta**.\n\nPremia le carte che usano DON!! −X: il primo di ogni turno ti dà anche una carta."
+  },
+  {
+    "cardCode": "OP06-080",
+    "body": "Con almeno 1 DON!! dato al Leader, quando attacca puoi pagare 2 DON!! (a riposo) e scartare 1 carta: scarti le prime 2 carte del mazzo e poi puoi **giocare dal cestino** un Character {Thriller Bark Pirates} di costo 4 o meno.\n\nRiempie il cestino e ne recupera un Character a ogni attacco del Leader."
+  }
+]

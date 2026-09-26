@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "EB01-001",
+    "body": "Tutti i tuoi Character {Land of Wano} **senza Counter** hanno un Counter +1000: dalla mano possono difenderti come le altre carte.\n\nCon almeno 1 DON!! dato al Leader, quando attacca, se hai un Character {Land of Wano} di costo 5 o più, il Leader ha +1000 potenza fino all’inizio del tuo prossimo turno (quindi anche in difesa)."
+  },
+  {
+    "cardCode": "EB01-021",
+    "body": "Alla fine del tuo turno puoi rimandare in mano un tuo Character {Impel Down} di costo 2 o più: prendi 1 DON!! dal mazzo DON!! e lo metti **attivo**.\n\nGuadagni un DON!! in più e puoi rigiocare il Character (riusando il suo [On Play]) nel turno successivo."
+  },
+  {
+    "cardCode": "EB01-040",
+    "body": "Una volta per turno, nella tua Main Phase, puoi girare a faccia in su la prima carta della tua Vita: metti **K.O.** un Character avversario di costo 0.\n\nSi usa dopo aver abbassato il costo di un Character avversario con altri effetti."
+  },
+  {
+    "cardCode": "EB02-010",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −2: se in campo hai **solo Character {Straw Hat Crew}**, rendi attivi fino a 2 DON!!, poi il Leader ha +1000 potenza fino alla fine del prossimo turno avversario.\n\nI DON!! restituiti tornano in pratica attivi, e in più il Leader è più resistente."
+  },
+  {
+    "cardCode": "EB03-001",
+    "body": "Una volta per turno, se un tuo Character di **costo base 4 o più** sta per essere messo K.O., puoi invece scartare 1 carta dalla mano.\n\nNella tua Main Phase puoi mettere a riposo il Leader: dai −2000 potenza per il turno a un Character avversario, poi un tuo Character **senza [When Attacking]** guadagna [Rush] per il turno."
+  },
+  {
+    "cardCode": "EB04-001",
+    "body": "Nel turno avversario, se hai 1 Vita o nessuna, il Leader ha **+2000 potenza**: più difficile finirti.\n\nUna volta per turno, nella tua Main Phase, dai −1000 potenza per il turno a un Character avversario; poi, se hai 2 Vite o più, puoi prendere in mano la prima carta della tua Vita."
+  }
+]

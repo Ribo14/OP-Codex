@@ -103,6 +103,27 @@ export type Database = {
         }
         Relationships: []
       }
+      card_explanations: {
+        Row: {
+          body: string
+          card_code: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          card_code: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          card_code?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       card_faqs: {
         Row: {
           card_code: string

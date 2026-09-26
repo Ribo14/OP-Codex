@@ -11,6 +11,7 @@ import { cardImageUrl } from './card-image'
 import { catalogPath } from './card-links'
 import type { CatalogCard, CatalogSet } from './catalog-data'
 import { filtersToSearchParams, relatedFilters } from './filters'
+import { CardExplanation } from './CardExplanation'
 import { CardFaqs } from './CardFaqs'
 import { LegalityTags } from './LegalityTags'
 import { gameColor } from './game-colors'
@@ -311,6 +312,9 @@ export function CardDetail({
               </div>
             )}
           </section>
+
+          {/* RIB-52: la spiegazione in italiano, dopo il testo ufficiale e prima delle FAQ. */}
+          <CardExplanation markdown={card.explanation} />
 
           <CardFaqs faqs={card.faqs ?? []} />
 

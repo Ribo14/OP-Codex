@@ -1,0 +1,30 @@
+[
+  {
+    "cardCode": "OP14-001",
+    "body": "Una volta per turno, nella tua Main Phase, scegli 2 tuoi Character {Supernovas} o {Heart Pirates} e **scambi la loro potenza base** per il turno.\n\nServe a far attaccare forte un Character che normalmente è debole, per esempio uno con un buon effetto [When Attacking]."
+  },
+  {
+    "cardCode": "OP14-020",
+    "body": "Se il Leader avversario ha l’attributo <Slash>, il Leader ha +1000 potenza.\n\nUna volta per turno, nella tua Main Phase, puoi mettere a riposo una tua carta: se c’è un Character di costo 5 o più, rendi attivi fino a 3 DON!!. Dopo però **non puoi giocare Character** in quel turno: i DON!! servono per Event, effetti o attacchi."
+  },
+  {
+    "cardCode": "OP14-040",
+    "body": "Nella tua Main Phase puoi scartare 1 carta: dai **fino a 2 DON!! a riposo** a un tuo Leader o Character {Fish-Man} o {Merfolk}.\n\nNon è limitato a una volta per turno: ogni carta scartata vale +2000 potenza su un tuo attaccante."
+  },
+  {
+    "cardCode": "OP14-041",
+    "body": "Nel turno avversario, quando giochi un Character (per esempio con un effetto), **peschi 1 carta**.\n\nCon almeno 1 DON!! dato al Leader, una volta per turno quando un tuo Character {Amazon Lily} o {Kuja Pirates} con 5000 potenza base o più viene messo K.O., l’avversario prende in mano la prima carta della sua Vita."
+  },
+  {
+    "cardCode": "OP14-060",
+    "body": "Una volta per turno, quando l’avversario attacca, puoi pagare DON!! −1: **cambi il bersaglio** dell’attacco con il tuo Leader o un tuo Character {Donquixote Pirates}.\n\nFunziona come un [Blocker] che non richiede di mettere a riposo la carta: protegge un Character importante o sposta l’attacco su una carta più forte."
+  },
+  {
+    "cardCode": "OP14-079",
+    "body": "**I Character avversari non possono lasciare il campo per i tuoi effetti** (niente rimbalzi o K.O. da effetto): li devi battere in battaglia.\n\nUna volta per turno, nella tua Main Phase, puoi mettere K.O. un tuo Character “Baroque Works”: dai −10 costo per il turno a un Character avversario, poi puoi scartare le prime 2 carte del mazzo."
+  },
+  {
+    "cardCode": "OP14-080",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mettere K.O. un tuo Character {Thriller Bark Pirates}: il Leader e tutti i tuoi Character hanno **+1000 potenza** per il turno.\n\nQuando il Leader attacca puoi scartare 3 carte dalla mano: aggiungi la prima carta del mazzo in cima alla tua Vita."
+  }
+]

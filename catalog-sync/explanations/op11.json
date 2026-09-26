@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP11-001",
+    "body": "I tuoi Character {SWORD} possono attaccare **i Character avversari** nel turno in cui li giochi.\n\nUna volta per turno, se un tuo Character {Navy} con 7000 potenza base o meno sta per lasciare il campo per un effetto avversario, puoi invece mettere 3 carte del tuo cestino in fondo al mazzo. Protegge dai rimbalzi e dai K.O. da effetto (non da quelli in battaglia)."
+  },
+  {
+    "cardCode": "OP11-021",
+    "body": "Alla fine del tuo turno, se hai 6 carte o meno in mano, rendi attivi un tuo Character {Fish-Man} o {Merfolk} e 1 DON!!.\n\nIl Character può così attaccare nel tuo turno ed essere pronto a bloccare in quello avversario; il DON!! attivo serve per effetti o Event in difesa."
+  },
+  {
+    "cardCode": "OP11-022",
+    "body": "Questo Leader **non può attaccare**.\n\nUna volta per turno, nella tua Main Phase, metti a riposo 1 DON!! e giri a faccia in su la prima carta della Vita: giochi gratis dalla mano un Character {Neptunian} o [Megalo] con costo non superiore ai DON!! che hai in campo."
+  },
+  {
+    "cardCode": "OP11-040",
+    "body": "All’inizio del tuo turno, se hai **8 o più DON!! in campo**, guardi le prime 5 carte del mazzo, prendi una carta {Straw Hat Crew} e rimetti le altre in cima o in fondo nell’ordine che vuoi.\n\nParte con sole 3 Vite e 6000 potenza: è un Leader che punta a durare fino a fine partita e a trovare ogni turno la carta giusta."
+  },
+  {
+    "cardCode": "OP11-041",
+    "body": "Una volta per turno, nel tuo turno, quando una carta lascia la Vita (tua o dell’avversario), se hai 7 carte o meno in mano **peschi 1 carta**.\n\nCon almeno 1 DON!! dato al Leader, una volta per turno quando l’avversario attacca puoi scartare 1 carta: il Leader ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP11-062",
+    "body": "Una volta per turno, quando il Leader attacca **oppure** quando l’avversario ti attacca, puoi pagare DON!! −1: guardi la prima carta del mazzo avversario e il Leader ha +1000 potenza per quella battaglia.\n\nUsalo in difesa se il Leader è il bersaglio; in attacco se ti serve il +1000 per superare un Counter."
+  }
+]

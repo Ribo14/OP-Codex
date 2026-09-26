@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP07-001",
+    "body": "Una volta per turno, nella tua Main Phase, sposti **fino a 2 DON!! già dati** (dal Leader o da altri Character) su un solo tuo Character.\n\nNon aggiunge DON!!: li sposta. Serve, per esempio, a dare prima i DON!! al Leader per attaccare e poi spostarli su un Character che attacca dopo, o a soddisfare una condizione [DON!! xX]."
+  },
+  {
+    "cardCode": "OP07-019",
+    "body": "Una volta per turno, **quando l’avversario dichiara un attacco**, puoi pagare 1 DON!! (a riposo): metti a riposo il Leader o un Character avversario.\n\nSe metti a riposo una carta che non sta attaccando, non potrà attaccare dopo in quel turno. Tieni un DON!! attivo alla fine del tuo turno per poterlo usare."
+  },
+  {
+    "cardCode": "OP07-038",
+    "body": "Una volta per turno, nel tuo turno, quando un Character (tuo o avversario) lascia il campo per un **tuo effetto**, se hai 5 carte o meno in mano peschi 1 carta.\n\nFunziona con gli effetti che rimandano Character in mano o in fondo al mazzo, tipici del blu."
+  },
+  {
+    "cardCode": "OP07-059",
+    "body": "Quando il Leader attacca puoi pagare DON!! −3: se hai almeno 3 Character {Foxy Pirates}, scegli il Leader avversario (se è a riposo) e un Character avversario a riposo; nella prossima Refresh Phase dell’avversario **non tornano attivi**.\n\nL’avversario resta con meno attaccanti e senza [Blocker] per un turno. Serve un campo pieno di {Foxy Pirates}."
+  },
+  {
+    "cardCode": "OP07-079",
+    "body": "Quando il Leader attacca puoi scartare le prime 2 carte del mazzo: dai −1 costo per il turno a un Character avversario.\n\nPrepara gli effetti neri che mettono K.O. i Character di costo basso, e riempie il cestino per le carte che ne traggono vantaggio."
+  },
+  {
+    "cardCode": "OP07-097",
+    "body": "Questo Leader **non può attaccare** e ha solo 2 Vite.\n\nUna volta per turno, nella tua Main Phase, paghi 1 DON!! (a riposo): scegli dalla mano una carta {Egghead} di costo 5 o meno e **la giochi** oppure la aggiungi a faccia in su in cima alla tua Vita. Così compensi le poche Vite di partenza."
+  }
+]

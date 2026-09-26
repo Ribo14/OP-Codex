@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP12-001",
+    "body": "Con questo Leader **nel mazzo non puoi mettere carte di costo 5 o più**.\n\nUna volta per turno, nella tua Main Phase, puoi mostrare 2 Event dalla mano: un tuo Character con 4000 potenza base o meno ha +2000 potenza per il turno. Gli Event mostrati restano in mano."
+  },
+  {
+    "cardCode": "OP12-020",
+    "body": "Con almeno 3 DON!! dati al Leader, una volta per turno nella Main Phase: se in questo turno il Leader ha combattuto contro un Character avversario, torna **attivo** e può attaccare di nuovo. Dopo però non può attaccare Character avversari di costo base 7 o meno in quel turno.\n\nTipico uso: prima attacca un Character, poi si rialza e attacca il Leader avversario."
+  },
+  {
+    "cardCode": "OP12-040",
+    "body": "Quando un effetto di una tua carta {Navy} ti fa scartare carte dalla mano, **peschi tante carte quante ne hai scartate**.\n\nI costi “scarta 1 carta” delle carte Navy diventano quindi gratis per la mano: in pratica cambi carte invece di perderle."
+  },
+  {
+    "cardCode": "OP12-041",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −1: usi dalla mano un Event {Straw Hat Crew} di costo base 3 o meno **senza pagarne il costo**.\n\nQuando il Leader attacca, se hai DON!! in campo pari o meno dell’avversario, prendi 1 DON!! dal mazzo DON!! (a riposo)."
+  },
+  {
+    "cardCode": "OP12-061",
+    "body": "Una volta per turno, se il tuo [Trafalgar Law] sta per essere messo K.O., puoi invece prendere in mano la prima carta della tua Vita.\n\nUna volta per turno, nella tua Main Phase, paghi DON!! −1: il prossimo [Trafalgar Law] di costo 4 o più che giochi dalla mano in questo turno costa 2 in meno. Il mazzo è costruito attorno alle varie versioni di Law."
+  },
+  {
+    "cardCode": "OP12-081",
+    "body": "Quando il Leader attacca il Leader avversario, se hai 2 o più Character di costo 8 o più, **peschi 1 carta**.\n\nUna volta per turno, quando l’avversario gioca un Character di costo base 8 o più (o un Character tramite l’effetto di un Character), l’avversario deve prendere in mano la prima carta della sua Vita: gli costa una Vita."
+  }
+]

@@ -153,7 +153,10 @@ function JobRunItem({ run }: { run: JobRun }) {
   const took = duration(run)
   const numbers = statsSummary(run.stats)
   const job =
-    run.job === 'catalog_sync' || run.job === 'image_sync' || run.job === 'faq_sync'
+    run.job === 'catalog_sync' ||
+    run.job === 'image_sync' ||
+    run.job === 'faq_sync' ||
+    run.job === 'explanation_sync'
       ? run.job
       : 'other'
   const status =

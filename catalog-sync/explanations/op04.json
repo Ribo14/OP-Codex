@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP04-001",
+    "body": "Questo Leader **non può attaccare**.\n\nUna volta per turno, nella tua Main Phase, paghi 2 DON!! (a riposo): peschi 1 carta e un tuo Character guadagna [Rush] per il turno, cioè può attaccare anche se è appena entrato. Il mazzo vince con i Character: il Leader serve a pescare e a farli attaccare subito."
+  },
+  {
+    "cardCode": "OP04-019",
+    "body": "Alla fine del tuo turno rendi **attivi fino a 2 DON!!**.\n\nQuei DON!! restano attivi nel turno avversario: puoi usarli per pagare Event [Counter] o altri effetti in difesa, e ti danno flessibilità senza dover tenere DON!! da parte durante il tuo turno."
+  },
+  {
+    "cardCode": "OP04-020",
+    "body": "Con almeno 1 DON!! dato al Leader, nel tuo turno **tutti i Character avversari hanno −1 costo**.\n\nAlla fine del tuo turno puoi pagare 1 DON!! (a riposo) per rendere attivo un tuo Character di costo 5 o meno, così può bloccare nel turno avversario. Il −1 costo si combina con le carte che mettono a riposo o K.O. i Character di costo basso."
+  },
+  {
+    "cardCode": "OP04-039",
+    "body": "Questo Leader **non può attaccare**.\n\nUna volta per turno, nella tua Main Phase, paghi 1 DON!! (a riposo): se hai 6 carte o meno in mano guardi le prime 2 del mazzo, prendi una carta {Dressrosa} e scarti l’altra. Serve a trovare le carte giuste; il mazzo vince con i Character {Dressrosa}."
+  },
+  {
+    "cardCode": "OP04-040",
+    "body": "Con almeno 1 DON!! dato al Leader, quando attacca: se Vita + mano fanno **4 carte o meno**, peschi 1 carta. Se hai un Character di costo 8 o più, invece di pescare puoi aggiungere la prima carta del mazzo in cima alla tua Vita.\n\nAiuta quando sei a corto di risorse; con un Character grande in campo diventa un modo per recuperare Vite."
+  },
+  {
+    "cardCode": "OP04-058",
+    "body": "Una volta per turno, **nel turno avversario**, quando un tuo effetto rimette un DON!! del tuo campo nel mazzo DON!! (DON!! −X), prendi 1 DON!! dal mazzo DON!! e lo metti attivo.\n\nIn pratica un effetto DON!! −X usato in difesa ti costa un DON!! in meno, e quello nuovo è subito disponibile."
+  }
+]

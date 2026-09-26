@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP05-001",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno **nel turno avversario**: se un tuo Character con 5000 potenza o più sta per essere messo K.O., puoi dargli −1000 potenza per il turno invece di farlo andare K.O.\n\nProtegge un Character grande una volta per turno, sia in battaglia sia contro gli effetti. Ricorda di lasciare un DON!! sul Leader alla fine del tuo turno."
+  },
+  {
+    "cardCode": "OP05-002",
+    "body": "Una volta per turno, nella tua Main Phase, scarti dalla mano una carta {Revolutionary Army}: fino a 3 tuoi Character {Revolutionary Army} **o con [Trigger]** guadagnano +3000 potenza per il turno.\n\nÈ un grande bonus d’attacco per tutto il campo; conviene usarlo quando hai più Character pronti ad attaccare."
+  },
+  {
+    "cardCode": "OP05-022",
+    "body": "Il Leader ha [Blocker]: può mettersi a riposo per subire lui un attacco diretto a un tuo Character.\n\nAlla fine del tuo turno, se hai 6 carte o meno in mano, il Leader torna **attivo**. Così puoi attaccare con il Leader e averlo comunque pronto a bloccare nel turno avversario."
+  },
+  {
+    "cardCode": "OP05-041",
+    "body": "Una volta per turno, nella tua Main Phase, puoi scartare 1 carta per pescarne 1 (per migliorare la mano).\n\nQuando il Leader attacca, dai −1 costo per il turno a un Character avversario: utile con le carte nere che eliminano i Character di costo basso."
+  },
+  {
+    "cardCode": "OP05-060",
+    "body": "Una volta per turno, nella tua Main Phase, puoi prendere in mano la prima carta della tua Vita: se in campo hai **0 DON!! oppure 3 o più**, prendi 1 DON!! dal mazzo DON!! e lo metti attivo.\n\nScambi una Vita con un DON!! in più (e una carta in mano). La condizione “0 DON!!” si usa dopo aver speso tutto con i costi DON!! −X."
+  },
+  {
+    "cardCode": "OP05-098",
+    "body": "Una volta per turno, **nel turno avversario**, quando le tue Vite scendono a 0 aggiungi la prima carta del mazzo in cima alla tua Vita, poi scarti 1 carta dalla mano.\n\nÈ come avere una Vita in più ogni turno avversario: all’avversario serve un colpo in più per vincere. Lo scarto è obbligatorio, se hai carte in mano."
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP10-001",
+    "body": "Nel turno avversario tutti i tuoi Character {Navy} o {Punk Hazard} hanno **+1000 potenza**: più difficili da battere.\n\nUna volta per turno, nella tua Main Phase, se hai un Character con 7000 potenza o più, rendi attivi fino a 2 DON!!."
+  },
+  {
+    "cardCode": "OP10-002",
+    "body": "Con almeno 2 DON!! dati al Leader, quando attacca puoi rimandare in mano un tuo Character {Punk Hazard} di costo 2 o più: metti **K.O.** un Character avversario con 4000 potenza o meno.\n\nIl Character rimandato in mano si può rigiocare, riusando il suo [On Play]."
+  },
+  {
+    "cardCode": "OP10-003",
+    "body": "Alla fine del tuo turno, se hai un Character {Donquixote Pirates} con 6000 potenza o più, rendi attivo 1 DON!!.\n\nUna volta per turno, **nel turno avversario**, quando usi un Event prendi 1 DON!! dal mazzo DON!! e lo metti attivo: un Event [Counter] ti costa in pratica un DON!! in meno."
+  },
+  {
+    "cardCode": "OP10-022",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno nella Main Phase: se i tuoi Character costano in totale 5 o più, puoi rimandarne uno in mano. Poi riveli la prima carta della Vita: se è un Character {Supernovas} di costo 5 o meno, **puoi giocarlo** gratis.\n\nÈ un colpo di fortuna controllato: più Supernovas hai nel mazzo, più spesso funziona."
+  },
+  {
+    "cardCode": "OP10-042",
+    "body": "I tuoi Character {Dressrosa} di costo 2 o più hanno **+1 costo**.\n\nUna volta per turno, nel turno avversario, quando un tuo Character {Dressrosa} lascia il campo per un effetto avversario o viene messo K.O., se hai 5 carte o meno in mano peschi 1 carta."
+  },
+  {
+    "cardCode": "OP10-099",
+    "body": "Alla fine del tuo turno puoi girare a faccia in su la prima carta della tua Vita: rendi attivo un tuo Character {Supernovas} di costo tra 3 e 8, che ha anche [Blocker] fino alla fine del prossimo turno avversario.\n\nCosì un Character che ha attaccato può anche difendere."
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "cardCode": "P-011",
+    "body": "Una volta per turno, nella tua Main Phase, paghi 1 DON!! (a riposo): un tuo Character **senza effetto** ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "P-047",
+    "body": "Con almeno 1 DON!! dato al Leader, quando attacca **peschi 1 carta** se hai 3 carte o meno in mano."
+  },
+  {
+    "cardCode": "P-076",
+    "body": "Una volta per turno, nella tua Main Phase, puoi scartare una carta {Navy}: dai −1 costo per il turno a un Character avversario.\n\nPrepara gli effetti neri che eliminano i Character di costo basso."
+  },
+  {
+    "cardCode": "P-117",
+    "body": "Con questo Leader **nel mazzo puoi mettere solo carte {East Blue}**, e quando il tuo mazzo arriva a 0 carte vinci invece di perdere.\n\nCon almeno 1 DON!! dato al Leader, quando un suo attacco toglie Vita all’avversario puoi scartare la prima carta del tuo mazzo."
+  },
+  {
+    "cardCode": "PRB01-001",
+    "body": "Una volta per turno, nella tua Main Phase, un tuo Character **senza [On Play]** e di costo 8 o meno guadagna [Rush] per il turno: può attaccare anche se è appena entrato."
+  }
+]

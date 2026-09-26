@@ -1,0 +1,90 @@
+[
+  {
+    "cardCode": "ST01-001",
+    "body": "Una volta per turno, nella tua Main Phase, dai **1 DON!! a riposo** al Leader o a un tuo Character.\n\nUn DON!! già speso diventa +1000 potenza su un attaccante. È il Leader dello Starter Deck rosso: semplice e adatto per imparare."
+  },
+  {
+    "cardCode": "ST02-001",
+    "body": "Una volta per turno, nella tua Main Phase, paghi 3 DON!! (a riposo) e scarti 1 carta: il Leader torna **attivo**.\n\nDopo aver attaccato, il Leader può attaccare di nuovo, oppure restare pronto per il turno avversario."
+  },
+  {
+    "cardCode": "ST03-001",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −4: **rimandi in mano** un Character (anche avversario) di costo 5 o meno.\n\nToglie dal campo un Character avversario senza combattere."
+  },
+  {
+    "cardCode": "ST04-001",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −7: **metti nel cestino** la prima carta della Vita avversaria.\n\nÈ come infliggere un danno, ma senza che l’avversario possa usare il [Trigger] o i Counter. Costa quasi tutti i DON!!."
+  },
+  {
+    "cardCode": "ST05-001",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −3: tutti i tuoi Character {FILM} hanno **+2000 potenza** per il turno."
+  },
+  {
+    "cardCode": "ST06-001",
+    "body": "Una volta per turno, nella tua Main Phase, paghi 3 DON!! (a riposo) e scarti 1 carta: metti **K.O.** un Character avversario di costo 0.\n\nPrima abbassi il costo dei Character avversari con le carte nere, poi li elimini."
+  },
+  {
+    "cardCode": "ST07-001",
+    "body": "Con almeno 2 DON!! dati al Leader, quando attacca puoi prendere in mano la prima o l’ultima carta della tua Vita: se hai 2 Vite o meno, aggiungi 1 carta dalla mano in cima alla Vita.\n\nScegli tu quale carta rimettere nella Vita, per esempio una con un buon [Trigger]."
+  },
+  {
+    "cardCode": "ST08-001",
+    "body": "Nel tuo turno, ogni volta che un Character (tuo o avversario) viene messo **K.O.**, dai 1 DON!! a riposo al Leader.\n\nPiù Character elimini, più forte attacca il Leader."
+  },
+  {
+    "cardCode": "ST09-001",
+    "body": "Con almeno 1 DON!! dato al Leader, nel turno avversario, se hai 2 Vite o meno, il Leader ha **+1000 potenza**."
+  },
+  {
+    "cardCode": "ST10-001",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −3: metti **in fondo al mazzo** un Character avversario con 3000 potenza o meno e giochi gratis dalla mano un tuo Character di costo 4 o meno."
+  },
+  {
+    "cardCode": "ST10-002",
+    "body": "Una volta per turno, nella tua Main Phase, se in campo hai **0 DON!! oppure 8 o più**, prendi 1 DON!! dal mazzo DON!! e lo metti attivo.\n\nParte con 3 Vite e 6000 potenza. La condizione “0 DON!!” si raggiunge spendendo tutto con i costi DON!! −X."
+  },
+  {
+    "cardCode": "ST10-003",
+    "body": "Nel tuo turno, se hai 4 Vite o più, il Leader ha −1000 potenza.\n\nQuando attacca puoi pagare DON!! −1: il Leader ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "ST11-001",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno quando attacca riveli la prima carta del mazzo: se è una carta {FILM} la prendi in mano, altrimenti va in fondo al mazzo."
+  },
+  {
+    "cardCode": "ST12-001",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno quando attacca puoi rimandare in mano un tuo Character di costo 2 o più: rendi **attivo** un tuo Character con 7000 potenza o meno.\n\nUn Character che ha già attaccato può attaccare di nuovo; quello rimandato in mano si rigioca col suo [On Play]."
+  },
+  {
+    "cardCode": "ST13-001",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno nella Main Phase puoi mettere **a faccia in su in cima alla tua Vita** un tuo Character di costo 3 o più con 7000 potenza o più: un tuo Character ha +2000 potenza fino all’inizio del tuo prossimo turno."
+  },
+  {
+    "cardCode": "ST13-002",
+    "body": "Con almeno 2 DON!! dati al Leader, una volta per turno nella Main Phase guardi le prime 5 carte del mazzo e metti **a faccia in su in cima alla Vita** un Character di costo 5; le altre vanno in fondo.\n\nAlla fine del tuo turno **tutte le tue Vite a faccia in su vanno nel cestino**: le Vite in più durano solo per il turno."
+  },
+  {
+    "cardCode": "ST13-003",
+    "body": "Con questo Leader le tue Vite a faccia in su, quando le perdi, vanno **in fondo al mazzo** invece che in mano.\n\nCon almeno 2 DON!! dati al Leader, una volta per turno nella Main Phase puoi scartare 1 carta: se hai 0 Vite, aggiungi a faccia in su in cima alla Vita fino a 2 Character di costo 5 dalla mano o dal cestino."
+  },
+  {
+    "cardCode": "ST14-001",
+    "body": "Con almeno 1 DON!! dato al Leader, tutti i tuoi Character hanno **+1 costo**; se hai un Character di costo 8 o più, anche il Leader ha +1000 potenza."
+  },
+  {
+    "cardCode": "ST21-001",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno nella Main Phase dai **fino a 2 DON!! a riposo** a un tuo Character: +2000 potenza con DON!! già spesi."
+  },
+  {
+    "cardCode": "ST22-001",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mostrare dalla mano una carta “Whitebeard Pirates”: peschi 1 carta e poi rimetti la carta mostrata **in cima al mazzo**.\n\nIn pratica scambi una carta della mano con la prossima pescata, e sai già cosa pescherai al turno dopo."
+  },
+  {
+    "cardCode": "ST29-001",
+    "body": "Parte con 6 Vite.\n\nQuando il Leader attacca, se hai 2 Vite o meno, peschi 1 carta e poi ne scarti 1: migliori la mano quando sei in difficoltà."
+  },
+  {
+    "cardCode": "ST30-001",
+    "body": "Se hai un Character con 7000 potenza base o più, il Leader ha −2000 potenza (parte da 6000).\n\nNel turno avversario tutte le tue carte [Portgas.D.Ace] e [Monkey.D.Luffy] hanno **+3000 potenza**: molto difficili da battere."
+  }
+]

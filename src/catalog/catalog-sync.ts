@@ -44,11 +44,19 @@ export interface RawFaq {
   updated_at: string
 }
 
+/** Card Explanation di una carta (RIB-52); `body` vuoto = nessuna spiegazione. */
+export interface RawExplanation {
+  card_code: string
+  body: string
+  updated_at: string
+}
+
 export interface CatalogRows {
   sets: RawSet[]
   cards: RawCard[]
   printings: RawPrinting[]
   faqs: RawFaq[]
+  explanations: RawExplanation[]
 }
 
 export interface CatalogSnapshot extends CatalogRows {
@@ -74,7 +82,13 @@ export function sinceFor(watermark: string | null): string | null {
 
 function latest(current: string | null, rows: CatalogRows): string | null {
   let max = current
-  for (const row of [...rows.sets, ...rows.cards, ...rows.printings, ...rows.faqs]) {
+  for (const row of [
+    ...rows.sets,
+    ...rows.cards,
+    ...rows.printings,
+    ...rows.faqs,
+    ...rows.explanations,
+  ]) {
     if (max === null || new Date(row.updated_at) > new Date(max)) max = row.updated_at
   }
   return max
@@ -97,12 +111,19 @@ export function mergeSnapshot(
   delta: CatalogRows,
   checkedAt: number,
 ): CatalogSnapshot {
-  const base: CatalogRows = local ?? { sets: [], cards: [], printings: [], faqs: [] }
+  const base: CatalogRows = local ?? {
+    sets: [],
+    cards: [],
+    printings: [],
+    faqs: [],
+    explanations: [],
+  }
   return {
     sets: upsert(base.sets, delta.sets, (s) => s.series_id),
     cards: upsert(base.cards, delta.cards, (c) => c.card_code),
     printings: upsert(base.printings, delta.printings, (p) => p.print_id),
     faqs: upsert(base.faqs, delta.faqs, (f) => f.card_code),
+    explanations: upsert(base.explanations, delta.explanations, (e) => e.card_code),
     watermark: latest(local?.watermark ?? null, delta),
     checkedAt,
   }
@@ -113,18 +134,26 @@ export function isEmpty(rows: CatalogRows): boolean {
     rows.sets.length === 0 &&
     rows.cards.length === 0 &&
     rows.printings.length === 0 &&
-    rows.faqs.length === 0
+    rows.faqs.length === 0 &&
+    rows.explanations.length === 0
   )
 }
 
 /**
- * Una copia salvata da una versione dell'app senza FAQ (prima di RIB-44): si usa subito così com'è,
- * ma senza watermark, così il prossimo aggiornamento riscarica tutto una volta e prende anche le
- * FAQ (con il watermark vecchio quelle già caricate sul server non arriverebbero mai).
+ * Una copia salvata da una versione dell'app senza FAQ (prima di RIB-44) o senza Card Explanation
+ * (prima di RIB-52): si usa subito così com'è, ma senza watermark, così il prossimo aggiornamento
+ * riscarica tutto una volta e prende anche i dati nuovi (con il watermark vecchio quelli già
+ * caricati sul server non arriverebbero mai).
  */
 export function upgradeSnapshot(stored: CatalogSnapshot): CatalogSnapshot {
-  const faqs = (stored as Partial<CatalogSnapshot>).faqs
-  return Array.isArray(faqs) ? stored : { ...stored, faqs: [], watermark: null }
+  const { faqs, explanations } = stored as Partial<CatalogSnapshot>
+  if (Array.isArray(faqs) && Array.isArray(explanations)) return stored
+  return {
+    ...stored,
+    faqs: Array.isArray(faqs) ? faqs : [],
+    explanations: Array.isArray(explanations) ? explanations : [],
+    watermark: null,
+  }
 }
 
 /** Le FAQ valide di una riga (il campo arriva dal database come JSON generico). */
@@ -170,6 +199,11 @@ export function buildCatalog(rows: CatalogRows): Catalog {
   }
 
   const faqsByCard = new Map(rows.faqs.map((f) => [f.card_code, faqItems(f.items)]))
+  const explanations = new Map(
+    rows.explanations.flatMap((e) =>
+      typeof e.body === 'string' && e.body.trim() !== '' ? [[e.card_code, e.body] as const] : [],
+    ),
+  )
 
   return {
     sets: sets.map((s) => ({ seriesId: s.series_id, code: s.code, name: s.name })),
@@ -192,6 +226,7 @@ export function buildCatalog(rows: CatalogRows): Catalog {
         keywords: c.keywords,
         printings: printingsByCard.get(c.card_code) ?? [],
         faqs: faqsByCard.get(c.card_code) ?? [],
+        explanation: explanations.get(c.card_code) ?? null,
       })),
   }
 }

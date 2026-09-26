@@ -442,6 +442,7 @@
         "catalog_sync": "Catalog Sync",
         "image_sync": "Immagini delle carte",
         "faq_sync": "FAQ ufficiali",
+        "explanation_sync": "Spiegazioni delle carte",
         "other": "Altro job"
       },
       "status": {
@@ -587,6 +588,10 @@
       "count_other": "{{count}} domande",
       "intro": "Domande e risposte ufficiali di Bandai, in inglese.",
       "source": "Fonte: FAQ ufficiale {{source}}"
+    },
+    "explanation": {
+      "title": "Come funziona",
+      "disclaimer": "Spiegazione scritta da OP-Codex, non ufficiale: in caso di dubbio valgono il testo della carta, le FAQ e il regolamento."
     }
   },
   "filters": {

@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP16-001",
+    "body": "Una volta per turno, nella tua Main Phase, un tuo [Monkey.D.Luffy] **oppure** un tuo Character “Whitebeard Pirates” con 8000 potenza o più guadagna [Rush] per il turno.\n\nIl Character può attaccare subito anche se è appena entrato. La condizione degli 8000 si può raggiungere dando DON!!."
+  },
+  {
+    "cardCode": "OP16-022",
+    "body": "Una volta per turno, nella tua Main Phase, se hai **solo Character {Impel Down}** in campo, rendi attivi fino a 2 DON!!.\n\nDue DON!! in più ogni turno, a patto di giocare solo Impel Down (anche nessun Character va bene)."
+  },
+  {
+    "cardCode": "OP16-041",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno quando un tuo Character {Impel Down} lascia il campo, giochi gratis dalla mano una carta [Prisoner of Impel Down].\n\nQuando perdi un Character, ne entra subito un altro."
+  },
+  {
+    "cardCode": "OP16-060",
+    "body": "Nella tua Main Phase puoi rimettere **8 DON!! attivi** nel mazzo DON!!: giochi gratis dalla mano fino a 3 Character {Admiral} con nomi diversi.\n\nÈ un colpo enorme ma costosissimo: dopo resti con pochi DON!!. Serve avere in mano più Ammiragli diversi."
+  },
+  {
+    "cardCode": "OP16-079",
+    "body": "Quando un Character {Land of Wano} **viene giocato dal cestino**, guadagna [Rush] per il turno: può attaccare subito.\n\nIl mazzo usa gli effetti che rigiocano Character dal cestino."
+  },
+  {
+    "cardCode": "OP16-080",
+    "body": "Nel turno avversario tutti i tuoi Character hanno **+1 costo** (utile contro gli effetti che colpiscono i costi bassi).\n\nUna volta per turno, quando l’avversario attacca, puoi scartare una carta con [Trigger]: sposti l’attacco sul tuo Leader o su un tuo Character {Blackbeard Pirates}."
+  }
+]

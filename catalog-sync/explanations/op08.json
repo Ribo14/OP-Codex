@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP08-001",
+    "body": "Una volta per turno, nella tua Main Phase, dai **fino a 1 DON!! a riposo ciascuno** a un massimo di 3 tuoi Character {Animal} o {Drum Kingdom}.\n\nUsa DON!! già spesi (a riposo) per potenziare il campo: +1000 potenza a ognuno e condizioni [DON!! x1] soddisfatte."
+  },
+  {
+    "cardCode": "OP08-002",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno nella Main Phase: peschi 1 carta, poi metti 1 carta dalla mano in cima o in fondo al mazzo; infine dai −2000 potenza per il turno a un Character avversario.\n\nMigliora la mano (e prepara la prossima pescata) e aiuta a vincere una battaglia."
+  },
+  {
+    "cardCode": "OP08-021",
+    "body": "Una volta per turno, nella tua Main Phase, se hai un Character {Minks}, metti a riposo un Character avversario di costo 5 o meno.\n\nToglie un [Blocker] prima dei tuoi attacchi, o un Character che potrebbe attaccarti nel turno successivo."
+  },
+  {
+    "cardCode": "OP08-057",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −2 e scegli una:\n- se hai 5 carte o meno in mano, peschi 1 carta;\n- dai −2 costo per il turno a un Character avversario.\n\nFlessibile: carta in più quando serve, oppure preparazione per gli effetti neri che eliminano i Character di costo basso."
+  },
+  {
+    "cardCode": "OP08-058",
+    "body": "Quando il Leader attacca puoi girare **a faccia in su** le prime 2 carte della tua Vita: prendi 1 DON!! dal mazzo DON!! e lo metti a riposo.\n\nLe Vite a faccia in su restano Vite, ma l’avversario le vede. In cambio acceleri con i DON!!."
+  },
+  {
+    "cardCode": "OP08-098",
+    "body": "Con almeno 1 DON!! dato al Leader, quando attacca puoi giocare gratis dalla mano un Character {Shandian Warrior} con costo **non superiore ai DON!! che hai in campo**. Se lo fai, prendi in mano la prima carta della tua Vita.\n\nMette in campo un Character a ogni attacco, al prezzo di una Vita."
+  }
+]

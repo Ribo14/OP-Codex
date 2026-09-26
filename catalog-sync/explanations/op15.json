@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP15-001",
+    "body": "Con almeno 1 DON!! dato al Leader, nel turno avversario, se hai **solo Character {East Blue}** in campo, tutti i Character avversari hanno −2000 potenza: i loro attacchi sono più deboli.\n\nUna volta per turno, nella tua Main Phase, metti a riposo un Character avversario che ha 2 o più DON!! dati."
+  },
+  {
+    "cardCode": "OP15-002",
+    "body": "Quando il Leader attacca **o viene attaccato**, puoi scartare quanti Event o Stage vuoi: +1000 potenza per carta in quella battaglia.\n\nUna volta per turno, nella tua Main Phase, se in questo turno hai usato un Event di costo base 3 o più, peschi 1 carta."
+  },
+  {
+    "cardCode": "OP15-022",
+    "body": "Con questo Leader **non perdi subito quando il mazzo finisce**: perdi alla fine del turno in cui arriva a 0 carte.\n\nUna volta per turno, nella tua Main Phase, scarti le prime 4 carte del mazzo; se il mazzo è a 0, rendi attivo un tuo Character. Il mazzo sfrutta il cestino pieno, ma bisogna chiudere la partita in quel turno."
+  },
+  {
+    "cardCode": "OP15-039",
+    "body": "Questo Leader **non può attaccare**.\n\nNella tua Main Phase puoi mettere a riposo il Leader e rimandare in mano un tuo Character {Dressrosa}: giochi gratis dalla mano un Character {Dressrosa} di costo 3. Riusi gli effetti [On Play] dei Character e cambi quello che serve in campo."
+  },
+  {
+    "cardCode": "OP15-058",
+    "body": "Con questo Leader **il mazzo DON!! ha solo 6 carte**.\n\nUna volta per turno, nella tua Main Phase, dal tuo secondo turno in poi prendi 1 DON!! attivo e fino a 4 a riposo dal mazzo DON!!, poi dai fino a 4 DON!! a riposo a un tuo Character. Arrivi subito a tutti i DON!!, ma sono pochi."
+  },
+  {
+    "cardCode": "OP15-098",
+    "body": "Se un tuo Character {Sky Island} con 6000 potenza base o più sta per lasciare il campo **per l’avversario** (in battaglia o per effetto), puoi invece prendere in mano la prima carta della tua Vita.\n\nNon è limitato a una volta per turno: ogni volta paghi una Vita per salvare il Character."
+  }
+]

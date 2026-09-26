@@ -1,0 +1,34 @@
+[
+  {
+    "cardCode": "OP03-001",
+    "body": "Quando il Leader attacca **o viene attaccato**, puoi scartare dalla mano quanti Event o Stage vuoi: per ognuno il Leader guadagna +1000 potenza per quella battaglia.\n\nFunziona sia in attacco sia in difesa, e non ha limite per turno. Gli Event e gli Stage nel mazzo diventano quindi anche “Counter” per il Leader. Attenzione: in difesa aiuta solo il Leader, non i tuoi Character attaccati."
+  },
+  {
+    "cardCode": "OP03-021",
+    "body": "Nella tua Main Phase paghi 3 DON!! (a riposo) e metti a riposo 2 tuoi Character {East Blue}: il Leader torna **attivo** e metti a riposo un Character avversario di costo 5 o meno.\n\nNon è limitato a una volta per turno: se hai DON!! e Character sufficienti puoi ripeterlo, e ogni volta il Leader può attaccare di nuovo. Si usa di solito dopo che il Leader ha già attaccato."
+  },
+  {
+    "cardCode": "OP03-022",
+    "body": "Con almeno 2 DON!! dati al Leader, quando attacca puoi mettere a riposo 1 DON!! della cost area: giochi gratis dalla mano un Character di costo 4 o meno **con [Trigger]**.\n\nOgni attacco del Leader mette in campo un Character senza pagarne il costo. Il mazzo è pieno di Character con [Trigger], utili anche quando escono dalla Vita."
+  },
+  {
+    "cardCode": "OP03-040",
+    "body": "Con questo Leader, quando il tuo mazzo arriva a 0 carte **vinci** invece di perdere.\n\nCon almeno 1 DON!! dato al Leader, quando un suo attacco toglie Vita all’avversario puoi scartare la prima carta del tuo mazzo. Il piano è svuotare il proprio mazzo il più in fretta possibile, con questo effetto e con le carte blu che fanno pescare o scartare dal mazzo."
+  },
+  {
+    "cardCode": "OP03-058",
+    "body": "Questo Leader **non può attaccare**.\n\nNella tua Main Phase paghi DON!! −1 e metti a riposo il Leader: giochi gratis dalla mano un Character {Galley-La Company} di costo 5 o meno. Visto che serve mettere a riposo il Leader, di solito lo usi una volta per turno. Il mazzo vince con i Character, non con il Leader."
+  },
+  {
+    "cardCode": "OP03-076",
+    "body": "Una volta per turno, nel tuo turno, quando un Character avversario viene **messo K.O.** puoi scartare 2 carte dalla mano: il Leader torna **attivo**.\n\nSe il Leader ha già attaccato, può attaccare di nuovo. Il costo in carte è alto, quindi conviene quando il secondo attacco può chiudere la partita o togliere una Vita decisiva."
+  },
+  {
+    "cardCode": "OP03-077",
+    "body": "Con almeno 2 DON!! dati al Leader, quando attacca puoi pagare 2 DON!! (a riposo) e scartare 1 carta: se hai **1 Vita o nessuna**, aggiungi la prima carta del mazzo in cima alla tua Vita.\n\nÈ un modo per “ricaricare” la Vita quando stai per perdere. Funziona solo quando sei già molto in basso con le Vite."
+  },
+  {
+    "cardCode": "OP03-099",
+    "body": "Con almeno 1 DON!! dato al Leader, quando attacca guardi la prima carta della Vita **tua o dell’avversario** e la lasci in cima o la metti in fondo. Poi il Leader ha +1000 potenza per quella battaglia.\n\nSulla Vita avversaria serve a spostare in fondo una carta con [Trigger] pericoloso; sulla tua a tenere in cima un [Trigger] utile. Si attiva a ogni attacco del Leader."
+  }
+]

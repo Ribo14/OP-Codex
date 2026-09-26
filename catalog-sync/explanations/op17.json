@@ -1,0 +1,26 @@
+[
+  {
+    "cardCode": "OP17-001",
+    "body": "Una volta per turno, quando l’avversario attacca, puoi scartare 1 carta: il tuo Leader o un tuo Character ha **+4000 potenza** per quella battaglia.\n\nÈ come un Counter da +4000 usabile con qualsiasi carta della mano."
+  },
+  {
+    "cardCode": "OP17-020",
+    "body": "Una volta per turno, nella tua Main Phase, scarti 1 carta **oppure** metti a riposo 1 DON!!: un Character avversario a riposo **non torna attivo** nella prossima Refresh Phase dell’avversario.\n\nFunziona bene dopo aver messo a riposo un Character avversario (o dopo che ha attaccato): resta bloccato per un turno."
+  },
+  {
+    "cardCode": "OP17-039",
+    "body": "Quando il Leader attacca puoi scartare 1 carta: riveli la prima carta del mazzo e, se è una carta “Rocks Pirates”, **peschi 2 carte**.\n\nPiù carte Rocks Pirates ci sono nel mazzo, più spesso lo scarto diventa un guadagno."
+  },
+  {
+    "cardCode": "OP17-058",
+    "body": "Una volta per turno, quando il Leader attacca **oppure** quando l’avversario attacca, puoi pagare DON!! −1: dai −2000 potenza per il turno a un Character avversario.\n\nIn attacco aiuta a battere un Character; in difesa indebolisce il Character che ti attacca."
+  },
+  {
+    "cardCode": "OP17-079",
+    "body": "Tutti i tuoi Character di **costo 12 o più** hanno [Blocker].\n\nIl costo può salire con gli effetti che danno +costo: i tuoi Character grandi diventano anche difensori."
+  },
+  {
+    "cardCode": "OP17-099",
+    "body": "Quando il Leader attacca puoi scartare 1 carta: **l’avversario sceglie** una delle due:\n- tu scarti 1 carta, poi aggiungi la prima del mazzo in cima alla tua Vita;\n- l’avversario scarta 1 carta dalla mano.\n\nIn ogni caso ottieni qualcosa: una Vita in più o una carta in meno all’avversario."
+  }
+]

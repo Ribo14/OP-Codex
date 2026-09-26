@@ -47,5 +47,8 @@ jobs:
       # FAQ ufficiali (RIB-44) dal file versionato nel repo: idempotente, non chiede nulla a Bandai.
       - name: FAQ Sync
         run: node catalog-sync/sync-faqs.ts
+      # Card Explanation (RIB-52) dai file versionati nel repo: idem, nessuna AI.
+      - name: Explanation Sync
+        run: node catalog-sync/sync-explanations.ts
       - name: Image Sync
         run: node catalog-sync/sync-images.ts --limit "$IMAGE_LIMIT" --delay-ms 2000

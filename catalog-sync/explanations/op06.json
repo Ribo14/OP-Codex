@@ -22,5 +22,429 @@
   {
     "cardCode": "OP06-080",
     "body": "Con almeno 1 DON!! dato al Leader, quando attacca puoi pagare 2 DON!! (a riposo) e scartare 1 carta: scarti le prime 2 carte del mazzo e poi puoi **giocare dal cestino** un Character {Thriller Bark Pirates} di costo 4 o meno.\n\nRiempie il cestino e ne recupera un Character a ogni attacco del Leader."
+  },
+  {
+    "cardCode": "OP06-002",
+    "body": "Se ha 7000 potenza o più (per esempio con 2 DON!! dati), ha [Banish]. Se un Counter lo fa scendere sotto, lo perde."
+  },
+  {
+    "cardCode": "OP06-003",
+    "body": "Quando lo giochi guardi le prime 3 carte e giochi gratis un Character {Revolutionary Army} con 5000 potenza o meno."
+  },
+  {
+    "cardCode": "OP06-004",
+    "body": "Quando lo giochi, giochi gratis dalla mano una [Lily Carnation]."
+  },
+  {
+    "cardCode": "OP06-006",
+    "body": "Con almeno 1 DON!! dato, quando attacca ha +1000 potenza fino all’inizio del tuo prossimo turno; ma alla fine del turno devi mandare nel cestino un tuo Character {FILM} (anche lui stesso)."
+  },
+  {
+    "cardCode": "OP06-007",
+    "body": "Quando lo giochi, metti K.O. un Character avversario con 10000 potenza o meno."
+  },
+  {
+    "cardCode": "OP06-009",
+    "body": "Ha [Blocker].\n\nUna volta per turno, quando attacca o quando blocca, la sua potenza base diventa uguale a quella del Leader avversario in quel momento, fino all’inizio del tuo prossimo turno."
+  },
+  {
+    "cardCode": "OP06-010",
+    "body": "Se il Leader è {FILM}, ha [Blocker]: un grosso difensore."
+  },
+  {
+    "cardCode": "OP06-011",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mettere a riposo una tua [Uta] (anche il Leader): ha +5000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP06-012",
+    "body": "Se l’avversario ha un Leader o un Character con potenza base 6000 o più, non può essere messo K.O. in battaglia."
+  },
+  {
+    "cardCode": "OP06-013",
+    "body": "Quando lo giochi guardi le prime 3 carte e prendi una carta {FILM}.\n\nIl [Trigger] attiva lo stesso effetto (senza giocarlo)."
+  },
+  {
+    "cardCode": "OP06-014",
+    "body": "Quando l’avversario attacca, puoi scartare quante carte {FILM} vuoi: il Leader o **un** Character ha +1000 potenza per carta in quella battaglia."
+  },
+  {
+    "cardCode": "OP06-015",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mandare nel cestino un tuo Character con 6000 potenza o più: giochi dal cestino, a riposo, un Character {FILM} con potenza da 2000 a 5000."
+  },
+  {
+    "cardCode": "OP06-016",
+    "body": "Nella tua Main Phase puoi metterlo in fondo al mazzo: dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP06-017",
+    "body": "Si usa nella Main Phase o come Counter: puoi prendere in mano la prima carta della Vita per dare +3000 potenza per il turno al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP06-018",
+    "body": "Il Leader o un Character ha +3000 potenza per il turno; se l’avversario ha un Character con 7000 potenza o più, un tuo Leader o Character (anche un altro) ha +1000.\n\nIl [Trigger] mette K.O. un Character avversario con 5000 potenza o meno."
+  },
+  {
+    "cardCode": "OP06-019",
+    "body": "Metti K.O. un Character avversario con 5000 potenza o meno.\n\nIl [Trigger] mette K.O. uno con 4000 potenza o meno."
+  },
+  {
+    "cardCode": "OP06-023",
+    "body": "Quando lo giochi puoi scartare 1 carta: il Leader avversario, se è a riposo, non può attaccare fino alla fine del prossimo turno avversario (torna attivo, ma non attacca).\n\nIl [Trigger] mette a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP06-024",
+    "body": "Quando lo giochi, se il Leader è {New Fish-Man Pirates}, giochi gratis dalla mano un Character {Fish-Man} di costo 4 o meno; poi prendi comunque in mano la prima carta della Vita."
+  },
+  {
+    "cardCode": "OP06-025",
+    "body": "Quando la giochi guardi le prime 4 carte e prendi una carta {Fish-Man} o {Merfolk} (non [Camie])."
+  },
+  {
+    "cardCode": "OP06-026",
+    "body": "Quando lo giochi rendi attivo un tuo Character di costo 4 o meno con un attributo; poi però in quel turno non puoi più attaccare il Leader avversario (né con lui né con altri)."
+  },
+  {
+    "cardCode": "OP06-027",
+    "body": "Quando viene messo K.O. metti a riposo un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP06-028",
+    "body": "Con almeno 1 DON!! dato, quando attacca, se il Leader è {New Fish-Man Pirates}, rendi attivo 1 DON!! e ha +1000 potenza per il turno; poi prendi comunque in mano la prima carta della Vita."
+  },
+  {
+    "cardCode": "OP06-029",
+    "body": "Con almeno 1 DON!! dato, una volta per turno quando attacca, se il Leader è {New Fish-Man Pirates}, torna attivo e ha +1000 potenza per il turno; poi prendi in mano la prima carta della Vita."
+  },
+  {
+    "cardCode": "OP06-030",
+    "body": "Quando attacca, se il Leader è {New Fish-Man Pirates}, ha +2000 potenza e non può essere messo K.O. in battaglia fino all’inizio del tuo prossimo turno; poi prendi in mano la prima carta della Vita."
+  },
+  {
+    "cardCode": "OP06-031",
+    "body": "Il [Trigger] gioca gratis dalla mano un Character {Fish-Man} o {Merfolk} di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP06-032",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP06-033",
+    "body": "Quando lo giochi puoi scartare una carta {Fish-Man} dalla mano, oppure mandare nel cestino una [The Ark Noah] dalla mano o dal campo: metti K.O. un Character avversario a riposo."
+  },
+  {
+    "cardCode": "OP06-034",
+    "body": "Una volta per turno, nella tua Main Phase, metti a riposo un Character avversario di costo 4 o meno e ha +1000 potenza per il turno; poi prendi in mano la prima carta della Vita."
+  },
+  {
+    "cardCode": "OP06-035",
+    "body": "Ha [Rush].\n\nQuando lo giochi metti a riposo fino a 2 tra Character e DON!! avversari; poi prendi comunque in mano la prima carta della Vita."
+  },
+  {
+    "cardCode": "OP06-036",
+    "body": "Quando lo giochi e quando viene messo K.O., metti K.O. un Character avversario a riposo di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP06-038",
+    "body": "Counter: il Leader o un Character ha +2000 potenza per la battaglia; con 8 o più carte a riposo (Leader, Character, Stage e DON!! nella cost area), altri +2000.\n\nIl [Trigger] mette K.O. un Character avversario a riposo di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP06-039",
+    "body": "Costa 4. Scegli: metti a riposo un Character avversario di costo 6 o meno, oppure metti K.O. un Character avversario a riposo di costo 6 o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP06-040",
+    "body": "Metti K.O. fino a 2 Character avversari a riposo di costo 3 o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP06-041",
+    "body": "Stage di costo 6: quando lo giochi, **tutti i Character avversari** vanno a riposo.\n\nCon il [Trigger] lo giochi gratis (e l’effetto si attiva)."
+  },
+  {
+    "cardCode": "OP06-043",
+    "body": "Ha [Blocker].\n\nUna volta per turno, nella tua Main Phase, puoi scartare 1 carta e mettere in fondo al mazzo un Character di costo 2 o meno (anche avversario): +3000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP06-044",
+    "body": "Una volta per turno, nel tuo turno, quando l’avversario usa un Event, deve mettere 1 carta della mano in fondo al mazzo."
+  },
+  {
+    "cardCode": "OP06-045",
+    "body": "Quando lo giochi peschi 2 carte e ne rimetti 2 in fondo al mazzo."
+  },
+  {
+    "cardCode": "OP06-046",
+    "body": "Quando lo giochi metti in fondo al mazzo un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP06-047",
+    "body": "Quando la giochi, l’avversario rimette tutta la mano nel mazzo, mescola e pesca 5 carte."
+  },
+  {
+    "cardCode": "OP06-048",
+    "body": "Nel tuo turno, quando l’avversario usa [Blocker] o un Event (non un [Trigger]), se il Leader è {East Blue}, puoi scartare le prime 4 carte del tuo mazzo (utile con i Leader che vincono a mazzo vuoto)."
+  },
+  {
+    "cardCode": "OP06-050",
+    "body": "Quando la giochi guardi le prime 5 carte e prendi una carta {Navy} (non [Tashigi])."
+  },
+  {
+    "cardCode": "OP06-051",
+    "body": "Quando la giochi puoi scartare 2 carte: l’avversario **sceglie** un suo Character e lo riprende in mano."
+  },
+  {
+    "cardCode": "OP06-052",
+    "body": "Con almeno 1 DON!! dato e 4 carte o meno in mano, non può essere messo K.O. in battaglia."
+  },
+  {
+    "cardCode": "OP06-053",
+    "body": "Quando viene messo K.O., metti in fondo al mazzo un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP06-054",
+    "body": "Con 5 carte o meno in mano ha [Blocker]."
+  },
+  {
+    "cardCode": "OP06-055",
+    "body": "Con almeno 2 DON!! dati, quando attacca, se hai 4 carte o meno in mano, l’avversario non può usare [Blocker] in quella battaglia."
+  },
+  {
+    "cardCode": "OP06-056",
+    "body": "Metti in fondo al mazzo un Character avversario di costo 2 o meno e uno di costo 1 o meno (l’ordine lo sceglie l’avversario).\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP06-057",
+    "body": "Il Leader o un Character ha +1000 potenza per il turno; poi riveli la prima carta del mazzo: se è un Character di costo 2 puoi giocarlo, altrimenti la metti in cima o in fondo.\n\nIl [Trigger] gioca gratis dalla mano un Character di costo 2."
+  },
+  {
+    "cardCode": "OP06-058",
+    "body": "Costa 7: metti in fondo al mazzo fino a 2 Character di costo 6 o meno.\n\nIl [Trigger] mette in fondo al mazzo un Character di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP06-059",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +1000 potenza per il turno e peschi 1 carta.\n\nIl [Trigger] guarda le prime 5 carte e le rimette in cima o in fondo nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "OP06-060",
+    "body": "Nella tua Main Phase paghi DON!! −1 e lo mandi nel cestino: se il Leader è {GERMA 66}, giochi dalla mano o dal cestino un [Vinsmoke Ichiji] di costo 7."
+  },
+  {
+    "cardCode": "OP06-061",
+    "body": "Quando lo giochi, se hai DON!! pari o meno dell’avversario, dai −2000 potenza per il turno a un Character avversario e guadagna [Rush]."
+  },
+  {
+    "cardCode": "OP06-062",
+    "body": "Quando lo giochi puoi pagare DON!! −1 e scartare 2 carte: giochi dal cestino fino a 4 Character {GERMA 66} con nomi diversi e 4000 potenza o meno.\n\nUna volta per turno, nella tua Main Phase, DON!! −1: metti a riposo un DON!! avversario."
+  },
+  {
+    "cardCode": "OP06-063",
+    "body": "Quando la giochi puoi scartare 1 carta: se hai DON!! pari o meno dell’avversario, riprendi in mano dal cestino un Character {The Vinsmoke Family} con 4000 potenza o meno."
+  },
+  {
+    "cardCode": "OP06-064",
+    "body": "Nella tua Main Phase paghi DON!! −1 e lo mandi nel cestino: se il Leader è {GERMA 66}, giochi dalla mano o dal cestino un [Vinsmoke Niji] di costo 5."
+  },
+  {
+    "cardCode": "OP06-065",
+    "body": "Quando lo giochi, se hai DON!! pari o meno dell’avversario, scegli: metti K.O. un Character avversario di costo 2 o meno, oppure rimandi in mano un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP06-066",
+    "body": "Nella tua Main Phase paghi DON!! −1 e lo mandi nel cestino: se il Leader è {GERMA 66}, giochi dalla mano o dal cestino un [Vinsmoke Yonji] di costo 4."
+  },
+  {
+    "cardCode": "OP06-067",
+    "body": "Ha [Blocker].\n\nSe hai DON!! pari o meno dell’avversario, ha +1000 potenza."
+  },
+  {
+    "cardCode": "OP06-068",
+    "body": "Nella tua Main Phase paghi DON!! −1 e la mandi nel cestino: se il Leader è {GERMA 66}, giochi dalla mano o dal cestino una [Vinsmoke Reiju] di costo 4."
+  },
+  {
+    "cardCode": "OP06-069",
+    "body": "Quando la giochi, se hai DON!! pari o meno dell’avversario e 5 carte o meno in mano, peschi 2 carte."
+  },
+  {
+    "cardCode": "OP06-071",
+    "body": "Quando lo giochi puoi pagare DON!! −1: se il Leader è {FILM}, riprendi in mano dal cestino fino a 2 Character {FILM} di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP06-072",
+    "body": "Se il Leader è {GERMA 66} e hai almeno 2 DON!! in meno dell’avversario, ha [Blocker]."
+  },
+  {
+    "cardCode": "OP06-073",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, con 8 o più DON!! in campo, peschi 1 carta e ne scarti 1."
+  },
+  {
+    "cardCode": "OP06-074",
+    "body": "Quando lo giochi puoi pagare DON!! −1: annulli per il turno l’effetto di un Character avversario; se ha 5000 potenza o meno lo metti anche K.O. (senza [On K.O.])."
+  },
+  {
+    "cardCode": "OP06-075",
+    "body": "Quando lo giochi puoi pagare DON!! −1: metti a riposo fino a 2 Character avversari di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP06-076",
+    "body": "Una volta per turno, nel tuo turno, quando un tuo DON!! torna nel mazzo DON!!, metti K.O. un Character avversario di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP06-077",
+    "body": "Se hai DON!! pari o meno dell’avversario, metti in fondo al mazzo un Character avversario di costo 5 o meno.\n\nIl [Trigger] fa lo stesso con uno di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP06-078",
+    "body": "Guardi le prime 5 carte e prendi una carta “GERMA” (non questa).\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP06-079",
+    "body": "Stage. Nella tua Main Phase puoi scartare 1 carta e metterlo a riposo: guardi le prime 3 carte e prendi una carta “GERMA”."
+  },
+  {
+    "cardCode": "OP06-081",
+    "body": "Quando lo giochi puoi mettere 2 carte del cestino in fondo al mazzo: metti K.O. un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP06-082",
+    "body": "Quando lo giochi e quando viene messo K.O., se il Leader è {Thriller Bark Pirates}, peschi 2 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "OP06-083",
+    "body": "Non può attaccare (7000 potenza per difendere).\n\nNella tua Main Phase puoi mettere K.O. un tuo Character {Thriller Bark Pirates}: il suo effetto è annullato per il turno, quindi può attaccare (non nel turno in cui entra, salvo [Rush])."
+  },
+  {
+    "cardCode": "OP06-084",
+    "body": "Quando viene messo K.O., il Leader o un Character ha +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP06-085",
+    "body": "Con almeno 2 DON!! dati, nel tuo turno ha +1000 potenza ogni 5 carte nel cestino."
+  },
+  {
+    "cardCode": "OP06-086",
+    "body": "Quando lo giochi scegli dal cestino un Character di costo 4 o meno e uno di costo 2 o meno: ne giochi uno attivo e l’altro a riposo."
+  },
+  {
+    "cardCode": "OP06-087",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP06-088",
+    "body": "Se il Leader è {Dressrosa} ed è attivo, ha +2000 potenza."
+  },
+  {
+    "cardCode": "OP06-089",
+    "body": "Quando lo giochi e quando viene messo K.O., scarti le prime 3 carte del mazzo."
+  },
+  {
+    "cardCode": "OP06-090",
+    "body": "Quando lo giochi puoi mettere 2 carte del cestino in fondo al mazzo: riprendi in mano dal cestino una carta {Thriller Bark Pirates} (non [Dr. Hogback])."
+  },
+  {
+    "cardCode": "OP06-091",
+    "body": "Quando la giochi, se il Leader è {Thriller Bark Pirates}, scarti le prime 5 carte del **tuo** mazzo."
+  },
+  {
+    "cardCode": "OP06-092",
+    "body": "Quando lo giochi scegli: mandi nel cestino un Character avversario di costo 4 o meno (senza K.O.), oppure l’avversario mette 3 carte del suo cestino in fondo al mazzo."
+  },
+  {
+    "cardCode": "OP06-093",
+    "body": "Quando la giochi, se l’avversario ha 5 o più carte in mano, scegli: ne scarta 1, oppure dai −3 costo per il turno a un suo Character."
+  },
+  {
+    "cardCode": "OP06-095",
+    "body": "Si usa nella Main Phase o come Counter: il Leader ha +1000 potenza per il turno; poi puoi mettere K.O. quanti tuoi Character {Thriller Bark Pirates} di costo 2 o meno vuoi: +1000 per ognuno.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP06-096",
+    "body": "Counter da 3 DON!!: puoi prendere in mano la prima carta della Vita: in questo turno i tuoi Character di costo 7 o meno non possono essere messi K.O. in battaglia.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP06-097",
+    "body": "Mandi nel cestino una carta dalla mano dell’avversario.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP06-098",
+    "body": "Stage. Nella tua Main Phase paghi 1 DON!! (a riposo) e lo metti a riposo: se il Leader è {Thriller Bark Pirates}, giochi dal cestino, a riposo, un Character {Thriller Bark Pirates} di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP06-099",
+    "body": "Quando la giochi guardi la prima carta della Vita tua o avversaria e la lasci in cima o la metti in fondo."
+  },
+  {
+    "cardCode": "OP06-100",
+    "body": "Con almeno 2 DON!! dati, quando attacca puoi scartare 1 carta: metti K.O. un Character avversario con costo non superiore alle Vite dell’avversario.\n\nIl [Trigger]: se l’avversario ha 3 Vite o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP06-101",
+    "body": "Quando la giochi, il Leader o un Character guadagna [Banish] per il turno.\n\nIl [Trigger] mette K.O. un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP06-102",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mettere in fondo al mazzo uno Stage di costo 1 (anche avversario): metti K.O. un Character avversario di costo 2 o meno.\n\nIl [Trigger]: se hai 2 Vite o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP06-103",
+    "body": "Quando attacca puoi scartare 2 carte: metti a faccia in su in cima o in fondo alla Vita del proprietario un tuo Character con esattamente 0 potenza.\n\nIl [Trigger]: se l’avversario ha 3 Vite o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP06-104",
+    "body": "Quando viene messo K.O., se l’avversario ha 3 Vite o meno, aggiungi la prima carta del mazzo in cima alla tua Vita.\n\nIl [Trigger]: se l’avversario ha 3 Vite o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP06-106",
+    "body": "Quando la giochi puoi prendere in mano la prima o l’ultima carta della Vita: rimetti coperta in cima alla Vita una carta dalla mano (scegli tu quale)."
+  },
+  {
+    "cardCode": "OP06-107",
+    "body": "Ha [Blocker].\n\nQuando lo giochi metti a faccia in su in cima o in fondo alla tua Vita un altro tuo Character {Land of Wano}."
+  },
+  {
+    "cardCode": "OP06-108",
+    "body": "Il [Trigger] dà +2000 potenza per il turno a un tuo Leader o Character {Land of Wano}."
+  },
+  {
+    "cardCode": "OP06-109",
+    "body": "Con almeno 2 DON!! dati, se l’avversario ha 3 Vite o meno, non può essere messo K.O. dagli effetti.\n\nIl [Trigger]: se l’avversario ha 3 Vite o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP06-110",
+    "body": "Con almeno 2 DON!! dati può attaccare anche i Character avversari **attivi** (di norma solo quelli a riposo).\n\nIl [Trigger]: se l’avversario ha 3 Vite o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP06-111",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mettere in fondo al mazzo uno Stage di costo 1: metti a riposo un Character avversario di costo 4 o meno.\n\nIl [Trigger]: se hai 2 Vite o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP06-112",
+    "body": "Quando attacca puoi scartare 1 carta: metti a riposo un DON!! avversario.\n\nIl [Trigger]: se l’avversario ha 3 Vite o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP06-113",
+    "body": "Se hai un altro Character {Shandian Warrior}, ha [Blocker]."
+  },
+  {
+    "cardCode": "OP06-114",
+    "body": "Quando lo giochi puoi mettere in fondo al mazzo uno Stage di costo 1: guardi le prime 5 carte e prendi un [Upper Yard] o una carta {Shandian Warrior}."
+  },
+  {
+    "cardCode": "OP06-115",
+    "body": "Counter da 0 DON!!: scarti 1 carta e il Leader o un Character ha +3000 potenza per la battaglia.\n\nIl [Trigger]: se hai 0 Vite, aggiungi la prima carta del mazzo in cima alla Vita e poi scarti 1 carta (se ne hai)."
+  },
+  {
+    "cardCode": "OP06-116",
+    "body": "Costa 4. Scegli: metti K.O. un Character avversario di costo 5 o meno, oppure, se l’avversario ha esattamente 1 Vita, gli infliggi 1 danno e poi prendi in mano la prima carta della tua Vita.\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP06-117",
+    "body": "Stage. Una volta per turno, nella tua Main Phase, puoi metterlo a riposo insieme a un tuo [Enel]: metti K.O. **tutti** i Character avversari di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP06-118",
+    "body": "Una volta per turno, quando attacca, puoi pagare 1 DON!! (a riposo) per renderlo di nuovo attivo; e una volta per turno, nella Main Phase, puoi pagarne 2 per lo stesso. Può attaccare fino a tre volte."
+  },
+  {
+    "cardCode": "OP06-119",
+    "body": "Quando lo giochi riveli la prima carta del mazzo: se è un Character di costo 9 o meno (non [Sanji]) puoi giocarlo gratis, altrimenti va in fondo."
   }
 ]

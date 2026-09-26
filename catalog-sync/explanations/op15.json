@@ -22,5 +22,433 @@
   {
     "cardCode": "OP15-098",
     "body": "Se un tuo Character {Sky Island} con 6000 potenza base o più sta per lasciare il campo **per l’avversario** (in battaglia o per effetto), puoi invece prendere in mano la prima carta della tua Vita.\n\nNon è limitato a una volta per turno: ogni volta paghi una Vita per salvare il Character."
+  },
+  {
+    "cardCode": "OP15-003",
+    "body": "Se sta per essere messo K.O., puoi invece scartare dalla mano un Character con 6000 potenza o meno.\n\nUna volta per turno, nella tua Main Phase, puoi dare un DON!! a riposo **dell’avversario** a un suo Character: poi dai 1 DON!! a riposo al Leader o a un Character del suo stesso proprietario (tuo a te, suo a lui). Serve un Character avversario e un suo DON!! a riposo."
+  },
+  {
+    "cardCode": "OP15-004",
+    "body": "Quando lo giochi, se il tuo Leader ha 0 potenza o meno, dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP15-005",
+    "body": "Quando attacca, se l’avversario ha DON!! dati a qualche carta, ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP15-006",
+    "body": "Se hai 4 o più Event nel cestino, ha +2000 potenza."
+  },
+  {
+    "cardCode": "OP15-007",
+    "body": "Quando lo giochi, se il Leader è {East Blue}, giochi gratis dalla mano un Character di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP15-008",
+    "body": "Quando lo giochi dai fino a 3 DON!! a riposo dell’avversario (li scegli tu) a un suo Character, poi Krieg guadagna [Rush].\n\nUna volta per turno, nel turno in cui è entrato, nella Main Phase: tutti i Character avversari hanno −1000 potenza per ogni DON!! dato a quel Character."
+  },
+  {
+    "cardCode": "OP15-009",
+    "body": "Se un tuo Character con potenza base 7000 o meno sta per lasciare il campo per un **effetto avversario**, puoi invece dare −2000 potenza per il turno al tuo Leader (una volta basta anche se ne colpiscono due insieme)."
+  },
+  {
+    "cardCode": "OP15-010",
+    "body": "Una volta per turno, nella tua Main Phase, dai 1 DON!! a riposo al Leader o a un Character **dello stesso proprietario**: puoi potenziare i tuoi, oppure dare DON!! alle carte avversarie (per gli effetti che colpiscono chi ha DON!! dati)."
+  },
+  {
+    "cardCode": "OP15-011",
+    "body": "Nel turno avversario, se il Leader è {East Blue}, ha [Blocker] e +2000 potenza.\n\nQuando viene messo K.O., se il Leader è {East Blue}, metti K.O. un Character avversario con potenza base 6000 o meno."
+  },
+  {
+    "cardCode": "OP15-012",
+    "body": "Quando attacca, dai 1 DON!! a riposo al Leader o a un Character dello stesso proprietario (tuo o avversario).\n\nQuando viene messo K.O. peschi 1 carta."
+  },
+  {
+    "cardCode": "OP15-013",
+    "body": "Ha [Blocker].\n\nIn mano costa 2 in meno se il tuo Leader ha 0 potenza o meno."
+  },
+  {
+    "cardCode": "OP15-014",
+    "body": "Se sta per essere messo K.O., puoi invece scartare un Event dalla mano.\n\nQuando lo giochi usi gratis dalla mano un Event {Dressrosa} di costo base 3 o meno."
+  },
+  {
+    "cardCode": "OP15-015",
+    "body": "Quando lo giochi dai un DON!! a riposo dell’avversario a un suo Character, poi dai −1000 potenza per il turno a un Character avversario che ha DON!! dati."
+  },
+  {
+    "cardCode": "OP15-017",
+    "body": "Ha [Blocker].\n\nUna volta per turno, nella tua Main Phase, puoi dare un DON!! a riposo dell’avversario a un suo Character: poi dai 1 DON!! a riposo al Leader o a un Character del suo stesso proprietario."
+  },
+  {
+    "cardCode": "OP15-018",
+    "body": "Quando attacca, metti K.O. un Character avversario con 3000 potenza o meno **che ha DON!! dati**."
+  },
+  {
+    "cardCode": "OP15-019",
+    "body": "Peschi 1 carta e il tuo Leader ha +1000 potenza fino alla fine del prossimo turno avversario.\n\nIl [Trigger] dà −4000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP15-020",
+    "body": "Costa 7: il tuo Leader ha +3000 potenza per il turno e un Character avversario ha −8000 fino alla fine del prossimo turno avversario. Poi puoi scartare 2 carte (servono davvero 2): metti K.O. un Character avversario con 0 potenza o meno."
+  },
+  {
+    "cardCode": "OP15-021",
+    "body": "In mano costa 3 in meno se hai 4 o più Event nel cestino.\n\nSi usa sia nella Main Phase sia come Counter: dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP15-023",
+    "body": "Quando viene messo K.O., fino a 2 carte avversarie a riposo non tornano attive nella sua prossima Refresh Phase.\n\nUna volta per turno, nella tua Main Phase, puoi dare un DON!! a riposo dell’avversario a un suo Character: poi dai 1 DON!! (anche attivo) della cost area al Leader o a un Character dello stesso proprietario."
+  },
+  {
+    "cardCode": "OP15-024",
+    "body": "Nel turno avversario ha [Blocker] e non può essere messo a riposo dagli effetti di Leader e Character avversari.\n\nQuando viene messo K.O., metti a riposo il Leader o un Character avversario di costo 7 o meno."
+  },
+  {
+    "cardCode": "OP15-025",
+    "body": "Ha [Blocker].\n\nQuando lo giochi dai fino a 2 DON!! della cost area avversaria a un suo Character; poi, alla fine del turno, un Character avversario a riposo con 3 o più DON!! dati non torna attivo nella sua prossima Refresh Phase."
+  },
+  {
+    "cardCode": "OP15-026",
+    "body": "Quando lo giochi guardi le prime 3 carte e prendi una carta {East Blue}.\n\nNella tua Main Phase puoi metterlo nel cestino per dare un DON!! a riposo dell’avversario a un suo Character."
+  },
+  {
+    "cardCode": "OP15-027",
+    "body": "Quando lo giochi, metti a riposo un Character avversario **che ha DON!! dati**."
+  },
+  {
+    "cardCode": "OP15-028",
+    "body": "Quando lo giochi, se il Leader è {East Blue}, dai 1 DON!! (anche attivo) della cost area avversaria a un suo Character."
+  },
+  {
+    "cardCode": "OP15-029",
+    "body": "Quando lo giochi, un Character avversario di costo 5 o meno **non può essere messo a riposo** fino alla fine del prossimo turno avversario: non può attaccare né bloccare."
+  },
+  {
+    "cardCode": "OP15-031",
+    "body": "Quando lo giochi scegli un Character avversario a riposo: se il suo costo è **uguale** al numero di DON!! che ha dati, lo metti K.O."
+  },
+  {
+    "cardCode": "OP15-032",
+    "body": "Quando lo giochi metti a riposo una carta avversaria.\n\nNella tua Main Phase puoi metterlo nel cestino: se il Leader è {Straw Hat Crew}, rendi attivo un tuo Character di costo base 8 o meno."
+  },
+  {
+    "cardCode": "OP15-033",
+    "body": "Quando lo giochi, il tuo Leader {Fish-Man} torna attivo; poi prendi in mano la prima carta della tua Vita (se ne hai)."
+  },
+  {
+    "cardCode": "OP15-034",
+    "body": "Quando lo giochi **nel tuo turno**, un tuo [Brook] ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP15-035",
+    "body": "Se un tuo Character con potenza base 7000 o meno sta per lasciare il campo per un **effetto avversario**, puoi invece mettere a riposo 2 tue carte (bastano anche se ne colpiscono due insieme)."
+  },
+  {
+    "cardCode": "OP15-036",
+    "body": "Quando lo giochi e ogni volta che attacca, metti K.O. un Character avversario **a riposo** di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP15-037",
+    "body": "Guardi le prime 5 carte e prendi una carta {East Blue} (non un’altra copia di questo Event).\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP15-038",
+    "body": "Due usi:\n- **Main**: un Character avversario a riposo di costo 8 o meno con 2 o più DON!! dati non torna attivo nella sua prossima Refresh Phase;\n- **Counter**: un tuo [Krieg] ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP15-040",
+    "body": "Quando lo giochi guardi le prime 3 carte e prendi una carta {Dressrosa}."
+  },
+  {
+    "cardCode": "OP15-041",
+    "body": "Quando viene messo K.O. peschi 1 carta.\n\nUna volta per turno, nella tua Main Phase, puoi mettere in fondo al mazzo un altro tuo Character: questo guadagna [Rush] per il turno."
+  },
+  {
+    "cardCode": "OP15-042",
+    "body": "Quando lo giochi puoi scartare 1 carta: se il Leader è [Rebecca], guadagna [Rush].\n\nQuando viene messo K.O., torna in mano dal cestino."
+  },
+  {
+    "cardCode": "OP15-043",
+    "body": "Quando lo giochi, giochi gratis dalla mano un [Bobby Funk]."
+  },
+  {
+    "cardCode": "OP15-044",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O., guardi le prime 3 carte e prendi un Event {Dressrosa}."
+  },
+  {
+    "cardCode": "OP15-045",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi scartare un Event per pescare 2 carte."
+  },
+  {
+    "cardCode": "OP15-046",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, se il Leader è {Dressrosa}, usi gratis dalla mano un Event {Dressrosa} (poi va nel cestino)."
+  },
+  {
+    "cardCode": "OP15-047",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, un tuo Character guadagna [Unblockable] per il turno."
+  },
+  {
+    "cardCode": "OP15-048",
+    "body": "Quando lo giochi puoi scartare un Event per pescare 2 carte.\n\nSe viene messo K.O. **nel turno avversario**, l’avversario mette 1 carta della mano in fondo al mazzo."
+  },
+  {
+    "cardCode": "OP15-050",
+    "body": "Se hai [Kelly Funk] in campo, ha +3000 potenza."
+  },
+  {
+    "cardCode": "OP15-051",
+    "body": "Nel turno avversario, se il Leader è {Dressrosa}, ha +3000 potenza (7000)."
+  },
+  {
+    "cardCode": "OP15-052",
+    "body": "Se un tuo Character con potenza base 7000 o meno sta per lasciare il campo per un **effetto avversario**, puoi invece mettere un tuo Character in fondo al mazzo."
+  },
+  {
+    "cardCode": "OP15-053",
+    "body": "Con almeno 1 DON!! dato ha [Blocker].\n\nQuando lo giochi guardi le prime 3 carte e prendi una carta {Dressrosa}."
+  },
+  {
+    "cardCode": "OP15-054",
+    "body": "Se il Leader è [Lucy], scegli:\n- peschi 2 carte, ne scarti 1 e giochi gratis dalla mano un Character {Dressrosa} di costo 4 o meno;\n- rimandi in mano uno Stage."
+  },
+  {
+    "cardCode": "OP15-055",
+    "body": "Scegli:\n- peschi 2 carte;\n- un tuo Character {Dressrosa} guadagna [Blocker] fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP15-056",
+    "body": "Costa 7: peschi 2 carte; poi, se il Leader è [Lucy], guadagna [Double Attack] e +3000 potenza per il turno.\n\nIl [Trigger] fa pescare 2 carte."
+  },
+  {
+    "cardCode": "OP15-057",
+    "body": "Stage. Quando lo giochi, se il Leader è {Dressrosa}, peschi 1 carta.\n\nQuando l’avversario attacca, puoi metterlo a riposo e scartare un Event o uno Stage: il Leader o un Character ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP15-059",
+    "body": "Quando l’avversario attacca, puoi metterlo a riposo: l’avversario può rimettere un suo DON!! attivo nel mazzo DON!!; se non lo fa (o non può), dai −2000 potenza per il turno al suo Leader o a un suo Character."
+  },
+  {
+    "cardCode": "OP15-060",
+    "body": "Se hai 6 DON!! o meno in campo, ha +2000 potenza e **non può lasciare il campo per effetti avversari**.\n\nNella tua Main Phase paghi DON!! −1: ha [Blocker] fino alla fine del prossimo turno avversario, poi scarti 1 carta (se ne hai)."
+  },
+  {
+    "cardCode": "OP15-061",
+    "body": "Quando lo giochi puoi pagare DON!! −1 per pescare 1 carta.\n\nQuando attacca, se hai 6 DON!! o meno in campo, dai −1000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP15-063",
+    "body": "Quando lo giochi puoi pagare DON!! −1 per pescare 1 carta.\n\nQuando viene messo K.O., se hai 6 DON!! o meno in campo, metti K.O. un Character avversario con 2000 potenza o meno."
+  },
+  {
+    "cardCode": "OP15-064",
+    "body": "Nella tua Main Phase paghi DON!! −2 e lo metti a riposo: se hai [Satori] e [Hotori], metti a riposo un Character avversario con 5000 potenza o meno."
+  },
+  {
+    "cardCode": "OP15-065",
+    "body": "Quando lo giochi riveli la prima carta del mazzo: se ha costo 2 o meno, prendi 1 DON!! a riposo dal mazzo DON!!."
+  },
+  {
+    "cardCode": "OP15-066",
+    "body": "Quando lo giochi puoi pagare DON!! −1 per pescare 1 carta.\n\nQuando attacca, se hai 6 DON!! o meno in campo, guardi le prime 2 carte e le rimetti tutte in cima o tutte in fondo, nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "OP15-067",
+    "body": "Se hai 6 DON!! o meno in campo, ha [Rush].\n\nQuando lo giochi puoi pagare DON!! −1 per pescare 1 carta."
+  },
+  {
+    "cardCode": "OP15-068",
+    "body": "Se hai 6 DON!! o meno in campo, ha [Blocker]."
+  },
+  {
+    "cardCode": "OP15-069",
+    "body": "Se un tuo Character con potenza base 7000 o meno sta per lasciare il campo per un **effetto avversario**, puoi invece rimettere 1 DON!! del tuo campo nel mazzo DON!!."
+  },
+  {
+    "cardCode": "OP15-070",
+    "body": "Lui e tutti i tuoi [Shura] hanno [Unblockable]; nel turno avversario la loro potenza base diventa 6000."
+  },
+  {
+    "cardCode": "OP15-071",
+    "body": "Lui e tutti i tuoi [Ohm] hanno [Double Attack]; nel turno avversario la loro potenza base diventa 6000."
+  },
+  {
+    "cardCode": "OP15-072",
+    "body": "Nella tua Main Phase paghi DON!! −2 e lo metti a riposo: se hai [Kotori] e [Satori], dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP15-073",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, giochi gratis dalla mano un [Heavenly Warriors] di costo 1 o un Character {Vassals} di costo 1."
+  },
+  {
+    "cardCode": "OP15-074",
+    "body": "Costa 0.\n- **Main**: DON!! −1: se il Leader è [Enel] peschi 1 carta, poi un tuo Character ha +2 costo fino alla fine del prossimo turno avversario;\n- **Counter**: un tuo [Enel] ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP15-075",
+    "body": "Costa 0.\n- **Main**: DON!! −1: se il Leader è [Enel], il Leader o un Character ha +1000 potenza per il turno, poi metti K.O. un Character avversario con 3000 potenza o meno;\n- **Counter**: un tuo [Enel] ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP15-076",
+    "body": "Costa 0.\n- **Main**: DON!! −1: se il Leader è [Enel] peschi 1 carta, poi dai −1000 potenza per il turno a un Character avversario;\n- **Counter**: un tuo [Enel] ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP15-077",
+    "body": "Costa 0. DON!! −1: peschi 1 carta, poi un Character avversario a riposo con 6000 potenza o meno non torna attivo nella sua prossima Refresh Phase."
+  },
+  {
+    "cardCode": "OP15-078",
+    "body": "Costa 0.\n- **Main**: DON!! −2: peschi 1 carta e metti a riposo un Character avversario con 5000 potenza o meno;\n- **Counter**: il Leader o un Character ha +1000 potenza per la battaglia; se hai 6 DON!! o meno in campo, peschi anche 1 carta."
+  },
+  {
+    "cardCode": "OP15-079",
+    "body": "Quando viene messo K.O., riprendi in mano dal cestino una carta {Thriller Bark Pirates} (anche lui stesso).\n\nIl [Trigger] attiva lo stesso effetto (ma non può riprendere questa carta)."
+  },
+  {
+    "cardCode": "OP15-080",
+    "body": "Se hai in campo un [Gecko Moria] con 10000 potenza o più e nessun altro [Oars], ha +7000 potenza.\n\nQuando viene messo K.O. puoi mettere 3 carte del cestino in fondo al mazzo per rigiocarlo dal cestino (se non metti lui tra le 3)."
+  },
+  {
+    "cardCode": "OP15-081",
+    "body": "Quando lo giochi, se il Leader è {Straw Hat Crew}, scarti le prime 5 carte del mazzo: riempie il cestino per le carte che ne contano le carte."
+  },
+  {
+    "cardCode": "OP15-082",
+    "body": "Quando lo giochi scarti le prime 3 carte del mazzo.\n\nQuando viene messo K.O., riprendi in mano dal cestino un Character di costo 8 o meno (anche lei stessa)."
+  },
+  {
+    "cardCode": "OP15-083",
+    "body": "Quando lo giochi scarti le prime 3 carte del mazzo.\n\nNella tua Main Phase puoi metterlo nel cestino: se hai 15 o più carte nel cestino (conta anche lui), dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP15-084",
+    "body": "Quando lo giochi, se il Leader è {Thriller Bark Pirates}, scarti le prime 5 carte del mazzo.\n\nQuando viene messo K.O., se hai 6 carte o meno in mano, peschi 1 carta."
+  },
+  {
+    "cardCode": "OP15-085",
+    "body": "Quando lo giochi scarti le prime 3 carte del mazzo.\n\nNella tua Main Phase puoi metterlo nel cestino: se il Leader è {Straw Hat Crew}, riprendi in mano dal cestino un Character {Straw Hat Crew} (non [Tony Tony.Chopper])."
+  },
+  {
+    "cardCode": "OP15-086",
+    "body": "Quando lo giochi, se il Leader è {Straw Hat Crew}, giochi dal cestino un Character {Straw Hat Crew} di costo 7 o meno, che guadagna [Rush] per il turno."
+  },
+  {
+    "cardCode": "OP15-087",
+    "body": "Se hai 10 o più carte nel cestino, ha [Blocker].\n\nQuando lo giochi peschi 2 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "OP15-088",
+    "body": "In campo ha +6 costo.\n\nQuando lo giochi puoi scartare le prime 3 carte del mazzo: giochi dal cestino un Character {Straw Hat Crew} di costo 2 o meno (anche uno appena scartato)."
+  },
+  {
+    "cardCode": "OP15-090",
+    "body": "Se un tuo Character con potenza base 7000 o meno sta per lasciare il campo per un **effetto avversario**, puoi invece scartare 1 carta."
+  },
+  {
+    "cardCode": "OP15-091",
+    "body": "Quando lo giochi metti in fondo al mazzo avversario una carta del cestino avversario: toglie una risorsa ai mazzi che usano il cestino."
+  },
+  {
+    "cardCode": "OP15-092",
+    "body": "Si potenzia con le carte nel tuo cestino, e gli effetti si sommano:\n- 10 o più: potenza base 9000 e +10 costo;\n- 20 o più: nel turno avversario la potenza base del tuo Leader diventa 7000;\n- 30 o più: +1000 potenza."
+  },
+  {
+    "cardCode": "OP15-093",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: se hai 15 o più carte nel cestino (conta anche lui), un tuo [Monkey.D.Luffy] guadagna [Rush: Character] e l’attributo <Slash> per il turno."
+  },
+  {
+    "cardCode": "OP15-094",
+    "body": "Ha [Blocker].\n\nSe un altro tuo Character {Straw Hat Crew} sta per lasciare il campo per un **effetto avversario**, puoi invece mettere nel cestino Zoro (salva anche due Character colpiti insieme)."
+  },
+  {
+    "cardCode": "OP15-095",
+    "body": "Con 15 o più carte nel cestino (conta anche questa):\n- **Main**: metti a riposo 1 DON!!: un Leader o Character {Straw Hat Crew} ha +3000 potenza per il turno;\n- **Counter**: il Leader o un Character ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP15-096",
+    "body": "Costa 0.\n- **Main**: metti a riposo 1 DON!!: se il Leader è {Straw Hat Crew}, scarti le prime 5 carte del mazzo;\n- **Counter**: scarti 1 carta: il Leader o un Character ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP15-097",
+    "body": "Se hai 10 o più carte nel cestino, un Character avversario di costo base 5 o meno **non può attaccare** fino alla fine del prossimo turno avversario.\n\nIl [Trigger] attiva lo stesso effetto (ma lì la carta non conta ancora nel cestino)."
+  },
+  {
+    "cardCode": "OP15-099",
+    "body": "Quando lo giochi puoi scartare una carta {Supernovas}: guadagna [Rush].\n\nNella tua Main Phase puoi girare **a faccia in giù** la prima carta della Vita (se è a faccia in su): dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP15-100",
+    "body": "Quando lo giochi puoi metterlo nel cestino e prendere in mano la prima carta della Vita: metti K.O. un Character avversario di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP15-101",
+    "body": "Quando lo giochi puoi scartare 1 carta: guardi le prime 5 carte e prendi fino a 2 carte tra [Mont Blanc Noland] e {Shandian Warrior}."
+  },
+  {
+    "cardCode": "OP15-102",
+    "body": "In mano costa 3 in meno se hai un Character {Sky Island} con 7000 potenza o più.\n\nQuando lo giochi metti a riposo un Character avversario con costo non superiore alle Vite dell’avversario."
+  },
+  {
+    "cardCode": "OP15-103",
+    "body": "Il [Trigger] fa pescare 1 carta; poi, se hai 2 Vite o meno (contando anche questa), lo giochi gratis."
+  },
+  {
+    "cardCode": "OP15-104",
+    "body": "Quando lo giochi, se hai meno Vite dell’avversario, peschi 2 carte e ne scarti 2.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP15-105",
+    "body": "Se un tuo Character con potenza base 7000 o meno sta per lasciare il campo per un **effetto avversario**, puoi invece prendere in mano la prima carta della tua Vita."
+  },
+  {
+    "cardCode": "OP15-106",
+    "body": "Il [Trigger] fa pescare 1 carta e giocare gratis dalla mano un Character o uno Stage giallo di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP15-108",
+    "body": "Quando lo giochi guardi le prime 3 carte e prendi una carta {Sky Island}."
+  },
+  {
+    "cardCode": "OP15-109",
+    "body": "Quando lo giochi puoi prendere in mano la prima carta della Vita (serve almeno una Vita): se il Leader è {Straw Hat Crew}, aggiungi la prima carta del mazzo in cima alla Vita, poi giochi gratis dalla mano un Character {Sky Island} di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP15-110",
+    "body": "Quando viene messo K.O., se il Leader è {Shandian Warrior}, aggiungi la prima carta del mazzo in cima alla Vita."
+  },
+  {
+    "cardCode": "OP15-111",
+    "body": "Con almeno 1 DON!! dato, quando attacca un tuo [Kalgara] guadagna [Rush] per il turno."
+  },
+  {
+    "cardCode": "OP15-112",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, giochi gratis dalla mano un Character {Shandian Warrior} di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP15-113",
+    "body": "Quando lo giochi puoi scartare 1 carta: aggiungi la prima carta del mazzo in cima alla Vita."
+  },
+  {
+    "cardCode": "OP15-114",
+    "body": "Quando lo giochi puoi girare a faccia in su la prima carta della Vita (se è coperta): tutti i Character avversari hanno −2000 potenza per il turno, poi metti K.O. quelli a 0 o meno.\n\nUna volta per turno, nella tua Main Phase, dai 1 DON!! a riposo a un tuo Leader o Character {Sky Island}."
+  },
+  {
+    "cardCode": "OP15-115",
+    "body": "Metti K.O. un Character avversario di costo 4 o meno, poi prendi in mano la prima carta della tua Vita.\n\nIl [Trigger] mette K.O. un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP15-116",
+    "body": "Due usi:\n- **Main**: se il Leader è {Straw Hat Crew}, metti nel cestino la prima carta della Vita, poi aggiungi la prima del mazzo in cima alla Vita e scarti 1 carta (serve a cambiare una Vita);\n- **Counter**: il tuo Leader ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP15-117",
+    "body": "Peschi 1 carta, poi dai 1 DON!! a riposo a un tuo Leader o Character {Sky Island}.\n\nIl [Trigger]: se il Leader è {Sky Island}, peschi 2 carte."
+  },
+  {
+    "cardCode": "OP15-118",
+    "body": "Se hai 6 DON!! o meno in campo, ha +2000 potenza e **non può lasciare il campo per effetti avversari**.\n\nQuando lo giochi puoi pagare DON!! −1: guardi le prime 5 carte, ne prendi una, metti le altre in fondo e scarti 1 carta."
+  },
+  {
+    "cardCode": "OP15-119",
+    "body": "Se hai 6 o più DON!! in campo, ha [Rush].\n\nQuando l’avversario **usa un Event o attiva [Blocker]** (non i [Trigger]), riveli la prima carta della tua Vita: +1000 potenza per il turno per ogni punto di costo di quella carta."
   }
 ]

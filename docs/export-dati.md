@@ -35,6 +35,8 @@ apice davanti, così aprire il file non esegue nulla.
 
 ## Download
 
-Il file si prepara con un tocco e si consegna con un secondo tocco. Sui telefoni si apre la
-condivisione del sistema ("Salva su File" su iOS), perché nella PWA installata di iOS un link di
-download apre un'anteprima senza via d'uscita. Sui computer è un normale download.
+Il file si prepara con un tocco e si consegna con un secondo tocco. Nella PWA installata di iOS si
+apre la condivisione del sistema ("Salva su File"), perché lì un link di download apre
+un'anteprima senza via d'uscita. Ovunque altro (computer, Android, Safari nel browser) è un
+normale download: Chrome per Android non condivide file .zip (RIB-28, 2026-09-26). Se la
+condivisione viene rifiutata, si ripiega comunque sul download.

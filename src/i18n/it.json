@@ -46,6 +46,11 @@
     "captchaMissing": "Il controllo anti-bot non è configurato: l'accesso non è disponibile.",
     "loading": "Caricamento dell'account…",
     "logout": "Esci",
+    "logoutHere": {
+      "row": "Esci da questo dispositivo",
+      "rowHint": "Per rientrare servirà di nuovo l'accesso",
+      "intro": "Chiude l'accesso solo su questo dispositivo. I mazzi e la Collezione salvati qui per l'uso offline vengono cancellati da questo dispositivo, ma restano nel tuo account."
+    },
     "or": "oppure",
     "google": {
       "continue": "Continua con Google",
@@ -291,6 +296,9 @@
     "tabAdd": "Aggiungi carte",
     "leader": "Leader",
     "emptyDeck": "Il mazzo è vuoto: aggiungi carte dalla scheda «Aggiungi carte».",
+    "addMissing_one": "Aggiungi carte (manca {{count}} carta)",
+    "addMissing_other": "Aggiungi carte (mancano {{count}} carte)",
+    "openCard": "Apri il dettaglio di {{name}}",
     "printingOf": "Stampa mostrata di {{name}}",
     "add": "Aggiungi una copia di {{name}}",
     "remove": "Togli una copia di {{name}}",
@@ -488,6 +496,19 @@
     "setPartial_one": "{{count}} immagine non è stata scaricata.",
     "setPartial_other": "{{count}} immagini non sono state scaricate."
   },
+  "rules": {
+    "title": "Regole",
+    "intro": "Le Keyword che trovi sulle carte e i concetti base del gioco, spiegati in italiano. Il riferimento resta il regolamento ufficiale (Comprehensive Rules), di cui è indicato il numero di regola.",
+    "official": "Regolamento ufficiale (inglese)",
+    "search": "Cerca una Keyword o un concetto",
+    "noResults": "Nessuna voce corrisponde alla ricerca.",
+    "rule": "Regola {{rule}}",
+    "groups": {
+      "effect": "Keyword effect",
+      "timing": "Quando e come si attivano",
+      "concept": "Concetti di base"
+    }
+  },
   "comingSoon": {
     "title": "{{section}}: in arrivo",
     "body": "Questa sezione non è ancora disponibile. Arriverà con i prossimi aggiornamenti."
@@ -600,6 +621,14 @@
     "triggerAny": "Indifferente",
     "triggerYes": "Con Trigger",
     "triggerNo": "Senza Trigger",
+    "ban": "Ban List",
+    "banHint": "Le regole in vigore oggi.",
+    "banOption": {
+      "banned": "Bandite",
+      "restricted": "Limitate",
+      "pair": "Coppie bandite",
+      "legal": "Solo carte legali"
+    },
     "allPrintings": "Mostra tutte le Printing (varianti e ristampe)"
   },
   "color": {

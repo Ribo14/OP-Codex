@@ -1,3 +1,4 @@
+import type { BanList } from './ban-list'
 import type { CatalogCard, CatalogPrinting } from './catalog-data'
 
 // Ricerca e filtri del catalogo (RIB-15): logica pura, eseguita sul dispositivo.
@@ -18,6 +19,8 @@ export interface CatalogFilters {
   sets: string[]
   rarities: string[]
   blocks: string[]
+  /** Ban List in vigore (RIB-50): id di BAN_FILTERS, in OR. */
+  ban: string[]
   cost: Range
   power: Range
   counter: Range
@@ -46,6 +49,7 @@ export const EMPTY_FILTERS: CatalogFilters = {
   sets: [],
   rarities: [],
   blocks: [],
+  ban: [],
   cost: [null, null],
   power: [null, null],
   counter: [null, null],
@@ -56,6 +60,12 @@ export const EMPTY_FILTERS: CatalogFilters = {
 
 export const COLORS = ['Red', 'Green', 'Blue', 'Purple', 'Black', 'Yellow'] as const
 export const CATEGORIES = ['Leader', 'Character', 'Event', 'Stage', 'DON!!'] as const
+
+/**
+ * Filtro Ban List (RIB-50), sulle voci già in vigore: bandite, limitate, in una coppia bandita;
+ * "legal" sono le carte non bandite (limitate e in coppia si possono ancora giocare).
+ */
+export const BAN_FILTERS = ['banned', 'restricted', 'pair', 'legal'] as const
 
 /**
  * Scorciatoie per gli effetti comuni: ricerche nel testo inglese di effetto e Trigger.
@@ -148,6 +158,27 @@ function matchesCard(card: CatalogCard, f: CatalogFilters, words: string[]): boo
   return true
 }
 
+/** Il test del filtro Ban List per Card Code, o null se il filtro non è attivo. */
+function banMatcher(
+  selected: readonly string[],
+  banList: BanList | null,
+): ((cardCode: string) => boolean) | null {
+  if (selected.length === 0) return null
+  const banned = banList?.banned ?? new Set<string>()
+  const restricted = banList?.restricted ?? new Map<string, number>()
+  const paired = new Set(banList?.pairs.flat() ?? [])
+  const tests: Record<(typeof BAN_FILTERS)[number], (code: string) => boolean> = {
+    banned: (code) => banned.has(code),
+    restricted: (code) => restricted.has(code),
+    pair: (code) => paired.has(code),
+    legal: (code) => !banned.has(code),
+  }
+  const active = BAN_FILTERS.filter((id) => selected.includes(id)).map((id) => tests[id])
+  // Solo valori sconosciuti (un link vecchio o modificato a mano): il filtro si ignora.
+  if (active.length === 0) return null
+  return (code) => active.some((test) => test(code))
+}
+
 const matchesPrinting = (p: CatalogPrinting, f: CatalogFilters) =>
   anyOf(f.sets, [p.setCode]) && anyOf(f.rarities, [p.rarity])
 
@@ -156,18 +187,22 @@ const matchesPrinting = (p: CatalogPrinting, f: CatalogFilters) =>
  * Il filtro "possedute" (RIB-22) guarda le Printing che passano gli altri filtri: senza filtro
  * Set basta una qualsiasi Printing della Card; con "Set OP-05" conta solo quella di OP-05 (come
  * nel completamento dei Set). Senza `ownership` (nessun accesso) il filtro si ignora.
+ * Il filtro Ban List (RIB-50) usa `banList`, la Ban List in vigore oggi.
  */
 export function filterCatalog(
   cards: readonly CatalogCard[],
   f: CatalogFilters,
   ownership: Ownership | null = null,
+  banList: BanList | null = null,
 ): CatalogEntry[] {
   const words = normalize(f.q).split(/\s+/).filter(Boolean)
   const byOwnership = f.owned !== null && ownership !== null
   const owns = (p: CatalogPrinting) => ownership?.has(p.printId) ?? false
+  const byBan = banMatcher(f.ban, banList)
   const entries: CatalogEntry[] = []
   for (const card of cards) {
     if (!matchesCard(card, f, words)) continue
+    if (byBan && !byBan(card.cardCode)) continue
     let printings = card.printings.filter((p) => matchesPrinting(p, f))
     if (printings.length === 0) continue
     if (f.allPrintings) {
@@ -195,6 +230,7 @@ export function countActiveFilters(f: CatalogFilters): number {
     f.sets,
     f.rarities,
     f.blocks,
+    f.ban,
   ]
   const ranges = [f.cost, f.power, f.counter]
   return (
@@ -238,6 +274,7 @@ const LIST_PARAMS = {
   sets: 'set',
   rarities: 'rarita',
   blocks: 'block',
+  ban: 'ban',
 } as const satisfies Partial<Record<keyof CatalogFilters, string>>
 
 const RANGE_PARAMS = { cost: 'costo', power: 'potenza', counter: 'counter' } as const
@@ -288,6 +325,7 @@ export function filtersFromSearchParams(params: URLSearchParams): CatalogFilters
     sets: list(LIST_PARAMS.sets),
     rarities: list(LIST_PARAMS.rarities),
     blocks: list(LIST_PARAMS.blocks),
+    ban: list(LIST_PARAMS.ban),
     cost: parseRange(params.get(RANGE_PARAMS.cost)),
     power: parseRange(params.get(RANGE_PARAMS.power)),
     counter: parseRange(params.get(RANGE_PARAMS.counter)),

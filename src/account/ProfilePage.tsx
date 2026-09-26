@@ -4,6 +4,7 @@ import { useState, type SubmitEvent, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Navigate, useLocation, useNavigate, useSearchParams } from 'react-router'
 import { getSupabase } from '@/lib/supabase'
+import { cn } from '@/lib/utils'
 import { field } from './form-data'
 import { CodeField, CodeMessage } from './CodeField'
 import { authProblem, codeProblem, type AuthProblem, type CodeProblem } from './errors'
@@ -194,7 +195,20 @@ export function ProfilePage() {
             </div>
           </section>
 
-          <LogoutButton />
+          {/* Uscire serve di rado (RIB-48): una voce a sé, chiusa, lontana dagli altri pulsanti;
+              aprirla è già la conferma. */}
+          <div className="overflow-hidden rounded-2xl border">
+            <SettingsRow
+              icon={LogOut}
+              title={t('account.logoutHere.row')}
+              hint={t('account.logoutHere.rowHint')}
+            >
+              <div className="max-w-sm space-y-3">
+                <p className="text-sm text-muted-foreground">{t('account.logoutHere.intro')}</p>
+                <LogoutButton compact />
+              </div>
+            </SettingsRow>
+          </div>
 
           <section aria-labelledby="pericolo-titolo" className="space-y-2">
             <h2
@@ -213,7 +227,7 @@ export function ProfilePage() {
   )
 }
 
-function LogoutButton() {
+function LogoutButton({ compact = false }: { compact?: boolean }) {
   const { t } = useTranslation()
   return (
     <button
@@ -222,7 +236,10 @@ function LogoutButton() {
         // Solo questo dispositivo; "Esci da tutti i dispositivi" sta in Account e sicurezza.
         void getSupabase().auth.signOut({ scope: 'local' })
       }}
-      className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border text-sm font-medium hover:bg-muted"
+      className={cn(
+        'inline-flex items-center justify-center gap-2 rounded-full border text-sm font-medium hover:bg-muted',
+        compact ? 'h-10 px-4' : 'h-11 w-full',
+      )}
     >
       <LogOut className="size-4" aria-hidden="true" />
       {t('account.logout')}

@@ -87,21 +87,23 @@ export async function loadExportData(
 }
 
 /**
- * Consegna il file all'utente. Sui telefoni si usa la condivisione del sistema ("Salva su File"
- * su iOS): nella PWA installata di iOS un link di download apre un'anteprima senza via d'uscita.
- * Altrove, il classico download. Deve partire da un tocco dell'utente.
+ * Consegna il file all'utente. Nella PWA installata di iOS un link di download apre un'anteprima
+ * senza via d'uscita, quindi lì si usa la condivisione del sistema ("Salva su File"). Altrove il
+ * classico download: Chrome per Android, per esempio, non condivide file .zip (NotAllowedError).
+ * Deve partire da un tocco dell'utente.
  */
 export async function deliverFile(file: File): Promise<void> {
-  const touch = window.matchMedia('(pointer: coarse)').matches
-  if (touch && typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
+  // navigator.standalone esiste solo su iOS/iPadOS ed è true solo nella PWA installata.
+  const iosApp = (navigator as Navigator & { standalone?: boolean }).standalone === true
+  if (iosApp && typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) {
     try {
       await navigator.share({ files: [file] })
+      return
     } catch (error) {
       // Chiusa senza scegliere: nessun problema.
       if (error instanceof DOMException && error.name === 'AbortError') return
-      throw error
+      // Condivisione rifiutata: si prova col download.
     }
-    return
   }
   const url = URL.createObjectURL(file)
   const link = document.createElement('a')

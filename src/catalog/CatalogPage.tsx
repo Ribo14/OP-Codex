@@ -5,6 +5,7 @@ import { Outlet, useMatch } from 'react-router'
 import { useSession } from '@/account/session'
 import { useOwnership } from '@/collection/collection-store'
 import { cn } from '@/lib/utils'
+import { useBanList } from './ban-list'
 import type { CatalogOutletContext } from './CardDetailRoute'
 import { CatalogResults, type CatalogView } from './CatalogResults'
 import { catalogFacets, countActiveFilters, filterCatalog } from './filters'
@@ -51,9 +52,11 @@ export function CatalogPage() {
   // Filtro "possedute" (RIB-22): solo con l'accesso e la Collection caricata.
   const ownership = useOwnership()
   const signedIn = useSession().status === 'signedIn'
+  // Filtro Ban List (RIB-50): la lista in vigore oggi, anche offline.
+  const banList = useBanList()
   const entries = useMemo(
-    () => (catalog ? filterCatalog(catalog.cards, deferredFilters, ownership) : []),
-    [catalog, deferredFilters, ownership],
+    () => (catalog ? filterCatalog(catalog.cards, deferredFilters, ownership, banList) : []),
+    [catalog, deferredFilters, ownership, banList],
   )
   const active = countActiveFilters(filters)
 

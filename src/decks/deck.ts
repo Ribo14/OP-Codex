@@ -1,3 +1,4 @@
+import type { BanList } from '@/catalog/ban-list'
 import type { CatalogCard, CatalogPrinting } from '@/catalog/catalog-data'
 import type { DeckFormat } from './deck-rules'
 import {
@@ -113,11 +114,13 @@ export function deckCandidates(
   catalog: readonly CatalogCard[],
   filters: CatalogFilters,
   ownership: Ownership | null = null,
+  banList: BanList | null = null,
 ): CatalogEntry[] {
   return filterCatalog(
     catalog.filter((card) => card.category !== 'Leader' && card.category !== 'DON!!'),
     { ...filters, allPrintings: false },
     ownership,
+    banList,
   )
 }
 

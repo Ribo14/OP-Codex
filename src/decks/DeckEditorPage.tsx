@@ -9,13 +9,14 @@ import {
   TriangleAlert,
   X,
 } from 'lucide-react'
-import { useDeferredValue, useEffect, useMemo, useState, type SubmitEvent } from 'react'
+import { useDeferredValue, useEffect, useMemo, useRef, useState, type SubmitEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useParams } from 'react-router'
+import { Link, useLocation, useNavigate, useParams } from 'react-router'
 import { field } from '@/account/form-data'
 import { RequireAccount } from '@/account/ProfilePage'
 import { useSession } from '@/account/session'
 import { SignedOutInvite } from '@/account/SignedOutInvite'
+import { CardDetail } from '@/catalog/CardDetail'
 import type { Catalog, CatalogCard, CatalogPrinting } from '@/catalog/catalog-data'
 import { catalogFacets, countActiveFilters, relatedFilters } from '@/catalog/filters'
 import { FiltersPanel } from '@/catalog/FiltersPanel'
@@ -47,11 +48,26 @@ import { MissingCardsPanel, OwnedBadge } from './MissingCardsPanel'
 import { deckLeaderPath, DECKS_PATH } from './paths'
 import { ShareDeckSection } from './ShareDeckSection'
 
-// Editor di un Deck (RIB-21). Ogni modifica si salva da sola. Sul telefono due schede, "Mazzo" e
-// "Aggiungi carte", che non perdono ricerca e filtri; su schermi larghi sono affiancate.
+// Editor di un Deck (RIB-21). Ogni modifica si salva da sola. Due schede, "Mazzo" e "Aggiungi
+// carte", che non perdono ricerca e filtri. Anche su desktop le schede non sono affiancate
+// (RIB-49): la lista delle carte da aggiungere accanto al mazzo confondeva; lo spazio va alle
+// carte del mazzo, in griglia. Toccando una carta se ne apre il dettaglio (RIB-47).
 
 const PAGE = 40
 const TABS = ['deck', 'add'] as const
+
+/** Stato della cronologia col dettaglio aperto: "indietro" (anche su Android) lo chiude. */
+interface OpenCardState {
+  deckCard: string
+  printId: string
+}
+
+function openCardState(state: unknown): OpenCardState | null {
+  const s = state as Partial<OpenCardState> | null
+  return typeof s?.deckCard === 'string' && typeof s.printId === 'string'
+    ? { deckCard: s.deckCard, printId: s.printId }
+    : null
+}
 
 export function DeckEditorPage() {
   const { t } = useTranslation()
@@ -111,6 +127,20 @@ function Editor({ deckId }: { deckId: string }) {
     () => new Map(ownership.map((row) => [row.cardCode, row])),
     [ownership],
   )
+  // Dettaglio di una carta (RIB-47): una voce nella cronologia sulla stessa pagina, così il mazzo
+  // resta com'è sotto e "indietro" chiude il dettaglio.
+  const location = useLocation()
+  const navigate = useNavigate()
+  const opened = openCardState(location.state)
+  const here = location.pathname + location.search
+  const openCard = (card: CatalogCard, printId: string | null) => {
+    const state: OpenCardState = {
+      deckCard: card.cardCode,
+      printId: printId ?? card.printings[0]?.printId ?? card.cardCode,
+    }
+    void navigate(here, { state })
+  }
+  const tablist = useRef<HTMLDivElement>(null)
 
   if (state.status === 'loading' || !catalog) {
     return <p className="text-muted-foreground">{t('decks.loadingDeck')}</p>
@@ -156,6 +186,7 @@ function Editor({ deckId }: { deckId: string }) {
           update({ ...relatedFilters(leader), q: '' })
           setTab('add')
         }}
+        onOpen={openCard}
       />
 
       <DeckWarningsPanel warnings={warnings} catalog={byCode} />
@@ -174,11 +205,11 @@ function Editor({ deckId }: { deckId: string }) {
         </p>
       )}
 
-      {/* Telefono: due schede. Da lg le due parti sono affiancate. */}
       <div
+        ref={tablist}
         role="tablist"
         aria-label={t('decks.editor')}
-        className="flex rounded-full bg-muted p-1 lg:hidden"
+        className="flex scroll-mt-4 rounded-full bg-muted p-1 lg:max-w-md"
       >
         {TABS.map((key) => (
           <button
@@ -192,50 +223,117 @@ function Editor({ deckId }: { deckId: string }) {
               setTab(key)
             }}
             className={cn(
-              'flex-1 rounded-full px-3 py-2 text-sm font-medium',
+              'inline-flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium',
               tab === key ? 'bg-background shadow-sm' : 'text-muted-foreground',
             )}
           >
-            {key === 'deck'
-              ? t('decks.tabDeck', { count: deck.cardCount, size: DECK_SIZE })
-              : t('decks.tabAdd')}
+            {key === 'deck' ? (
+              t('decks.tabDeck', { count: deck.cardCount, size: DECK_SIZE })
+            ) : (
+              <>
+                <Plus className="size-4" aria-hidden="true" />
+                {t('decks.tabAdd')}
+              </>
+            )}
           </button>
         ))}
       </div>
 
-      <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-8">
-        <section
-          id="pannello-deck"
-          role="tabpanel"
-          aria-labelledby="scheda-deck"
-          className={cn(tab !== 'deck' && 'hidden lg:block')}
-        >
-          <h2 className="mb-3 hidden text-lg font-semibold tracking-tight lg:block">
-            {t('decks.tabDeck', { count: deck.cardCount, size: DECK_SIZE })}
-          </h2>
-          <div className="space-y-4">
-            <DeckStatsPanel stats={stats} />
-            <DeckCards
-              cards={cards}
-              catalog={catalog}
-              editing={editing}
-              flagged={flaggedCards(warnings)}
-              ownership={ownershipByCode}
-            />
-          </div>
-        </section>
-        <section
-          id="pannello-add"
-          role="tabpanel"
-          aria-labelledby="scheda-add"
-          className={cn(tab !== 'add' && 'hidden lg:block')}
-        >
-          <h2 className="mb-3 hidden text-lg font-semibold tracking-tight lg:block">
-            {t('decks.tabAdd')}
-          </h2>
-          <AddCards cards={cards} catalog={catalog} editing={editing} />
-        </section>
-      </div>
+      <section
+        id="pannello-deck"
+        role="tabpanel"
+        aria-labelledby="scheda-deck"
+        className={cn('space-y-4', tab !== 'deck' && 'hidden')}
+      >
+        <DeckStatsPanel stats={stats} />
+        <DeckCards
+          cards={cards}
+          catalog={catalog}
+          editing={editing}
+          flagged={flaggedCards(warnings)}
+          ownership={ownershipByCode}
+          onOpen={openCard}
+        />
+        {/* Mazzo incompleto: l'invito ad aggiungere carte in fondo alla lista (RIB-49). */}
+        {deck.cardCount < DECK_SIZE && !editing.disabled && (
+          <button
+            type="button"
+            onClick={() => {
+              setTab('add')
+              tablist.current?.scrollIntoView({ block: 'start' })
+            }}
+            className="inline-flex h-11 items-center gap-2 rounded-full bg-foreground px-5 text-sm font-medium text-background hover:opacity-90"
+          >
+            <Plus className="size-4" aria-hidden="true" />
+            {t('decks.addMissing', { count: DECK_SIZE - deck.cardCount })}
+          </button>
+        )}
+      </section>
+      <section
+        id="pannello-add"
+        role="tabpanel"
+        aria-labelledby="scheda-add"
+        className={cn('lg:max-w-3xl', tab !== 'add' && 'hidden')}
+      >
+        <AddCards cards={cards} catalog={catalog} editing={editing} onOpen={openCard} />
+      </section>
+
+      {opened && (
+        <OpenedCard
+          opened={opened}
+          catalog={catalog}
+          onSelectPrinting={(printId) => {
+            void navigate(here, { replace: true, state: { ...opened, printId } })
+          }}
+          onClose={() => {
+            void navigate(-1)
+          }}
+        />
+      )}
+    </div>
+  )
+}
+
+/** Il dettaglio della carta sopra il mazzo: a tutto schermo su telefono, a destra su desktop. */
+function OpenedCard({
+  opened,
+  catalog,
+  onSelectPrinting,
+  onClose,
+}: {
+  opened: OpenCardState
+  catalog: Catalog
+  onSelectPrinting: (printId: string) => void
+  onClose: () => void
+}) {
+  const { t } = useTranslation()
+  const card = catalog.cards.find((c) => c.cardCode === opened.deckCard)
+  if (!card) return null
+  return (
+    <div className="fixed inset-0 z-40 flex justify-end">
+      {/* Su desktop il mazzo resta visibile, velato: un clic fuori chiude. */}
+      <button
+        type="button"
+        tabIndex={-1}
+        aria-label={t('detail.close')}
+        onClick={onClose}
+        className="absolute inset-0 hidden bg-black/40 lg:block"
+      />
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-label={card.name}
+        className="relative h-full w-full overflow-y-auto bg-background safe-x lg:w-[440px] lg:border-l lg:shadow-2xl"
+      >
+        <CardDetail
+          card={card}
+          cards={catalog.cards}
+          sets={catalog.sets}
+          printId={opened.printId}
+          onSelectPrinting={onSelectPrinting}
+          onClose={onClose}
+        />
+      </aside>
     </div>
   )
 }
@@ -246,12 +344,16 @@ interface Editing {
   disabled: boolean
 }
 
+/** Apre il dettaglio di una carta, con la Printing indicata (null: la prima). */
+type OpenCard = (card: CatalogCard, printId: string | null) => void
+
 function DeckHeader({
   deck,
   catalog,
   editing,
   listText,
   onRelated,
+  onOpen,
 }: {
   deck: DeckSummary
   catalog: Catalog
@@ -259,6 +361,7 @@ function DeckHeader({
   /** La Deck List da copiare o condividere (RIB-24). */
   listText: string
   onRelated: (leader: CatalogCard) => void
+  onOpen: OpenCard
 }) {
   const { t } = useTranslation()
   const [renaming, setRenaming] = useState(false)
@@ -274,11 +377,24 @@ function DeckHeader({
 
   return (
     <div className="flex gap-4">
-      <CardThumb
-        printing={leader ? shownPrinting(leader, deck.leaderPrintId) : undefined}
-        name={leaderName}
-        className="w-20 shrink-0 rounded-lg sm:w-24"
-      />
+      {leader ? (
+        <button
+          type="button"
+          onClick={() => {
+            onOpen(leader, deck.leaderPrintId)
+          }}
+          aria-label={t('decks.openCard', { name: leaderName })}
+          className="shrink-0 self-start rounded-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        >
+          <CardThumb
+            printing={shownPrinting(leader, deck.leaderPrintId)}
+            name={leaderName}
+            className="w-20 rounded-lg sm:w-24 lg:w-32"
+          />
+        </button>
+      ) : (
+        <CardThumb printing={undefined} name={leaderName} className="w-20 shrink-0 sm:w-24" />
+      )}
       <div className="min-w-0 flex-1 space-y-2">
         {renaming ? (
           <form onSubmit={rename} className="flex gap-2">
@@ -476,6 +592,8 @@ function CardLine({
   printing,
   flagged = false,
   owned,
+  tile = false,
+  onOpen,
   children,
 }: {
   card: CatalogCard
@@ -484,12 +602,35 @@ function CardLine({
   flagged?: boolean
   /** Copie possedute sulle richieste (RIB-25), solo nella lista del Deck. */
   owned?: MissingRow
+  /** Nella griglia del mazzo su desktop (RIB-49): carta grande, controlli sotto. */
+  tile?: boolean
+  /** Toccando immagine o nome si apre il dettaglio (RIB-47); i controlli restano a parte. */
+  onOpen: () => void
   children: React.ReactNode
 }) {
   const { t } = useTranslation()
   return (
-    <li className="flex items-center gap-3 py-2">
-      <CardThumb printing={printing} name={card.name} className="w-11 shrink-0" />
+    <li
+      className={cn(
+        'flex items-center gap-3 py-2',
+        tile && 'lg:flex-col lg:items-stretch lg:gap-2 lg:py-0',
+      )}
+    >
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label={t('decks.openCard', { name: card.name })}
+        className={cn(
+          'shrink-0 self-start rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+          tile && 'lg:self-stretch',
+        )}
+      >
+        <CardThumb
+          printing={printing}
+          name={card.name}
+          className={cn('w-11', tile && 'lg:w-full lg:rounded-lg')}
+        />
+      </button>
       <div className="min-w-0 flex-1">
         <p className="flex items-center gap-1.5 truncate text-sm font-medium">
           {flagged && (
@@ -518,6 +659,7 @@ function DeckCards({
   editing,
   flagged,
   ownership,
+  onOpen,
 }: {
   cards: readonly DeckCard[]
   catalog: Catalog
@@ -525,6 +667,7 @@ function DeckCards({
   flagged: ReadonlySet<string>
   /** Copie possedute per carta (RIB-25); vuota finché la Collection non c'è. */
   ownership: ReadonlyMap<string, MissingRow>
+  onOpen: OpenCard
 }) {
   const { t } = useTranslation()
   const rows = useMemo(() => deckRows(cards, catalog.cards), [cards, catalog])
@@ -542,7 +685,8 @@ function DeckCards({
           <h3 className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
             {category} · {list.reduce((sum, r) => sum + r.quantity, 0)}
           </h3>
-          <ul className="divide-y">
+          {/* Telefono: una riga per carta. Desktop: griglia di carte grandi (RIB-49). */}
+          <ul className="divide-y lg:mt-3 lg:grid lg:grid-cols-5 lg:gap-x-4 lg:gap-y-6 lg:divide-y-0 xl:grid-cols-6 2xl:grid-cols-8">
             {list.map((row) => (
               <CardLine
                 key={row.card.cardCode}
@@ -550,8 +694,12 @@ function DeckCards({
                 printing={row.printing}
                 flagged={flagged.has(row.card.cardCode)}
                 owned={ownership.get(row.card.cardCode)}
+                tile
+                onOpen={() => {
+                  onOpen(row.card, row.printId)
+                }}
               >
-                <div className="flex flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3">
+                <div className="flex flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3 lg:flex-col lg:items-stretch lg:gap-2">
                   {row.card.printings.length > 1 && (
                     <PrintingSelect
                       card={row.card}
@@ -582,10 +730,12 @@ function AddCards({
   cards,
   catalog,
   editing,
+  onOpen,
 }: {
   cards: readonly DeckCard[]
   catalog: Catalog
   editing: Editing
+  onOpen: OpenCard
 }) {
   const { t } = useTranslation()
   const { filters, update, reset } = useCatalogFilters()
@@ -595,9 +745,10 @@ function AddCards({
   const facets = useMemo(() => catalogFacets(catalog.cards), [catalog])
   // Filtro "possedute" (RIB-22): nell'editor si è sempre dentro, quindi c'è sempre.
   const ownership = useOwnership()
+  const banList = useBanList()
   const results = useMemo(
-    () => deckCandidates(catalog.cards, deferred, ownership),
-    [catalog, deferred, ownership],
+    () => deckCandidates(catalog.cards, deferred, ownership, banList),
+    [catalog, deferred, ownership, banList],
   )
   const active = countActiveFilters(filters)
 
@@ -661,7 +812,14 @@ function AddCards({
 
       <ul className="divide-y">
         {results.slice(0, limit).map(({ card, printing }) => (
-          <CardLine key={card.cardCode} card={card} printing={printing}>
+          <CardLine
+            key={card.cardCode}
+            card={card}
+            printing={printing}
+            onOpen={() => {
+              onOpen(card, printing.printId)
+            }}
+          >
             <Stepper
               name={card.name}
               quantity={quantityInDeck(cards, card.cardCode)}

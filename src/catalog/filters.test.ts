@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import type { BanList } from './ban-list'
 import type { CatalogCard } from './catalog-data'
 import {
   catalogFacets,
@@ -160,6 +161,56 @@ describe('filterCatalog', () => {
   it('l’interruttore delle Printing mostra anche le varianti', () => {
     expect(codes({ allPrintings: true, q: 'zoro' })).toEqual(['OP01-001', 'OP01-001_p1'])
     expect(codes({ allPrintings: true, q: 'nami', sets: ['OP-01'] })).toEqual(['OP01-016'])
+  })
+})
+
+describe('filtro Ban List (RIB-50)', () => {
+  const banList: BanList = {
+    banned: new Set(['OP01-016']),
+    restricted: new Map([['ST01-012', 1]]),
+    pairs: [['OP02-008', 'OP01-029']],
+  }
+  const withBan = (ban: string[]) =>
+    filterCatalog(CARDS, { ...EMPTY_FILTERS, ban }, null, banList).map((e) => e.card.cardCode)
+
+  it('bandite, limitate e coppie: le carte della Ban List in vigore', () => {
+    expect(withBan(['banned'])).toEqual(['OP01-016'])
+    expect(withBan(['restricted'])).toEqual(['ST01-012'])
+    // Entrambe le carte di una coppia.
+    expect(withBan(['pair'])).toEqual(['OP02-008', 'OP01-029'])
+    // Più scelte in OR.
+    expect(withBan(['banned', 'restricted'])).toEqual(['OP01-016', 'ST01-012'])
+  })
+
+  it('"solo carte legali" esclude le bandite, non le limitate né le coppie', () => {
+    expect(withBan(['legal'])).toEqual(['OP01-001', 'ST01-012', 'OP02-008', 'OP01-029'])
+  })
+
+  it('si combina con gli altri filtri', () => {
+    expect(
+      filterCatalog(
+        CARDS,
+        { ...EMPTY_FILTERS, ban: ['legal'], colors: ['Green'] },
+        null,
+        banList,
+      ).map((e) => e.card.cardCode),
+    ).toEqual(['OP02-008'])
+  })
+
+  it('senza Ban List nessuna carta è bandita; valori sconosciuti si ignorano', () => {
+    const all = filterCatalog(CARDS, EMPTY_FILTERS).map((e) => e.card.cardCode)
+    expect(filterCatalog(CARDS, { ...EMPTY_FILTERS, ban: ['banned'] })).toEqual([])
+    expect(
+      filterCatalog(CARDS, { ...EMPTY_FILTERS, ban: ['legal'] }).map((e) => e.card.cardCode),
+    ).toEqual(all)
+    expect(withBan(['boh'])).toEqual(all)
+  })
+
+  it('sta nell’URL', () => {
+    const f = { ...EMPTY_FILTERS, ban: ['banned', 'pair'] }
+    expect(filtersToSearchParams(f).toString()).toBe('ban=banned&ban=pair')
+    expect(filtersFromSearchParams(filtersToSearchParams(f))).toEqual(f)
+    expect(countActiveFilters(f)).toBe(1)
   })
 })
 

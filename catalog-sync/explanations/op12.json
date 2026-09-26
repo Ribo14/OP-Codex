@@ -22,5 +22,361 @@
   {
     "cardCode": "OP12-081",
     "body": "Quando il Leader attacca il Leader avversario, se hai 2 o più Character di costo 8 o più, **peschi 1 carta**.\n\nUna volta per turno, quando l’avversario gioca un Character di costo base 8 o più (o un Character tramite l’effetto di un Character), l’avversario deve prendere in mano la prima carta della sua Vita: gli costa una Vita."
+  },
+  {
+    "cardCode": "OP12-003",
+    "body": "Quando viene messo K.O. puoi mostrare 2 Event dalla mano (anche uguali): giochi gratis dalla mano un Character rosso con 3000 potenza o meno."
+  },
+  {
+    "cardCode": "OP12-004",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mostrare 2 Event dalla mano: +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP12-006",
+    "body": "Quando la giochi guardi le prime 5 carte e prendi un [Monkey.D.Luffy] (di qualsiasi colore) o un Event rosso."
+  },
+  {
+    "cardCode": "OP12-007",
+    "body": "Quando lo giochi, un altro tuo Character “Roger Pirates” (non [Shanks]) guadagna [Rush] per il turno."
+  },
+  {
+    "cardCode": "OP12-008",
+    "body": "Ha [Blocker].\n\nUna volta per turno, quando l’avversario attacca, puoi scartare 1 carta: dai −2000 potenza per il turno al Leader o a un Character avversario."
+  },
+  {
+    "cardCode": "OP12-009",
+    "body": "Quando lo giochi puoi mostrare 2 Event dalla mano: guadagna [Rush] e +1000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP12-012",
+    "body": "Quando lo giochi, un altro tuo Character “Roger Pirates” (non [Buggy]) guadagna [Blocker] fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP12-013",
+    "body": "Nella tua Main Phase puoi metterlo a riposo e mostrare 2 Event dalla mano: dai fino a 2 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP12-014",
+    "body": "Quando la giochi guardi le prime 5 carte e prendi un [Monkey.D.Luffy] o un Event rosso.\n\nNella tua Main Phase puoi metterla nel cestino per dare fino a 2 DON!! a riposo al Leader o a un Character (anche quelli che aveva lei)."
+  },
+  {
+    "cardCode": "OP12-015",
+    "body": "Se in totale hai 2 o più DON!! dati alle tue carte, ha +2000 potenza.\n\nQuando lo giochi puoi mostrare 2 Event: giochi gratis dalla mano un Character rosso con 3000 potenza o meno, poi dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP12-016",
+    "body": "Costa 0.\n- **Main**: dai 2 DON!! **attivi** a un tuo [Silvers Rayleigh]: quando attacca in questo turno, l’avversario non può usare [Blocker];\n- **Counter**: un tuo Character o [Silvers Rayleigh] ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP12-017",
+    "body": "Costa 0. Dai 1 DON!! attivo a un tuo [Silvers Rayleigh]: guardi le prime 4 carte e prendi un Event rosso o un Character rosso di costo 3 o più."
+  },
+  {
+    "cardCode": "OP12-018",
+    "body": "Counter da 0 DON!!: un tuo Character o [Silvers Rayleigh] ha +2000 potenza per la battaglia; poi puoi mettere a riposo 1 DON!! per dare −1000 potenza per il turno al Leader e a tutti i Character avversari."
+  },
+  {
+    "cardCode": "OP12-019",
+    "body": "Costa 0.\n- **Main**: dai 1 DON!! attivo a un tuo [Silvers Rayleigh]: il Leader o un Character ha +1000 potenza per il turno;\n- **Counter**: un tuo Character o [Silvers Rayleigh] ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP12-021",
+    "body": "Ha [Blocker].\n\nSe il Leader ha l’attributo <Slash> e hai 6 o più DON!! a riposo, gli effetti avversari non possono metterlo a riposo."
+  },
+  {
+    "cardCode": "OP12-022",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: un Character avversario a riposo di costo 5 o meno non torna attivo nella sua prossima Refresh Phase."
+  },
+  {
+    "cardCode": "OP12-024",
+    "body": "Finché è attivo non può essere messo K.O. dagli effetti avversari.\n\nQuando attacca, se in totale hai 3 o più DON!! dati alle tue carte, metti a riposo un Character avversario di costo base 6 o meno."
+  },
+  {
+    "cardCode": "OP12-026",
+    "body": "Nella tua Main Phase puoi metterla a riposo: metti a riposo un Character avversario di costo base 4 o meno, poi dai fino a 3 DON!! a riposo al tuo Leader [Roronoa Zoro]."
+  },
+  {
+    "cardCode": "OP12-027",
+    "body": "Ha [Blocker].\n\nSe un altro tuo Character <Slash> di costo 5 o meno sta per essere messo K.O. da un effetto avversario, puoi invece mettere a riposo Koushirou."
+  },
+  {
+    "cardCode": "OP12-028",
+    "body": "Nella tua Main Phase puoi mettere a riposo 1 DON!! e lei: se il Leader è [Roronoa Zoro], guardi le prime 5 carte e prendi una carta <Slash> o un Event verde."
+  },
+  {
+    "cardCode": "OP12-029",
+    "body": "Quando lo giochi metti a riposo un Character avversario di costo 2 o meno, poi metti K.O. un Character avversario a riposo di costo base 1 o meno."
+  },
+  {
+    "cardCode": "OP12-030",
+    "body": "Ha [Blocker].\n\nQuando lo giochi rendi attivi fino a 4 DON!!, ma in quel turno non puoi giocare Character di costo base 7 o più."
+  },
+  {
+    "cardCode": "OP12-031",
+    "body": "Quando la giochi metti a riposo un Character avversario di costo base 6 o meno, poi dai fino a 3 DON!! a riposo al tuo Leader [Roronoa Zoro]."
+  },
+  {
+    "cardCode": "OP12-033",
+    "body": "Ha [Blocker]. Quando blocca ([On Block]), metti a riposo un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP12-034",
+    "body": "Quando la giochi, se il Leader ha l’attributo <Slash>, guardi le prime 5 carte e prendi una carta <Slash> o un Event verde."
+  },
+  {
+    "cardCode": "OP12-036",
+    "body": "Non può essere giocato dalla mano tramite effetti (solo pagandone il costo, o da altre zone).\n\nSe il Leader ha l’attributo <Slash>, ha +1000 potenza e non può essere messo K.O. in battaglia da carte <Slash>."
+  },
+  {
+    "cardCode": "OP12-037",
+    "body": "Due usi:\n- **Main**: metti a riposo 3 DON!!: metti a riposo fino a 2 tra Character e DON!! avversari;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP12-038",
+    "body": "Due usi:\n- **Main**: metti a riposo 2 DON!!: metti K.O. fino a 2 Character avversari a riposo di costo base 4 o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP12-039",
+    "body": "Il tuo Leader [Roronoa Zoro] torna attivo: può attaccare di nuovo.\n\nIl [Trigger] dà +1000 potenza al Leader o a un Character per il turno."
+  },
+  {
+    "cardCode": "OP12-042",
+    "body": "Con 2 o più Character di costo base 5 o più ha +1 costo.\n\nQuando la giochi metti in fondo al mazzo un Character avversario di costo base 1 o meno."
+  },
+  {
+    "cardCode": "OP12-043",
+    "body": "Con 5 o più carte in mano ha +1 costo.\n\nQuando lo giochi puoi scartare 1 carta: un Character avversario non può attaccare fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP12-044",
+    "body": "Quando lo giochi, se il Leader è {Navy}, peschi 2 carte.\n\nUna volta per turno, nella tua Main Phase, puoi scartare 1 carta per dare 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP12-046",
+    "body": "Quando lo giochi scarti 2 carte (o quelle che hai).\n\nNella tua Main Phase puoi metterlo nel cestino per rimandare in mano un Character di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP12-047",
+    "body": "Quando lo giochi puoi scartare 1 carta: guardi le prime 5 carte e prendi fino a 2 carte {Navy} (non [Sengoku])."
+  },
+  {
+    "cardCode": "OP12-048",
+    "body": "Nel turno avversario, se un tuo Character blu {Navy} sta per lasciare il campo per un effetto avversario, puoi invece mettere a riposo Rosinante (se è attivo) e scartare 1 carta."
+  },
+  {
+    "cardCode": "OP12-050",
+    "body": "Ha [Blocker]: un grosso difensore."
+  },
+  {
+    "cardCode": "OP12-051",
+    "body": "Nella tua Main Phase puoi metterla a riposo e scartare 1 carta: un Character avversario di costo base 4 o meno non può usare [Blocker] per il turno."
+  },
+  {
+    "cardCode": "OP12-053",
+    "body": "Una volta per turno, se sta per lasciare il campo per un effetto avversario, puoi invece scartare 1 carta.\n\nNel turno avversario, se il Leader è {Navy}, ha [Blocker] e +1000 potenza."
+  },
+  {
+    "cardCode": "OP12-054",
+    "body": "Quando lo giochi, se il Leader è {The Seven Warlords of the Sea}, rimandi in mano un altro Character di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP12-056",
+    "body": "Quando lo giochi puoi scartare 1 carta: giochi gratis dalla mano un Character blu {Navy} con 8000 potenza o meno (non [Monkey.D.Garp])."
+  },
+  {
+    "cardCode": "OP12-057",
+    "body": "Counter da 1 DON!!: il Leader o un Character ha +4000 potenza per la battaglia, poi scarti 1 carta (se ne hai).\n\nIl [Trigger]: scarti 1 carta per pescarne 1."
+  },
+  {
+    "cardCode": "OP12-058",
+    "body": "Costa 9: se il Leader è “Whitebeard Pirates”, riveli la prima carta del mazzo; se è un Character “Whitebeard Pirates” di costo 9 o meno puoi giocarlo, con [Rush]. Altrimenti torna coperta in cima.\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP12-059",
+    "body": "Due usi:\n- **Main**: se il Leader è [Sanji], peschi 1 carta;\n- **Counter**: se hai 4 o più Event nel cestino (conta anche questo), il tuo Leader ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP12-060",
+    "body": "Se il Leader è multicolore, scegli:\n- rimandi in mano un Character avversario di costo 4 o meno;\n- se hai 6 carte o meno in mano (senza questa), peschi 2 carte."
+  },
+  {
+    "cardCode": "OP12-062",
+    "body": "Quando la giochi, se il Leader è [Sanji] e hai DON!! in campo pari o meno dell’avversario, prendi 1 DON!! a riposo e poi peschi 1 carta."
+  },
+  {
+    "cardCode": "OP12-063",
+    "body": "Ha [Blocker].\n\nCon 4 o più Event nel cestino ha +2000 potenza e +5 costo."
+  },
+  {
+    "cardCode": "OP12-065",
+    "body": "Con 4 o più Event nel cestino ha [Blocker].\n\nQuando viene messo K.O., riprendi in mano un Event dal cestino."
+  },
+  {
+    "cardCode": "OP12-066",
+    "body": "Con 4 o più Event nel cestino ha [Blocker]."
+  },
+  {
+    "cardCode": "OP12-069",
+    "body": "Una volta per turno, quando l’avversario attacca, puoi pagare DON!! −1: se il Leader è “Baroque Works”, il Leader o un Character ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP12-070",
+    "body": "Ha +1000 potenza ogni 5 Event nel cestino.\n\nSe sta per lasciare il campo per un effetto avversario, puoi invece rimettere 1 DON!! nel mazzo DON!!."
+  },
+  {
+    "cardCode": "OP12-071",
+    "body": "Quando la giochi guardi le prime 4 carte e prendi un [Sanji] o un Event."
+  },
+  {
+    "cardCode": "OP12-072",
+    "body": "Quando un tuo DON!! torna nel mazzo DON!!, se il Leader è [Sanji], guadagna [Rush] per il turno."
+  },
+  {
+    "cardCode": "OP12-073",
+    "body": "Quando lo giochi, se hai DON!! in campo pari o meno dell’avversario, prendi 1 DON!! attivo e i tuoi [Donquixote Rosinante] e Character {Heart Pirates} hanno +1000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP12-074",
+    "body": "Quando lo giochi puoi scartare un Event: se il Leader è [Sanji], prendi 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP12-075",
+    "body": "Quando la giochi metti K.O. un Character avversario di costo 3 o meno; poi l’avversario **può** prendere 1 DON!! attivo.\n\nIl [Trigger]: DON!! −1 per giocarla gratis."
+  },
+  {
+    "cardCode": "OP12-077",
+    "body": "Un tuo [Trafalgar Law] ha +2000 potenza per il turno e, se attacca in questo turno, l’avversario non può usare [Blocker].\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP12-078",
+    "body": "Se hai DON!! in campo pari o meno dell’avversario, peschi 1 carta e dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP12-079",
+    "body": "Se il Leader è [Sanji], guardi le prime 3 carte e ne prendi una qualsiasi (senza mostrarla)."
+  },
+  {
+    "cardCode": "OP12-080",
+    "body": "Stage. Nella tua Main Phase puoi metterlo in fondo al mazzo: se il Leader è [Sanji], guardi le prime 3 carte e prendi un Event.\n\nCon il [Trigger] lo giochi gratis."
+  },
+  {
+    "cardCode": "OP12-084",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, se il Leader è {Revolutionary Army}, scarti le prime 3 carte del mazzo."
+  },
+  {
+    "cardCode": "OP12-085",
+    "body": "Se il Leader è {Revolutionary Army}, ha +3 costo e, quando attacca, se l’avversario ha 5 o più carte in mano, l’avversario ne scarta 1."
+  },
+  {
+    "cardCode": "OP12-086",
+    "body": "Quando la giochi, se il Leader è {Revolutionary Army}, guardi le prime 3 carte, prendi una carta {Revolutionary Army} (non [Koala]) o una [Nico Robin] e metti le altre nel cestino."
+  },
+  {
+    "cardCode": "OP12-087",
+    "body": "Se il Leader è [Koala] o [Monkey.D.Luffy], ha [Blocker] e +3 costo.\n\nQuando la giochi puoi scartare 1 carta: se l’avversario ha 5 o più carte in mano, ne scarta 2."
+  },
+  {
+    "cardCode": "OP12-089",
+    "body": "Se il Leader è {Revolutionary Army}, ha [Blocker] e +4 costo, e quando viene messo K.O. metti K.O. un Character avversario di costo base 4 o meno."
+  },
+  {
+    "cardCode": "OP12-090",
+    "body": "Quando attacca puoi scartare le prime 2 carte del mazzo: dai −2 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP12-091",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mettere 3 carte del cestino in fondo al mazzo: fino a 2 tuoi Character {SMILE} hanno +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP12-093",
+    "body": "Se il Leader è {Revolutionary Army}, ha +4 costo (utile per le condizioni “costo 8 o più”)."
+  },
+  {
+    "cardCode": "OP12-094",
+    "body": "Quando lo giochi puoi mettere 3 carte {Revolutionary Army} del cestino in fondo al mazzo: se il Leader è {Revolutionary Army}, giochi dal cestino un Character di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP12-095",
+    "body": "Se il Leader è {Revolutionary Army}, ha +4 costo.\n\nQuando lo giochi peschi 1 carta e ne scarti 1."
+  },
+  {
+    "cardCode": "OP12-096",
+    "body": "Metti K.O. un Character avversario di costo 4 o meno; se hai un Character di costo 8 o più, puoi sceglierne uno di costo 6 o meno.\n\nIl [Trigger] fa pescare 1 carta e scartare la prima del mazzo."
+  },
+  {
+    "cardCode": "OP12-097",
+    "body": "Guardi le prime 3 carte, prendi una carta {Revolutionary Army} (non questa) e metti le altre nel cestino.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP12-098",
+    "body": "Counter: il Leader o un Character ha +2000 potenza per la battaglia; se hai un Character {Revolutionary Army} di costo 8 o più, altri +2000.\n\nIl [Trigger] fa pescare 1 carta e scartare la prima del mazzo."
+  },
+  {
+    "cardCode": "OP12-099",
+    "body": "Nel tuo turno, quando una carta lascia la Vita (tua o avversaria), peschi 1 carta; poi per il resto del turno non puoi pescare con i tuoi effetti (con due copie peschi comunque una sola volta)."
+  },
+  {
+    "cardCode": "OP12-100",
+    "body": "Con 3 Vite o meno ha [Blocker] e +3 costo.\n\nQuando lo giochi puoi prendere in mano la prima carta della Vita: peschi 2 carte e ne scarti 1."
+  },
+  {
+    "cardCode": "OP12-101",
+    "body": "Nella tua Main Phase puoi metterla a riposo: il tuo Leader {Supernovas} ha +1000 potenza fino alla fine del prossimo turno avversario.\n\nIl [Trigger]: se il Leader è {Supernovas}, la giochi gratis."
+  },
+  {
+    "cardCode": "OP12-102",
+    "body": "Se un tuo Character di costo base 6 o meno sta per lasciare il campo per un effetto avversario, puoi invece girare a faccia in su la prima carta della Vita.\n\nNel turno avversario, se non hai un’altra [Shirahoshi] di costo base 2, i tuoi Character {Neptunian} hanno +2000 potenza."
+  },
+  {
+    "cardCode": "OP12-104",
+    "body": "Il [Trigger] mette K.O. un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP12-105",
+    "body": "Quando la giochi **nel tuo turno**, un tuo [Trafalgar Law] ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP12-106",
+    "body": "Ha [Blocker]: un grosso difensore."
+  },
+  {
+    "cardCode": "OP12-107",
+    "body": "Con 2 Vite o meno ha [Rush].\n\nSe viene messo K.O. **nel turno avversario**, aggiungi la prima carta del mazzo in cima alla Vita."
+  },
+  {
+    "cardCode": "OP12-108",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi un [Trafalgar Law]."
+  },
+  {
+    "cardCode": "OP12-109",
+    "body": "Il [Trigger] mette K.O. un Character avversario di costo 1 o meno e ti fa prendere in mano questa carta."
+  },
+  {
+    "cardCode": "OP12-112",
+    "body": "Il [Trigger]: se il Leader è multicolore, peschi 2 carte."
+  },
+  {
+    "cardCode": "OP12-113",
+    "body": "Quando viene messo K.O., se il Leader è {Supernovas}, giochi dalla mano, a riposo, un Character {Supernovas} di costo 4 o meno.\n\nIl [Trigger] mette K.O. un Character avversario di costo 1 o meno e ti fa prendere in mano questa carta."
+  },
+  {
+    "cardCode": "OP12-115",
+    "body": "Counter: il Leader o un Character ha +2000 potenza per la battaglia; se hai 2 Vite o meno, riprendi anche in mano un [Trafalgar Law] dal cestino."
+  },
+  {
+    "cardCode": "OP12-116",
+    "body": "Costa 3: guardi le prime 5 carte e prendi fino a 2 tra Character {Shandian Warrior} e [Mont Blanc Noland].\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP12-117",
+    "body": "Due usi:\n- **Main**: metti a riposo 5 DON!!: se il Leader è {Supernovas}, metti un Character di costo 9 o meno (anche avversario) coperto in cima o in fondo alla Vita del suo proprietario;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP12-118",
+    "body": "Ha [Blocker].\n\nQuando la giochi, se hai 8 o più carte a riposo, peschi 2 carte, ne scarti 1 e rendi attivo 1 DON!!."
+  },
+  {
+    "cardCode": "OP12-119",
+    "body": "Quando lo giochi puoi scartare 1 carta: aggiungi la prima carta del mazzo in cima alla Vita, poi ha +2 costo fino alla fine del prossimo turno avversario.\n\nSe viene messo K.O. nel turno avversario, aggiungi un’altra carta in cima alla Vita."
   }
 ]

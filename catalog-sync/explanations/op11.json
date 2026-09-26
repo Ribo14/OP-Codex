@@ -22,5 +22,373 @@
   {
     "cardCode": "OP11-062",
     "body": "Una volta per turno, quando il Leader attacca **oppure** quando l’avversario ti attacca, puoi pagare DON!! −1: guardi la prima carta del mazzo avversario e il Leader ha +1000 potenza per quella battaglia.\n\nUsalo in difesa se il Leader è il bersaglio; in attacco se ti serve il +1000 per superare un Counter."
+  },
+  {
+    "cardCode": "OP11-002",
+    "body": "Quando lo giochi dai −1000 potenza per il turno a un Character avversario, poi metti K.O. un Character avversario con 0 potenza o meno."
+  },
+  {
+    "cardCode": "OP11-004",
+    "body": "Quando la giochi guardi le prime 5 carte e prendi una carta {Navy} (non [Kujyaku]).\n\nNella tua Main Phase puoi metterla nel cestino: un tuo Character ha +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP11-005",
+    "body": "Ha [Blocker].\n\nCon almeno 1 DON!! dato non può essere messo K.O. dagli effetti dei Character senza l’attributo <Special>."
+  },
+  {
+    "cardCode": "OP11-006",
+    "body": "Con almeno 1 DON!! dato, quando attacca dai −5000 potenza per il turno a un Character avversario con l’attributo <Special>."
+  },
+  {
+    "cardCode": "OP11-007",
+    "body": "Nella tua Main Phase puoi metterla a riposo: se il Leader è {Navy}, un tuo Character {Navy} ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP11-008",
+    "body": "Ha [Blocker].\n\nQuando la giochi puoi scartare 1 carta: se il Leader è {Navy}, dai −6000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP11-009",
+    "body": "Con almeno 2 DON!! dati, quando attacca dai −2000 potenza a un Character avversario fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP11-010",
+    "body": "Quando lo giochi dai −2000 potenza per il turno a un Character avversario.\n\nQuando attacca ha +1000 potenza; in più il tuo Leader {Navy} può attaccare anche i Character avversari **attivi** in questo turno (di norma si attaccano solo quelli a riposo)."
+  },
+  {
+    "cardCode": "OP11-012",
+    "body": "Una volta per turno, nel tuo turno, quando l’avversario usa un Event (non un [Trigger]), tutti i tuoi Character hanno +2000 potenza per il turno. L’Event però si risolve prima."
+  },
+  {
+    "cardCode": "OP11-013",
+    "body": "Quando attacca, i Character avversari che in quel momento hanno 2000 potenza o meno non possono usare [Blocker] per il turno."
+  },
+  {
+    "cardCode": "OP11-014",
+    "body": "Ha [Blocker].\n\nNella tua Main Phase puoi metterlo a riposo: il tuo Leader o un Character {Navy} può attaccare anche i Character avversari **attivi** in questo turno (non un Character appena giocato)."
+  },
+  {
+    "cardCode": "OP11-016",
+    "body": "Una volta per turno, nella tua Main Phase, dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP11-018",
+    "body": "Costa 6: dai −4000 potenza a un Character avversario, poi metti K.O. un Character avversario (anche un altro) con 6000 potenza o meno.\n\nIl [Trigger] mette K.O. un Character avversario con 6000 potenza o meno."
+  },
+  {
+    "cardCode": "OP11-019",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +2000 potenza per la battaglia; se l’avversario ha un Character con 6000 potenza o più, un tuo Leader o Character ha anche +1000 per il turno.\n\nIl [Trigger] dà +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP11-020",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +2000 potenza per la battaglia; se l’avversario ha un Character con 6000 potenza o più, un tuo Leader o Character ha anche +1000 per il turno.\n\nIl [Trigger] dà +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP11-023",
+    "body": "In mano costa 3 in meno se il Leader è {Fish-Man}, hai 3 Vite o meno e l’avversario ha 5 o più carte a riposo.\n\nIl [Trigger] mette a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP11-024",
+    "body": "Quando viene messo K.O. da un effetto avversario, puoi scartare 1 carta **e** mettere a riposo 1 DON!!: giochi gratis dalla mano un Character {Fish-Man} o {Merfolk} di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP11-025",
+    "body": "Una volta per turno, quando l’avversario attacca, puoi mettere a riposo 1 DON!! e lei: il Leader o un Character ha +1000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP11-027",
+    "body": "Se il Leader è [Shirahoshi], può attaccare i Character nel turno in cui entra."
+  },
+  {
+    "cardCode": "OP11-028",
+    "body": "Quando lo giochi, un Character avversario a riposo non torna attivo nella sua prossima Refresh Phase.\n\nIl [Trigger] mette K.O. un Character avversario a riposo di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP11-029",
+    "body": "Ha [Blocker].\n\nQuando la giochi metti a riposo un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP11-030",
+    "body": "Nella tua Main Phase puoi mettere a riposo 1 DON!! e lei: guardi le prime 5 carte e prendi una carta {Neptunian} o {Fish-Man Island}."
+  },
+  {
+    "cardCode": "OP11-031",
+    "body": "Quando lo giochi, se il Leader è {Fish-Man} o {Merfolk}, metti a riposo un Character avversario di costo 5 o meno.\n\nUna volta per turno, nella tua Main Phase, un tuo Character {Fish-Man} o {Merfolk} può attaccare i Character nel turno in cui entra."
+  },
+  {
+    "cardCode": "OP11-034",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: se il Leader è {Fish-Man} o {Merfolk}, un Character avversario di costo 3 o meno **non può essere messo a riposo** fino alla fine del prossimo turno avversario (non può attaccare né bloccare)."
+  },
+  {
+    "cardCode": "OP11-035",
+    "body": "Quando lo giochi metti a riposo un Character avversario.\n\nQuando viene messo K.O. da un effetto avversario, puoi mettere a riposo 1 DON!!: giochi gratis dalla mano un Character {Fish-Man} o {Merfolk} di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP11-036",
+    "body": "Quando lo giochi, se il Leader è [Shirahoshi], guardi le prime 5 carte e prendi una carta {Neptunian} o una [Shirahoshi]."
+  },
+  {
+    "cardCode": "OP11-037",
+    "body": "Guardi le prime 4 carte e prendi un Character {Neptunian} o {Fish-Man Island}.\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP11-038",
+    "body": "Due usi:\n- **Main**: metti a riposo 1 DON!!: metti a riposo un Character avversario di costo 5 o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP11-039",
+    "body": "Counter: un tuo Leader o Character {Fish-Man} o {Merfolk} ha +3000 potenza per la battaglia, poi metti a riposo un Character avversario di costo 3 o meno.\n\nIl [Trigger] mette a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP11-042",
+    "body": "Quando lo giochi puoi scartare una carta {Firetank Pirates}: guadagna [Rush]."
+  },
+  {
+    "cardCode": "OP11-043",
+    "body": "Ha [Blocker].\n\nUna volta per turno, quando l’avversario attacca e hai **solo** Character “GERMA”, il Leader o un Character ha +1000 potenza per la battaglia; poi scarti le prime 2 carte del mazzo."
+  },
+  {
+    "cardCode": "OP11-044",
+    "body": "Una volta per turno, nella tua Main Phase, puoi scartare 1 carta: i tuoi Character {GERMA 66} già in campo hanno +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP11-046",
+    "body": "Ha [Blocker].\n\nSe hai solo Character “GERMA”, non può essere messo K.O. né a riposo dagli effetti avversari."
+  },
+  {
+    "cardCode": "OP11-047",
+    "body": "Quando la giochi, se il Leader è {The Vinsmoke Family}, guardi le prime 5 carte, prendi una carta “GERMA” e metti le altre nel cestino."
+  },
+  {
+    "cardCode": "OP11-048",
+    "body": "Quando lo giochi guardi le prime 4 carte e prendi una carta {Firetank Pirates} o {Straw Hat Crew} di costo 2 o più."
+  },
+  {
+    "cardCode": "OP11-049",
+    "body": "Quando la giochi guardi le prime 3 carte e le rimetti in cima o in fondo nell’ordine che vuoi.\n\nQuando l’avversario attacca puoi metterla nel cestino: il tuo Leader ha +1000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP11-050",
+    "body": "Quando attacca puoi scartare una carta {Firetank Pirates}: un Character di costo 1 o meno torna in mano o va in fondo al mazzo del proprietario."
+  },
+  {
+    "cardCode": "OP11-051",
+    "body": "Quando lo giochi rimandi in mano un Character con potenza base 5000 o meno.\n\nQuando viene messo K.O. da un effetto avversario, guardi le prime 5 carte e giochi gratis un Character {Straw Hat Crew} di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP11-054",
+    "body": "Ha [Blocker].\n\nQuando la giochi, se il Leader è multicolore, peschi 3 carte e rimetti 2 carte della mano in cima o in fondo al mazzo."
+  },
+  {
+    "cardCode": "OP11-056",
+    "body": "Ha [Blocker].\n\nQuando lo giochi metti in fondo al mazzo un Character di costo base 1."
+  },
+  {
+    "cardCode": "OP11-057",
+    "body": "Con 4 carte o meno in mano ha [Blocker]."
+  },
+  {
+    "cardCode": "OP11-058",
+    "body": "Ha [Blocker] e 7000 potenza, ma con 5 o più carte in mano non può attaccare."
+  },
+  {
+    "cardCode": "OP11-059",
+    "body": "Counter: il Leader o un Character ha +2000 potenza per la battaglia; se hai 4 carte o meno in mano (senza questa), altri +2000.\n\nIl [Trigger] rimanda in mano un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP11-060",
+    "body": "Se il Leader è multicolore, guardi le prime 5 carte e prendi una carta {Straw Hat Crew} (non questa).\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP11-061",
+    "body": "Metti in fondo al mazzo un Character avversario di costo base 4 o meno.\n\nIl [Trigger] mette in fondo al mazzo un Character di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP11-063",
+    "body": "Quando la giochi puoi pagare DON!! −1: se il Leader è {Impel Down}, metti a riposo un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP11-065",
+    "body": "Se hai un altro Character viola {Big Mom Pirates} (non [Charlotte Anana]), ha [Blocker]."
+  },
+  {
+    "cardCode": "OP11-066",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: **dichiari un costo** e riveli la prima carta del mazzo avversario; se ha quel costo, metti K.O. un Character avversario di costo base 3 o meno e prendi 1 DON!! a riposo. Se sbagli, non succede nulla."
+  },
+  {
+    "cardCode": "OP11-067",
+    "body": "Ha [Blocker].\n\nAlla fine del tuo turno rendi attivi fino a 2 tuoi Character {Big Mom Pirates} di costo 3 o più, poi prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "OP11-069",
+    "body": "Quando la giochi puoi prendere in mano la prima carta della Vita: se il Leader è {Big Mom Pirates}, prendi 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP11-070",
+    "body": "Quando la giochi guardi le prime 5 carte e prendi una carta {Big Mom Pirates} di costo 2 o più.\n\nNella tua Main Phase paghi DON!! −1 e la metti a riposo: guardi la prima carta del mazzo avversario (utile prima di “dichiari un costo”)."
+  },
+  {
+    "cardCode": "OP11-071",
+    "body": "Una volta per turno, nella tua Main Phase, puoi scartare 1 carta: dichiari un costo e riveli la prima carta del mazzo avversario; se ha quel costo, peschi 1 carta e prendi 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP11-072",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −1 e la metti a riposo: l’avversario mette 2 carte del suo cestino in fondo al mazzo, poi tu prendi in mano la prima carta della tua Vita."
+  },
+  {
+    "cardCode": "OP11-073",
+    "body": "Se il Leader è {Big Mom Pirates}, ha [Rush].\n\nUna volta per turno, quando l’avversario attacca, puoi pagare DON!! −5: dichiari un costo e riveli la prima carta del mazzo avversario; se ha quel costo, il tuo Leader ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP11-074",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −1 e lo metti a riposo: dichiari un costo e riveli la prima carta del mazzo avversario; se ha quel costo, metti a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP11-075",
+    "body": "Quando lo giochi, se il Leader è [Nico Robin] e hai 7 o più DON!! in campo, peschi 2 carte.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP11-076",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, se il Leader è {Impel Down}, giochi gratis dalla mano un Character {Impel Down} di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP11-077",
+    "body": "Una volta per turno, nel tuo turno, quando un tuo DON!! torna nel mazzo DON!!, un tuo Character {Big Mom Pirates} ha +2 costo fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP11-079",
+    "body": "Counter: dichiari un costo e riveli la prima carta del mazzo avversario; se ha quel costo, il Leader o un Character ha **+5000** potenza per la battaglia.\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP11-080",
+    "body": "Due usi:\n- **Main**: metti a riposo 2 DON!!: se il tuo Leader è (anche) blu, prendi 1 DON!! a riposo;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP11-081",
+    "body": "Costa 6: dichiari un costo e riveli la prima carta del mazzo avversario; se ha quel costo, metti K.O. un Character avversario di costo base 8 o meno.\n\nIl [Trigger] ti dà 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP11-082",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: se il Leader è {Navy}, un tuo Character {Navy} può attaccare anche i Character avversari **attivi** in questo turno; poi scarti le prime 2 carte del mazzo."
+  },
+  {
+    "cardCode": "OP11-083",
+    "body": "Ha [Blocker].\n\nQuando lo giochi scarti 2 carte dalla mano (o quella che hai)."
+  },
+  {
+    "cardCode": "OP11-084",
+    "body": "Quando lo giochi scarti le prime 3 carte del mazzo.\n\nQuando attacca, il tuo Leader o un Character {Navy} può attaccare anche i Character avversari **attivi** in questo turno."
+  },
+  {
+    "cardCode": "OP11-085",
+    "body": "Quando lo giochi riprendi in mano dal cestino una carta {SMILE} di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP11-086",
+    "body": "Quando lo giochi scarti 1 carta (se ne hai).\n\nNella tua Main Phase puoi metterlo nel cestino per giocare dal cestino un [Caribou] di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP11-088",
+    "body": "Ha [Blocker].\n\nUna volta per turno, quando un Character avversario **con l’attributo <Slash>** attacca, ha +5000 potenza per quella battaglia."
+  },
+  {
+    "cardCode": "OP11-090",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP11-091",
+    "body": "Quando lo giochi, l’avversario mette 3 Event del suo cestino in fondo al mazzo (tutti, se ne ha meno)."
+  },
+  {
+    "cardCode": "OP11-092",
+    "body": "Quando lo giochi puoi scartare 1 carta: peschi 1 carta e giochi dal cestino un Character {SWORD} di costo 8 o meno (non [Helmeppo], anche quello appena scartato). A fine turno quel Character va in fondo al mazzo."
+  },
+  {
+    "cardCode": "OP11-095",
+    "body": "Quando lo giochi puoi mettere 3 carte {Navy} del cestino in fondo al mazzo: dai 1 DON!! a riposo al Leader; poi, se in campo c’è un Character di costo 9 o più, metti K.O. un Character avversario di costo 7 o meno."
+  },
+  {
+    "cardCode": "OP11-096",
+    "body": "Se hai un altro Character nero {Navy} (non [Ripper]), ha [Blocker]."
+  },
+  {
+    "cardCode": "OP11-097",
+    "body": "Counter: il Leader o un Character ha +1000 potenza per la battaglia; se hai 10 o più carte nel cestino (conta anche questa), riprendi in mano un Character nero di costo 3 o meno (anche uno appena usato come Counter)."
+  },
+  {
+    "cardCode": "OP11-098",
+    "body": "Puoi scartare le prime 3 carte del mazzo: metti K.O. un Character avversario di costo 2 o meno.\n\nIl [Trigger] dà +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP11-099",
+    "body": "Guardi le prime 3 carte, prendi una carta {Navy} (non questa) e metti le altre nel cestino.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP11-100",
+    "body": "Quando la giochi, se il Leader è [Shirahoshi], puoi girare **a faccia in giù** la prima carta della Vita (se è a faccia in su): peschi 1 carta."
+  },
+  {
+    "cardCode": "OP11-101",
+    "body": "Ha [Blocker].\n\nUna volta per turno, se un altro tuo Character {Supernovas} sta per lasciare il campo per un effetto avversario, puoi invece metterlo coperto in cima alla tua Vita."
+  },
+  {
+    "cardCode": "OP11-102",
+    "body": "Una volta per turno, nel tuo turno, quando l’avversario usa un Event o un [Trigger], se ha 2 o più Vite, metti nel cestino la prima carta della Vita di entrambi."
+  },
+  {
+    "cardCode": "OP11-103",
+    "body": "Nella tua Main Phase, se il Leader è [Shirahoshi], puoi metterlo a riposo e girare a faccia in giù la prima carta della Vita: metti K.O. un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP11-104",
+    "body": "Ha [Blocker].\n\nQuando la giochi puoi girare a faccia in giù la prima carta della Vita: guardi le prime 3 carte e prendi una carta {Fish-Man Island}."
+  },
+  {
+    "cardCode": "OP11-106",
+    "body": "Quando lo giochi puoi prendere in mano la prima o l’ultima carta della Vita: metti K.O. un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP11-107",
+    "body": "Ha [Blocker].\n\nUna volta per turno, nella tua Main Phase, se il Leader è [Shirahoshi], puoi girare a faccia in giù la prima carta della Vita: torna attivo a fine turno (attacca e poi blocca)."
+  },
+  {
+    "cardCode": "OP11-108",
+    "body": "Quando lo giochi, se il Leader è [Shirahoshi], puoi girare a faccia in giù la prima carta della Vita: peschi 2 carte e ne scarti 1."
+  },
+  {
+    "cardCode": "OP11-109",
+    "body": "Quando lo giochi, se hai [Camie], peschi 2 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "OP11-110",
+    "body": "Se sta per essere messo K.O., puoi invece mettere a riposo un tuo [Fish-Man Island] o il tuo Leader [Shirahoshi].\n\nQuando lo giochi puoi prendere in mano la prima o l’ultima carta della Vita: metti K.O. un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP11-112",
+    "body": "Ha [Blocker].\n\nNel turno avversario, se il Leader è [Shirahoshi], ha +4000 potenza (6000)."
+  },
+  {
+    "cardCode": "OP11-114",
+    "body": "Due usi:\n- **Main**: metti a riposo 3 DON!!: se tu e l’avversario avete in totale 5 o più Vite, metti K.O. un Character avversario di costo base 5 o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP11-115",
+    "body": "Counter: se il Leader è [Shirahoshi], il Leader o un Character ha +4000 potenza per la battaglia.\n\nIl [Trigger] mette K.O. un Character avversario di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP11-116",
+    "body": "Costa 6: metti un Character di costo 6 o meno (anche avversario) a faccia in su in cima o in fondo alla Vita del suo proprietario.\n\nIl [Trigger] fa lo stesso con un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP11-117",
+    "body": "Stage. Una volta per turno, nella tua Main Phase, se il Leader è [Shirahoshi], puoi girare a faccia in su la prima carta della Vita: un tuo Character {Neptunian}, {Fish-Man} o {Merfolk} ha +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP11-118",
+    "body": "Ha [Rush].\n\nQuando attacca puoi scartare 1 carta: rimandi in mano un Character di costo 4 o meno, poi dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP11-119",
+    "body": "Quando lo giochi, un tuo Character può attaccare anche i Character avversari **attivi** in questo turno (non uno appena giocato).\n\nQuando attacca puoi mettere 2 carte del cestino in fondo al mazzo: il Leader o un Character ha +1000 potenza fino alla fine del prossimo turno avversario."
   }
 ]

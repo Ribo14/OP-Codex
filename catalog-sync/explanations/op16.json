@@ -1,0 +1,442 @@
+[
+  {
+    "cardCode": "OP16-001",
+    "body": "Una volta per turno, nella tua Main Phase, un tuo [Monkey.D.Luffy] **oppure** un tuo Character “Whitebeard Pirates” con 8000 potenza o più guadagna [Rush] per il turno.\n\nIl Character può attaccare subito anche se è appena entrato. La condizione degli 8000 si può raggiungere dando DON!!."
+  },
+  {
+    "cardCode": "OP16-022",
+    "body": "Una volta per turno, nella tua Main Phase, se hai **solo Character {Impel Down}** in campo, rendi attivi fino a 2 DON!!.\n\nDue DON!! in più ogni turno, a patto di giocare solo Impel Down (anche nessun Character va bene)."
+  },
+  {
+    "cardCode": "OP16-041",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno quando un tuo Character {Impel Down} lascia il campo, giochi gratis dalla mano una carta [Prisoner of Impel Down].\n\nQuando perdi un Character, ne entra subito un altro."
+  },
+  {
+    "cardCode": "OP16-060",
+    "body": "Nella tua Main Phase puoi rimettere **8 DON!! attivi** nel mazzo DON!!: giochi gratis dalla mano fino a 3 Character {Admiral} con nomi diversi.\n\nÈ un colpo enorme ma costosissimo: dopo resti con pochi DON!!. Serve avere in mano più Ammiragli diversi."
+  },
+  {
+    "cardCode": "OP16-079",
+    "body": "Quando un Character {Land of Wano} **viene giocato dal cestino**, guadagna [Rush] per il turno: può attaccare subito.\n\nIl mazzo usa gli effetti che rigiocano Character dal cestino."
+  },
+  {
+    "cardCode": "OP16-080",
+    "body": "Nel turno avversario tutti i tuoi Character hanno **+1 costo** (utile contro gli effetti che colpiscono i costi bassi).\n\nUna volta per turno, quando l’avversario attacca, puoi scartare una carta con [Trigger]: sposti l’attacco sul tuo Leader o su un tuo Character {Blackbeard Pirates}."
+  },
+  {
+    "cardCode": "OP16-002",
+    "body": "Quando lo giochi puoi mostrare dalla mano un Character con **esattamente 8000 potenza**: peschi 1 carta."
+  },
+  {
+    "cardCode": "OP16-003",
+    "body": "Nel tuo turno il tuo Leader ha [Double Attack] e +2000 potenza.\n\nQuando lo giochi puoi mostrare 2 Character con esattamente 8000 potenza dalla mano: dai −6000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP16-005",
+    "body": "Ha [Blocker].\n\nIn mano costa **3 in meno** se hai in campo un Character “Whitebeard Pirates” con 8000 potenza o più."
+  },
+  {
+    "cardCode": "OP16-006",
+    "body": "Quando lo giochi puoi mettere a riposo 2 DON!!: metti K.O. un Character avversario con 4000 potenza o meno."
+  },
+  {
+    "cardCode": "OP16-007",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi mostrare dalla mano un Character con esattamente 8000 potenza: dai −1000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP16-008",
+    "body": "Quando lo giochi puoi mettere nel cestino un tuo Character con **potenza base esattamente 10000**: metti K.O. un Character avversario con 8000 potenza o meno."
+  },
+  {
+    "cardCode": "OP16-009",
+    "body": "Quando lo giochi puoi scartare dalla mano un Character con esattamente 8000 potenza: guadagna [Rush] e +2000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP16-010",
+    "body": "Quando lo giochi puoi mostrare dalla mano un Character con esattamente 8000 potenza: metti K.O. un Character avversario con potenza base 2000 o meno."
+  },
+  {
+    "cardCode": "OP16-011",
+    "body": "Quando lo giochi puoi mostrare un Character con esattamente 8000 potenza per pescare 1 carta.\n\nCon almeno 1 DON!! dato, quando attacca mette K.O. fino a 2 Character avversari con potenza base 2000 o meno."
+  },
+  {
+    "cardCode": "OP16-012",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi mettere a riposo 1 DON!!: se il Leader è {Red-Haired Pirates} e hai 10 DON!! in campo, giochi gratis un [Shanks] dalla mano."
+  },
+  {
+    "cardCode": "OP16-013",
+    "body": "Quando viene messo K.O., metti K.O. un Character avversario con potenza base 8000 o meno."
+  },
+  {
+    "cardCode": "OP16-014",
+    "body": "Se un tuo Character sta per lasciare il campo per un **effetto avversario**, puoi invece mettere K.O. Marco.\n\nQuando Marco viene messo K.O., puoi scartare un Character con esattamente 8000 potenza per **rigiocarlo dal cestino**."
+  },
+  {
+    "cardCode": "OP16-015",
+    "body": "In mano costa 2 in meno se il nome del tuo Leader contiene “Ace” e hai 6 o più DON!! in campo.\n\nQuando l’avversario attacca puoi scartare un Character con esattamente 8000 potenza: la potenza base del Leader e di questo Character diventa 7000 per il turno."
+  },
+  {
+    "cardCode": "OP16-017",
+    "body": "Ha [Blocker] e 8000 potenza, ma se non hai un Character “Whitebeard Pirates” di costo 8 o più ha −4000."
+  },
+  {
+    "cardCode": "OP16-018",
+    "body": "Una volta per turno, se un tuo Character {Red-Haired Pirates} sta per essere messo K.O., puoi invece scartare dalla mano un Character con 6000 potenza o più (serve proprio quel tipo di carta)."
+  },
+  {
+    "cardCode": "OP16-019",
+    "body": "Costa 9: giochi dalla mano fino a 2 Character “Whitebeard Pirates” con esattamente 8000 potenza.\n\nIl [Trigger] dà +1000 potenza al Leader per il turno."
+  },
+  {
+    "cardCode": "OP16-020",
+    "body": "Costa 0.\n- **Main**: metti a riposo 1 DON!! e mostri un Character con esattamente 8000 potenza: peschi 1 carta;\n- **Counter**: scarti 1 carta: il Leader o un Character ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP16-021",
+    "body": "Stage. Quando lo giochi, se il Leader è {Whitebeard Pirates}, guardi le prime 3 carte e ne prendi una.\n\nNella tua Main Phase puoi metterlo nel cestino per dare 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP16-024",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O. **da un effetto avversario**, metti a riposo un Character avversario."
+  },
+  {
+    "cardCode": "OP16-025",
+    "body": "Quando attacca, se hai [Antlerkov], giochi gratis dalla mano un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP16-026",
+    "body": "Quando lo giochi guardi le prime 3 carte e prendi una carta {Impel Down}; poi, in ogni caso, giochi gratis dalla mano un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP16-027",
+    "body": "Con almeno 1 DON!! dato ha +2000 potenza."
+  },
+  {
+    "cardCode": "OP16-029",
+    "body": "Quando attacca, se hai [Bunkov], giochi gratis dalla mano un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP16-030",
+    "body": "Quando lo giochi, un Character avversario a riposo **non torna attivo** nella prossima Refresh Phase dell’avversario.\n\nAlla fine del tuo turno rendi attivi tutti i tuoi Character verdi di costo 5 o meno: possono attaccare e poi bloccare."
+  },
+  {
+    "cardCode": "OP16-031",
+    "body": "Quando viene messo K.O., giochi gratis dalla mano una carta [Prisoner of Impel Down]."
+  },
+  {
+    "cardCode": "OP16-032",
+    "body": "Ha [Unblockable].\n\nQuando lo giochi, un Character avversario (non [Monkey.D.Luffy]) **non può essere messo a riposo** fino alla fine del prossimo turno avversario: non può attaccare né bloccare."
+  },
+  {
+    "cardCode": "OP16-033",
+    "body": "Ha [Unblockable].\n\nSe sta per essere messo K.O., puoi invece mettere a riposo 2 tue carte (anche lui stesso, se è attivo)."
+  },
+  {
+    "cardCode": "OP16-034",
+    "body": "Con almeno 1 DON!! dato, nel tuo turno ha +1000 potenza per ogni tuo Character con **nome diverso** (lui compreso).\n\nQuando lo giochi guardi le prime 3 carte e prendi una carta {Impel Down}."
+  },
+  {
+    "cardCode": "OP16-035",
+    "body": "Quando lo giochi metti a riposo una carta avversaria; poi puoi scartare 1 carta per dare fino a 3 DON!! a riposo al tuo Leader."
+  },
+  {
+    "cardCode": "OP16-036",
+    "body": "Quando lo giochi metti a riposo un Character avversario di costo 4 o meno.\n\nQuando attacca, la sua potenza base diventa uguale a quella del Leader avversario per il turno."
+  },
+  {
+    "cardCode": "OP16-037",
+    "body": "Quando lo giochi, se il Leader è {Impel Down}, metti a riposo un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP16-038",
+    "body": "Due usi:\n- **Main**: metti a riposo 6 DON!!: se hai 5 Character {Impel Down} con nomi diversi, rendi attivi il Leader e tutti i Character (attaccano di nuovo);\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP16-039",
+    "body": "Un tuo [Monkey.D.Luffy] guadagna [Double Attack] per il turno; poi, se il Leader è {Impel Down}, metti a riposo fino a 2 Character avversari di costo 3 o meno.\n\nIl [Trigger] mette a riposo il Leader avversario."
+  },
+  {
+    "cardCode": "OP16-040",
+    "body": "Due usi:\n- **Main**: se **tu** hai [Monkey.D.Luffy] e [Mr.3(Galdino)], un Character avversario a riposo di costo 6 o meno non torna attivo nella sua prossima Refresh Phase;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP16-042",
+    "body": "Puoi metterne **quante copie vuoi** nel mazzo, non solo 4. Molte carte {Impel Down} lo giocano o lo potenziano."
+  },
+  {
+    "cardCode": "OP16-043",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O. puoi mettere a riposo il tuo Leader o uno Stage {Dressrosa}: rimandi in mano un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP16-044",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP16-045",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi rimandare in mano un tuo Character di costo 2 o più (anche lui stesso) per giocare gratis dalla mano un Character {Impel Down} di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP16-047",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: se l’avversario ha 8 o più carte in mano, **lui sceglie** 2 carte e le mette in fondo al suo mazzo."
+  },
+  {
+    "cardCode": "OP16-048",
+    "body": "Quando lo giochi, se il Leader è {Impel Down}, peschi 1 carta e giochi gratis un [Prisoner of Impel Down] dalla mano.\n\nUna volta per turno, quando l’avversario attacca, un tuo [Prisoner of Impel Down] guadagna [Blocker] per il turno (può bloccare anche l’attacco diretto a sé)."
+  },
+  {
+    "cardCode": "OP16-049",
+    "body": "Nella tua Main Phase puoi metterlo a riposo per pescare 1 carta."
+  },
+  {
+    "cardCode": "OP16-050",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi rimandare in mano un tuo Character di costo 2 o più (anche lui stesso): peschi 2 carte e ne scarti 1."
+  },
+  {
+    "cardCode": "OP16-051",
+    "body": "Quando lo giochi, se hai 5 carte o meno in mano, peschi 2 carte."
+  },
+  {
+    "cardCode": "OP16-052",
+    "body": "Una volta per turno, nella tua Main Phase, dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP16-053",
+    "body": "Quando attacca, se hai 6 carte o meno in mano, peschi 1 carta."
+  },
+  {
+    "cardCode": "OP16-054",
+    "body": "Quando lo giochi peschi 1 carta.\n\nCon almeno 1 DON!! dato, nel tuo turno, se hai 5 o più carte in mano ha +3000 potenza."
+  },
+  {
+    "cardCode": "OP16-055",
+    "body": "Quando lo giochi peschi 1 carta.\n\nCon almeno 1 DON!! dato, quando attacca la sua potenza base diventa uguale a quella del Leader avversario per il turno."
+  },
+  {
+    "cardCode": "OP16-056",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: peschi 2 carte e un Character avversario di costo 9 o meno **non può attaccare** fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP16-057",
+    "body": "Counter: se hai 2 o più carte [Prisoner of Impel Down], il Leader o un Character ha +4000 potenza per la battaglia.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP16-058",
+    "body": "Due usi:\n- **Main**: se hai 10 DON!! in campo, la potenza base di tutti i tuoi [Prisoner of Impel Down] diventa 7000 per il turno;\n- **Counter**: un tuo [Buggy] ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP16-059",
+    "body": "Due usi:\n- **Main**: metti a riposo 7 DON!!: guardi le prime 5 carte e giochi fino a 2 Character {Impel Down} con 6000 potenza o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP16-063",
+    "body": "Quando lo giochi prendi fino a 2 DON!! a riposo dal mazzo DON!!.\n\nUna volta per turno, nella tua Main Phase, paghi DON!! −1: un Character avversario **non può usare [Blocker]** per il turno."
+  },
+  {
+    "cardCode": "OP16-064",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi una carta {Navy} che non sia [Koby]."
+  },
+  {
+    "cardCode": "OP16-065",
+    "body": "Quando lo giochi puoi pagare DON!! −1: dai −6000 potenza a un Character avversario fino alla fine del prossimo turno avversario.\n\nUna volta per turno, nella tua Main Phase, metti a riposo 1 DON!!: se il Leader è {Navy}, prendi fino a 2 DON!! attivi dal mazzo DON!!."
+  },
+  {
+    "cardCode": "OP16-066",
+    "body": "Quando lo giochi, se il Leader è {Navy}, prendi fino a 2 DON!! a riposo; poi peschi 2 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "OP16-067",
+    "body": "Quando lo giochi guardi le prime 5 carte, prendi una carta {Navy}, poi scarti comunque 1 carta."
+  },
+  {
+    "cardCode": "OP16-068",
+    "body": "Quando lo giochi prendi 1 DON!! attivo dal mazzo DON!!.\n\nQuando attacca, se il Leader è {Donquixote Pirates}, ha +3000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP16-069",
+    "body": "Quando lo giochi **e** ogni volta che attacca, prendi 1 DON!! attivo dal mazzo DON!!."
+  },
+  {
+    "cardCode": "OP16-070",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi mettere a riposo 2 DON!!: se il Leader è {Navy}, prendi 1 DON!! a riposo dal mazzo DON!!."
+  },
+  {
+    "cardCode": "OP16-071",
+    "body": "Quando lo giochi puoi scartare 1 carta per prendere 1 DON!! a riposo dal mazzo DON!!.\n\nQuando viene messo K.O., prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "OP16-072",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi una carta {Impel Down}."
+  },
+  {
+    "cardCode": "OP16-073",
+    "body": "Quando lo giochi prendi 1 DON!! attivo e 1 a riposo dal mazzo DON!!.\n\nAlla fine del tuo turno puoi pagare DON!! −2: torna attivo e ha [Blocker] fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP16-074",
+    "body": "Quando lo giochi, se il Leader è {Impel Down}, l’avversario rimette 1 DON!! (a sua scelta) nel suo mazzo DON!!.\n\nQuando viene messo K.O., l’avversario ne rimette 4."
+  },
+  {
+    "cardCode": "OP16-075",
+    "body": "Quando lo giochi, se il Leader è {Navy}, prendi 1 DON!! attivo e 1 a riposo dal mazzo DON!!."
+  },
+  {
+    "cardCode": "OP16-076",
+    "body": "Due usi:\n- **Main**: metti a riposo 3 DON!!: fino a 3 tuoi Character {Admiral} hanno +2000 potenza per il turno;\n- **Counter**: se hai un Character {Admiral}, il Leader o un Character ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP16-077",
+    "body": "Guardi le prime 5 carte, prendi fino a 2 carte {Navy}, poi scarti comunque 1 carta."
+  },
+  {
+    "cardCode": "OP16-078",
+    "body": "Stage. Quando lo giochi guardi le prime 5 carte e prendi una carta {Navy}.\n\nNella tua Main Phase paghi DON!! −1 e lo metti a riposo: peschi 1 carta e ne scarti 1."
+  },
+  {
+    "cardCode": "OP16-081",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: se in campo c’è un Character di costo 8 o più (anche avversario), dai −2000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP16-082",
+    "body": "In campo ha +3 costo.\n\nQuando lo giochi, se il Leader è {Land of Wano}, guardi le prime 5 carte, prendi una carta {Land of Wano} e metti le altre nel cestino."
+  },
+  {
+    "cardCode": "OP16-083",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi scartare un Character di costo 8 o più per pescare 2 carte."
+  },
+  {
+    "cardCode": "OP16-084",
+    "body": "Nella tua Main Phase, se il suo costo è **20 o più** (per esempio grazie a [Shinobu]), puoi metterlo nel cestino: se hai 9 o più DON!! in campo, giochi dal cestino un [Kouzuki Momonosuke] di costo 9."
+  },
+  {
+    "cardCode": "OP16-085",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, giochi dal cestino un Character {Land of Wano} di costo 6 o meno (non un altro [Kouzuki Momonosuke])."
+  },
+  {
+    "cardCode": "OP16-087",
+    "body": "Quando lo giochi puoi metterlo nel cestino: se il Leader è {Land of Wano}, peschi 1 carta e un tuo [Kouzuki Momonosuke] ha +20 costo per il turno."
+  },
+  {
+    "cardCode": "OP16-088",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP16-089",
+    "body": "Ha [Rush: Character].\n\nQuando lo giochi peschi 2 carte e ne scarti 2, poi dai −4 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP16-090",
+    "body": "Quando lo giochi peschi 2 carte e ne scarti 2, poi metti K.O. un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP16-091",
+    "body": "Quando lo giochi, se il Leader è {Land of Wano}, guardi le prime 4 carte, prendi una carta {Land of Wano} (non [Nami]) e metti le altre nel cestino."
+  },
+  {
+    "cardCode": "OP16-092",
+    "body": "Quando lo giochi puoi scartare un Character di costo 8 o più per pescare 2 carte."
+  },
+  {
+    "cardCode": "OP16-093",
+    "body": "Quando lo giochi peschi 2 carte e ne scarti 2, poi dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP16-094",
+    "body": "Quando viene messo K.O., l’avversario scarta 2 carte.\n\nUna volta per turno, nella tua Main Phase, dai 1 DON!! a riposo a un tuo Leader o Character {Land of Wano}."
+  },
+  {
+    "cardCode": "OP16-095",
+    "body": "Quando lo giochi, un tuo Character nero {Land of Wano} guadagna [Unblockable] per il turno."
+  },
+  {
+    "cardCode": "OP16-096",
+    "body": "Ha [Unblockable].\n\nQuando viene messo K.O., giochi dal cestino un [Yamato] di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP16-097",
+    "body": "Quando lo giochi riprendi in mano dal cestino un Character {Land of Wano} di costo 6 o meno; poi, in ogni caso, giochi gratis dalla mano un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP16-098",
+    "body": "Quando lo giochi peschi 1 carta e ne scarti 1.\n\nNella tua Main Phase puoi metterlo nel cestino per giocare dal cestino un [Yamato] nero di costo **esattamente 8**."
+  },
+  {
+    "cardCode": "OP16-099",
+    "body": "Due usi:\n- **Main**: metti a riposo 6 DON!!: scarti le prime 5 carte del mazzo, poi giochi dal cestino un Character {Land of Wano} di costo 6 o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP16-100",
+    "body": "Due usi:\n- **Main**: metti a riposo 2 DON!!: se in questo turno è stato messo K.O. un Character avversario (anche dal suo stesso effetto), il tuo Leader [Yamato] torna attivo;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP16-101",
+    "body": "Il Leader o un Character ha +3000 potenza per il turno; poi, se hai 10 o più carte nel cestino (conta anche questa), metti K.O. un Character avversario di costo 2 o meno.\n\nIl [Trigger] riprende in mano un [Yamato] dal cestino."
+  },
+  {
+    "cardCode": "OP16-102",
+    "body": "Quando viene messo K.O. peschi 1 carta e giochi un [Fullalead] dalla mano o dal cestino.\n\nIl [Trigger] attiva lo stesso effetto quando esce dalla Vita."
+  },
+  {
+    "cardCode": "OP16-103",
+    "body": "Quando viene messo K.O. **nel turno avversario**, se il Leader è {Blackbeard Pirates}, peschi 1 carta e dai −3000 potenza per il turno al Leader o a un Character avversario.\n\nIl [Trigger] attiva lo stesso effetto (solo nel turno avversario)."
+  },
+  {
+    "cardCode": "OP16-104",
+    "body": "Quando attacca, la sua potenza base diventa uguale a quella di un Character avversario scelto, per il turno.\n\nIl [Trigger] fa pescare 1 carta e giocare dal cestino un Character {Blackbeard Pirates} di costo 1."
+  },
+  {
+    "cardCode": "OP16-105",
+    "body": "Il [Trigger]: se hai 1 Vita o meno, giochi dal cestino fino a un [Absalom], un [Dr. Hogback] e una [Perona] di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP16-106",
+    "body": "Quando viene messo K.O., se il Leader è {Blackbeard Pirates}, peschi 1 carta e la potenza base del Leader o di un Character diventa 7000 per il turno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP16-107",
+    "body": "Quando viene messo K.O., l’avversario prende in mano la prima carta della sua Vita.\n\nIl [Trigger]: scarti 1 carta per giocarlo gratis (serve almeno una carta in mano)."
+  },
+  {
+    "cardCode": "OP16-108",
+    "body": "Quando lo giochi puoi scartare 1 carta: metti a faccia in su in cima alla Vita una carta {Blackbeard Pirates} di costo 6 o meno dal cestino.\n\nIl [Trigger] fa pescare 2 carte."
+  },
+  {
+    "cardCode": "OP16-109",
+    "body": "Quando viene messo K.O., se il Leader è {Blackbeard Pirates}, peschi 1 carta e metti K.O. fino a 2 Character avversari di costo 1 o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP16-110",
+    "body": "Quando viene messo K.O. peschi 1 carta e metti a riposo un Character avversario di costo 6 o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP16-111",
+    "body": "Ha [Blocker].\n\nIl [Trigger]: se hai 2 Vite o meno (contando anche questa), lo giochi gratis."
+  },
+  {
+    "cardCode": "OP16-113",
+    "body": "Se hai 2 Vite o meno ha [Blocker].\n\nIl [Trigger]: se il Leader è {Kuja Pirates}, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP16-114",
+    "body": "Quando viene messo K.O. metti K.O. un Character avversario di costo 4 o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP16-115",
+    "body": "Se il Leader è {Blackbeard Pirates}, riprendi in mano dal cestino una carta con [Trigger] (non un [Black Vortex]).\n\nIl [Trigger] annulla per il turno l’effetto del Leader o di un Character avversario."
+  },
+  {
+    "cardCode": "OP16-116",
+    "body": "Costa 8: se hai 10 DON!! in campo, giochi dalla mano un [Marshall.D.Teach], poi l’avversario prende in mano la prima carta della sua Vita.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP16-117",
+    "body": "Puoi scartare una carta con [Trigger]: annulli per il turno gli effetti di un Character avversario di costo 8 o meno.\n\nIl [Trigger] riprende in mano dal cestino una carta {Blackbeard Pirates}."
+  },
+  {
+    "cardCode": "OP16-118",
+    "body": "Finché è in campo, i Character con **8000 potenza** nella tua mano hanno Counter +2000 (anche con più copie resta +2000).\n\nQuando lo giochi e quando viene messo K.O., guardi le prime 5 carte e prendi un [Monkey.D.Luffy] o una carta “Whitebeard Pirates”."
+  },
+  {
+    "cardCode": "OP16-119",
+    "body": "Quando lo giochi guardi le prime 3 carte, ne metti una **coperta** in cima alla tua Vita e le altre in fondo al mazzo.\n\nIl [Trigger] annulla per il turno l’effetto di un Character avversario e poi mette K.O. un Character avversario di costo 5 o meno."
+  }
+]

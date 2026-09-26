@@ -29,7 +29,7 @@ test('Collection: +/− dal dettaglio, lingue separate, totali nella pagina', as
   const sql = postgres(DB_URL, { max: 1, onnotice: () => undefined })
   try {
     await sql`insert into public.sets (series_id, code, name) values (${SERIES}, ${`ZZ-${String(SERIES)}`}, 'Set di prova E2E')`
-    await sql`insert into public.cards (card_code, name, category) values (${CODE}, ${NAME}, 'Character')`
+    await sql`insert into public.cards (card_code, name, category, effect) values (${CODE}, ${NAME}, 'Character', 'E2E effect.')`
     await sql`
       insert into public.printings (print_id, card_code, series_id, rarity)
       values (${CODE}, ${CODE}, ${SERIES}, 'C'), (${`${CODE}_p1`}, ${CODE}, ${SERIES}, 'SR')
@@ -98,6 +98,15 @@ test('Collection: +/− dal dettaglio, lingue separate, totali nella pagina', as
         .getByRole('region', { name: 'Nella tua Collection' })
         .getByText('1 copia di questa stampa'),
     ).toBeVisible()
+
+    // Richiesta di spiegazione (RIB-54): la carta ha un effetto ma nessuna spiegazione.
+    await page.getByRole('button', { name: 'Chiedi una spiegazione' }).click()
+    await expect(page.getByText(/^Richiesta inviata/)).toBeVisible()
+    await page.reload()
+    await expect(
+      page.getByText('Hai chiesto la spiegazione di questa carta: in coda.'),
+    ).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Chiedi una spiegazione' })).toHaveCount(0)
 
     // Pagina Collezione: 4 copie, 1 Card diversa, due tessere.
     await page.goto('/collezione')

@@ -103,6 +103,27 @@ export type Database = {
         }
         Relationships: []
       }
+      card_explanations: {
+        Row: {
+          body: string
+          card_code: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          card_code: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          card_code?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       card_faqs: {
         Row: {
           card_code: string
@@ -312,6 +333,42 @@ export type Database = {
             referencedColumns: ["print_id"]
           },
         ]
+      }
+      explanation_reports: {
+        Row: {
+          card_code: string
+          created_at: string
+          id: number
+          kind: string
+          note: string | null
+          reason: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          card_code: string
+          created_at?: string
+          id?: never
+          kind: string
+          note?: string | null
+          reason?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          card_code?: string
+          created_at?: string
+          id?: never
+          kind?: string
+          note?: string | null
+          reason?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       job_runs: {
         Row: {

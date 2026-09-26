@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import type { CatalogSet } from './catalog-data'
 import {
+  BAN_FILTERS,
   CATEGORIES,
   COLORS,
   EFFECT_SHORTCUTS,
@@ -255,6 +256,21 @@ export function FiltersPanel({
             }}
           >
             {label}
+          </Chip>
+        ))}
+      </Group>
+
+      {/* RIB-50: la Ban List in vigore oggi (le voci annunciate per il futuro non contano). */}
+      <Group title={t('filters.ban')} hint={t('filters.banHint')}>
+        {BAN_FILTERS.map((id) => (
+          <Chip
+            key={id}
+            selected={filters.ban.includes(id)}
+            onClick={() => {
+              update({ ban: toggle(filters.ban, id) })
+            }}
+          >
+            {t(`filters.banOption.${id}`)}
           </Chip>
         ))}
       </Group>

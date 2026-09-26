@@ -1,0 +1,114 @@
+[
+  {
+    "cardCode": "OP05-001",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno **nel turno avversario**: se un tuo Character con 5000 potenza o più sta per essere messo K.O., puoi dargli −1000 potenza per il turno invece di farlo andare K.O.\n\nProtegge un Character grande una volta per turno, sia in battaglia sia contro gli effetti. Ricorda di lasciare un DON!! sul Leader alla fine del tuo turno."
+  },
+  {
+    "cardCode": "OP05-002",
+    "body": "Una volta per turno, nella tua Main Phase, scarti dalla mano una carta {Revolutionary Army}: fino a 3 tuoi Character {Revolutionary Army} **o con [Trigger]** guadagnano +3000 potenza per il turno.\n\nÈ un grande bonus d’attacco per tutto il campo; conviene usarlo quando hai più Character pronti ad attaccare."
+  },
+  {
+    "cardCode": "OP05-022",
+    "body": "Il Leader ha [Blocker]: può mettersi a riposo per subire lui un attacco diretto a un tuo Character.\n\nAlla fine del tuo turno, se hai 6 carte o meno in mano, il Leader torna **attivo**. Così puoi attaccare con il Leader e averlo comunque pronto a bloccare nel turno avversario."
+  },
+  {
+    "cardCode": "OP05-041",
+    "body": "Una volta per turno, nella tua Main Phase, puoi scartare 1 carta per pescarne 1 (per migliorare la mano).\n\nQuando il Leader attacca, dai −1 costo per il turno a un Character avversario: utile con le carte nere che eliminano i Character di costo basso."
+  },
+  {
+    "cardCode": "OP05-060",
+    "body": "Una volta per turno, nella tua Main Phase, puoi prendere in mano la prima carta della tua Vita: se in campo hai **0 DON!! oppure 3 o più**, prendi 1 DON!! dal mazzo DON!! e lo metti attivo.\n\nScambi una Vita con un DON!! in più (e una carta in mano). La condizione “0 DON!!” si usa dopo aver speso tutto con i costi DON!! −X."
+  },
+  {
+    "cardCode": "OP05-098",
+    "body": "Una volta per turno, **nel turno avversario**, quando le tue Vite scendono a 0 aggiungi la prima carta del mazzo in cima alla tua Vita, poi scarti 1 carta dalla mano.\n\nÈ come avere una Vita in più ogni turno avversario: all’avversario serve un colpo in più per vincere. Lo scarto è obbligatorio, se hai carte in mano."
+  },
+  {
+    "cardCode": "OP05-018",
+    "body": "Counter da 3 DON!!: il Leader o un Character ha +3000 potenza per la battaglia, poi giochi gratis dalla mano un Character {Revolutionary Army} con 5000 potenza o meno.\n\nIl [Trigger] gioca gratis lo stesso tipo di Character."
+  },
+  {
+    "cardCode": "OP05-019",
+    "body": "Dai −4000 potenza per il turno a un Character avversario; poi, se hai 2 Vite o meno, metti K.O. un Character avversario (anche un altro) con 0 potenza o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP05-020",
+    "body": "Il Leader o un Character ha +2000 potenza per il turno, poi metti K.O. un Character avversario con 2000 potenza o meno.\n\nIl [Trigger] dà +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP05-021",
+    "body": "Stage. Nella tua Main Phase puoi scartare 1 carta e metterlo a riposo: guardi le prime 3 carte e prendi una carta {Revolutionary Army}."
+  },
+  {
+    "cardCode": "OP05-037",
+    "body": "Counter da 0 DON!!: scarti 1 carta e il Leader o un Character ha +3000 potenza per la battaglia.\n\nIl [Trigger] mette a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP05-038",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +4000 potenza per la battaglia; poi puoi scartare 1 carta per rendere attivi fino a 3 DON!!.\n\nIl [Trigger] mette a riposo il Leader o un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP05-039",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +4000 potenza per la battaglia, poi metti K.O. un Character avversario a riposo di costo 3 o meno (se è quello che attacca, la battaglia finisce).\n\nIl [Trigger] mette K.O. un Character avversario a riposo di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP05-040",
+    "body": "Stage di costo 5. Se il Leader è [Donquixote Doflamingo], nessun Character di costo 5 o meno (tuo o avversario) torna attivo nelle Refresh Phase.\n\nAlla fine del tuo turno, se hai 10 DON!! in campo, metti K.O. tutti i Character a riposo di costo 5 o meno, poi lo Stage va nel cestino."
+  },
+  {
+    "cardCode": "OP05-057",
+    "body": "Il Leader o un Character ha +3000 potenza per il turno, poi metti in fondo al mazzo un Character di costo 2 o meno.\n\nIl [Trigger] rimanda in mano un Character di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP05-058",
+    "body": "Costa 8: tutti i Character di costo 3 o meno (anche i tuoi) vanno in fondo al mazzo; poi tu e l’avversario scartate fino a restare con 5 carte in mano.\n\nIl [Trigger] manda in fondo al mazzo tutti i Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP05-059",
+    "body": "Costa 5: se il Leader è multicolore peschi 1 carta; poi rimandi in mano un Character di costo 5 o meno.\n\nIl [Trigger]: con Leader multicolore peschi 2 carte."
+  },
+  {
+    "cardCode": "OP05-076",
+    "body": "Guardi le prime 3 carte e prendi una carta {Straw Hat Crew}, {Kid Pirates} o {Heart Pirates}.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP05-077",
+    "body": "DON!! −1: dai −5000 potenza per il turno a un Character avversario.\n\nIl [Trigger] ti dà 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP05-078",
+    "body": "DON!! −1: un tuo Leader o Character {Kid Pirates} ha +5000 potenza per il turno.\n\nIl [Trigger] ti dà 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP05-094",
+    "body": "Dai −3 costo per il turno a un Character avversario; poi un Character avversario di costo 0 non torna attivo nella prossima Refresh Phase.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP05-095",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +4000 potenza per la battaglia; con 15 o più carte nel cestino (conta anche questa), metti K.O. un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP05-096",
+    "body": "Costa 3. Scegli, contro un Character avversario di costo 1 o meno: K.O., rimandarlo in mano, oppure metterlo a faccia in su in cima o in fondo alla sua Vita. Poi, se hai un Character {Celestial Dragons}, peschi 1 carta.\n\nIl [Trigger] mette K.O. o rimanda in mano un Character avversario di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP05-097",
+    "body": "Stage. Nel tuo turno i Character {Celestial Dragons} di costo 2 o più che giochi dalla mano costano 1 in meno."
+  },
+  {
+    "cardCode": "OP05-114",
+    "body": "Counter: il Leader o un Character ha +2000 potenza per la battaglia; se l’avversario ha 2 Vite o meno, altri +2000.\n\nIl [Trigger] mette K.O. un Character avversario con costo non superiore alle Vite dell’avversario."
+  },
+  {
+    "cardCode": "OP05-115",
+    "body": "Il Leader o un Character ha +3000 potenza per il turno; se hai 1 Vita o meno, metti a riposo un Character avversario di costo 4 o meno.\n\nIl [Trigger]: scarti 2 carte per aggiungere in cima alla Vita la prima carta del mazzo."
+  },
+  {
+    "cardCode": "OP05-116",
+    "body": "Metti K.O. un Character avversario con costo non superiore alle Vite dell’avversario.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP05-117",
+    "body": "Stage. Quando lo giochi guardi le prime 5 carte e prendi una carta {Sky Island}."
+  }
+]

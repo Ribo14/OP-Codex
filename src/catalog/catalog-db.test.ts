@@ -8,6 +8,7 @@ const SNAPSHOT: CatalogSnapshot = {
   cards: [],
   printings: [],
   faqs: [],
+  explanations: [],
   watermark: '2026-09-20T00:00:00Z',
   checkedAt: 1000,
 }

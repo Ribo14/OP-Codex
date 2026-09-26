@@ -1,0 +1,922 @@
+[
+  {
+    "cardCode": "EB01-001",
+    "body": "Tutti i tuoi Character {Land of Wano} **senza Counter** hanno un Counter +1000: dalla mano possono difenderti come le altre carte.\n\nCon almeno 1 DON!! dato al Leader, quando attacca, se hai un Character {Land of Wano} di costo 5 o più, il Leader ha +1000 potenza fino all’inizio del tuo prossimo turno (quindi anche in difesa)."
+  },
+  {
+    "cardCode": "EB01-021",
+    "body": "Alla fine del tuo turno puoi rimandare in mano un tuo Character {Impel Down} di costo 2 o più: prendi 1 DON!! dal mazzo DON!! e lo metti **attivo**.\n\nGuadagni un DON!! in più e puoi rigiocare il Character (riusando il suo [On Play]) nel turno successivo."
+  },
+  {
+    "cardCode": "EB01-040",
+    "body": "Una volta per turno, nella tua Main Phase, puoi girare a faccia in su la prima carta della tua Vita: metti **K.O.** un Character avversario di costo 0.\n\nSi usa dopo aver abbassato il costo di un Character avversario con altri effetti."
+  },
+  {
+    "cardCode": "EB02-010",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −2: se in campo hai **solo Character {Straw Hat Crew}**, rendi attivi fino a 2 DON!!, poi il Leader ha +1000 potenza fino alla fine del prossimo turno avversario.\n\nI DON!! restituiti tornano in pratica attivi, e in più il Leader è più resistente."
+  },
+  {
+    "cardCode": "EB03-001",
+    "body": "Una volta per turno, se un tuo Character di **costo base 4 o più** sta per essere messo K.O., puoi invece scartare 1 carta dalla mano.\n\nNella tua Main Phase puoi mettere a riposo il Leader: dai −2000 potenza per il turno a un Character avversario, poi un tuo Character **senza [When Attacking]** guadagna [Rush] per il turno."
+  },
+  {
+    "cardCode": "EB04-001",
+    "body": "Nel turno avversario, se hai 1 Vita o nessuna, il Leader ha **+2000 potenza**: più difficile finirti.\n\nUna volta per turno, nella tua Main Phase, dai −1000 potenza per il turno a un Character avversario; poi, se hai 2 Vite o più, puoi prendere in mano la prima carta della tua Vita."
+  },
+  {
+    "cardCode": "EB01-002",
+    "body": "Quando lo giochi dai 1 DON!! a riposo al Leader o a un Character.\n\nUna volta per turno, quando l’avversario attacca, puoi scartare 1 carta: se il Leader è {Land of Wano} o {Whitebeard Pirates}, dai −2000 potenza per il turno al Leader o a un Character avversario."
+  },
+  {
+    "cardCode": "EB01-003",
+    "body": "Ha [Rush].\n\nQuando attacca, se l’avversario ha 2 Vite o meno, ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "EB01-004",
+    "body": "Quando attacca puoi dare −5000 potenza per il turno al tuo Leader, se è attivo: dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "EB01-006",
+    "body": "Ha [Blocker].\n\nCon almeno 2 DON!! dati, quando attacca dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "EB01-007",
+    "body": "Una volta per turno, nella tua Main Phase, dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "EB01-008",
+    "body": "Una volta per turno, se sta per essere messo K.O. da un effetto, puoi invece scartare un Event o uno Stage dalla mano."
+  },
+  {
+    "cardCode": "EB01-009",
+    "body": "Counter da 1 DON!!: guardi le prime 5 carte e giochi gratis un Character {Animal} di costo 3 o meno (per esempio un [Blocker] in più)."
+  },
+  {
+    "cardCode": "EB01-010",
+    "body": "Counter da 3 DON!!: metti K.O. un Character avversario con potenza base 6000 o meno (di solito quello che attacca).\n\nIl [Trigger] fa lo stesso con potenza base 5000 o meno."
+  },
+  {
+    "cardCode": "EB01-011",
+    "body": "Stage. Nella tua Main Phase puoi metterlo a riposo e mettere in fondo al mazzo un tuo Character con potenza base 1000: peschi 1 carta."
+  },
+  {
+    "cardCode": "EB01-012",
+    "body": "Quando lo giochi e quando attacca, se il Leader è {Supernovas} e non hai altri [Cavendish] in campo, rendi attivi fino a 2 DON!!."
+  },
+  {
+    "cardCode": "EB01-013",
+    "body": "Nella tua Main Phase puoi metterla nel cestino: giochi gratis dalla mano un Character {Land of Wano} di costo 5 o meno (non [Kouzuki Hiyori]), poi peschi 1 carta."
+  },
+  {
+    "cardCode": "EB01-014",
+    "body": "Con almeno 1 DON!! dato, nel tuo turno ha +1000 potenza ogni 3 tuoi DON!! a riposo."
+  },
+  {
+    "cardCode": "EB01-015",
+    "body": "Quando lo giochi metti a riposo un Character avversario di costo 2 o meno."
+  },
+  {
+    "cardCode": "EB01-016",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: metti K.O. un Character avversario a riposo di costo 1 o meno."
+  },
+  {
+    "cardCode": "EB01-017",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "EB01-019",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +4000 potenza per la battaglia, poi guardi le prime 3 carte e prendi un Character {Donquixote Pirates}."
+  },
+  {
+    "cardCode": "EB01-020",
+    "body": "Se il Leader è {Supernovas}, rimandi in mano un tuo Character e giochi gratis dalla mano un Character di costo 2 o meno di **colore diverso** (serve un Character da rimandare).\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "EB01-022",
+    "body": "Alla fine del tuo turno, se hai 2 carte o meno in mano, peschi 2 carte."
+  },
+  {
+    "cardCode": "EB01-023",
+    "body": "Quando lo giochi peschi 1 carta."
+  },
+  {
+    "cardCode": "EB01-024",
+    "body": "Con 4 carte o meno in mano, tutti i tuoi Character {SMILE} (lui compreso) hanno +1000 potenza."
+  },
+  {
+    "cardCode": "EB01-026",
+    "body": "Con almeno 1 DON!! dato, quando attacca, se hai 1 carta o meno in mano, rimandi in mano un Character di costo 3 o meno."
+  },
+  {
+    "cardCode": "EB01-027",
+    "body": "Se il Leader è “Baroque Works”, ha +1000 potenza ogni 2 Event nel cestino.\n\nQuando lo giochi peschi 2 carte e ne scarti 1."
+  },
+  {
+    "cardCode": "EB01-028",
+    "body": "Counter: se il Leader è {Impel Down}, il Leader o un Character ha +2000 potenza per la battaglia, poi l’avversario sceglie un suo Character **attivo** e lo riprende in mano.\n\nIl [Trigger] manda in fondo al mazzo un Character di costo 3 o meno."
+  },
+  {
+    "cardCode": "EB01-029",
+    "body": "Counter: riveli la prima carta del mazzo; se costa 4 o più puoi rimandare in mano un tuo Character (per salvarlo) e la carta va in fondo, altrimenti torna in cima.\n\nIl [Trigger] rimanda in mano un Character di costo 8 o meno."
+  },
+  {
+    "cardCode": "EB01-030",
+    "body": "Stage. Nella tua Main Phase puoi mettere lui e 1 carta della mano in fondo al mazzo: peschi 2 carte.\n\nCon il [Trigger] lo giochi gratis."
+  },
+  {
+    "cardCode": "EB01-031",
+    "body": "Quando la giochi puoi pagare DON!! −1: se il Leader è {Water Seven}, riprendi in mano dal cestino fino a 2 Character di costo 4 o meno."
+  },
+  {
+    "cardCode": "EB01-033",
+    "body": "Quando lo giochi puoi pagare DON!! −1: se il Leader è {Water Seven}, giochi dalla mano o dal cestino un Character {Water Seven} di costo 5 (non [Blueno])."
+  },
+  {
+    "cardCode": "EB01-034",
+    "body": "Ha [Blocker].\n\nUna volta per turno, quando l’avversario attacca, puoi pagare DON!! −1: se il Leader è “Baroque Works”, prendi 1 DON!! attivo dal mazzo DON!!."
+  },
+  {
+    "cardCode": "EB01-035",
+    "body": "Quando la giochi, se il Leader è “Baroque Works”, il Leader o un Character ha +1000 potenza per il turno.\n\nIl [Trigger]: DON!! −1 per giocarla gratis."
+  },
+  {
+    "cardCode": "EB01-036",
+    "body": "Ha [Rush].\n\nQuando viene messo K.O., se il Leader è {Impel Down}, prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "EB01-037",
+    "body": "Una volta per turno, quando l’avversario attacca, puoi pagare DON!! −1: metti K.O. un Character avversario di costo 2 o meno."
+  },
+  {
+    "cardCode": "EB01-038",
+    "body": "Counter con DON!! −1: se il Leader è “Baroque Works”, sposti l’attacco su un tuo Character (anche attivo; quel Character non può poi usare [Blocker]).\n\nIl [Trigger]: DON!! −1 per pescare 2 carte."
+  },
+  {
+    "cardCode": "EB01-039",
+    "body": "Costa 5 più DON!! −1: metti K.O. un Character avversario di costo 8 o meno.\n\nIl [Trigger] ti dà 1 DON!! attivo."
+  },
+  {
+    "cardCode": "EB01-042",
+    "body": "Nella tua Main Phase puoi metterla nel cestino: giochi dalla mano, a riposo, un Character {Dressrosa} di costo 3 o meno (non [Scarlet]), poi dai −2 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "EB01-043",
+    "body": "Quando lo giochi puoi mettere 3 carte “CP” del cestino in fondo al mazzo: giochi dal cestino, a riposo, un Character “CP” di costo 4 o meno (non [Spandine])."
+  },
+  {
+    "cardCode": "EB01-044",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: un tuo [Spandam] ha +3000 potenza per il turno."
+  },
+  {
+    "cardCode": "EB01-045",
+    "body": "Quando lo giochi, se l’avversario ha un Character di costo 0, guadagna [Rush]."
+  },
+  {
+    "cardCode": "EB01-046",
+    "body": "Quando lo giochi e quando attacca, dai −1 costo per il turno a un Character avversario, poi metti K.O. un Character avversario di costo 0."
+  },
+  {
+    "cardCode": "EB01-047",
+    "body": "Una volta per turno, quando un Character (qualsiasi, anche lui) viene messo K.O., peschi 1 carta e ne scarti 1."
+  },
+  {
+    "cardCode": "EB01-048",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: dai −4 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "EB01-049",
+    "body": "Quando lo giochi metti K.O. un Character avversario di costo 2 o meno."
+  },
+  {
+    "cardCode": "EB01-050",
+    "body": "Counter da 3 DON!!: se hai 30 o più carte nel cestino, aggiungi la prima carta del mazzo in cima alla Vita."
+  },
+  {
+    "cardCode": "EB01-051",
+    "body": "Costa 4: puoi scartare le prime 2 carte del mazzo (servono almeno 2 carte) per mettere K.O. un Character avversario di costo 5 o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "EB01-052",
+    "body": "Ha [Blocker].\n\nQuando la giochi scegli: guardi tutta la Vita avversaria e la riordini come vuoi, oppure giri a faccia in giù tutte le tue Vite."
+  },
+  {
+    "cardCode": "EB01-053",
+    "body": "Quando lo giochi metti a faccia in su in cima o in fondo alla Vita avversaria un suo Character di costo 3 o meno.\n\nIl [Trigger] dà in totale −3000 potenza per il turno fino a 2 tra Leader e Character avversari."
+  },
+  {
+    "cardCode": "EB01-054",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, se l’avversario ha 1 Vita o meno, metti K.O. un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "EB01-056",
+    "body": "Quando la giochi puoi prendere in mano la prima o l’ultima carta della Vita: peschi 1 carta."
+  },
+  {
+    "cardCode": "EB01-057",
+    "body": "Ha [Blocker].\n\nQuando viene messa K.O. da un effetto avversario, aggiungi la prima carta del mazzo in cima alla tua Vita."
+  },
+  {
+    "cardCode": "EB01-058",
+    "body": "Con almeno 1 DON!! dato, nel tuo turno, se hai 2 Vite o meno, ha +2000 potenza."
+  },
+  {
+    "cardCode": "EB01-059",
+    "body": "Costa 6: metti K.O. un Character avversario qualsiasi, poi mandi nel cestino Vite finché ne hai 1 (se ne hai già 1 o meno, non cambia nulla).\n\nIl [Trigger] mette K.O. un Character avversario con costo non superiore alle Vite totali (senza questa carta)."
+  },
+  {
+    "cardCode": "EB01-060",
+    "body": "Costa 4: giochi dalla mano o dal cestino un [Enel] di costo 7 o meno, poi mandi nel cestino Vite finché ne hai 1.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "EB01-061",
+    "body": "Quando lo giochi prendi 1 DON!! attivo.\n\nQuando attacca, la sua potenza base diventa uguale a quella di un Character avversario scelto, per il turno (i DON!! dati si sommano)."
+  },
+  {
+    "cardCode": "EB02-002",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: un altro tuo Character {Revolutionary Army} ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "EB02-003",
+    "body": "Con almeno 2 DON!! dati, nel turno avversario ha +2000 potenza.\n\nQuando lo giochi, se il Leader è {Straw Hat Crew}, dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "EB02-005",
+    "body": "Nel tuo turno ha +2000 potenza (5000); nel turno avversario ha −2000 (1000)."
+  },
+  {
+    "cardCode": "EB02-006",
+    "body": "Una volta per turno, nella tua Main Phase, se il Leader è {Land of Wano} o [Portgas.D.Ace], dai 1 DON!! a riposo al Leader; poi Yamato guadagna [Rush]."
+  },
+  {
+    "cardCode": "EB02-007",
+    "body": "Fino a 3 tra Leader e Character hanno +1000 potenza per il turno, poi metti K.O. un Character avversario con 3000 potenza o meno.\n\nIl [Trigger] mette K.O. uno con 4000 potenza o meno."
+  },
+  {
+    "cardCode": "EB02-008",
+    "body": "Guardi le prime 4 carte e prendi una carta di costo 4 o più.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "EB02-009",
+    "body": "Stage. Nella tua Main Phase puoi metterlo a riposo: sposti 1 DON!! già dato su un tuo Character {Straw Hat Crew}."
+  },
+  {
+    "cardCode": "EB02-011",
+    "body": "Quando lo giochi, se il Leader è {Fish-Man} o {East Blue}, dai 1 DON!! a riposo al Leader; poi un Character avversario di costo 5 o meno **non può essere messo a riposo** fino alla fine del prossimo turno avversario (non attacca né blocca)."
+  },
+  {
+    "cardCode": "EB02-012",
+    "body": "Se hai [Sarfunkel] in campo, ha [Blocker]."
+  },
+  {
+    "cardCode": "EB02-013",
+    "body": "Quando la giochi, con 3 o più DON!! in campo, guardi le prime 7 carte e prendi uno [Zou]; poi puoi giocarlo gratis dalla mano."
+  },
+  {
+    "cardCode": "EB02-014",
+    "body": "Quando la giochi, giochi gratis un [Gaimon] dalla mano."
+  },
+  {
+    "cardCode": "EB02-015",
+    "body": "Quando la giochi, un Character avversario a riposo non torna attivo nella sua prossima Refresh Phase; a fine turno rendi attivo 1 DON!!."
+  },
+  {
+    "cardCode": "EB02-016",
+    "body": "Conta anche come [Tony Tony.Chopper].\n\nQuando lo giochi giochi gratis dalla mano un Character {Animal} di costo 3 o meno."
+  },
+  {
+    "cardCode": "EB02-017",
+    "body": "Quando la giochi guardi le prime 5 carte e prendi una carta {Straw Hat Crew} (non [Nami])."
+  },
+  {
+    "cardCode": "EB02-018",
+    "body": "Quando lo giochi, se non hai altri [Buggy] in campo, il tuo Leader guadagna [Double Attack] per il turno.\n\nIl [Trigger] mette a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "EB02-019",
+    "body": "Se l’avversario ha 2 o più Character, può attaccare i Character nel turno in cui entra.\n\nQuando lo giochi, se il Leader è {Straw Hat Crew}, metti a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "EB02-020",
+    "body": "Guardi le prime 4 carte e prendi una carta di costo 4 o più.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "EB02-021",
+    "body": "Un tuo Character {Straw Hat Crew} ha **+6000 potenza** per il turno, ma non torna attivo nella tua prossima Refresh Phase.\n\nIl [Trigger] mette a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "EB02-022",
+    "body": "Quando lo giochi, se hai al massimo 2 Character con 5000 potenza o più (lui compreso), giochi gratis dalla mano un Character **senza effetto** con 6000 potenza o meno."
+  },
+  {
+    "cardCode": "EB02-023",
+    "body": "Una volta per turno, nel tuo turno, quando un tuo effetto rimanda in mano un Character avversario, guardi le prime 3 carte e le rimetti in cima o in fondo nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "EB02-024",
+    "body": "Conta anche come [Usopp].\n\nQuando lo giochi peschi 2 carte, ne rimetti 2 in fondo al mazzo, poi rimandi in mano un Character di costo 1 o meno."
+  },
+  {
+    "cardCode": "EB02-025",
+    "body": "Nella tua Main Phase puoi mettere a riposo 1 DON!! e lui: se il Leader è [Donquixote Rosinante], guardi le prime 5 carte e giochi a riposo un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "EB02-026",
+    "body": "Quando la giochi, se il Leader è multicolore e hai 5 carte o meno in mano, peschi 2 carte."
+  },
+  {
+    "cardCode": "EB02-027",
+    "body": "Quando lo giochi metti in fondo al mazzo un Character avversario con 1000 potenza o meno."
+  },
+  {
+    "cardCode": "EB02-028",
+    "body": "Quando lo giochi, se il Leader è “Whitebeard Pirates”, guardi le prime 5 carte e prendi un Character di costo 2; poi giochi gratis dalla mano, a riposo, un Character di costo 2."
+  },
+  {
+    "cardCode": "EB02-030",
+    "body": "Counter da 2 DON!!: in questo turno, se un tuo Character già in campo sta per essere messo K.O. in battaglia, puoi invece scartare 1 carta.\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "EB02-031",
+    "body": "Guardi le prime 4 carte e prendi una carta di costo 4 o più.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "EB02-032",
+    "body": "Quando lo giochi, con 3 o più DON!! in campo, guardi le prime 7 carte e prendi una [Galley-La Company]; poi puoi giocarla gratis dalla mano."
+  },
+  {
+    "cardCode": "EB02-033",
+    "body": "Se hai [Merry Go] in campo, ha [Blocker]."
+  },
+  {
+    "cardCode": "EB02-035",
+    "body": "Una volta per turno, nel tuo turno, quando 2 o più DON!! tornano **insieme** nel mazzo DON!!, prendi 1 DON!! attivo.\n\nQuando lo giochi, se hai DON!! pari o meno dell’avversario, peschi 1 carta."
+  },
+  {
+    "cardCode": "EB02-036",
+    "body": "Ha [Blocker].\n\nQuando viene messa K.O. puoi pagare DON!! −1: guardi le prime 3 carte e prendi una carta {Straw Hat Crew}."
+  },
+  {
+    "cardCode": "EB02-037",
+    "body": "Quando lo giochi e quando attacca, se il Leader è {Straw Hat Crew} e hai DON!! pari o meno dell’avversario, prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "EB02-038",
+    "body": "Quando lo giochi giochi gratis dalla mano un Character {Impel Down} di costo 2 o meno."
+  },
+  {
+    "cardCode": "EB02-039",
+    "body": "Costa 4: puoi scartare un Character {GERMA 66} con 4000 potenza o meno; se hai DON!! pari o meno dell’avversario, giochi dal cestino un Character con **lo stesso nome** e potenza da 5000 a 7000."
+  },
+  {
+    "cardCode": "EB02-040",
+    "body": "Guardi le prime 4 carte e prendi una carta di costo 4 o più.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "EB02-041",
+    "body": "Stage. Quando lo giochi, se il Leader è {Straw Hat Crew}, peschi 1 carta.\n\nNella tua Main Phase puoi metterlo a riposo: se hai DON!! pari o meno dell’avversario, un tuo Character {Straw Hat Crew} ha +2 costo fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "EB02-044",
+    "body": "Ha [Blocker].\n\nQuando lo giochi giochi dal cestino, a riposo, un Character nero {Navy} di costo 4 o meno."
+  },
+  {
+    "cardCode": "EB02-045",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi mettere 2 carte del cestino in fondo al mazzo e scegliere: peschi 1 carta, oppure, se l’avversario ha 5 o più carte in mano, ne scarta 1."
+  },
+  {
+    "cardCode": "EB02-046",
+    "body": "Quando lo giochi scarti le prime 2 carte del mazzo e dai −1 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "EB02-047",
+    "body": "Nella tua Main Phase puoi scartare 1 carta e mandarlo nel cestino: giochi dal cestino un Character “CP” di costo 5 o meno (non [Blueno], anche quello appena scartato)."
+  },
+  {
+    "cardCode": "EB02-048",
+    "body": "Quando lo giochi riprendi in mano un [Laboon] dal cestino.\n\nQuando viene messo K.O., giochi gratis dalla mano un [Laboon] di costo 4 o meno."
+  },
+  {
+    "cardCode": "EB02-049",
+    "body": "Quando lo giochi dai fino a 2 DON!! a riposo al tuo Leader.\n\nNella tua Main Phase puoi metterlo a riposo: se il Leader è [Monkey.D.Garp], metti K.O. un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "EB02-050",
+    "body": "Guardi le prime 4 carte e prendi una carta di costo 4 o più.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "EB02-051",
+    "body": "Scegli: metti K.O. un Character avversario di costo 2 o meno, oppure dai −4 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "EB02-052",
+    "body": "Se il Leader è {Sky Island}, ha [Rush].\n\nQuando attacca puoi scartare 1 carta: se hai 1 Vita o meno, aggiungi la prima carta del mazzo in cima alla Vita e ha +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "EB02-053",
+    "body": "Quando la giochi e quando viene messa K.O., guardi la prima carta della Vita tua o avversaria e la lasci in cima o la metti in fondo."
+  },
+  {
+    "cardCode": "EB02-054",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, se hai 2 Vite o meno, peschi 2 carte e ne scarti 1."
+  },
+  {
+    "cardCode": "EB02-055",
+    "body": "Il [Trigger]: se il Leader è {Fish-Man} o {Merfolk} e hai 2 Vite o meno (senza questa), lo giochi gratis."
+  },
+  {
+    "cardCode": "EB02-056",
+    "body": "Ha [Blocker].\n\nQuando lo giochi guardi le prime 5 carte e giochi gratis un Character {Scientist} di costo 5 o meno (non [Vegapunk]); se l’avversario ha 2 Character o meno, poi scarti 1 carta.\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "EB02-057",
+    "body": "Quando attacca puoi prendere in mano la prima o l’ultima carta della Vita: metti a faccia in su in cima o in fondo alla Vita avversaria un suo Character di costo 3 o meno."
+  },
+  {
+    "cardCode": "EB02-058",
+    "body": "Guardi le prime 4 carte e prendi una carta di costo 4 o più.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "EB02-059",
+    "body": "Counter da 4 DON!!: il Leader o un Character ha +1000 potenza per la battaglia; se hai 1 Vita o meno, giochi gratis dalla mano un Character giallo {Straw Hat Crew} o un [Sanji] giallo di costo 5 o meno."
+  },
+  {
+    "cardCode": "EB02-060",
+    "body": "Stage. Nella tua Main Phase puoi metterlo a riposo e girare a faccia in su la prima carta della Vita: un tuo Character {Straw Hat Crew} ha +1000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "EB02-061",
+    "body": "Se il Leader è multicolore e l’avversario ha 5 o più DON!! in campo, ha [Rush].\n\nUna volta per turno, quando attacca, puoi rimettere 2 DON!! attivi nel mazzo DON!!: torna attivo, poi prendi in mano la prima carta della Vita."
+  },
+  {
+    "cardCode": "EB03-003",
+    "body": "Quando la giochi, se il Leader è [Uta], peschi 2 carte e giochi gratis dalla mano un Character senza effetto con 6000 potenza o meno."
+  },
+  {
+    "cardCode": "EB03-004",
+    "body": "Ha [Blocker].\n\nNel turno avversario, se il Leader è multicolore e non hai Character con potenza base 6000 o più, ha +4000 potenza."
+  },
+  {
+    "cardCode": "EB03-005",
+    "body": "Quando la giochi, se il Leader è [Sugar], giochi gratis dalla mano, a riposo, un Character {Donquixote Pirates} con 6000 potenza o meno."
+  },
+  {
+    "cardCode": "EB03-006",
+    "body": "Quando la giochi puoi dare −5000 potenza per il turno al tuo Leader, se è attivo: peschi 1 carta.\n\nUna volta per turno, nella tua Main Phase, se il Leader è {Alabasta}, dai −1000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "EB03-007",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O., giochi gratis dalla mano un Character senza effetto con 6000 potenza o meno."
+  },
+  {
+    "cardCode": "EB03-008",
+    "body": "Quando la giochi e quando attacca, un tuo Leader o Character {SWORD} può attaccare anche i Character avversari **attivi** in questo turno.\n\nUna volta per turno, nella tua Main Phase, dai −1000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "EB03-009",
+    "body": "Nella tua Main Phase puoi metterla a riposo: un tuo Character senza effetto ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "EB03-010",
+    "body": "Ha [Blocker].\n\nQuando la giochi guardi le prime 5 carte e prendi un Character con 1000 potenza o meno oppure un Event."
+  },
+  {
+    "cardCode": "EB03-011",
+    "body": "Counter: se il Leader è [Nefeltari Vivi], il Leader o un Character ha +4000 potenza per la battaglia.\n\nIl [Trigger] dà −2000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "EB03-012",
+    "body": "Nella tua Main Phase puoi metterla a riposo: metti a riposo un DON!! avversario o un suo Character {Animal} o {SMILE} di costo 3 o meno."
+  },
+  {
+    "cardCode": "EB03-013",
+    "body": "Una volta per turno, nella tua Main Phase, se l’hai giocata in questo turno: metti K.O. un Character avversario a riposo di costo 5 o meno, poi puoi giocare gratis uno [Zou] dalla mano."
+  },
+  {
+    "cardCode": "EB03-014",
+    "body": "Nella tua Main Phase puoi metterla a riposo: dai fino a 2 DON!! a riposo al tuo Leader <Slash>."
+  },
+  {
+    "cardCode": "EB03-015",
+    "body": "Nella tua Main Phase puoi metterla a riposo: dai 1 DON!! a riposo a un tuo Leader o Character {Fish-Man} o {Merfolk}, poi metti a riposo un Character avversario di costo 2 o meno."
+  },
+  {
+    "cardCode": "EB03-016",
+    "body": "Quando la giochi, se il Leader è [Kouzuki Oden], peschi 1 carta.\n\nNella tua Main Phase puoi metterla nel cestino per dare 1 DON!! a riposo al tuo Leader {Land of Wano}."
+  },
+  {
+    "cardCode": "EB03-017",
+    "body": "Quando la giochi, se il Leader è {Supernovas}, rendi attivo 1 DON!! e un Character avversario di costo 8 o meno **non può essere messo a riposo** fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "EB03-018",
+    "body": "Nel turno avversario ha [Blocker] e non può essere messa K.O. dagli effetti avversari.\n\nAlla fine del tuo turno puoi mettere a riposo 1 DON!! e scartare 1 carta: torna attiva (attacca e poi difende)."
+  },
+  {
+    "cardCode": "EB03-019",
+    "body": "Ha [Blocker]: un grosso difensore."
+  },
+  {
+    "cardCode": "EB03-020",
+    "body": "Counter: il Leader o un Character ha +2000 potenza per la battaglia; con 2 o più Character {FILM}, altri +2000 alla stessa carta.\n\nIl [Trigger] rende attivo un tuo Character."
+  },
+  {
+    "cardCode": "EB03-021",
+    "body": "Quando la giochi puoi scartare 1 carta: metti in fondo al mazzo un Character avversario con potenza base 4000 o meno e un Character di **costo base** 3 o meno."
+  },
+  {
+    "cardCode": "EB03-022",
+    "body": "Ha [Blocker].\n\nQuando la giochi metti in fondo al mazzo un Character di costo 4 o meno."
+  },
+  {
+    "cardCode": "EB03-023",
+    "body": "Quando la giochi guardi le prime 5 carte e le rimetti in cima o in fondo nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "EB03-024",
+    "body": "Ha [Blocker].\n\nQuando la giochi giochi gratis dalla mano un Character {Alabasta} o {Straw Hat Crew} di costo 5 o meno; poi non puoi giocare altri Character in quel turno."
+  },
+  {
+    "cardCode": "EB03-025",
+    "body": "Quando la giochi puoi scartare 1 carta: rimandi in mano un Character con potenza base **esattamente 6000**."
+  },
+  {
+    "cardCode": "EB03-026",
+    "body": "Quando la giochi, se l’avversario ha 5 o più carte in mano, ne mette 1 in fondo al mazzo.\n\nUna volta per turno, nella tua Main Phase, puoi mettere in fondo al mazzo un tuo Character (anche lei): dai 1 DON!! a riposo al Leader e 1 a un Character."
+  },
+  {
+    "cardCode": "EB03-027",
+    "body": "Quando la giochi rimandi in mano un Character con potenza base **esattamente 7000**."
+  },
+  {
+    "cardCode": "EB03-028",
+    "body": "Quando lo giochi scarti 1 carta.\n\nNella tua Main Phase puoi metterlo nel cestino: se hai 4 carte o meno in mano, peschi 2 carte."
+  },
+  {
+    "cardCode": "EB03-029",
+    "body": "Due usi:\n- **Main**: metti a riposo 4 DON!!: se il Leader è [Boa Hancock], giochi gratis dalla mano un Character {Amazon Lily} o {Kuja Pirates} di costo 6 o meno;\n- **Counter**: un tuo [Boa Hancock] ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "EB03-031",
+    "body": "Quando la giochi **nel tuo turno** puoi pagare DON!! −1: se il Leader è [Sanji], attivi l’effetto [Main] di un Event di costo 7 o meno che hai nel cestino (non conta come “usare un Event”)."
+  },
+  {
+    "cardCode": "EB03-032",
+    "body": "Quando la giochi **nel tuo turno**, un tuo [Charlotte Katakuri] ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "EB03-033",
+    "body": "Una volta per turno, nel turno avversario, quando un tuo effetto rimette un DON!! nel mazzo DON!!, se il Leader è {Big Mom Pirates} prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "EB03-034",
+    "body": "Quando la giochi peschi 1 carta, ne rimetti 1 in cima al mazzo, poi prendi 1 DON!! attivo.\n\nQuando viene messa K.O. puoi pagare DON!! −1: aggiungi la prima carta del mazzo in cima alla Vita."
+  },
+  {
+    "cardCode": "EB03-035",
+    "body": "Ha [Blocker].\n\nQuando la giochi, se hai DON!! pari o meno dell’avversario, prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "EB03-036",
+    "body": "Quando la giochi puoi pagare DON!! −1: metti K.O. fino a 2 Character avversari di costo base 3 o meno."
+  },
+  {
+    "cardCode": "EB03-037",
+    "body": "Quando la giochi, con 7 o più DON!! in campo, il tuo Leader e i Character {ODYSSEY} hanno +1000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "EB03-038",
+    "body": "Due usi:\n- **Main**: metti a riposo 1 DON!!: se hai DON!! pari o meno dell’avversario e **solo** Character “GERMA” (almeno uno), prendi fino a 2 DON!! a riposo;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "EB03-039",
+    "body": "Quando lo giochi, se il Leader è {Animal Kingdom Pirates}, peschi 1 carta, ne scarti 1, poi giochi dal cestino un Character senza effetto con 6000 potenza o meno."
+  },
+  {
+    "cardCode": "EB03-041",
+    "body": "Nel turno avversario i tuoi Character {SWORD} di costo 6 o meno hanno +2000 potenza.\n\nQuando la giochi puoi scartare una carta {Navy} per pescare 2 carte."
+  },
+  {
+    "cardCode": "EB03-042",
+    "body": "Se il Leader è {Revolutionary Army}, ha +4 costo.\n\nSe viene messa K.O. nel turno avversario, giochi dalla mano o dal cestino un Character {Revolutionary Army} di costo 6 o meno (non [Koala]) o una [Nico Robin] di costo 6 o meno."
+  },
+  {
+    "cardCode": "EB03-043",
+    "body": "Ha [Blocker].\n\nQuando la giochi puoi mettere 2 carte “CP” del cestino in fondo al mazzo: metti K.O. un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "EB03-044",
+    "body": "Se il Leader è multicolore, ha [Blocker].\n\nQuando la giochi guardi le prime 5 carte e prendi un [Onigashima Island]; poi puoi giocarlo gratis dalla mano."
+  },
+  {
+    "cardCode": "EB03-045",
+    "body": "Ha [Blocker].\n\nQuando la giochi dai 1 DON!! a riposo al Leader o a un Character; poi, con 10 o più carte nel cestino, giochi dal cestino a riposo un Character {Thriller Bark Pirates} di costo 2 o meno."
+  },
+  {
+    "cardCode": "EB03-046",
+    "body": "Quando la giochi, se in campo c’è un Character di costo 0 o di costo 8 o più, peschi 1 carta.\n\nQuando viene messa K.O. scarti le prime 2 carte del mazzo."
+  },
+  {
+    "cardCode": "EB03-047",
+    "body": "Quando la giochi scarti le prime 3 carte del mazzo.\n\nQuando viene messa K.O. peschi 1 carta."
+  },
+  {
+    "cardCode": "EB03-048",
+    "body": "Ha [Blocker].\n\nQuando la giochi guardi le prime 5 carte e prendi uno Stage {Dressrosa}; poi puoi giocare gratis dalla mano uno Stage {Dressrosa} di costo 1."
+  },
+  {
+    "cardCode": "EB03-049",
+    "body": "Due usi:\n- **Main**: metti a riposo 7 DON!!: se il Leader è [Perona], giochi dalla mano o dal cestino un Character {Thriller Bark Pirates} di costo 6 o meno e uno di costo 4 o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "EB03-050",
+    "body": "Quando la giochi, un tuo Character {Sky Island} guadagna [Double Attack] per il turno."
+  },
+  {
+    "cardCode": "EB03-051",
+    "body": "Quando la giochi, se hai una Vita a faccia in su, metti K.O. un Character avversario di costo 2 o meno; poi giri comunque a faccia in giù tutte le tue Vite."
+  },
+  {
+    "cardCode": "EB03-052",
+    "body": "Nella tua Main Phase puoi metterla nel cestino: se il Leader è [Shirahoshi], aggiungi la prima carta del mazzo in cima alla Vita e i tuoi Character {Neptunian} hanno +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "EB03-053",
+    "body": "Quando la giochi dai 1 DON!! a riposo al Leader; poi, se l’avversario ha 3 o più Vite, prende in mano la prima della sua Vita.\n\nQuando viene messa K.O. puoi girare a faccia in su la prima carta della tua Vita per giocare gratis dalla mano un Character con 6000 potenza o meno."
+  },
+  {
+    "cardCode": "EB03-054",
+    "body": "Quando la giochi puoi mettere nel cestino la prima carta della Vita: aggiungi in cima alla Vita la prima carta del mazzo (cambi una Vita).\n\nIl [Trigger]: scarti 1 carta per giocarla gratis."
+  },
+  {
+    "cardCode": "EB03-055",
+    "body": "Quando la giochi puoi mettere nel cestino la prima carta della Vita: se il Leader è {Straw Hat Crew}, aggiungi in cima alla Vita fino a 2 carte dal mazzo.\n\nSe viene messa K.O. nel turno avversario, puoi infliggere 1 danno all’avversario (senza Counter né [Blocker]; con 0 Vite vince la partita)."
+  },
+  {
+    "cardCode": "EB03-056",
+    "body": "Quando la giochi puoi girare a faccia in su la prima carta della Vita: metti K.O. un Character avversario di costo base 3 o meno."
+  },
+  {
+    "cardCode": "EB03-057",
+    "body": "Quando la giochi dai fino a 3 DON!! a riposo al tuo Leader {Land of Wano}.\n\nQuando viene messa K.O., metti nel cestino la prima carta della Vita avversaria."
+  },
+  {
+    "cardCode": "EB03-058",
+    "body": "Quando la giochi **nel tuo turno**, se hai 2 Vite o meno, peschi 1 carta.\n\nIl [Trigger]: se il Leader è [Vegapunk], la giochi gratis."
+  },
+  {
+    "cardCode": "EB03-059",
+    "body": "Quando lo giochi, se il Leader è {Egghead} e hai 2 o più Vite, metti a faccia in su in cima alla Vita un Character con [Trigger] dalla mano.\n\nIl [Trigger]: un Character avversario di costo 6 o meno (non [Monkey.D.Luffy]) non può attaccare in questo turno."
+  },
+  {
+    "cardCode": "EB03-060",
+    "body": "Se il Leader è [Nami], guardi le prime 4 carte e prendi una carta di costo da 2 a 8.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "EB03-061",
+    "body": "Una volta per turno, nella tua Main Phase, rendi attivo 1 DON!! e metti a riposo un DON!! o un Character avversario di costo 4 o meno.\n\nAlla fine del tuo turno puoi mettere a riposo 1 DON!! per rendere attivo un tuo Character {FILM}."
+  },
+  {
+    "cardCode": "EB03-062",
+    "body": "Ha [Rush].\n\nNella tua Main Phase puoi scartare 1 carta e mandarlo nel cestino: aggiungi la prima carta del mazzo in cima alla Vita, poi giochi gratis dalla mano un [Trafalgar Law] di costo 7 o meno."
+  },
+  {
+    "cardCode": "EB04-002",
+    "body": "Quando la giochi guardi le prime 4 carte e prendi una carta {Egghead} o {Straw Hat Crew} (non [Jewelry Bonney])."
+  },
+  {
+    "cardCode": "EB04-003",
+    "body": "Ha [Rush].\n\nNel turno avversario la potenza base del tuo Leader {Navy} diventa 7000."
+  },
+  {
+    "cardCode": "EB04-004",
+    "body": "Quando attacca, la potenza base del tuo Leader diventa 7000 fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "EB04-005",
+    "body": "Non può attaccare, a meno che l’avversario abbia 2 o più Character con potenza base 5000 o più. Ottimo Counter +2000."
+  },
+  {
+    "cardCode": "EB04-006",
+    "body": "Quando la giochi guardi le prime 7 carte e prendi un [Lulucia Kingdom]."
+  },
+  {
+    "cardCode": "EB04-007",
+    "body": "Quando lo giochi, il tuo Leader ha +2000 potenza fino alla fine del prossimo turno avversario.\n\nUna volta per turno, nella tua Main Phase, se l’avversario ha un Character con 8000 potenza o più, guadagna [Rush: Character]."
+  },
+  {
+    "cardCode": "EB04-008",
+    "body": "Due usi:\n- **Main**: se hai 2 Vite o meno, dai −3000 potenza per il turno a un Character avversario;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "EB04-009",
+    "body": "Costa 0.\n- **Main**: dai 1 DON!! attivo a un tuo [Silvers Rayleigh]: dai −2000 potenza per il turno a un Character avversario;\n- **Counter**: un tuo Character o [Silvers Rayleigh] ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "EB04-010",
+    "body": "Stage di costo 7. Quando lo giochi, la potenza di un Character avversario diventa 0 per il turno.\n\nNel turno avversario, i tuoi Character di costo base 1 hanno +5000 potenza."
+  },
+  {
+    "cardCode": "EB04-011",
+    "body": "Ha [Rush: Character].\n\nQuando lo giochi peschi una carta per ogni tuo Character {Neptunian} (lui compreso), poi scarti altrettante carte."
+  },
+  {
+    "cardCode": "EB04-012",
+    "body": "Una volta per turno, nella tua Main Phase, se l’hai giocata in questo turno, il tuo Leader {Land of Wano} torna attivo."
+  },
+  {
+    "cardCode": "EB04-013",
+    "body": "Quando la giochi, se il Leader è {Minks}, rendi attivi fino a 2 tuoi Character {Minks} **e** il Leader (possono attaccare di nuovo)."
+  },
+  {
+    "cardCode": "EB04-014",
+    "body": "Ha [Blocker].\n\nUna volta per turno, nella tua Main Phase, dai 1 DON!! a riposo al tuo Leader {Land of Wano}."
+  },
+  {
+    "cardCode": "EB04-015",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O. puoi mettere a riposo un’altra tua carta: se il Leader è {Fish-Man} o {Merfolk}, giochi gratis dalla mano un Character verde di costo 6 o meno."
+  },
+  {
+    "cardCode": "EB04-016",
+    "body": "Nella tua Main Phase rendi attivo 1 DON!!; poi in quel turno non puoi rendere attivi DON!! con effetti di Character.\n\nQuando attacca, se hai 3 o più Character {Neptunian}, metti a riposo un Character avversario di costo 8 o meno."
+  },
+  {
+    "cardCode": "EB04-017",
+    "body": "Nel tuo turno, con 3 o più Character {Minks}, tutti i Character avversari hanno −1 costo.\n\nQuando lo giochi, se il Leader è {Minks}, giochi gratis dalla mano un Character {Minks} di costo 5 o meno."
+  },
+  {
+    "cardCode": "EB04-018",
+    "body": "Quando lo giochi (attivo) puoi metterlo a riposo: metti K.O. un Character avversario a riposo con 8000 potenza o meno."
+  },
+  {
+    "cardCode": "EB04-019",
+    "body": "Due usi:\n- **Main**: metti a riposo 1 tua carta: se il Leader è {Minks}, dai −3 costo per il turno a un Character avversario;\n- **Counter**: un tuo Leader o Character {Minks} ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "EB04-020",
+    "body": "Counter: un tuo Leader o Character {Fish-Man} ha +3000 potenza per la battaglia, poi rendi attivo un tuo Character {Fish-Man}.\n\nIl [Trigger] mette a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "EB04-021",
+    "body": "Quando lo giochi, se il Leader è [Nefeltari Vivi], peschi 2 carte e ne scarti 1.\n\nUna volta per turno, nella tua Main Phase, puoi scartare 1 carta per dare 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "EB04-022",
+    "body": "Quando lo giochi puoi scartare 2 carte: se l’avversario ha 6 o più carte in mano, ne mette 2 in fondo al mazzo.\n\nCon almeno 1 DON!! dato, quando attacca puoi scartare 1 carta: dai −2000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "EB04-023",
+    "body": "Ha [Double Attack].\n\nQuando lo giochi puoi dare −5000 potenza per il turno al tuo Leader, se è attivo: peschi 2 carte."
+  },
+  {
+    "cardCode": "EB04-024",
+    "body": "Nella tua Main Phase puoi metterla a riposo e scartare 1 carta: un tuo Character {Alabasta} guadagna [Unblockable] per il turno."
+  },
+  {
+    "cardCode": "EB04-025",
+    "body": "Quando la giochi giochi gratis dalla mano un Character {Alabasta} di costo 8 o meno (non [Nefeltari Vivi]); poi l’avversario mette 1 carta della mano in fondo al mazzo."
+  },
+  {
+    "cardCode": "EB04-026",
+    "body": "Quando lo giochi metti in fondo al mazzo un Character avversario di costo 1 o meno.\n\nQuando attacca peschi 1 carta e ne scarti 1."
+  },
+  {
+    "cardCode": "EB04-027",
+    "body": "Quando la giochi peschi 2 carte e ne scarti 1.\n\nIl [Trigger] gioca gratis dalla mano un Character con 5000 potenza o meno e [Trigger]."
+  },
+  {
+    "cardCode": "EB04-028",
+    "body": "Costa 5: puoi scartare 1 carta: se il Leader è {Navy}, fino a 2 Character avversari con 10000 potenza o meno non possono attaccare fino alla fine del prossimo turno avversario.\n\nIl [Trigger] rimanda in mano un Character di costo 5 o meno."
+  },
+  {
+    "cardCode": "EB04-029",
+    "body": "Due usi:\n- **Main**: se il Leader è [Sanji], guardi le prime 3 carte, prendi un [Sanji] o un Event e metti le altre nel cestino;\n- **Counter**: scarti 1 carta: un tuo [Sanji] ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "EB04-030",
+    "body": "Se sta per essere messo K.O., puoi invece rimettere 1 DON!! nel mazzo DON!!.\n\nQuando lo giochi puoi pagare DON!! −2: se il Leader è {Animal Kingdom Pirates}, guadagna [Rush]; poi metti a riposo un Character avversario di costo 7 o meno."
+  },
+  {
+    "cardCode": "EB04-031",
+    "body": "Se sta per essere messo K.O., puoi invece rimettere 1 DON!! nel mazzo DON!!.\n\nUna volta per turno, nella tua Main Phase, se il Leader è {Animal Kingdom Pirates} e non hai altri [King], prendi 1 DON!! attivo e 1 a riposo."
+  },
+  {
+    "cardCode": "EB04-032",
+    "body": "Quando lo giochi puoi scartare una carta {Animal Kingdom Pirates} per pescare 2 carte.\n\nUna volta per turno, nella tua Main Phase, puoi mettere a riposo 2 DON!!: se il Leader è {Animal Kingdom Pirates}, prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "EB04-033",
+    "body": "Quando lo giochi puoi pagare DON!! −1: se hai 3 o più Character {Foxy Pirates}, metti K.O. un Character avversario con potenza base 6000 o meno."
+  },
+  {
+    "cardCode": "EB04-034",
+    "body": "Ha [Blocker].\n\nUna volta per turno, quando l’avversario attacca, puoi scartare 1 carta: se hai 4 o più Event nel cestino, il Leader o un Character ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "EB04-035",
+    "body": "Ha [Blocker].\n\nUna volta per turno, nel tuo turno, quando un tuo DON!! torna nel mazzo DON!!, se il Leader è {Kid Pirates} prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "EB04-036",
+    "body": "Quando lo giochi puoi pagare DON!! −1: se il Leader è {Foxy Pirates}, peschi 2 carte, ne scarti 1 e metti a riposo un Character avversario di costo 9 o meno.\n\nUna volta per turno, nella tua Main Phase, prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "EB04-037",
+    "body": "Quando la giochi, se il Leader è {Foxy Pirates}, guardi le prime 5 carte e prendi una carta {Foxy Pirates}."
+  },
+  {
+    "cardCode": "EB04-038",
+    "body": "Conta anche come [Trafalgar Law] e [Donquixote Rosinante].\n\nHa [Blocker]. Quando lo giochi, se hai DON!! pari o meno dell’avversario, peschi 1 carta e prendi 1 DON!! attivo."
+  },
+  {
+    "cardCode": "EB04-039",
+    "body": "Quando lo giochi prendi 1 DON!! attivo.\n\nNella tua Main Phase puoi metterlo nel cestino per giocare gratis dalla mano un Character {Kid Pirates} di costo 5 o meno."
+  },
+  {
+    "cardCode": "EB04-040",
+    "body": "Due usi:\n- **Main**: metti a riposo 6 DON!!: un tuo [Kaido] ha +3000 potenza per il turno, poi metti a riposo un Character avversario;\n- **Counter**: DON!! −1: il tuo Leader ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "EB04-041",
+    "body": "Costa 3: se il Leader è [Sanji] e hai 4 o più DON!! in campo, giochi dalla mano o dal cestino un [Sanji] con 6000 potenza o meno.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "EB04-042",
+    "body": "Quando la giochi puoi scartare le prime 3 carte del mazzo: dai −1 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "EB04-043",
+    "body": "Una volta per turno, se un tuo Character nero di costo base 5 o meno sta per essere messo K.O. da un effetto avversario, puoi invece mettere 3 carte del cestino in fondo al mazzo.\n\nQuando lo giochi scarti le prime 2 carte del mazzo."
+  },
+  {
+    "cardCode": "EB04-044",
+    "body": "Una volta per turno, se il Leader è “Navy” e Koby sta per lasciare il campo, puoi invece scartare 1 carta.\n\nUna volta per turno, nel tuo turno, quando un Character avversario viene messo K.O., peschi 1 carta."
+  },
+  {
+    "cardCode": "EB04-045",
+    "body": "Nella tua Main Phase puoi metterla a riposo: se in campo ci sono 2 o più Character di costo 8 o più, un tuo Leader o Character {Revolutionary Army} ha +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "EB04-046",
+    "body": "Ha [Blocker].\n\nNel turno avversario tutti i tuoi Character {Navy} hanno +2 costo."
+  },
+  {
+    "cardCode": "EB04-047",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: giochi dalla mano o dal cestino un Character {SWORD} di costo 3 o meno (non [Helmeppo])."
+  },
+  {
+    "cardCode": "EB04-048",
+    "body": "Se il Leader è “CP”, ha +1000 potenza e +2 costo ogni 5 carte nel cestino.\n\nQuando lo giochi puoi mandare nel cestino un tuo Character per pescare 1 carta."
+  },
+  {
+    "cardCode": "EB04-049",
+    "body": "Costa 4: puoi scartare le prime 2 carte del mazzo per mettere K.O. un Character avversario di costo base 5 o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "EB04-050",
+    "body": "Due usi:\n- **Main**: un tuo Leader o Character {SWORD} può attaccare anche i Character avversari **attivi** in questo turno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "EB04-051",
+    "body": "Non può attaccare, a meno che in campo ci sia un Character con potenza base 12000 o più.\n\nIl [Trigger]: tutti i Character avversari hanno −3000 potenza per il turno; poi, se hai 0 Vite, la giochi gratis."
+  },
+  {
+    "cardCode": "EB04-052",
+    "body": "Quando attacca, la sua potenza base diventa uguale a quella del Leader avversario per il turno.\n\nQuando viene messo K.O., se hai 2 Vite o meno, giochi gratis dalla mano un Character giallo con 6000 potenza o meno."
+  },
+  {
+    "cardCode": "EB04-053",
+    "body": "Ha [Blocker]. Quando blocca, se hai 2 Vite o meno, peschi 1 carta."
+  },
+  {
+    "cardCode": "EB04-054",
+    "body": "Quando lo giochi, se hai 2 Vite o meno, aggiungi la prima carta del mazzo in cima alla Vita.\n\nQuando viene messo K.O., l’avversario prende in mano la prima carta della sua Vita."
+  },
+  {
+    "cardCode": "EB04-055",
+    "body": "Quando viene messo K.O., giochi gratis dalla mano un Character {Revolutionary Army} di costo 4 o meno.\n\nIl [Trigger]: se il Leader è {Revolutionary Army} e le Vite totali (senza questa) sono 5 o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "EB04-056",
+    "body": "Se hai [Jewelry Bonney] e 0 Vite, ha [Blocker]."
+  },
+  {
+    "cardCode": "EB04-057",
+    "body": "Con 2 Vite o meno, i tuoi Character gialli {Scientist} non possono lasciare il campo per effetti avversari.\n\nCon almeno 1 DON!! dato ha [Blocker]."
+  },
+  {
+    "cardCode": "EB04-058",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, se hai 2 Vite o meno, aggiungi la prima carta del mazzo in cima alla Vita."
+  },
+  {
+    "cardCode": "EB04-059",
+    "body": "Costa 6: puoi girare a faccia in su la prima carta della Vita: se hai meno Character dell’avversario, metti K.O. un suo Character di costo 6 o meno e uno di costo 5 o meno.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "EB04-060",
+    "body": "Puoi prendere in mano la prima o l’ultima carta della Vita: metti a faccia in su in cima alla Vita un Character {Egghead} dalla mano, poi dai −1000 potenza per il turno a un Character avversario.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "EB04-061",
+    "body": "In mano costa 1 in meno se hai 1 Vita o meno.\n\nQuando lo giochi puoi scartare 1 carta: il tuo Leader ha +2000 potenza e Luffy ha [Blocker], entrambi fino alla fine del prossimo turno avversario."
+  }
+]

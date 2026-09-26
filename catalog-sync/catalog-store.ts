@@ -206,7 +206,7 @@ export function upsertCatalogPage(
   return upsertCatalog(tx, mergeCatalogPages([page]))
 }
 
-export type JobName = 'catalog_sync' | 'image_sync' | 'faq_sync'
+export type JobName = 'catalog_sync' | 'image_sync' | 'faq_sync' | 'explanation_sync'
 
 /** Registra l'inizio di un job in job_runs e restituisce l'id dell'esecuzione. */
 export async function startJobRun(sql: Sql, job: JobName): Promise<number> {

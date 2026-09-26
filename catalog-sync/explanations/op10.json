@@ -1,0 +1,434 @@
+[
+  {
+    "cardCode": "OP10-001",
+    "body": "Nel turno avversario tutti i tuoi Character {Navy} o {Punk Hazard} hanno **+1000 potenza**: più difficili da battere.\n\nUna volta per turno, nella tua Main Phase, se hai un Character con 7000 potenza o più, rendi attivi fino a 2 DON!!."
+  },
+  {
+    "cardCode": "OP10-002",
+    "body": "Con almeno 2 DON!! dati al Leader, quando attacca puoi rimandare in mano un tuo Character {Punk Hazard} di costo 2 o più: metti **K.O.** un Character avversario con 4000 potenza o meno.\n\nIl Character rimandato in mano si può rigiocare, riusando il suo [On Play]."
+  },
+  {
+    "cardCode": "OP10-003",
+    "body": "Alla fine del tuo turno, se hai un Character {Donquixote Pirates} con 6000 potenza o più, rendi attivo 1 DON!!.\n\nUna volta per turno, **nel turno avversario**, quando usi un Event prendi 1 DON!! dal mazzo DON!! e lo metti attivo: un Event [Counter] ti costa in pratica un DON!! in meno."
+  },
+  {
+    "cardCode": "OP10-022",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno nella Main Phase: se i tuoi Character costano in totale 5 o più, puoi rimandarne uno in mano. Poi riveli la prima carta della Vita: se è un Character {Supernovas} di costo 5 o meno, **puoi giocarlo** gratis.\n\nÈ un colpo di fortuna controllato: più Supernovas hai nel mazzo, più spesso funziona."
+  },
+  {
+    "cardCode": "OP10-042",
+    "body": "I tuoi Character {Dressrosa} di costo 2 o più hanno **+1 costo**.\n\nUna volta per turno, nel turno avversario, quando un tuo Character {Dressrosa} lascia il campo per un effetto avversario o viene messo K.O., se hai 5 carte o meno in mano peschi 1 carta."
+  },
+  {
+    "cardCode": "OP10-099",
+    "body": "Alla fine del tuo turno puoi girare a faccia in su la prima carta della tua Vita: rendi attivo un tuo Character {Supernovas} di costo tra 3 e 8, che ha anche [Blocker] fino alla fine del prossimo turno avversario.\n\nCosì un Character che ha attaccato può anche difendere."
+  },
+  {
+    "cardCode": "OP10-004",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi una carta {Punk Hazard} (non [Vergo])."
+  },
+  {
+    "cardCode": "OP10-005",
+    "body": "Nel tuo turno ha +3000 potenza (6000).\n\nQuando viene messo K.O. peschi 1 carta."
+  },
+  {
+    "cardCode": "OP10-006",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi uno [Smiley]; poi puoi giocare gratis uno [Smiley] dalla mano."
+  },
+  {
+    "cardCode": "OP10-007",
+    "body": "Quando lo giochi, giochi gratis dalla mano un Character {Punk Hazard} di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP10-008",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, se non hai [Rock] in campo, giochi gratis un [Rock] dalla mano."
+  },
+  {
+    "cardCode": "OP10-009",
+    "body": "Quando lo giochi, se il Leader è {Punk Hazard}, dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP10-010",
+    "body": "Quando attacca, se hai al massimo 1 Character con 6000 potenza o più (anche lui stesso), ha +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP10-011",
+    "body": "Ha [Blocker].\n\nNel turno avversario ha +2000 potenza (6000)."
+  },
+  {
+    "cardCode": "OP10-012",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP10-015",
+    "body": "Quando la giochi dai −1000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP10-016",
+    "body": "Nella tua Main Phase puoi metterla a riposo: dai fino a 2 DON!! a riposo al Leader o a un Character, poi −1000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP10-017",
+    "body": "Quando lo giochi, se non hai [Scotch] in campo, giochi gratis uno [Scotch] dalla mano."
+  },
+  {
+    "cardCode": "OP10-018",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +3000 potenza per la battaglia, poi dai −2000 potenza per il turno al Leader o a un Character avversario.\n\nIl [Trigger] dà +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP10-019",
+    "body": "Due usi:\n- **Main**: metti a riposo 5 DON!!: metti K.O. un Character avversario con 8000 potenza o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP10-020",
+    "body": "Dai −4000 potenza per il turno a un Character avversario; se hai 2 Vite o meno, un tuo Leader o Character ha +1000 per il turno.\n\nIl [Trigger] mette K.O. un Character avversario con 3000 potenza o meno."
+  },
+  {
+    "cardCode": "OP10-021",
+    "body": "Stage. Nella tua Main Phase puoi metterlo a riposo: se il Leader è [Caesar Clown], dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP10-023",
+    "body": "Quando lo giochi, se il Leader è {Navy}, metti a riposo fino a 2 Character avversari di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP10-024",
+    "body": "Quando lo giochi, se hai 2 o più Character a riposo, metti a riposo un Character avversario di costo 5 o meno, poi metti K.O. un Character avversario a riposo di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP10-025",
+    "body": "Quando lo giochi, se hai 2 o più Character a riposo, peschi 3 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "OP10-026",
+    "body": "Nella tua Main Phase puoi mettere in fondo al mazzo lui e un [Kin'emon] con 0 potenza dal cestino: giochi gratis dalla mano un [Kin'emon] di costo 6."
+  },
+  {
+    "cardCode": "OP10-027",
+    "body": "Nella tua Main Phase puoi mettere in fondo al mazzo lui e un [Kin'emon] con 1000 potenza dal cestino: giochi gratis dalla mano un [Kin'emon] di costo 6."
+  },
+  {
+    "cardCode": "OP10-028",
+    "body": "Nella tua Main Phase puoi mettere a riposo 2 DON!! e mandarlo nel cestino: guardi le prime 5 carte e prendi fino a 2 carte {The Akazaya Nine}."
+  },
+  {
+    "cardCode": "OP10-029",
+    "body": "Quando lo giochi, se hai 2 o più Character a riposo, rendi attivo un tuo Character {ODYSSEY} a riposo di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP10-030",
+    "body": "Ha [Banish].\n\nNella tua Main Phase rendi attivo 1 DON!!; poi in quel turno non puoi rendere attivi DON!! con effetti di Character (il Leader sì)."
+  },
+  {
+    "cardCode": "OP10-032",
+    "body": "Se un altro tuo Character verde sta per lasciare il campo per un effetto avversario, puoi invece mettere a riposo Tashigi (se è attiva)."
+  },
+  {
+    "cardCode": "OP10-033",
+    "body": "Quando la giochi, se hai 2 o più Character {ODYSSEY} a riposo, un DON!! avversario a riposo non torna attivo nella sua prossima Refresh Phase."
+  },
+  {
+    "cardCode": "OP10-034",
+    "body": "Una volta per turno, se sta per essere messo K.O. **in battaglia**, puoi invece prendere in mano la prima carta della tua Vita."
+  },
+  {
+    "cardCode": "OP10-035",
+    "body": "Quando viene messo K.O., metti a riposo il Leader o un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP10-036",
+    "body": "Una volta per turno, nel tuo turno, quando un tuo effetto mette a riposo un Character, rendi attivo 1 DON!!."
+  },
+  {
+    "cardCode": "OP10-037",
+    "body": "Una volta per turno, se sta per lasciare il campo per un effetto avversario, puoi invece mettere a riposo un tuo Character {ODYSSEY}.\n\nAlla fine del tuo turno rendi attivo un tuo Character {ODYSSEY}."
+  },
+  {
+    "cardCode": "OP10-038",
+    "body": "Nel turno avversario, se hai 2 o più Character a riposo, ha +2000 potenza."
+  },
+  {
+    "cardCode": "OP10-039",
+    "body": "Se il Leader è {ODYSSEY}, guardi le prime 5 carte e prendi fino a 2 Character {ODYSSEY}.\n\nIl [Trigger] mette a riposo un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP10-040",
+    "body": "Si usa nella Main Phase o come Counter: metti K.O. un Character avversario **a riposo** di costo 7 o meno."
+  },
+  {
+    "cardCode": "OP10-041",
+    "body": "Metti a riposo un Character avversario di costo 6 o meno, poi metti K.O. un Character avversario a riposo di costo 5 o meno (anche lo stesso).\n\nIl [Trigger] mette a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP10-043",
+    "body": "Quando lo giochi puoi mettere a riposo il tuo Leader o uno Stage {Dressrosa}: un tuo [Monkey.D.Luffy] guadagna [Banish] per il turno."
+  },
+  {
+    "cardCode": "OP10-044",
+    "body": "Quando lo giochi puoi mettere a riposo il tuo Leader o uno Stage {Dressrosa}: rimandi in mano un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP10-045",
+    "body": "Una volta per turno, quando attacca, peschi 2 carte e ne scarti 1."
+  },
+  {
+    "cardCode": "OP10-046",
+    "body": "Quando lo giochi rimandi in mano un Character di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP10-047",
+    "body": "Quando attacca puoi rimandare in mano un tuo Character {Revolutionary Army} di costo 3 o più: ha +3000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP10-048",
+    "body": "Quando lo giochi puoi mettere a riposo il tuo Leader o uno Stage {Dressrosa}: rimandi in mano un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP10-049",
+    "body": "Se un altro tuo Character di costo base 7 o meno sta per lasciare il campo per un effetto avversario, puoi invece rimandare in mano Sabo."
+  },
+  {
+    "cardCode": "OP10-051",
+    "body": "Con almeno 1 DON!! dato, quando attacca guardi le prime 3 carte e prendi un Character {Revolutionary Army}."
+  },
+  {
+    "cardCode": "OP10-052",
+    "body": "Ha [Blocker].\n\nQuando lo giochi metti in fondo al mazzo un Character di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP10-053",
+    "body": "Se hai un altro Character {The Tontattas} (non [Bian]), ha [Blocker]."
+  },
+  {
+    "cardCode": "OP10-055",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O. rimandi in mano un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP10-056",
+    "body": "Quando la giochi puoi mettere a riposo il tuo Leader o uno Stage {Dressrosa} e rimandare in mano un tuo Character {Dressrosa} di costo 4 o più: rimandi in mano un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP10-057",
+    "body": "Quando lo giochi puoi mettere a riposo il Leader o uno Stage: se il Leader è [Usopp], guardi le prime 5 carte, prendi fino a 2 carte {Dressrosa} (non [Leo]) e scarti comunque 1 carta."
+  },
+  {
+    "cardCode": "OP10-058",
+    "body": "Quando la giochi, se c’è un Character di costo 8 o più peschi 1 carta. Poi mostri fino a 2 Character {Dressrosa} di costo 7 o meno dalla mano: ne giochi gratis uno e l’altro, se costa 4 o meno, a riposo."
+  },
+  {
+    "cardCode": "OP10-059",
+    "body": "Guardi le prime 5 carte e prendi un Character {Dressrosa}.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP10-060",
+    "body": "Costa 5: metti in fondo al mazzo un Character avversario con 6000 potenza o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP10-061",
+    "body": "Peschi 1 carta e rimandi in mano un Character avversario di costo 2 o meno.\n\nIl [Trigger] rimanda in mano un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP10-062",
+    "body": "Ha [Blocker].\n\nQuando viene messa K.O. puoi pagare DON!! −1: se il Leader è {Donquixote Pirates}, riprendi in mano un Event viola dal cestino."
+  },
+  {
+    "cardCode": "OP10-063",
+    "body": "Quando lo giochi, se il Leader è “GERMA”, guardi le prime 5 carte e prendi una carta “GERMA”."
+  },
+  {
+    "cardCode": "OP10-064",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP10-065",
+    "body": "Nella tua Main Phase puoi mettere a riposo 1 DON!! e lei: guardi le prime 5 carte e prendi una carta {Donquixote Pirates}."
+  },
+  {
+    "cardCode": "OP10-066",
+    "body": "Una volta per turno, quando l’avversario attacca, puoi mettere a riposo 2 DON!!: metti a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP10-067",
+    "body": "Quando lo giochi puoi pagare DON!! −1: riprendi in mano dal cestino un Event viola di costo 5 o meno, poi rendi attivo 1 DON!!."
+  },
+  {
+    "cardCode": "OP10-069",
+    "body": "Con almeno 1 DON!! dato, quando attacca puoi pagare DON!! −1 (anche quello dato a lui, ma allora la condizione non vale più): metti K.O. un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP10-070",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, i tuoi Character con potenza base 1000 o meno non possono essere messi K.O. dagli effetti avversari fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP10-071",
+    "body": "Quando lo giochi puoi pagare DON!! −1: giochi gratis dalla mano un Character {Donquixote Pirates} di costo 5 o meno.\n\nUna volta per turno, quando l’avversario attacca, puoi mettere a riposo 1 DON!! per prenderne 1 attivo dal mazzo DON!!."
+  },
+  {
+    "cardCode": "OP10-072",
+    "body": "Quando lo giochi puoi scartare un Event per pescare 2 carte.\n\nAlla fine del tuo turno, con 7 o più DON!! in campo, rendi attivi fino a 2 DON!!."
+  },
+  {
+    "cardCode": "OP10-074",
+    "body": "Una volta per turno, se sta per essere messo K.O. da un effetto avversario, puoi invece mettere a riposo 2 tuoi DON!! attivi."
+  },
+  {
+    "cardCode": "OP10-075",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: se hai DON!! in campo pari o meno dell’avversario, peschi 1 carta."
+  },
+  {
+    "cardCode": "OP10-076",
+    "body": "Quando la giochi puoi scartare 1 carta: se il Leader è {Donquixote Pirates}, prendi 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP10-077",
+    "body": "Ha [Blocker]. Quando blocca puoi mettere a riposo 2 DON!!: prendi 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP10-078",
+    "body": "Si usa nella Main Phase o come Counter: guardi le prime 3 carte e prendi una carta {Donquixote Pirates} (non questa)."
+  },
+  {
+    "cardCode": "OP10-079",
+    "body": "Costa 5: metti K.O. un Character avversario di costo 5 o meno, poi prendi 1 DON!! attivo.\n\nIl [Trigger] ti dà 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP10-080",
+    "body": "Counter da 3 DON!!: il Leader o un Character ha +4000 potenza per la battaglia; con 7 o più DON!! in campo e 5 carte o meno in mano peschi anche 1 carta.\n\nIl [Trigger] ti dà 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP10-081",
+    "body": "Quando lo giochi puoi mettere a riposo il tuo Leader o uno Stage {Dressrosa}: metti K.O. un Character avversario di costo 2 o meno, poi scarti le prime 2 carte del mazzo."
+  },
+  {
+    "cardCode": "OP10-082",
+    "body": "Non può lasciare il campo per effetti avversari.\n\nNella tua Main Phase puoi metterlo nel cestino: peschi 1 carta e giochi dal cestino un Character {Blackbeard Pirates} di costo 5 o meno (non [Kuzan])."
+  },
+  {
+    "cardCode": "OP10-083",
+    "body": "Nella tua Main Phase puoi mettere a riposo lui e il tuo Leader o uno Stage {Dressrosa}: dai −2 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP10-085",
+    "body": "Con almeno 1 DON!! dato e 8 o più carte nel cestino ha [Rush]."
+  },
+  {
+    "cardCode": "OP10-086",
+    "body": "Nel turno avversario ha +2000 potenza.\n\nUna volta per turno, nella tua Main Phase, se il Leader è {Blackbeard Pirates} e l’hai giocato in questo turno, metti K.O. un Character avversario di costo base 3 o meno."
+  },
+  {
+    "cardCode": "OP10-087",
+    "body": "Nella tua Main Phase puoi mettere a riposo lui e il tuo Leader o uno Stage {Dressrosa}: se l’avversario ha 5 o più carte in mano ne scarta 1, e poi scarti le prime 2 carte del tuo mazzo."
+  },
+  {
+    "cardCode": "OP10-088",
+    "body": "Nella tua Main Phase puoi mettere a riposo lei e il tuo Leader o uno Stage {Dressrosa}: peschi 1 carta, poi scarti le prime 2 carte del mazzo."
+  },
+  {
+    "cardCode": "OP10-090",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O. giochi dal cestino, a riposo, un Character {Dressrosa} di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP10-091",
+    "body": "Nella tua Main Phase puoi mettere a riposo lui e il tuo Leader o uno Stage {Dressrosa}: metti K.O. un Character avversario di costo 1 o meno, poi scarti le prime 2 carte del mazzo."
+  },
+  {
+    "cardCode": "OP10-092",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mettere 2 carte {Thriller Bark Pirates} del cestino in fondo al mazzo: un altro tuo Character ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP10-093",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: un tuo Character nero ha +3 costo fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP10-094",
+    "body": "Con almeno 1 DON!! dato ha [Double Attack]."
+  },
+  {
+    "cardCode": "OP10-095",
+    "body": "Quando lo giochi puoi mettere a riposo il tuo Leader o uno Stage {Dressrosa}: metti K.O. un Character avversario di costo 4 o meno, poi scarti le prime 2 carte del mazzo."
+  },
+  {
+    "cardCode": "OP10-096",
+    "body": "Costa 4: metti K.O. un Character avversario {The Seven Warlords of the Sea} di costo 8 o meno.\n\nIl [Trigger] fa lo stesso con uno di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP10-097",
+    "body": "Un tuo Character {Dressrosa} ha +2000 potenza per il turno; se hai 10 o più carte nel cestino (conta anche questa), guadagna anche [Banish].\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP10-098",
+    "body": "Costa 6: se hai almeno 2 Character in meno dell’avversario, metti K.O. un Character avversario di **costo base** 6 o meno e uno di costo base 4 o meno.\n\nIl [Trigger] annulla per il turno gli effetti del Leader e di un Character avversari."
+  },
+  {
+    "cardCode": "OP10-100",
+    "body": "Con almeno 1 DON!! dato, quando attacca metti a riposo un Character avversario con costo non superiore alle Vite tue e avversarie sommate.\n\nIl [Trigger]: se il Leader è {Revolutionary Army} e le Vite totali (senza questa) sono 5 o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP10-102",
+    "body": "Una volta per turno, nella tua Main Phase, fino a 3 tuoi Character {Revolutionary Army} hanno +1000 potenza per il turno; poi prendi in mano la prima carta della Vita (se ne hai)."
+  },
+  {
+    "cardCode": "OP10-103",
+    "body": "Quando lo giochi puoi prendere in mano la prima o l’ultima carta della Vita: metti a faccia in su in cima alla Vita un Character {Supernovas} dalla mano."
+  },
+  {
+    "cardCode": "OP10-104",
+    "body": "Con almeno 1 DON!! dato, se il Leader è {Supernovas} e l’avversario ha 3 o più Vite, non può essere messo K.O. in battaglia."
+  },
+  {
+    "cardCode": "OP10-106",
+    "body": "Quando viene messo K.O., se il Leader è {Supernovas}, guardi le prime 3 carte e prendi una carta {Supernovas} o {Kid Pirates}."
+  },
+  {
+    "cardCode": "OP10-107",
+    "body": "Ha [Blocker].\n\nQuando la giochi puoi prendere in mano la prima o l’ultima carta della Vita: metti a faccia in su in cima alla Vita un Character {Supernovas} di costo 5 dalla mano."
+  },
+  {
+    "cardCode": "OP10-108",
+    "body": "Se hai un altro Character giallo {Supernovas}, ha [Blocker]."
+  },
+  {
+    "cardCode": "OP10-109",
+    "body": "Quando viene messo K.O. metti nel cestino la prima carta della Vita avversaria.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP10-110",
+    "body": "Quando lo giochi metti a riposo un Character avversario con costo non superiore alle Vite dell’avversario.\n\nIl [Trigger]: se hai 2 Vite o meno (senza questa), lo giochi gratis."
+  },
+  {
+    "cardCode": "OP10-111",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi una carta {Supernovas} (non [Monkey.D.Luffy])."
+  },
+  {
+    "cardCode": "OP10-112",
+    "body": "Quando lo giochi puoi metterlo a riposo: metti nel cestino la prima carta della Vita avversaria.\n\nAlla fine del tuo turno, se l’avversario ha 2 Vite o meno, peschi 1 carta e ne scarti 1."
+  },
+  {
+    "cardCode": "OP10-113",
+    "body": "Se hai meno Vite dell’avversario, ha [Rush].\n\nIl [Trigger]: scarti 1 carta e, se il Leader è {Supernovas}, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP10-114",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: se hai Vite pari o meno dell’avversario, metti a riposo un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP10-115",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +4000 potenza per la battaglia; se hai 0 Vite peschi anche 1 carta.\n\nIl [Trigger] mette K.O. un Character avversario con costo non superiore alle Vite dell’avversario."
+  },
+  {
+    "cardCode": "OP10-116",
+    "body": "Guardi la prima carta della Vita tua o avversaria e la lasci in cima o la metti in fondo; poi metti K.O. un Character avversario di costo 5 o meno.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP10-117",
+    "body": "Counter: se hai 1 Vita o meno, il Leader o un Character ha +3000 potenza per la battaglia, poi rendi attivo un tuo Character di costo 5 o meno (per esempio per bloccare).\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP10-118",
+    "body": "Una volta per turno **non può** essere messo K.O. dagli effetti avversari (il primo tentativo fallisce sempre).\n\nQuando attacca puoi mettere 3 carte del cestino in fondo al mazzo: se l’avversario ha 5 o più carte in mano, ne scarta 1."
+  },
+  {
+    "cardCode": "OP10-119",
+    "body": "Quando lo giochi metti coperto in cima alla Vita un Character {Supernovas} dalla mano, poi dai 1 DON!! a riposo al tuo Leader {Supernovas}."
+  }
+]

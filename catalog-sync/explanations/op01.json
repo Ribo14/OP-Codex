@@ -1,0 +1,34 @@
+[
+  {
+    "cardCode": "OP01-001",
+    "body": "Con almeno 1 DON!! dato a Zoro, durante il tuo turno **tutti i tuoi Character hanno +1000 potenza**.\n\nÈ un bonus continuo: non serve attivarlo, basta che il Leader abbia il DON!! ([DON!! x1]) e che sia il tuo turno. Conviene dare il primo DON!! del turno al Leader, così ogni Character attacca più forte. Il bonus non vale nel turno avversario, quindi non aiuta a difendersi."
+  },
+  {
+    "cardCode": "OP01-002",
+    "body": "Una volta per turno, nella tua Main Phase, metti a riposo 2 DON!! della cost area: se hai **5 Character** in campo, riporti in mano uno di loro e poi puoi giocare dalla mano un Character di costo 5 o meno **di un colore diverso** da quello riportato in mano.\n\nIl Character nuovo si gioca senza pagarne il costo. Serve il campo pieno (5 Character), quindi il mazzo punta a riempire il campo con Character economici e poi a “scambiarli” con altri più utili, riusando anche i loro effetti [On Play]."
+  },
+  {
+    "cardCode": "OP01-003",
+    "body": "Una volta per turno, nella tua Main Phase, metti a riposo 4 DON!! della cost area: rendi **attivo** un tuo Character {Supernovas} o {Straw Hat Crew} di costo 5 o meno, che guadagna anche +1000 potenza per il turno.\n\nIn pratica un Character che ha già attaccato può attaccare di nuovo, più forte. Costa molto (4 DON!!), quindi si usa quando l’attacco in più può chiudere la partita o togliere un Character importante."
+  },
+  {
+    "cardCode": "OP01-031",
+    "body": "Una volta per turno, nella tua Main Phase, scarta dalla mano una carta {Land of Wano}: rendi **attivi fino a 2 DON!!**.\n\nÈ una “rampa”: paghi un costo in carte per avere 2 DON!! in più da spendere nel turno, per giocare Character più grandi prima del previsto. Il mazzo deve contenere molte carte {Land of Wano} da poter scartare."
+  },
+  {
+    "cardCode": "OP01-060",
+    "body": "Con almeno 2 DON!! dati al Leader, quando attacca puoi mettere a riposo 1 DON!! della cost area: riveli la prima carta del mazzo e, se è un Character {The Seven Warlords of the Sea} di costo 4 o meno, puoi **giocarla a riposo** gratis.\n\nÈ un effetto a sorpresa: più il mazzo ha Warlords di costo basso, più spesso funziona. Il Character entra a riposo, quindi non può bloccare fino al tuo turno successivo."
+  },
+  {
+    "cardCode": "OP01-061",
+    "body": "Con almeno 1 DON!! dato al Leader, nel tuo turno, la prima volta che un Character avversario viene messo **K.O.**, prendi 1 DON!! dal mazzo DON!! e lo metti **attivo**.\n\nOgni turno in cui elimini un Character avversario guadagni un DON!! in più, che puoi usare subito. Vale solo per i K.O. (in battaglia o da effetto), non per i Character rimandati in mano o nel mazzo."
+  },
+  {
+    "cardCode": "OP01-062",
+    "body": "Con almeno 1 DON!! dato al Leader, quando usi un Event puoi **pescare 1 carta**, se hai 4 carte o meno in mano. Funziona una sola volta per turno.\n\nVale anche nel turno avversario (per esempio usando un Event [Counter]), quindi ricordati di dare il DON!! al Leader. Il mazzo si basa su molti Event."
+  },
+  {
+    "cardCode": "OP01-091",
+    "body": "Nel tuo turno, se hai **10 DON!! in campo**, tutti i Character avversari hanno −1000 potenza.\n\nContano tutti i DON!! in campo: nella cost area e quelli dati a Leader e Character. È un effetto da fine partita, quando hai raggiunto il massimo dei DON!!: rende più facile vincere le battaglie contro i Character avversari."
+  }
+]

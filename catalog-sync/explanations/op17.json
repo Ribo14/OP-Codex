@@ -1,0 +1,454 @@
+[
+  {
+    "cardCode": "OP17-001",
+    "body": "Una volta per turno, quando l’avversario attacca, puoi scartare 1 carta: il tuo Leader o un tuo Character ha **+4000 potenza** per quella battaglia.\n\nÈ come un Counter da +4000 usabile con qualsiasi carta della mano."
+  },
+  {
+    "cardCode": "OP17-020",
+    "body": "Una volta per turno, nella tua Main Phase, scarti 1 carta **oppure** metti a riposo 1 DON!!: un Character avversario a riposo **non torna attivo** nella prossima Refresh Phase dell’avversario.\n\nFunziona bene dopo aver messo a riposo un Character avversario (o dopo che ha attaccato): resta bloccato per un turno."
+  },
+  {
+    "cardCode": "OP17-039",
+    "body": "Quando il Leader attacca puoi scartare 1 carta: riveli la prima carta del mazzo e, se è una carta “Rocks Pirates”, **peschi 2 carte**.\n\nPiù carte Rocks Pirates ci sono nel mazzo, più spesso lo scarto diventa un guadagno."
+  },
+  {
+    "cardCode": "OP17-058",
+    "body": "Una volta per turno, quando il Leader attacca **oppure** quando l’avversario attacca, puoi pagare DON!! −1: dai −2000 potenza per il turno a un Character avversario.\n\nIn attacco aiuta a battere un Character; in difesa indebolisce il Character che ti attacca."
+  },
+  {
+    "cardCode": "OP17-079",
+    "body": "Tutti i tuoi Character di **costo 12 o più** hanno [Blocker].\n\nIl costo può salire con gli effetti che danno +costo: i tuoi Character grandi diventano anche difensori."
+  },
+  {
+    "cardCode": "OP17-099",
+    "body": "Quando il Leader attacca puoi scartare 1 carta: **l’avversario sceglie** una delle due:\n- tu scarti 1 carta, poi aggiungi la prima del mazzo in cima alla tua Vita;\n- l’avversario scarta 1 carta dalla mano.\n\nIn ogni caso ottieni qualcosa: una Vita in più o una carta in meno all’avversario."
+  },
+  {
+    "cardCode": "OP17-002",
+    "body": "Nel turno avversario ha **+3000 potenza** (9000): difficile da battere quando ti attaccano."
+  },
+  {
+    "cardCode": "OP17-003",
+    "body": "Ha [Rush: Character]: può attaccare i Character avversari nel turno in cui entra.\n\nQuando lo giochi, se il tuo Leader è [Edward.Newgate] o è {Land of Wano}, dai −6000 potenza per il turno a un Character avversario **a riposo**: così lo batti facilmente attaccandolo subito."
+  },
+  {
+    "cardCode": "OP17-004",
+    "body": "Quando lo giochi, un tuo Character {Land of Wano} o “Whitebeard Pirates” guadagna [Rush] per il turno: può attaccare subito, anche se è appena entrato."
+  },
+  {
+    "cardCode": "OP17-005",
+    "body": "In mano costa **4 in meno** se l’avversario ha un Character con 10000 potenza o più.\n\nQuando lo giochi, la potenza base del tuo Leader **monocolore** (di un solo colore) diventa 8000 fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP17-007",
+    "body": "Quando lo giochi, se il tuo Leader è [Edward.Newgate] o è {Land of Wano}, giochi gratis dalla mano un Character {Land of Wano} o “Whitebeard Pirates” con 6000 potenza o meno."
+  },
+  {
+    "cardCode": "OP17-008",
+    "body": "Quando lo giochi, la potenza base del tuo Leader [Edward.Newgate] diventa **8000** fino alla fine del prossimo turno avversario.\n\nVale anche se un altro effetto l’aveva già cambiata: conta l’ultimo applicato."
+  },
+  {
+    "cardCode": "OP17-009",
+    "body": "Nel turno avversario ha +3000 potenza.\n\nQuando lo giochi, metti K.O. un Character avversario con **potenza base** 2000 o meno."
+  },
+  {
+    "cardCode": "OP17-010",
+    "body": "Una volta per turno, nella tua Main Phase: se l’avversario ha un Character con 10000 potenza o più e tu non hai **un altro [Fossa]**, questo Character guadagna [Blocker] e +2000 potenza fino alla fine del prossimo turno avversario.\n\nUna carta economica che diventa un buon difensore contro i mazzi con Character grandi."
+  },
+  {
+    "cardCode": "OP17-011",
+    "body": "Con almeno 2 DON!! dati, quando attacca dai **−4000 potenza** per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP17-012",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O., giochi gratis dalla mano una carta “Whitebeard Pirates” di costo 1: dopo aver bloccato lascia un altro difensore."
+  },
+  {
+    "cardCode": "OP17-013",
+    "body": "In mano costa **2 in meno** se l’avversario ha un Character con 10000 potenza o più.\n\nQuando lo giochi, se il tuo Leader è [Edward.Newgate], dai −6000 potenza per il turno a un Character avversario a riposo."
+  },
+  {
+    "cardCode": "OP17-014",
+    "body": "Quando lo giochi, metti K.O. un Character avversario con potenza base 2000 o meno.\n\nQuando l’avversario attacca, puoi mettere questo Character nel cestino: il tuo Leader ha +1000 potenza per quella battaglia."
+  },
+  {
+    "cardCode": "OP17-015",
+    "body": "Se un tuo Character sta per lasciare il campo per un **effetto avversario** (K.O., rimandato in mano o in fondo al mazzo), puoi invece mettere K.O. Marco.\n\nQuando Marco viene messo K.O., puoi scartare una carta “Whitebeard Pirates” per **rigiocarlo dal cestino**. Insieme i due effetti proteggono il campo più volte."
+  },
+  {
+    "cardCode": "OP17-016",
+    "body": "Quando lo giochi, metti K.O. fino a **2** Character avversari con potenza base 2000 o meno."
+  },
+  {
+    "cardCode": "OP17-017",
+    "body": "Counter da 1 DON!!: il tuo Leader o un tuo Character “Whitebeard Pirates” ha +2000 potenza per la battaglia, poi dai −2000 potenza per il turno al Leader o a un Character avversario (di solito quello che attacca)."
+  },
+  {
+    "cardCode": "OP17-018",
+    "body": "Due usi:\n- **Main**: metti a riposo 2 DON!! e metti K.O. uno Stage avversario;\n- **Counter**: se hai 2 o più Character con potenza base 8000 o più, il Leader o un Character ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-019",
+    "body": "Guardi le prime 5 carte del mazzo, prendi una carta “Whitebeard Pirates” e metti le altre in fondo.\n\nSe esce dalla Vita per un danno, il [Trigger] dà +1000 potenza al Leader per il turno."
+  },
+  {
+    "cardCode": "OP17-021",
+    "body": "Se un tuo Character “Red-Haired Pirates” sta per lasciare il campo per un **effetto avversario**, puoi invece mettere a riposo 1 tua carta (anche Crone stesso).\n\nSe ne colpiscono due insieme, basta una carta a riposo per salvarli entrambi."
+  },
+  {
+    "cardCode": "OP17-022",
+    "body": "Ha [Rush].\n\nQuando lo giochi rendi attivi fino a 2 DON!!, poi **metti a riposo tutti i Character avversari**: niente [Blocker] per l’avversario e attacchi liberi contro i suoi Character."
+  },
+  {
+    "cardCode": "OP17-023",
+    "body": "Se un tuo Character {East Blue} o {Straw Hat Crew} sta per essere messo K.O., puoi invece mettere a riposo Nami.\n\nFunziona anche per Nami stessa e, se due Character vanno K.O. insieme, li salva entrambi."
+  },
+  {
+    "cardCode": "OP17-024",
+    "body": "Ha [Banish]: la Vita che toglie va nel cestino senza [Trigger].\n\nQuando lo giochi, metti a riposo un Character avversario."
+  },
+  {
+    "cardCode": "OP17-025",
+    "body": "Quando viene messo K.O., metti K.O. un Character avversario **a riposo** di costo 6 o meno.\n\nUna volta per turno, nella tua Main Phase, dai 1 DON!! a riposo al tuo Leader [Shanks]."
+  },
+  {
+    "cardCode": "OP17-026",
+    "body": "Quando attacca, se il tuo Leader è {Red-Haired Pirates}, metti a riposo un Character avversario di costo 2 o meno.\n\nQuando viene messo K.O., peschi 1 carta."
+  },
+  {
+    "cardCode": "OP17-027",
+    "body": "Ha [Rush: Character].\n\nQuando lo giochi, se il tuo Leader è {Red-Haired Pirates}, peschi 1 carta e metti a riposo fino a 2 Character avversari."
+  },
+  {
+    "cardCode": "OP17-028",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, metti K.O. un Character avversario **a riposo** di costo 6 o meno: si combina con gli effetti verdi che mettono a riposo."
+  },
+  {
+    "cardCode": "OP17-029",
+    "body": "Ha [Blocker].\n\nQuando lo giochi rendi attivo 1 DON!!, poi metti a riposo fino a 2 Character avversari di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP17-030",
+    "body": "Quando lo giochi puoi mettere a riposo 1 DON!!: guadagna [Rush] per il turno.\n\nUna volta per turno, nella tua Main Phase, se hai 5 carte o meno in mano rendi attivo 1 DON!!: in pratica il [Rush] ti costa poco."
+  },
+  {
+    "cardCode": "OP17-031",
+    "body": "Quando lo giochi, peschi 1 carta e metti a riposo un Character avversario di costo 8 o meno.\n\nAlla fine del tuo turno rendi attivo un tuo Character “Red-Haired Pirates”, così può bloccare nel turno avversario."
+  },
+  {
+    "cardCode": "OP17-032",
+    "body": "Quando lo giochi, guardi le prime 3 carte del mazzo, prendi una carta “Red-Haired Pirates” e metti le altre in fondo."
+  },
+  {
+    "cardCode": "OP17-033",
+    "body": "Quando lo giochi, guardi le prime 3 carte del mazzo e prendi una carta “Red-Haired Pirates”.\n\nQuando l’avversario attacca, puoi metterlo nel cestino: metti a riposo il Leader o un Character avversario (per esempio un secondo attaccante)."
+  },
+  {
+    "cardCode": "OP17-034",
+    "body": "Una volta per turno, nella tua Main Phase, se il Leader avversario ha **6000 potenza o più**: rendi attivo 1 DON!!, poi la potenza base del tuo Leader {Red-Haired Pirates} diventa 6000 fino alla fine del prossimo turno avversario.\n\nSe il Leader avversario ha 5000 potenza o meno non succede nulla."
+  },
+  {
+    "cardCode": "OP17-036",
+    "body": "Due usi:\n- **Main**: metti a riposo 6 DON!!: metti a riposo un Character avversario, poi metti K.O. fino a 2 Character avversari a riposo di costo 6 o meno;\n- **Counter**: un tuo [Shanks] ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-037",
+    "body": "Due usi:\n- **Main**: guardi le prime 5 carte, prendi una carta “Red-Haired Pirates”;\n- **Counter**: metti a riposo 1 tua carta: il Leader o un Character ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-038",
+    "body": "Costa 0.\n- **Main**: metti a riposo 4 tue carte: metti a riposo un Character avversario;\n- **Counter**: scarti 1 carta: il Leader o un Character ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-040",
+    "body": "Quando lo giochi peschi 1 carta.\n\nUna volta per turno, quando il tuo Leader “Rocks Pirates” attacca **o viene attaccato**, puoi scartare 1 carta: il Leader ha +3000 potenza per la battaglia. In difesa si decide prima di [Blocker] e Counter."
+  },
+  {
+    "cardCode": "OP17-041",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi scartare 1 carta: **tutti** i Character avversari con costo base 1 vanno in fondo al mazzo (l’avversario sceglie l’ordine)."
+  },
+  {
+    "cardCode": "OP17-042",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi mostrare 3 carte “Rocks Pirates” dalla mano (restano in mano): dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP17-043",
+    "body": "Se sta per lasciare il campo (per qualsiasi motivo), puoi invece scartare 2 carte.\n\nQuando lo giochi, la potenza base del tuo Leader diventa 6000 fino alla fine del prossimo turno avversario. Se un altro effetto l’ha fissata a un valore più alto, resta quello."
+  },
+  {
+    "cardCode": "OP17-044",
+    "body": "Se il tuo Leader è “Rocks Pirates” e Captain John è **a riposo**, l’avversario può attaccare **solo lui**.\n\nNella tua Main Phase puoi metterlo a riposo per pescare 1 carta e scartarne 1: così attivi anche la protezione per Leader e Character."
+  },
+  {
+    "cardCode": "OP17-045",
+    "body": "Se un tuo Character sta per lasciare il campo per un **effetto avversario**, puoi invece scartare 2 carte (servono almeno 2 carte in mano).\n\nQuando lo giochi peschi 1 carta."
+  },
+  {
+    "cardCode": "OP17-046",
+    "body": "Ha [Blocker].\n\nQuando lo giochi metti in fondo al mazzo del proprietario un Character di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP17-047",
+    "body": "Alla fine del tuo turno, se hai 2 carte o meno in mano, l’avversario **sceglie** 1 carta della sua mano e la mette in fondo al suo mazzo."
+  },
+  {
+    "cardCode": "OP17-048",
+    "body": "Ha [Rush: Character].\n\nUna volta per turno, quando attacca **oppure** quando l’avversario attacca, puoi scartare una carta “Rocks Pirates”: dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP17-049",
+    "body": "Quando lo giochi, **l’avversario sceglie**: tu peschi 2 carte, oppure lui scarta 2 carte a sua scelta (anche se ne ha meno).\n\nUna volta per turno, quando l’avversario attacca, puoi scartare 1 carta: il Leader o un Character ha +1000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-050",
+    "body": "Quando lo giochi guardi le prime 2 carte del mazzo, le rimetti nell’ordine che vuoi **tutte in cima o tutte in fondo**, poi peschi 1 carta."
+  },
+  {
+    "cardCode": "OP17-052",
+    "body": "Quando lo giochi, riprendi in mano dal cestino un Event blu di costo 0."
+  },
+  {
+    "cardCode": "OP17-053",
+    "body": "Quando viene messo K.O., l’avversario sceglie 2 carte della sua mano e le mette in fondo al suo mazzo.\n\nUna volta per turno, nella tua Main Phase, puoi scartare 1 carta: +3000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP17-054",
+    "body": "Quando lo giochi, un Character avversario di costo base 6 o meno **non può attaccare** fino alla fine del prossimo turno avversario.\n\nNella tua Main Phase puoi mettere a riposo 3 DON!! e questo Character per fare lo stesso a un Character avversario qualsiasi."
+  },
+  {
+    "cardCode": "OP17-055",
+    "body": "Costa 0.\n- **Main**: metti a riposo 1 DON!!: un tuo [Rocks.D.Xebec] guadagna [Unblockable] per il turno;\n- **Counter**: il Leader o un Character “Rocks Pirates” ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-056",
+    "body": "Costa 0.\n- **Main**: metti a riposo 5 DON!!: rimandi in mano un Character di costo 6 o meno;\n- **Counter**: il Leader o un Character “Rocks Pirates” ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-057",
+    "body": "Stage. Quando l’avversario attacca puoi metterlo a riposo e scartare 1 carta: il Leader o un Character “Rocks Pirates” ha +1000 potenza per la battaglia. Si riusa ogni turno."
+  },
+  {
+    "cardCode": "OP17-059",
+    "body": "Ha [Blocker].\n\nQuando lo giochi puoi pagare DON!! −1: peschi 1 carta e metti K.O. fino a 2 Character avversari di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP17-060",
+    "body": "Quando lo giochi, se il tuo Leader è {Animal Kingdom Pirates}, prendi 1 DON!! attivo dal mazzo DON!!, poi metti K.O. un Character avversario con 3000 potenza o meno."
+  },
+  {
+    "cardCode": "OP17-061",
+    "body": "Quando lo giochi puoi pagare DON!! −1: se il Leader è {Animal Kingdom Pirates}, aggiungi la prima carta del mazzo in cima alla tua Vita.\n\nNella tua Main Phase puoi metterlo nel cestino per giocare gratis dalla mano un [King], [Queen] o [Jack]."
+  },
+  {
+    "cardCode": "OP17-062",
+    "body": "Ha [Blocker].\n\nUna volta per turno, nel tuo turno, quando un DON!! torna nel mazzo DON!! (per esempio con DON!! −1), prendi 1 DON!! attivo dal mazzo DON!!, poi rendi attivo 1 DON!!: recuperi subito quello speso."
+  },
+  {
+    "cardCode": "OP17-063",
+    "body": "Finché è in campo, i Character **in mano senza Counter** hanno Counter +1000.\n\nUna volta per turno, nella tua Main Phase, se è stato giocato in questo turno, puoi pagare DON!! −1: annulli l’effetto di un Character avversario di costo 6 o meno e lo metti K.O."
+  },
+  {
+    "cardCode": "OP17-064",
+    "body": "Ha [Blocker].\n\nUna volta per turno, quando l’avversario attacca, puoi scartare 1 carta: il Leader o un Character ha +2000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-065",
+    "body": "Ha [Banish].\n\nQuando lo giochi puoi pagare DON!! −1: peschi 1 carta e fino a 2 Character avversari di costo 5 o meno **non possono attaccare** fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP17-066",
+    "body": "Quando lo giochi puoi pagare DON!! −1: se hai un Character di costo 10 o più, peschi 2 carte e ne scarti 1."
+  },
+  {
+    "cardCode": "OP17-067",
+    "body": "Quando lo giochi puoi pagare DON!! −1: se hai un Character di costo 10 o più, metti a riposo un Character avversario."
+  },
+  {
+    "cardCode": "OP17-068",
+    "body": "Quando attacca puoi scartare 2 carte: se il Leader è {Animal Kingdom Pirates}, prendi fino a 2 DON!! a riposo dal mazzo DON!!."
+  },
+  {
+    "cardCode": "OP17-069",
+    "body": "Ha [Rush: Character].\n\nQuando lo giochi puoi pagare DON!! −1: se il Leader è {Animal Kingdom Pirates}, dai −2000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP17-071",
+    "body": "Quando lo giochi puoi pagare DON!! −1: metti K.O. fino a 2 Character avversari di costo 2 o meno.\n\nSe esce dalla Vita per un danno, con il [Trigger] lo giochi gratis (e il suo effetto si attiva)."
+  },
+  {
+    "cardCode": "OP17-072",
+    "body": "Ha [Blocker].\n\nUna volta per turno, quando l’avversario attacca, puoi scartare 1 carta: il Leader o un Character ha +1000 potenza per la battaglia. Se non lo usi su un attacco, puoi usarlo su uno successivo dello stesso turno."
+  },
+  {
+    "cardCode": "OP17-073",
+    "body": "Quando lo giochi puoi scartare 1 carta: se il Leader è {Animal Kingdom Pirates}, prendi 1 DON!! attivo dal mazzo DON!!."
+  },
+  {
+    "cardCode": "OP17-074",
+    "body": "Ha [Blocker].\n\nQuando lo giochi prendi 1 DON!! a riposo dal mazzo DON!!."
+  },
+  {
+    "cardCode": "OP17-075",
+    "body": "Quando lo giochi puoi pagare DON!! −2: **scegli tu** una carta a caso (coperta) dalla mano avversaria e la mandi nel cestino."
+  },
+  {
+    "cardCode": "OP17-076",
+    "body": "Counter da 0 DON!!: scarti 1 carta e il Leader o un Character ha +3000 potenza per la battaglia.\n\nSe esce dalla Vita per un danno, con il [Trigger] puoi pagare DON!! −1 per pescare 2 carte."
+  },
+  {
+    "cardCode": "OP17-077",
+    "body": "Due usi:\n- **Main**: metti a riposo 3 DON!! e scarti 2 carte: se il Leader è {Animal Kingdom Pirates}, prendi fino a 3 DON!! a riposo;\n- **Counter**: DON!! −1: il tuo Leader ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-078",
+    "body": "Due usi:\n- **Main**: metti a riposo 2 DON!! e scarti 2 carte: se il Leader è {Animal Kingdom Pirates}, prendi fino a 3 DON!! a riposo;\n- **Counter**: il Leader o un Character ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-080",
+    "body": "Se in campo c’è un Character di costo 12 o più (tuo o avversario), ha +3000 potenza.\n\nQuando lo giochi guardi le prime 3 carte, prendi una carta {Elbaph} e metti le altre nel cestino."
+  },
+  {
+    "cardCode": "OP17-081",
+    "body": "Se il Leader è {Elbaph}, ha **+12 costo** in campo (utile per le condizioni “costo 12 o più”).\n\nQuando lo giochi puoi scartare 1 carta per riprendere dal cestino un Character di costo 8 o meno (non un altro [Gerd])."
+  },
+  {
+    "cardCode": "OP17-082",
+    "body": "Se c’è un Character di costo 12 o più, ha +3000 potenza.\n\nQuando lo giochi peschi 2 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "OP17-083",
+    "body": "Se c’è un Character di costo 12 o più, ha [Blocker] e +3000 potenza."
+  },
+  {
+    "cardCode": "OP17-084",
+    "body": "Quando lo giochi, se c’è un Character di costo 12 o più, un tuo Character guadagna [Unblockable] per il turno."
+  },
+  {
+    "cardCode": "OP17-085",
+    "body": "In campo ha **+12 costo** (non in mano o nel cestino).\n\nQuando lo giochi, se il Leader è {Elbaph}, giochi gratis un [Brogy] di costo 5 o meno dalla mano o dal cestino; poi non puoi giocare altri Character in quel turno."
+  },
+  {
+    "cardCode": "OP17-086",
+    "body": "Quando lo giochi puoi scartare una carta {Elbaph} per pescare 2 carte."
+  },
+  {
+    "cardCode": "OP17-087",
+    "body": "Se c’è un Character di costo 12 o più, ha +3000 potenza e, quando lo giochi, dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP17-089",
+    "body": "In campo ha **+12 costo**.\n\nQuando lo giochi guardi le prime 3 carte, prendi una carta {Elbaph} e metti le altre nel cestino."
+  },
+  {
+    "cardCode": "OP17-090",
+    "body": "Se c’è un Character di costo 12 o più, ha +3000 potenza e, quando lo giochi, metti K.O. un Character avversario di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP17-091",
+    "body": "Se c’è un Character di costo 12 o più, ha +3000 potenza e, quando lo giochi, l’avversario scarta 1 carta **a sua scelta**."
+  },
+  {
+    "cardCode": "OP17-092",
+    "body": "In campo ha **+12 costo**.\n\nQuando lo giochi, se il Leader è {Elbaph}, giochi gratis un [Dorry] di costo 5 o meno dalla mano o dal cestino; poi non puoi giocare altri Character in quel turno."
+  },
+  {
+    "cardCode": "OP17-093",
+    "body": "Se c’è un Character di costo 12 o più, ha [Rush].\n\nQuando lo giochi peschi 1 carta e giochi gratis dal cestino un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP17-094",
+    "body": "Se il Leader è {Elbaph}, in campo ha **+12 costo**: con 1 DON!! attivi tutte le condizioni “costo 12 o più”."
+  },
+  {
+    "cardCode": "OP17-095",
+    "body": "Se c’è un Character di costo 12 o più, ha +3000 potenza.\n\nSe un tuo Character sta per lasciare il campo per un **effetto avversario**, puoi invece mettere 3 carte del cestino in fondo al mazzo (salva anche più Character colpiti insieme)."
+  },
+  {
+    "cardCode": "OP17-096",
+    "body": "Counter: se c’è un Character di costo 12 o più, il Leader o un Character ha +4000 potenza per la battaglia.\n\nIl [Trigger] riprende in mano dal cestino una carta {Elbaph}."
+  },
+  {
+    "cardCode": "OP17-097",
+    "body": "Due usi:\n- **Main**: tutti i Character avversari **in campo in quel momento** hanno −1 costo per il turno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-098",
+    "body": "Due usi:\n- **Main**: metti a riposo 6 DON!!: se c’è un Character di costo 12 o più, metti K.O. fino a 2 Character avversari di costo 6 o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-101",
+    "body": "Una volta per turno, nella tua Main Phase, puoi prendere in mano la prima carta della tua Vita: dai −3000 potenza per il turno a un Character avversario.\n\nIl [Trigger]: scarti 1 carta per mettere K.O. un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP17-102",
+    "body": "Quando viene messo K.O., giochi dal cestino un Character con 4000 potenza o meno (non un altro [Charlotte Oven]).\n\nCon il [Trigger] lo giochi gratis quando esce dalla Vita."
+  },
+  {
+    "cardCode": "OP17-103",
+    "body": "Quando lo giochi **nel tuo turno**, se il Leader è {Big Mom Pirates}, aggiungi la prima carta del mazzo in cima alla Vita, poi dai −3000 potenza per il turno a un Character avversario.\n\nCon il [Trigger] lo giochi gratis, ma essendo il turno avversario il suo [On Play] non si attiva."
+  },
+  {
+    "cardCode": "OP17-104",
+    "body": "Quando lo giochi **nel tuo turno** puoi mettere a riposo 2 DON!!: se il Leader è {Big Mom Pirates}, aggiungi la prima carta del mazzo in cima alla Vita.\n\nCon il [Trigger] lo giochi gratis (senza l’effetto [On Play])."
+  },
+  {
+    "cardCode": "OP17-105",
+    "body": "Quando lo giochi puoi scartare una carta con [Trigger]: rimandi in mano un Character avversario che ha un effetto [Trigger] vero e proprio."
+  },
+  {
+    "cardCode": "OP17-106",
+    "body": "Quando lo giochi **nel tuo turno** puoi mettere a riposo 2 DON!!: aggiungi la prima carta del mazzo in cima alla Vita, poi l’avversario scarta 1 carta a sua scelta.\n\nCon il [Trigger] lo giochi gratis (senza l’effetto [On Play])."
+  },
+  {
+    "cardCode": "OP17-107",
+    "body": "Non ha effetti in campo, ma con il [Trigger] lo giochi gratis quando esce dalla Vita: un Character in più al posto di una carta in mano."
+  },
+  {
+    "cardCode": "OP17-108",
+    "body": "Ha [Blocker].\n\nIl [Trigger] mette a riposo un Character avversario di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP17-109",
+    "body": "Quando lo giochi puoi scartare una carta con [Trigger] per **pescare 3 carte**.\n\nIl [Trigger] guarda le prime 5 carte e prende una carta {Big Mom Pirates}."
+  },
+  {
+    "cardCode": "OP17-110",
+    "body": "Quando lo giochi **nel tuo turno**, giochi gratis dalla mano un Character {Big Mom Pirates} di costo 6 o meno, poi Perospero stesso guadagna [Rush].\n\nCon il [Trigger] lo giochi gratis (senza l’effetto [On Play])."
+  },
+  {
+    "cardCode": "OP17-111",
+    "body": "Quando lo giochi puoi mostrare 2 carte con [Trigger] dalla mano: metti K.O. fino a 2 Character avversari di costo 1 o meno.\n\nCon il [Trigger] lo giochi gratis (e l’[On Play] si attiva)."
+  },
+  {
+    "cardCode": "OP17-112",
+    "body": "Nel tuo turno, i tuoi Character con [Trigger] e **potenza base 4000** hanno potenza base 8000.\n\nQuando lo giochi peschi 1 carta e **scegli tu** una: aggiungi la prima carta del mazzo in cima alla tua Vita, oppure l’avversario prende in mano la prima carta della sua Vita."
+  },
+  {
+    "cardCode": "OP17-113",
+    "body": "Quando lo giochi guardi le prime 3 carte del mazzo, prendi una carta {Big Mom Pirates} e metti le altre in fondo."
+  },
+  {
+    "cardCode": "OP17-114",
+    "body": "Quando lo giochi **nel tuo turno** puoi mettere a riposo 2 DON!!: peschi 1 carta, aggiungi la prima carta del mazzo in cima alla Vita, poi dai −3000 potenza per il turno a fino a 2 Character avversari.\n\nCon il [Trigger] lo giochi gratis (senza l’effetto [On Play])."
+  },
+  {
+    "cardCode": "OP17-115",
+    "body": "Due usi:\n- **Main**: il tuo Leader [Charlotte Linlin] guadagna [Unblockable] per il turno;\n- **Counter**: un tuo [Charlotte Linlin] ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-116",
+    "body": "Due usi:\n- **Main**: metti a riposo 2 DON!! e metti K.O. uno Stage avversario;\n- **Counter**: se hai 2 o più Character con [Trigger], il Leader o un Character ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP17-117",
+    "body": "Counter: un tuo [Charlotte Linlin] ha +3000 potenza per la battaglia.\n\nIl [Trigger]: l’avversario sceglie se scartare 3 carte; se non lo fa, metti K.O. un suo Character di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP17-118",
+    "body": "Se **tutti** i tuoi Character sono senza Counter (e ne hai almeno uno), in mano ha Counter +2000.\n\nQuando lo giochi peschi 1 carta e giochi gratis dalla mano fino a 2 carte {Rocks Pirates} con nomi diversi e **costo totale 9 o meno** (anche una sola)."
+  },
+  {
+    "cardCode": "OP17-119",
+    "body": "In campo ha +12 costo e, nel turno avversario, +3000 potenza.\n\nQuando lo giochi metti K.O. **quanti Character avversari vuoi** purché il loro costo totale sia 4 o meno (anche quelli ridotti a costo 0)."
+  }
+]

@@ -15,7 +15,7 @@ export const SECTIONS: readonly Section[] = [
   { key: 'catalog', path: '/', icon: LibraryBig, ready: true, account: false },
   { key: 'decks', path: '/mazzi', icon: Layers, ready: true, account: true },
   { key: 'collection', path: '/collezione', icon: WalletCards, ready: true, account: true },
-  { key: 'rules', path: '/regole', icon: BookOpen, ready: false, account: false },
+  { key: 'rules', path: '/regole', icon: BookOpen, ready: true, account: false },
   { key: 'profile', path: '/profilo', icon: User, ready: true, account: true },
 ]
 

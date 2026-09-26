@@ -1,0 +1,418 @@
+[
+  {
+    "cardCode": "OP13-001",
+    "body": "Con almeno 1 DON!! dato al Leader, **quando l’avversario attacca**, se hai 5 DON!! attivi o meno puoi mettere a riposo quanti DON!! vuoi: per ognuno il Leader o un tuo Character {Straw Hat Crew} ha +2000 potenza per quella battaglia.\n\nI DON!! lasciati attivi a fine turno diventano una difesa: 2 DON!! valgono +4000."
+  },
+  {
+    "cardCode": "OP13-002",
+    "body": "Una volta per turno, quando l’avversario attacca, puoi scartare 1 carta: dai −2000 potenza per quella battaglia al suo Leader o a un suo Character (di solito quello che attacca).\n\nCon almeno 1 DON!! dato al Leader, una volta per turno quando subisci un danno o un tuo Character con 6000 potenza base o più viene messo K.O., **peschi 1 carta**. Parte con 3 Vite e 6000 potenza."
+  },
+  {
+    "cardCode": "OP13-003",
+    "body": "Se hai già DON!! in campo, **uno dei DON!! che metti nella DON!! Phase va direttamente al Leader** (dato a lui).\n\nIl Leader ha 7000 potenza, ma finché hai 9 DON!! o meno in campo ha −2000. Con 10 DON!! in campo diventa molto forte."
+  },
+  {
+    "cardCode": "OP13-004",
+    "body": "Se hai 4 Vite o più, il Leader ha −1000 potenza.\n\nCon almeno 1 DON!! dato al Leader, se hai un Character di costo 8 o più, **il Leader e tutti i tuoi Character hanno +1000 potenza**. Il mazzo punta a mettere in campo presto un Character grande."
+  },
+  {
+    "cardCode": "OP13-079",
+    "body": "Con questo Leader **nel mazzo non puoi mettere Event di costo 2 o più**, e a inizio partita giochi dal mazzo uno Stage {Mary Geoise}.\n\nUna volta per turno, nella tua Main Phase, puoi mettere nel cestino un tuo Character {Celestial Dragons} oppure scartare 1 carta: peschi 1 carta."
+  },
+  {
+    "cardCode": "OP13-100",
+    "body": "Una volta per turno, nel tuo turno, quando giochi un Character con [Trigger], dai **fino a 2 DON!! a riposo** al Leader o a un tuo Character.\n\nRiusa DON!! già spesi per dare +2000 potenza (e soddisfare condizioni [DON!! xX])."
+  },
+  {
+    "cardCode": "OP13-005",
+    "body": "Quando lo giochi, dai 1 DON!! a riposo al tuo Leader."
+  },
+  {
+    "cardCode": "OP13-006",
+    "body": "Quando lo giochi, dai fino a 2 DON!! a riposo a un tuo [Monkey.D.Luffy] (Leader o Character)."
+  },
+  {
+    "cardCode": "OP13-007",
+    "body": "Nella tua Main Phase puoi dare 1 DON!! **attivo** al Leader o a un Character e mettere questa carta nel cestino: dai −3000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP13-008",
+    "body": "Se un tuo Character {Revolutionary Army} sta per essere messo K.O. da un effetto avversario, puoi invece mettere nel cestino Ivankov (anche se è lui il bersaglio: così non è un K.O. e gli effetti [On K.O.] non partono)."
+  },
+  {
+    "cardCode": "OP13-009",
+    "body": "Se hai un altro Character {Mountain Bandits}, ha [Double Attack]."
+  },
+  {
+    "cardCode": "OP13-012",
+    "body": "Quando la giochi guardi le prime 4 carte e prendi una carta {Alabasta} o {Straw Hat Crew} **di costo 2 o più**."
+  },
+  {
+    "cardCode": "OP13-013",
+    "body": "Quando lo giochi, metti K.O. un Character avversario con 0 potenza o meno (dopo averlo indebolito con altri effetti)."
+  },
+  {
+    "cardCode": "OP13-014",
+    "body": "Il [Trigger] dà +3000 potenza per il turno a un tuo [Portgas.D.Ace]."
+  },
+  {
+    "cardCode": "OP13-015",
+    "body": "Nella tua Main Phase puoi metterla a riposo: un tuo [Monkey.D.Luffy] ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP13-016",
+    "body": "Quando lo giochi, se il Leader è [Sabo], [Portgas.D.Ace] o [Monkey.D.Luffy], guardi le prime 4 carte e prendi una carta di costo 3 o più."
+  },
+  {
+    "cardCode": "OP13-017",
+    "body": "Una volta per turno, se un tuo Character {Revolutionary Army} sta per lasciare il campo per un effetto avversario, puoi invece dare −2000 potenza per il turno a Dragon (anche se ne ha meno)."
+  },
+  {
+    "cardCode": "OP13-019",
+    "body": "Due usi:\n- **Main**: metti a riposo 4 DON!!: dai −3000 potenza a un Character avversario, poi metti K.O. un Character avversario con 3000 potenza o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP13-020",
+    "body": "Dai −5000 potenza per il turno a un Character avversario.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP13-021",
+    "body": "Dai 1 DON!! a riposo a un tuo [Monkey.D.Luffy], poi −2000 potenza per il turno a un Character avversario.\n\nIl [Trigger] dà −2000 potenza a un Character avversario."
+  },
+  {
+    "cardCode": "OP13-022",
+    "body": "Stage. Nella tua Main Phase puoi metterlo a riposo: un tuo Character con potenza base 2000 o meno ha +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP13-023",
+    "body": "Quando la giochi rendi attivi fino a 2 DON!!, ma in quel turno non puoi giocare Character di costo base 5 o più.\n\nQuando viene messa K.O., giochi dalla mano, a riposo, un Character di costo 5 o meno (non nello stesso turno del suo [On Play], se costa 5)."
+  },
+  {
+    "cardCode": "OP13-024",
+    "body": "Quando lo giochi puoi mostrare una carta {Music} o {FILM} dalla mano: alla fine del turno rendi attivi fino a 2 DON!!."
+  },
+  {
+    "cardCode": "OP13-025",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, se il Leader è {FILM} o ha l’attributo <Strike>, rendi attivo 1 DON!!."
+  },
+  {
+    "cardCode": "OP13-026",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mettere a riposo 1 DON!!: ha +2000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP13-027",
+    "body": "Quando lo giochi rendi attivi fino a 2 DON!!.\n\nAlla fine del tuo turno, se il Leader è {FILM} o {Straw Hat Crew}, rendi attivo 1 DON!!."
+  },
+  {
+    "cardCode": "OP13-028",
+    "body": "Quando lo giochi rendi attivi **tutti** i tuoi DON!!, ma per il resto del turno non puoi giocare carte dalla mano pagandone il costo (gli effetti che “giocano” carte funzionano ancora)."
+  },
+  {
+    "cardCode": "OP13-030",
+    "body": "Quando lo giochi rendi attivi fino a 2 DON!!: costa in pratica 3."
+  },
+  {
+    "cardCode": "OP13-031",
+    "body": "Se hai 1 Vita o meno, ha [Blocker].\n\nQuando lo giochi puoi rimandare in mano un tuo Character (anche lui stesso): giochi dalla mano, a riposo, un Character di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP13-032",
+    "body": "Quando la giochi, un Character avversario di costo 8 o meno **non può essere messo a riposo** fino alla fine del prossimo turno avversario: non può attaccare, bloccare né usare effetti che lo mettono a riposo."
+  },
+  {
+    "cardCode": "OP13-033",
+    "body": "Quando viene messo K.O., metti a riposo fino a 2 carte avversarie (Leader, Character, Stage o DON!!)."
+  },
+  {
+    "cardCode": "OP13-034",
+    "body": "Quando lo giochi, se il Leader è {FILM} o {Straw Hat Crew}, rendi attivo 1 DON!!."
+  },
+  {
+    "cardCode": "OP13-035",
+    "body": "Alla fine del tuo turno rendi attivo lui stesso **oppure** 1 DON!!."
+  },
+  {
+    "cardCode": "OP13-037",
+    "body": "Quando lo giochi, se il Leader è {FILM} o {Straw Hat Crew}, rendi attivi fino a 2 DON!!.\n\nAlla fine del tuo turno torna attivo."
+  },
+  {
+    "cardCode": "OP13-038",
+    "body": "Metti a riposo un Character avversario di costo 5 o meno; alla fine del turno rendi attivi fino a 2 DON!!.\n\nIl [Trigger] mette a riposo un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP13-039",
+    "body": "Counter da 2 DON!!: metti K.O. un Character avversario **a riposo** di costo 4 o meno (per esempio uno che ha attaccato).\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP13-040",
+    "body": "Due usi:\n- **Main**: metti a riposo 2 DON!!: fino a 2 Character avversari a riposo di costo 7 o meno non tornano attivi nella sua prossima Refresh Phase;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP13-041",
+    "body": "Quando lo giochi peschi 2 carte."
+  },
+  {
+    "cardCode": "OP13-042",
+    "body": "Ha [Blocker].\n\nQuando lo giochi peschi 2 carte e ne scarti 1, poi dai fino a 2 DON!! a riposo al Leader **e** fino a 2 a un Character."
+  },
+  {
+    "cardCode": "OP13-043",
+    "body": "Quando la giochi, se hai 3 Vite o meno, peschi 2 carte e ne scarti 1."
+  },
+  {
+    "cardCode": "OP13-044",
+    "body": "Quando attacca, dai 1 DON!! a riposo al tuo Leader o a un Character “Whitebeard Pirates”.\n\nQuando viene messo K.O. peschi 1 carta."
+  },
+  {
+    "cardCode": "OP13-045",
+    "body": "Quando attacca, se hai 4 carte o meno in mano, peschi 1 carta."
+  },
+  {
+    "cardCode": "OP13-046",
+    "body": "Ha [Double Attack].\n\nUna volta per turno, se sta per essere messo K.O. o per lasciare il campo per un effetto avversario, puoi invece scartare una carta “Whitebeard Pirates”."
+  },
+  {
+    "cardCode": "OP13-047",
+    "body": "Se un tuo Character “Whitebeard Pirates” sta per essere messo K.O. da un effetto avversario, puoi invece mettere nel cestino Fossa (senza K.O., quindi niente [On K.O.])."
+  },
+  {
+    "cardCode": "OP13-050",
+    "body": "Quando la giochi, se il Leader è [Boa Hancock], giochi gratis dalla mano un [Boa Hancock] di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP13-051",
+    "body": "Quando viene messa K.O., se il Leader è [Boa Hancock] o multicolore, peschi 2 carte."
+  },
+  {
+    "cardCode": "OP13-052",
+    "body": "Ha [Blocker].\n\nQuando la giochi, se il Leader è [Boa Hancock], giochi gratis dalla mano un [Boa Hancock] di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP13-053",
+    "body": "Quando attacca puoi mettere nel cestino un tuo Character “Whitebeard Pirates”: peschi 1 carta e guadagna [Banish] per il turno. Se metti nel cestino lui stesso, peschi ma l’attacco finisce."
+  },
+  {
+    "cardCode": "OP13-054",
+    "body": "Quando la giochi, se hai 3 Vite o meno, peschi 2 carte e dai 1 DON!! a riposo al Leader."
+  },
+  {
+    "cardCode": "OP13-055",
+    "body": "Quando attacca, se hai 4 carte o meno in mano, tutti i tuoi Character “Whitebeard Pirates” hanno +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP13-056",
+    "body": "Quando attacca, se il Leader è “Whitebeard Pirates”, peschi 1 carta."
+  },
+  {
+    "cardCode": "OP13-057",
+    "body": "Due usi:\n- **Main**: metti a riposo 1 DON!!: se hai 1 Vita o meno, per il turno l’avversario non può usare [Blocker] contro gli attacchi del tuo Leader;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP13-058",
+    "body": "Due usi:\n- **Main**: metti a riposo 1 DON!!: metti in fondo al mazzo un Character avversario con 3000 potenza o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP13-059",
+    "body": "Puoi rimandare in mano un tuo Character: rimandi in mano un Character di costo 6 o meno.\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP13-060",
+    "body": "Se un tuo Character “Roger Pirates” sta per essere messo K.O. da un effetto avversario, puoi invece mettere nel cestino Toki (senza K.O.)."
+  },
+  {
+    "cardCode": "OP13-061",
+    "body": "Quando lo giochi, se hai DON!! dati a qualche carta, prendi 1 DON!! a riposo, poi metti K.O. un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP13-062",
+    "body": "Quando lo giochi, se hai DON!! dati a qualche carta, prendi 1 DON!! attivo.\n\nQuando attacca, rimandi in mano un Character avversario con potenza base 3000 o meno."
+  },
+  {
+    "cardCode": "OP13-063",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, se hai DON!! dati a qualche carta, prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "OP13-064",
+    "body": "Finché è in campo, il tuo Leader e i Character che non sono “Roger Pirates” **perdono i loro effetti**.\n\nQuando lo giochi puoi pagare DON!! −3: il Leader ha +2000 e i Character avversari già in campo −2000, fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP13-065",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi una carta “Roger Pirates” (non [Shanks])."
+  },
+  {
+    "cardCode": "OP13-066",
+    "body": "Ha [Rush].\n\nQuando lo giochi, se hai DON!! dati a qualche carta, metti a riposo un Character avversario di costo 5 o meno; alla fine del turno prendi 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP13-067",
+    "body": "Quando lo giochi, se il Leader è “Roger Pirates”, peschi 2 carte, ne scarti 1 e prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "OP13-068",
+    "body": "Con 8 o più DON!! in campo ha +2000 potenza.\n\nQuando lo giochi, se il Leader è “Roger Pirates”, prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "OP13-069",
+    "body": "Quando lo giochi puoi pagare DON!! −1: riprendi in mano dal cestino uno Stage di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP13-071",
+    "body": "Quando lo giochi, se hai 8 o più DON!! in campo, metti K.O. un Character avversario con potenza base 3000 o meno."
+  },
+  {
+    "cardCode": "OP13-072",
+    "body": "Quando lo giochi, se il Leader è “Roger Pirates” e hai DON!! dati a qualche carta, prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "OP13-074",
+    "body": "Quando lo giochi, giochi gratis dalla mano un Character {Homies} con 3000 potenza o meno."
+  },
+  {
+    "cardCode": "OP13-075",
+    "body": "Due usi:\n- **Main**: metti a riposo 1 DON!!: se il Leader è [Gol.D.Roger] e hai DON!! dati, prendi 1 DON!! a riposo;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP13-076",
+    "body": "Costa 0.\n- **Main**: metti a riposo 5 DON!!: se hai DON!! dati, dai −8000 potenza per il turno a un Character avversario;\n- **Counter**: scarti 1 carta: il Leader o un Character ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP13-077",
+    "body": "Due usi:\n- **Main**: metti a riposo 3 DON!!: se hai DON!! dati, metti K.O. un Character avversario con **potenza base** 4000 o meno e uno con potenza base 3000 o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP13-078",
+    "body": "Stage. Una volta per turno, quando un tuo Character “Roger Pirates” lascia il campo per un effetto avversario, prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "OP13-080",
+    "body": "Con 7 o più carte nel cestino ha [Rush] e **non può lasciare il campo per effetti avversari**.\n\nQuando attacca, con 10 o più carte nel cestino, dai −2000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP13-081",
+    "body": "Se il Leader è {Revolutionary Army}, ha +3 costo.\n\nUna volta per turno, nella tua Main Phase, puoi mettere una carta del cestino in fondo al mazzo: dai 1 DON!! a riposo al Leader o a un Character."
+  },
+  {
+    "cardCode": "OP13-082",
+    "body": "Nella tua Main Phase, se il Leader è [Imu], puoi mettere a riposo 1 DON!! e scartare 1 carta: metti nel cestino **tutti** i tuoi Character (lui compreso) e giochi dal cestino fino a 5 Character {Five Elders} con 5000 potenza e nomi diversi."
+  },
+  {
+    "cardCode": "OP13-083",
+    "body": "Con 7 o più carte nel cestino **non può lasciare il campo per effetti avversari**.\n\nQuando lo giochi guardi le prime 5 carte e prendi una carta {Five Elders}."
+  },
+  {
+    "cardCode": "OP13-084",
+    "body": "Con 7 o più carte nel cestino non può lasciare il campo per effetti avversari.\n\nNel tuo turno, con 10 o più carte nel cestino, la potenza base di tutti i tuoi {Five Elders} diventa 7000 (anche quella del [Five Elders] da 12000)."
+  },
+  {
+    "cardCode": "OP13-086",
+    "body": "Quando la giochi guardi le prime 3 carte, prendi una carta {Celestial Dragons} (non [Saint Shalria]), metti le altre nel cestino e scarti 1 carta."
+  },
+  {
+    "cardCode": "OP13-087",
+    "body": "Ha [Blocker].\n\nQuando lo giochi scarti la prima carta del mazzo."
+  },
+  {
+    "cardCode": "OP13-089",
+    "body": "Con 7 o più carte nel cestino ha [Blocker] e non può lasciare il campo per effetti avversari.\n\nQuando viene messo K.O. peschi 1 carta."
+  },
+  {
+    "cardCode": "OP13-091",
+    "body": "Con 7 o più carte nel cestino ha [Blocker] e non può lasciare il campo per effetti avversari.\n\nQuando lo giochi puoi scartare 1 carta: metti K.O. un Character avversario di costo base 5 o meno."
+  },
+  {
+    "cardCode": "OP13-092",
+    "body": "Quando lo giochi, se hai 3 Vite o meno, giochi dal cestino uno Stage {Mary Geoise} di costo 1."
+  },
+  {
+    "cardCode": "OP13-093",
+    "body": "Ha [Blocker].\n\nQuando lo giochi peschi 2 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "OP13-094",
+    "body": "Quando la giochi, un tuo Character {Celestial Dragons} ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP13-095",
+    "body": "Quando lo giochi puoi scartare 1 carta: se hai **solo** Character {Celestial Dragons}, metti K.O. fino a 2 Character avversari di costo base 3 o meno."
+  },
+  {
+    "cardCode": "OP13-096",
+    "body": "Guardi le prime 3 carte, prendi una carta {Celestial Dragons} (non questa) e metti le altre nel cestino.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP13-097",
+    "body": "Due usi:\n- **Main**: metti a riposo 5 DON!!: se in campo hai solo Character {Celestial Dragons} (almeno uno), metti K.O. un Character avversario di costo base 6 o meno;\n- **Counter**: il tuo Leader ha +3000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP13-098",
+    "body": "Se il Leader è [Imu]:\n- **Main**: metti a riposo 1 DON!!: metti K.O. uno Stage avversario di costo **esattamente 7**;\n- **Counter**: il Leader o un Character ha +4000 potenza per la battaglia."
+  },
+  {
+    "cardCode": "OP13-099",
+    "body": "Stage di costo 7. Nel tuo turno, con 19 o più carte nel cestino, il tuo Leader ha +1000 potenza.\n\nNella tua Main Phase puoi metterlo a riposo insieme a 3 DON!!: giochi gratis dalla mano un Character nero {Five Elders} con costo non superiore ai DON!! in campo."
+  },
+  {
+    "cardCode": "OP13-102",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: se hai Vite pari o meno dell’avversario, peschi 1 carta e metti a riposo un Character avversario di costo 3 o meno.\n\nIl [Trigger] fa lo stesso senza condizione."
+  },
+  {
+    "cardCode": "OP13-104",
+    "body": "Ha [Blocker].\n\nQuando viene messa K.O. puoi scartare 1 carta: se il Leader è multicolore, aggiungi la prima carta del mazzo in cima alla Vita."
+  },
+  {
+    "cardCode": "OP13-105",
+    "body": "Quando lo giochi guardi tutte le tue Vite e le rimetti nell’ordine che vuoi: sai quali [Trigger] arriveranno."
+  },
+  {
+    "cardCode": "OP13-106",
+    "body": "Nel turno avversario, quando si attiva un [Trigger] (tuo o avversario) mentre è in campo, guadagna [Blocker] per il turno.\n\nCon il [Trigger] la giochi gratis."
+  },
+  {
+    "cardCode": "OP13-108",
+    "body": "Quando la giochi, se il Leader è {Egghead}, guadagna [Rush] e l’avversario prende in mano la prima carta della sua Vita.\n\nIl [Trigger]: se hai 1 Vita o meno, metti a riposo un Character avversario di costo 7 o meno."
+  },
+  {
+    "cardCode": "OP13-109",
+    "body": "Se sta per lasciare il campo per un effetto avversario, puoi invece girare a faccia in su la prima carta della Vita (se è coperta).\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP13-110",
+    "body": "Ha [Blocker].\n\nQuando la giochi, se il Leader è {Egghead}, giochi gratis dalla mano un Character di costo 5 o meno con [Trigger]."
+  },
+  {
+    "cardCode": "OP13-112",
+    "body": "Se in totale hai 2 o più DON!! dati alle tue carte, ha [Blocker]."
+  },
+  {
+    "cardCode": "OP13-113",
+    "body": "Quando la giochi guardi le prime 4 carte e prendi una carta con [Trigger] (non [Lilith]).\n\nIl [Trigger] attiva lo stesso effetto (ma non la mette in campo)."
+  },
+  {
+    "cardCode": "OP13-114",
+    "body": "Quando la giochi e ogni volta che attacca, puoi girare a faccia in su la prima carta della Vita: dai −2000 potenza per il turno a un Character avversario.\n\nIl [Trigger]: scarti 1 carta per giocarla gratis."
+  },
+  {
+    "cardCode": "OP13-115",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +3000 potenza per la battaglia; se l’avversario ha 2 Vite o meno, un tuo Leader o Character ha anche +1000 per il turno.\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP13-116",
+    "body": "Guardi le prime 5 carte e prendi un Character {Supernovas}.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP13-117",
+    "body": "Costa 5: puoi girare a faccia in su la prima carta della Vita per mettere K.O. un Character avversario di costo base 6 o meno.\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP13-118",
+    "body": "Ha [Double Attack].\n\nQuando lo giochi, se il Leader è multicolore, rendi attivi fino a 4 DON!!, ma in quel turno non puoi giocare Character di costo base 5 o più (con Leader monocolore non succede nulla e non c’è limite)."
+  },
+  {
+    "cardCode": "OP13-119",
+    "body": "Con 3 Vite o meno ha [Rush].\n\nQuando lo giochi dai 1 DON!! a riposo al Leader; poi puoi rimandare in mano un Character avversario di costo 5 o meno, e in quel caso l’avversario può giocare gratis dalla mano un Character di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP13-120",
+    "body": "Ha [Blocker].\n\nUna volta per turno, nella tua Main Phase, un tuo Character ha +2 costo fino alla fine del prossimo turno avversario, poi dai 1 DON!! a riposo al Leader."
+  }
+]

@@ -60,9 +60,13 @@ const FULL: CatalogRows = {
       updated_at: T1,
     },
   ],
+  explanations: [
+    { card_code: 'OP01-001', body: 'Zoro **attacca** subito.', updated_at: T1 },
+    { card_code: 'OP01-002', body: '', updated_at: T1 },
+  ],
 }
 
-const NOTHING: CatalogRows = { sets: [], cards: [], printings: [], faqs: [] }
+const NOTHING: CatalogRows = { sets: [], cards: [], printings: [], faqs: [], explanations: [] }
 
 describe('buildCatalog', () => {
   it('ordina le carte e mette la Printing base per prima, col codice del Set', () => {
@@ -84,6 +88,22 @@ describe('buildCatalog', () => {
       { question: 'Can I?', answer: 'Yes, you can.', source: 'qa_op01.pdf' },
     ])
     expect(catalog.cards[1]?.faqs).toEqual([])
+  })
+
+  it('Card Explanation sulla carta; il testo vuoto vale "nessuna spiegazione" (RIB-52)', () => {
+    const catalog = buildCatalog(FULL)
+    expect(catalog.cards[0]?.explanation).toBe('Zoro **attacca** subito.')
+    expect(catalog.cards[1]?.explanation).toBeNull()
+  })
+})
+
+describe('copia salvata da una versione senza Card Explanation (RIB-52)', () => {
+  it('si usa subito, ma senza watermark, e tiene le FAQ', () => {
+    const old: Partial<CatalogSnapshot> = mergeSnapshot(null, FULL, 1000)
+    delete old.explanations
+    const upgraded = upgradeSnapshot(old as CatalogSnapshot)
+    expect(upgraded).toMatchObject({ explanations: [], watermark: null })
+    expect(upgraded.faqs).toHaveLength(1)
   })
 })
 
@@ -131,6 +151,7 @@ describe('sincronizzazione incrementale', () => {
       cards: [rawCard('OP01-002', 'Trafalgar Law (errata)', T2), rawCard('OP01-003', 'Nuova', T2)],
       printings: [{ ...rawPrinting('OP01-003', 'OP01-003', T2), image_synced_at: T2 }],
       faqs: [{ card_code: 'OP01-001', items: [], updated_at: T2 }],
+      explanations: [{ card_code: 'OP01-001', body: '', updated_at: T2 }],
     }
     const { snapshot, changed } = await syncSnapshot(local, () => Promise.resolve(delta), 2000)
     expect(changed).toBe(true)
@@ -143,8 +164,9 @@ describe('sincronizzazione incrementale', () => {
       'Nuova',
     ])
     expect(catalog.cards[2]?.printings[0]?.hasImage).toBe(true)
-    // Le FAQ tolte dai PDF arrivano come elenco vuoto.
+    // Le FAQ tolte dai PDF arrivano come elenco vuoto, le spiegazioni tolte come testo vuoto.
     expect(catalog.cards[0]?.faqs).toEqual([])
+    expect(catalog.cards[0]?.explanation).toBeNull()
   })
 
   it('un errore di rete non tocca la copia locale', async () => {

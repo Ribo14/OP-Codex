@@ -46,6 +46,11 @@
     "captchaMissing": "Il controllo anti-bot non è configurato: l'accesso non è disponibile.",
     "loading": "Caricamento dell'account…",
     "logout": "Esci",
+    "logoutHere": {
+      "row": "Esci da questo dispositivo",
+      "rowHint": "Per rientrare servirà di nuovo l'accesso",
+      "intro": "Chiude l'accesso solo su questo dispositivo. I mazzi e la Collezione salvati qui per l'uso offline vengono cancellati da questo dispositivo, ma restano nel tuo account."
+    },
     "or": "oppure",
     "google": {
       "continue": "Continua con Google",
@@ -291,6 +296,9 @@
     "tabAdd": "Aggiungi carte",
     "leader": "Leader",
     "emptyDeck": "Il mazzo è vuoto: aggiungi carte dalla scheda «Aggiungi carte».",
+    "addMissing_one": "Aggiungi carte (manca {{count}} carta)",
+    "addMissing_other": "Aggiungi carte (mancano {{count}} carte)",
+    "openCard": "Apri il dettaglio di {{name}}",
     "printingOf": "Stampa mostrata di {{name}}",
     "add": "Aggiungi una copia di {{name}}",
     "remove": "Togli una copia di {{name}}",
@@ -400,6 +408,24 @@
     "notAdmin": "Questa area è riservata agli amministratori.",
     "needsTwoFactor": "Per entrare nell'area Admin serve la verifica in due passaggi: attivala nel Profilo, in «Account e sicurezza».",
     "toProfile": "Vai al Profilo",
+    "queue": {
+      "title": "Segnalazioni e richieste",
+      "intro": "Spiegazioni segnalate dagli utenti e carte di cui chiedono la spiegazione, raggruppate per carta. Copia l'elenco per la prossima sessione di lavoro sulle spiegazioni, poi chiudi le voci.",
+      "empty": "Nessuna segnalazione o richiesta aperta.",
+      "copy": "Copia elenco",
+      "copied": "Elenco copiato",
+      "kind": {
+        "report_one": "{{count}} segnalazione",
+        "report_other": "{{count}} segnalazioni",
+        "request_one": "{{count}} richiesta",
+        "request_other": "{{count}} richieste"
+      },
+      "set": {
+        "in_progress": "In lavorazione",
+        "resolved": "Risolta",
+        "dismissed": "Scarta"
+      }
+    },
     "ban": {
       "title": "Ban List",
       "intro": "Carte bandite, limitate e coppie bandite. Valgono dalla data di entrata in vigore; ogni modifica finisce nel registro.",
@@ -434,6 +460,7 @@
         "catalog_sync": "Catalog Sync",
         "image_sync": "Immagini delle carte",
         "faq_sync": "FAQ ufficiali",
+        "explanation_sync": "Spiegazioni delle carte",
         "other": "Altro job"
       },
       "status": {
@@ -487,6 +514,29 @@
     "setDone": "Immagini di {{set}} salvate sul dispositivo: disponibili anche offline.",
     "setPartial_one": "{{count}} immagine non è stata scaricata.",
     "setPartial_other": "{{count}} immagini non sono state scaricate."
+  },
+  "rules": {
+    "title": "Regole",
+    "intro": "Le Keyword che trovi sulle carte e i concetti base del gioco, spiegati in italiano. Cercando trovi anche le regole del regolamento ufficiale (Comprehensive Rules) e le FAQ delle carte, in inglese.",
+    "official": "Regolamento ufficiale (inglese)",
+    "search": "Cerca una Keyword, una regola o un numero (es. 10-1-4)",
+    "noResults": "Nessun risultato: prova con parole diverse, anche in inglese (es. blocker, life, trash).",
+    "rulePrefix": "Regola",
+    "rulesResults_one": "Regolamento · {{count}} regola",
+    "rulesResults_other": "Regolamento · {{count}} regole",
+    "faqResults_one": "FAQ delle carte · {{count}} risposta",
+    "faqResults_other": "FAQ delle carte · {{count}} risposte",
+    "showMore": "Mostra altri",
+    "back": "Indietro",
+    "loading": "Caricamento del regolamento…",
+    "ruleNotFound": "La regola {{n}} non esiste nel regolamento.",
+    "path": "Posizione nel regolamento",
+    "version": "Comprehensive Rules versione {{version}}, aggiornate al {{updated}}.",
+    "groups": {
+      "effect": "Keyword effect",
+      "timing": "Quando e come si attivano",
+      "concept": "Concetti di base"
+    }
   },
   "comingSoon": {
     "title": "{{section}}: in arrivo",
@@ -566,6 +616,52 @@
       "count_other": "{{count}} domande",
       "intro": "Domande e risposte ufficiali di Bandai, in inglese.",
       "source": "Fonte: FAQ ufficiale {{source}}"
+    },
+    "explanation": {
+      "title": "Come funziona",
+      "disclaimer": "Spiegazione scritta da OP-Codex, non ufficiale: in caso di dubbio valgono il testo della carta, le FAQ e il regolamento."
+    },
+    "feedback": {
+      "noExplanation": "Questa carta non ha ancora una spiegazione in italiano.",
+      "action": {
+        "report": "Segnala un problema",
+        "request": "Chiedi una spiegazione"
+      },
+      "reasonLabel": "Cosa non va?",
+      "reason": {
+        "wrong": "È sbagliata",
+        "unclear": "Non è chiara",
+        "other": "Altro"
+      },
+      "noteLabel": "Dettagli (facoltativo)",
+      "noteHint": "Ancora {{count}} caratteri.",
+      "send": "Invia",
+      "cancel": "Annulla",
+      "sent": {
+        "report": "Grazie: la segnalazione è arrivata all'Admin.",
+        "request": "Richiesta inviata: la spiegazione arriverà con un prossimo aggiornamento."
+      },
+      "pending": {
+        "report": "Hai segnalato questa spiegazione: {{status}}.",
+        "request": "Hai chiesto la spiegazione di questa carta: {{status}}."
+      },
+      "last": {
+        "report": "La tua ultima segnalazione: {{status}}.",
+        "request": "La tua ultima richiesta: {{status}}."
+      },
+      "status": {
+        "open": "in coda",
+        "in_progress": "in lavorazione",
+        "resolved": "risolta",
+        "dismissed": "chiusa senza modifiche"
+      },
+      "offline": "Serve la connessione per inviare segnalazioni o richieste.",
+      "problem": {
+        "duplicate": "Hai già una segnalazione aperta per questa carta.",
+        "limit": "Hai raggiunto il limite di 10 segnalazioni o richieste al giorno: riprova domani.",
+        "invalid": "La nota è troppo lunga o vuota.",
+        "generic": "Qualcosa non ha funzionato: riprova tra poco."
+      }
     }
   },
   "filters": {
@@ -600,6 +696,14 @@
     "triggerAny": "Indifferente",
     "triggerYes": "Con Trigger",
     "triggerNo": "Senza Trigger",
+    "ban": "Ban List",
+    "banHint": "Le regole in vigore oggi.",
+    "banOption": {
+      "banned": "Bandite",
+      "restricted": "Limitate",
+      "pair": "Coppie bandite",
+      "legal": "Solo carte legali"
+    },
     "allPrintings": "Mostra tutte le Printing (varianti e ristampe)"
   },
   "color": {

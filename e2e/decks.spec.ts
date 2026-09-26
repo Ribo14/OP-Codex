@@ -125,6 +125,17 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
       page.locator('#pannello-deck').getByLabel(`Copie di ${ALPHA.name} nel mazzo`),
     ).toHaveText('4')
 
+    // Dettaglio di una carta dal mazzo (RIB-47): si apre sopra il mazzo, "indietro" lo chiude.
+    await page
+      .locator('#pannello-deck')
+      .getByRole('button', { name: `Apri il dettaglio di ${ALPHA.name}` })
+      .click()
+    const detail = page.getByRole('dialog', { name: ALPHA.name })
+    await expect(detail.getByRole('heading', { name: ALPHA.name })).toBeVisible()
+    await page.goBack()
+    await expect(detail).toHaveCount(0)
+    await expect(page.getByRole('tab', { name: 'Mazzo 5/50' })).toBeVisible()
+
     // Carte mancanti (RIB-25): la Collection è vuota, quindi mancano il Leader e le 5 carte.
     await expect(page.locator('#pannello-deck').getByLabel('ne hai 0 su 4')).toBeVisible()
     await page.getByText('Ti mancano 6 carte').click()
@@ -295,6 +306,7 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     expect(zip).not.toContain(otherUsername)
     expect(zip).not.toContain(`${BETA.code};${BETA.code}`)
 
+    await page.locator('summary', { hasText: 'Esci da questo dispositivo' }).click()
     await page.getByRole('button', { name: 'Esci', exact: true }).click()
     await expect(page).toHaveURL(/\/accesso/)
     await expect.poll(personalRecords).toBe(0)

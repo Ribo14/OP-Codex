@@ -31,6 +31,7 @@ async function login(page: Page, secret: string) {
 }
 
 async function logout(page: Page) {
+  await page.locator('summary', { hasText: 'Esci da questo dispositivo' }).click()
   await page.getByRole('button', { name: 'Esci', exact: true }).click()
   await expect(page).toHaveURL(/\/accesso\?torna=%2Fprofilo$/)
 }

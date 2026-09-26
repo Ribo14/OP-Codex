@@ -83,6 +83,17 @@ const DATA: ExportData = {
       cards: [],
     },
   ],
+  reports: [
+    {
+      cardCode: 'OP01-001',
+      kind: 'report',
+      reason: 'unclear',
+      note: 'Non capisco il bonus',
+      status: 'open',
+      createdAt: 'a',
+      updatedAt: 'b',
+    },
+  ],
 }
 
 describe('Esporta i miei dati', () => {
@@ -125,7 +136,13 @@ describe('Esporta i miei dati', () => {
       'mazzi.json',
       'mazzi/Zoro_ rosso_verde.txt',
       'mazzi/zoro_ ROSSO_verde (2).txt',
+      'segnalazioni.json',
     ])
+    expect(JSON.parse(String(files.get('segnalazioni.json')))).toEqual({
+      version: 1,
+      exportedAt: DATA.exportedAt,
+      reports: DATA.reports,
+    })
     expect(JSON.parse(String(files.get('profilo.json')))).toEqual({
       version: 1,
       exportedAt: DATA.exportedAt,

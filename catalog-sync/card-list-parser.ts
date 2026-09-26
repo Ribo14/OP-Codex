@@ -184,14 +184,16 @@ function parseCardBlock(
   const costLabel = costBox.find('h3').text().trim()
   const costValue = parseOptionalInteger(fieldValue(costBox), printId, 'Cost/Life')
 
-  // Il sito mostra "-" anche per i Character con potenza 0 (es. OP01-006 Otama).
+  // Il sito mostra "-" anche per i Character con potenza 0 (es. OP01-006 Otama)
+  // e per le carte con costo 0 (es. l'Event OP04-016).
   const power = parseOptionalInteger(fieldValue(block.find('.backCol .power')), printId, 'Power')
+  const hasCost = category === 'Character' || category === 'Event' || category === 'Stage'
 
   const card: ParsedCard = {
     cardCode,
     name,
     category,
-    cost: costLabel === 'Cost' ? costValue : null,
+    cost: costLabel === 'Cost' ? (hasCost ? (costValue ?? 0) : costValue) : null,
     life: costLabel === 'Life' ? costValue : null,
     power: category === 'Character' ? (power ?? 0) : power,
     counter: parseOptionalInteger(fieldValue(block.find('.backCol .counter')), printId, 'Counter'),

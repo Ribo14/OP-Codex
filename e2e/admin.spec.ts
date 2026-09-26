@@ -138,6 +138,7 @@ test('area Admin: ruolo dal database, verifica obbligatoria, stato dei job', asy
 
     // Nuovo accesso: prima il codice, poi di nuovo l'area.
     await page.goto('/profilo')
+    await page.locator('summary', { hasText: 'Esci da questo dispositivo' }).click()
     await page.getByRole('button', { name: 'Esci', exact: true }).click()
     await login(page)
     await expect(page).toHaveURL(/\/account\/codice\?torna=%2Fadmin$/)

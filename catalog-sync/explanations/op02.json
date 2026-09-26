@@ -1,0 +1,34 @@
+[
+  {
+    "cardCode": "OP02-001",
+    "body": "Alla fine di ogni tuo turno **prendi in mano la prima carta della tua Vita**. Non è facoltativo.\n\nParti con 6 Vite e ogni turno ne perdi una da solo, ma in cambio hai una carta in più in mano. Una carta presa dalla Vita per un effetto non è un danno, quindi il suo [Trigger] non si attiva. Il mazzo deve chiudere la partita in fretta, prima di restare senza Vite."
+  },
+  {
+    "cardCode": "OP02-002",
+    "body": "Nel tuo turno, **ogni volta** che dai un DON!! al Leader o a un tuo Character, puoi dare −1 costo (per il turno) a un Character avversario di costo 7 o meno.\n\nNon ha limite per turno: dare 3 DON!! vuol dire 3 riduzioni di costo, anche sullo stesso Character. Si combina con le carte nere che mettono K.O. i Character di costo 0 o basso."
+  },
+  {
+    "cardCode": "OP02-025",
+    "body": "Una volta per turno, nella tua Main Phase, se hai **1 Character o nessuno**, il prossimo Character {Land of Wano} di costo 3 o più che giochi dalla mano in questo turno costa 1 in meno.\n\nAttivalo prima di giocare il Character: lo sconto vale solo per la prossima carta giocata nel turno."
+  },
+  {
+    "cardCode": "OP02-026",
+    "body": "Una volta per turno, quando giochi dalla mano un Character **senza effetto** (le carte “vanilla”), se hai 3 Character o meno rendi **attivi fino a 2 DON!!**.\n\nIn pratica i Character senza effetto ti costano 2 DON!! in meno, e puoi spendere quei DON!! per giocare altro. Il limite di 3 Character si controlla quando l’effetto si attiva."
+  },
+  {
+    "cardCode": "OP02-049",
+    "body": "Alla fine del tuo turno, se **non hai carte in mano**, peschi 2 carte.\n\nIl mazzo cerca di svuotare la mano ogni turno giocando tutto quello che può, per ricaricarsi a fine turno. Avere 2 carte in mano nel turno avversario aiuta anche a difendersi."
+  },
+  {
+    "cardCode": "OP02-071",
+    "body": "Nel tuo turno, la prima volta che un DON!! in campo torna nel tuo mazzo DON!! (per esempio pagando un costo **DON!! −X**), il Leader guadagna +1000 potenza per il turno.\n\nÈ un piccolo bonus che premia le carte viola che usano DON!! −X."
+  },
+  {
+    "cardCode": "OP02-072",
+    "body": "Quando il Leader attacca puoi pagare **DON!! −4** (rimettere 4 DON!! dal campo nel mazzo DON!!): metti K.O. un Character avversario di costo 3 o meno e il Leader guadagna +1000 potenza per il turno.\n\nÈ caro, ma toglie un Character avversario a ogni attacco del Leader. Conviene quando hai molti DON!! in campo e poche cose da giocare."
+  },
+  {
+    "cardCode": "OP02-093",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno nella Main Phase dai −1 costo (per il turno) a un Character avversario. Poi, se c’è un Character di costo 0 (anche tuo), il Leader guadagna +1000 potenza.\n\nSi usa insieme alle carte nere che mettono K.O. i Character di costo basso: prima abbassi il costo, poi lo elimini."
+  }
+]

@@ -1,0 +1,438 @@
+[
+  {
+    "cardCode": "OP08-001",
+    "body": "Una volta per turno, nella tua Main Phase, dai **fino a 1 DON!! a riposo ciascuno** a un massimo di 3 tuoi Character {Animal} o {Drum Kingdom}.\n\nUsa DON!! già spesi (a riposo) per potenziare il campo: +1000 potenza a ognuno e condizioni [DON!! x1] soddisfatte."
+  },
+  {
+    "cardCode": "OP08-002",
+    "body": "Con almeno 1 DON!! dato al Leader, una volta per turno nella Main Phase: peschi 1 carta, poi metti 1 carta dalla mano in cima o in fondo al mazzo; infine dai −2000 potenza per il turno a un Character avversario.\n\nMigliora la mano (e prepara la prossima pescata) e aiuta a vincere una battaglia."
+  },
+  {
+    "cardCode": "OP08-021",
+    "body": "Una volta per turno, nella tua Main Phase, se hai un Character {Minks}, metti a riposo un Character avversario di costo 5 o meno.\n\nToglie un [Blocker] prima dei tuoi attacchi, o un Character che potrebbe attaccarti nel turno successivo."
+  },
+  {
+    "cardCode": "OP08-057",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −2 e scegli una:\n- se hai 5 carte o meno in mano, peschi 1 carta;\n- dai −2 costo per il turno a un Character avversario.\n\nFlessibile: carta in più quando serve, oppure preparazione per gli effetti neri che eliminano i Character di costo basso."
+  },
+  {
+    "cardCode": "OP08-058",
+    "body": "Quando il Leader attacca puoi girare **a faccia in su** le prime 2 carte della tua Vita: prendi 1 DON!! dal mazzo DON!! e lo metti a riposo.\n\nLe Vite a faccia in su restano Vite, ma l’avversario le vede. In cambio acceleri con i DON!!."
+  },
+  {
+    "cardCode": "OP08-098",
+    "body": "Con almeno 1 DON!! dato al Leader, quando attacca puoi giocare gratis dalla mano un Character {Shandian Warrior} con costo **non superiore ai DON!! che hai in campo**. Se lo fai, prendi in mano la prima carta della tua Vita.\n\nMette in campo un Character a ogni attacco, al prezzo di una Vita."
+  },
+  {
+    "cardCode": "OP08-003",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP08-004",
+    "body": "Quando lo giochi, se hai [Chess] in campo, metti K.O. un Character avversario con 3000 potenza o meno."
+  },
+  {
+    "cardCode": "OP08-005",
+    "body": "Quando lo giochi dai −2000 potenza per il turno a un Character avversario; poi, se non hai [Kuromarimo], lo giochi gratis dalla mano (e il suo effetto trova Chess in campo)."
+  },
+  {
+    "cardCode": "OP08-006",
+    "body": "Nel tuo turno, se nel cestino hai almeno un [Kuromarimo] e un [Chess], ha +2000 potenza."
+  },
+  {
+    "cardCode": "OP08-007",
+    "body": "Nel tuo turno, quando lo giochi e quando attacca, guardi le prime 5 carte e giochi a riposo un Character {Animal} con 4000 potenza o meno."
+  },
+  {
+    "cardCode": "OP08-008",
+    "body": "Quando lo giochi dai −1000 potenza per il turno a un Character avversario.\n\nCon almeno 1 DON!! dato, una volta per turno nella Main Phase puoi prendere in mano la prima carta della Vita: guadagna [Rush]."
+  },
+  {
+    "cardCode": "OP08-010",
+    "body": "Con almeno 1 DON!! dato, una volta per turno nella Main Phase, un altro tuo Character {Animal} ha +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP08-012",
+    "body": "Con almeno 2 DON!! dati, quando attacca, se il Leader è {Drum Kingdom}, metti K.O. un Character avversario con 4000 potenza o meno."
+  },
+  {
+    "cardCode": "OP08-013",
+    "body": "Con almeno 2 DON!! dati ha [Rush]."
+  },
+  {
+    "cardCode": "OP08-014",
+    "body": "Con almeno 1 DON!! dato, quando attacca dai −2000 potenza per il turno a un Character avversario, poi ha +2000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP08-015",
+    "body": "Quando la giochi guardi le prime 4 carte e prendi un [Tony Tony.Chopper] o una carta {Drum Kingdom} (non [Dr.Kureha])."
+  },
+  {
+    "cardCode": "OP08-016",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: se il Leader è [Tony Tony.Chopper], tutti i tuoi Character [Tony Tony.Chopper] hanno +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP08-017",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +4000 potenza per la battaglia, poi dai −1000 per il turno al Leader o a un Character avversario.\n\nIl [Trigger] dà +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP08-018",
+    "body": "Fino a 3 tuoi Character hanno +1000 potenza per il turno, poi dai −2000 potenza a un Character avversario.\n\nIl [Trigger] dà −3000 potenza per il turno al Leader o a un Character avversario."
+  },
+  {
+    "cardCode": "OP08-019",
+    "body": "Si usa nella Main Phase o come Counter: dai −3000 potenza per il turno a un Character avversario, poi un tuo Character ha +3000 per il turno.\n\nIl [Trigger] mette K.O. un Character avversario con 5000 potenza o meno."
+  },
+  {
+    "cardCode": "OP08-020",
+    "body": "Stage. Nel turno avversario tutti i tuoi Character {Drum Kingdom} hanno +1000 potenza."
+  },
+  {
+    "cardCode": "OP08-022",
+    "body": "Quando lo giochi, se il Leader è {Minks}, fino a 2 Character avversari a riposo di costo 5 o meno non tornano attivi nella sua prossima Refresh Phase."
+  },
+  {
+    "cardCode": "OP08-023",
+    "body": "Quando la giochi e ogni volta che attacca, un Character avversario a riposo di costo 7 o meno non torna attivo nella sua prossima Refresh Phase."
+  },
+  {
+    "cardCode": "OP08-024",
+    "body": "Quando attacca, un Character avversario a riposo di costo 4 o meno non torna attivo nella sua prossima Refresh Phase."
+  },
+  {
+    "cardCode": "OP08-025",
+    "body": "Quando lo giochi, un Character avversario a riposo di costo 3 o meno non torna attivo nella sua prossima Refresh Phase."
+  },
+  {
+    "cardCode": "OP08-026",
+    "body": "Con almeno 1 DON!! dato, quando attacca, un Character avversario a riposo di costo 1 o meno non torna attivo nella sua prossima Refresh Phase."
+  },
+  {
+    "cardCode": "OP08-028",
+    "body": "Quando lo giochi, se l’avversario ha 7 o più carte a riposo, guadagna [Rush]."
+  },
+  {
+    "cardCode": "OP08-029",
+    "body": "Finché è attivo, gli altri tuoi Character {Minks} di costo 3 o meno non possono essere messi K.O. dagli effetti."
+  },
+  {
+    "cardCode": "OP08-030",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O. scegli: metti a riposo un DON!! avversario, oppure metti K.O. un Character avversario a riposo di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP08-031",
+    "body": "Quando lo giochi rendi attivo un tuo Character {Minks} di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP08-032",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: se il Leader è {Minks}, rendi attivo 1 DON!!."
+  },
+  {
+    "cardCode": "OP08-033",
+    "body": "Quando lo giochi, se il Leader è {Minks} e l’avversario ha 7 o più carte a riposo, metti K.O. un Character avversario a riposo di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP08-034",
+    "body": "Quando la giochi guardi le prime 5 carte e prendi una carta {Minks} (non [Wanda])."
+  },
+  {
+    "cardCode": "OP08-036",
+    "body": "Tutti i Character avversari **già a riposo** di costo 7 o meno non tornano attivi nella sua prossima Refresh Phase.\n\nIl [Trigger] mette a riposo un Character avversario."
+  },
+  {
+    "cardCode": "OP08-037",
+    "body": "Puoi mettere a riposo un tuo Character {Minks}: metti a riposo un Character avversario.\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP08-038",
+    "body": "Puoi mettere a riposo 2 tuoi Character: i tuoi Character già in campo non possono essere messi K.O. dagli effetti avversari fino alla fine del prossimo turno avversario.\n\nIl [Trigger] mette a riposo un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP08-039",
+    "body": "Stage. Nella tua Main Phase puoi metterlo a riposo: se il Leader è {Minks}, rendi attivo 1 DON!!.\n\nAlla fine del tuo turno rendi attivo un tuo Character {Minks}."
+  },
+  {
+    "cardCode": "OP08-040",
+    "body": "Quando lo giochi puoi mostrare 2 carte “Whitebeard Pirates” dalla mano: se il Leader è “Whitebeard Pirates”, rimandi in mano un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP08-041",
+    "body": "Nella tua Main Phase puoi rimandarla in mano: se il Leader è {Kuja Pirates}, metti in fondo al mazzo un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP08-042",
+    "body": "Con almeno 1 DON!! dato, quando attacca rimandi in mano un Character di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP08-043",
+    "body": "Quando lo giochi, se il Leader è “Whitebeard Pirates” e hai 2 Vite o meno: fino alla fine del prossimo turno avversario, i Character avversari **già in campo** possono attaccare solo se l’avversario scarta 2 carte ogni volta."
+  },
+  {
+    "cardCode": "OP08-044",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mostrare 2 carte “Whitebeard Pirates” dalla mano: +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP08-045",
+    "body": "Se sta per lasciare il campo per un effetto avversario o per essere messo K.O., invece va nel cestino (senza K.O.) e peschi 1 carta."
+  },
+  {
+    "cardCode": "OP08-046",
+    "body": "Una volta per turno, nel tuo turno, quando un tuo effetto toglie dal campo un Character: se l’avversario ha 5 o più carte in mano, ne mette 1 in fondo al mazzo; poi Shakuyaku va a riposo."
+  },
+  {
+    "cardCode": "OP08-047",
+    "body": "Quando lo giochi puoi rimandare in mano un altro tuo Character: rimandi in mano un Character di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP08-049",
+    "body": "Quando lo giochi riveli la prima carta del mazzo e la lasci in cima o la metti in fondo; se è “Whitebeard Pirates”, guadagna [Rush]."
+  },
+  {
+    "cardCode": "OP08-050",
+    "body": "Ha [Blocker].\n\nQuando lo giochi peschi 2 carte e rimetti 2 carte della mano in cima o in fondo al mazzo."
+  },
+  {
+    "cardCode": "OP08-051",
+    "body": "Quando lo giochi **nel tuo turno**, un tuo [Edward Weevil] ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP08-052",
+    "body": "Quando lo giochi riveli la prima carta del mazzo: se è un Character “Whitebeard Pirates” di costo 4 o meno puoi giocarlo; altrimenti la lasci in cima o la metti in fondo."
+  },
+  {
+    "cardCode": "OP08-053",
+    "body": "Se il Leader è “Whitebeard Pirates”, guardi le prime 3 carte e prendi una carta “Whitebeard Pirates” o un [Monkey.D.Luffy].\n\nIl [Trigger] fa pescare 1 carta."
+  },
+  {
+    "cardCode": "OP08-054",
+    "body": "Counter da 3 DON!!: il Leader o un Character ha +3000 potenza per la battaglia; poi riveli la prima carta del mazzo e, se è un Character “Whitebeard Pirates” di costo 3 o meno, puoi giocarlo."
+  },
+  {
+    "cardCode": "OP08-055",
+    "body": "Puoi mostrare 2 carte “Whitebeard Pirates” dalla mano: metti in fondo al mazzo un Character di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP08-056",
+    "body": "Stage. Una volta per turno, nel tuo turno, quando un tuo Character “Whitebeard Pirates” lascia il campo per un effetto, peschi 1 carta e ne rimetti 1 in cima o in fondo al mazzo.\n\nCon il [Trigger] lo giochi gratis."
+  },
+  {
+    "cardCode": "OP08-059",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: se il Leader è {Animal Kingdom Pirates} e hai 10 DON!! in campo, giochi gratis dalla mano un [King] di costo 7 o meno."
+  },
+  {
+    "cardCode": "OP08-060",
+    "body": "Quando lo giochi puoi pagare DON!! −1: se l’avversario ha 5 o più DON!! in campo, guadagna [Rush]."
+  },
+  {
+    "cardCode": "OP08-061",
+    "body": "Quando attacca puoi pagare DON!! −1: metti K.O. un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP08-062",
+    "body": "Nella tua Main Phase puoi metterlo nel cestino: se il Leader è {Big Mom Pirates}, giochi gratis dalla mano un [Charlotte Katakuri] di costo da 3 fino al numero di DON!! dell’avversario."
+  },
+  {
+    "cardCode": "OP08-063",
+    "body": "Quando lo giochi puoi girare a faccia in giù la prima carta della Vita (se è a faccia in su): prendi 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP08-064",
+    "body": "Una volta per turno, nella tua Main Phase, paghi DON!! −1: giochi gratis dalla mano un [Biscuit Warrior]."
+  },
+  {
+    "cardCode": "OP08-066",
+    "body": "Ha [Blocker].\n\nQuando viene messa K.O. prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "OP08-067",
+    "body": "Una volta per turno, nel tuo turno, quando un tuo DON!! torna nel mazzo DON!!, prendi 1 DON!! a riposo."
+  },
+  {
+    "cardCode": "OP08-068",
+    "body": "Quando viene messo K.O. prendi 1 DON!! a riposo.\n\nIl [Trigger]: DON!! −1 per giocarlo gratis."
+  },
+  {
+    "cardCode": "OP08-069",
+    "body": "Quando la giochi puoi pagare DON!! −1 e scartare 1 carta: aggiungi la prima carta del mazzo in cima alla tua Vita, poi metti a faccia in su in cima o in fondo alla Vita avversaria un suo Character di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP08-070",
+    "body": "Ha [Blocker].\n\nQuando viene messo K.O. puoi pagare DON!! −1: giochi gratis dalla mano un [Viscount Hiyoko] di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP08-071",
+    "body": "Se viene messo K.O. **nel turno avversario** puoi pagare DON!! −1: giochi dal **mazzo** un [Baron Tamago] di costo 4 o meno, poi mescoli il mazzo."
+  },
+  {
+    "cardCode": "OP08-072",
+    "body": "Ha [Blocker].\n\nPuoi metterne **quante copie vuoi** nel mazzo."
+  },
+  {
+    "cardCode": "OP08-073",
+    "body": "Se viene messo K.O. **nel turno avversario** puoi pagare DON!! −1: giochi dal mazzo un [Count Niwatori] di costo 6 o meno, poi mescoli il mazzo."
+  },
+  {
+    "cardCode": "OP08-074",
+    "body": "Una volta per turno, nella tua Main Phase, se non hai altri [Black Maria], prendi fino a 5 DON!! a riposo; alla fine del turno rimetti DON!! nel mazzo finché ne hai quanti l’avversario (anche se lei non è più in campo)."
+  },
+  {
+    "cardCode": "OP08-075",
+    "body": "DON!! −1: metti a riposo un Character avversario di costo 2 o meno, poi giri a faccia in giù tutte le tue Vite.\n\nIl [Trigger] ti dà 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP08-076",
+    "body": "Prendi 1 DON!! attivo; se l’avversario ha un Character con 6000 potenza o più, ne prendi un altro.\n\nIl [Trigger] ti dà 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP08-077",
+    "body": "Costa 6 più DON!! −2: se il Leader è {Animal Kingdom Pirates} o {Big Mom Pirates}, metti K.O. fino a 2 Character avversari di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP08-079",
+    "body": "Una volta per turno, nella tua Main Phase, puoi scartare 1 carta: se l’hai giocato in questo turno, **mandi nel cestino** un Character avversario di costo 7 o meno (senza K.O.) e l’avversario scarta 1 carta."
+  },
+  {
+    "cardCode": "OP08-080",
+    "body": "Quando la giochi guardi le prime 5 carte e prendi una carta {Animal Kingdom Pirates} (non [Queen])."
+  },
+  {
+    "cardCode": "OP08-081",
+    "body": "Quando attacca puoi mettere 3 carte “CP” del cestino in fondo al mazzo: metti K.O. un Character avversario di costo 0."
+  },
+  {
+    "cardCode": "OP08-082",
+    "body": "Nella tua Main Phase metti a riposo 1 DON!! e lui: dai −2 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP08-083",
+    "body": "Con almeno 1 DON!! dato, nel tuo turno tutti i Character avversari hanno −1 costo."
+  },
+  {
+    "cardCode": "OP08-084",
+    "body": "In campo ha +4 costo (11).\n\nNella tua Main Phase puoi metterlo a riposo: peschi 1 carta e ne scarti 1, poi metti K.O. un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP08-085",
+    "body": "Con almeno 1 DON!! dato, quando attacca, se hai un Character di costo 8 o più, metti K.O. un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP08-086",
+    "body": "Quando lo giochi, se l’avversario ha un Character di costo 0, peschi 2 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "OP08-087",
+    "body": "Ha [Blocker].\n\nUna volta per turno, nella tua Main Phase, dai −1 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP08-088",
+    "body": "Quando lo giochi, un tuo Character ha +1 costo fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP08-090",
+    "body": "Quando lo giochi giochi dal cestino un Character {SMILE} di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP08-091",
+    "body": "Quando lo giochi puoi scartare 1 carta per mettere K.O. un Character avversario di costo 3 o meno.\n\nIl [Trigger] fa lo stesso senza scartare."
+  },
+  {
+    "cardCode": "OP08-092",
+    "body": "Quando lo giochi giochi dal cestino un [Ulti] di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP08-093",
+    "body": "Con almeno 1 DON!! dato ha +2 costo."
+  },
+  {
+    "cardCode": "OP08-094",
+    "body": "Si usa nella Main Phase o come Counter: puoi mettere 3 carte del cestino in fondo al mazzo per mettere K.O. un Character avversario di costo 2 o meno.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP08-095",
+    "body": "Se hai 10 o più carte nel cestino, un tuo Character ha +2000 potenza fino alla fine del prossimo turno avversario.\n\nIl [Trigger] dà +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP08-096",
+    "body": "Counter: scarti la prima carta del mazzo; se costa 6 o più, il Leader o un Character ha **+5000** potenza per la battaglia.\n\nIl [Trigger] gioca dal cestino un Character nero di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP08-097",
+    "body": "Se il Leader è {Animal Kingdom Pirates}, dai −2 costo per il turno a un Character avversario, poi metti K.O. un Character avversario di costo 0.\n\nIl [Trigger] mette K.O. un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP08-100",
+    "body": "Quando lo giochi guardi le prime 7 carte e giochi un [Upper Yard]; le altre in fondo."
+  },
+  {
+    "cardCode": "OP08-101",
+    "body": "Una volta per turno, nella tua Main Phase, puoi mettere nel cestino la prima carta della Vita: se il Leader è {Big Mom Pirates}, a fine turno aggiungi in cima alla Vita la prima carta del mazzo (cambi una Vita)."
+  },
+  {
+    "cardCode": "OP08-102",
+    "body": "Quando la giochi puoi scartare 1 carta: metti K.O. un Character avversario con costo non superiore alle tue Vite."
+  },
+  {
+    "cardCode": "OP08-103",
+    "body": "Una volta per turno, nella tua Main Phase, puoi prendere in mano la prima carta della Vita: un tuo Character ha +1000 potenza fino alla fine del prossimo turno avversario."
+  },
+  {
+    "cardCode": "OP08-104",
+    "body": "Il [Trigger]: scarti 1 carta per giocarla gratis e poi peschi 1 carta."
+  },
+  {
+    "cardCode": "OP08-105",
+    "body": "Con almeno 1 DON!! dato, una volta per turno nel tuo turno, quando una carta lascia la Vita avversaria, peschi 2 carte e ne scarti 1.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP08-106",
+    "body": "Quando la giochi puoi scartare una carta con [Trigger]: metti K.O. un Character avversario di costo 5 o meno; poi, con 3 carte o meno in mano, peschi 1 carta.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP08-107",
+    "body": "Nella tua Main Phase puoi metterlo a riposo: una tua [Charlotte Pudding] ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP08-109",
+    "body": "Quando lo giochi, se il Leader è {Shandian Warrior} e hai un [Kalgara] in campo, aggiungi la prima carta del mazzo in cima alla Vita."
+  },
+  {
+    "cardCode": "OP08-110",
+    "body": "Quando lo giochi guardi le prime 5 carte e prendi un [Upper Yard]; poi puoi giocarlo gratis dalla mano."
+  },
+  {
+    "cardCode": "OP08-111",
+    "body": "Con almeno 1 DON!! dato, quando attacca l’avversario non può usare [Blocker] in quella battaglia.\n\nIl [Trigger]: scarti 1 carta e, se hai 2 Vite o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP08-112",
+    "body": "Quando lo giochi, un Character avversario di costo 6 o meno (non [Monkey.D.Luffy]) non può attaccare fino alla fine del prossimo turno avversario.\n\nIl [Trigger] attiva lo stesso effetto."
+  },
+  {
+    "cardCode": "OP08-113",
+    "body": "Il [Trigger]: scarti 1 carta e, se hai 2 Vite o meno, lo giochi gratis e metti K.O. un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP08-114",
+    "body": "Con almeno 1 DON!! dato, se hai meno Vite dell’avversario, ha +2000 potenza e non può essere messo K.O. in battaglia da carte <Slash>.\n\nIl [Trigger]: scarti 1 carta e, se hai 2 Vite o meno, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP08-115",
+    "body": "Counter: se il Leader è {Shandian Warrior}, il Leader o un Character ha +3000 potenza per la battaglia, poi giochi gratis un [Upper Yard] dalla mano.\n\nIl [Trigger] fa pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP08-116",
+    "body": "Counter da 2 DON!!: il Leader o un Character ha +4000 potenza per la battaglia; poi puoi prendere in mano la prima o l’ultima carta della Vita per mettere a faccia in su in cima alla Vita una carta {Shandian Warrior} dalla mano."
+  },
+  {
+    "cardCode": "OP08-117",
+    "body": "Costa 5: puoi mettere nel cestino la prima carta della Vita per mettere K.O. un Character avversario di costo 7 o meno.\n\nIl [Trigger]: puoi prendere in mano la prima carta della Vita e rimettere in cima una carta dalla mano."
+  },
+  {
+    "cardCode": "OP08-118",
+    "body": "Quando lo giochi scegli fino a 2 Character avversari: uno ha −3000 e l’altro −2000 fino alla fine del prossimo turno avversario; poi metti K.O. un Character avversario (anche un terzo) con 3000 potenza o meno."
+  },
+  {
+    "cardCode": "OP08-119",
+    "body": "Quando attacca puoi pagare DON!! −10: metti K.O. **tutti gli altri Character** (anche i tuoi), poi aggiungi la prima carta del mazzo in cima alla tua Vita e metti nel cestino la prima della Vita avversaria."
+  }
+]

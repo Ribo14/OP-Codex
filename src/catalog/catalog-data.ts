@@ -30,6 +30,11 @@ export interface CatalogCard {
   printings: CatalogPrinting[]
   /** FAQ ufficiali di Bandai (RIB-44), nell'ordine dei PDF; assenti nei dati di prova. */
   faqs?: CardFaq[]
+  /**
+   * Card Explanation in italiano (RIB-52, ADR-0006), markdown semplice; null = non ancora scritta.
+   * Assente nei dati di prova.
+   */
+  explanation?: string | null
 }
 
 /** Una domanda con risposta dalle FAQ ufficiali, in inglese. */
@@ -75,7 +80,7 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
   const changed = <Q extends { gte: (column: 'updated_at', value: string) => Q }>(query: Q) =>
     since === null ? query : query.gte('updated_at', since)
 
-  const [sets, cards, printings, faqs] = await Promise.all([
+  const [sets, cards, printings, faqs, explanations] = await Promise.all([
     fetchAll((from, to) =>
       changed(supabase.from('sets').select('series_id, code, name, updated_at'))
         .order('series_id')
@@ -106,7 +111,12 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
         .order('card_code')
         .range(from, to),
     ),
+    fetchAll((from, to) =>
+      changed(supabase.from('card_explanations').select('card_code, body, updated_at'))
+        .order('card_code')
+        .range(from, to),
+    ),
   ])
 
-  return { sets, cards, printings, faqs }
+  return { sets, cards, printings, faqs, explanations }
 }

@@ -53,13 +53,17 @@ serve installare nulla:
 
 1. Parti dal commit con le stesse migrazioni del backup: la più recente è in
    `supabase_migrations.schema_migrations`, di solito basta `main` del giorno del backup.
-2. Scarica il file dalla release del repository dei backup.
-3. Ricrea lo schema pulito: `npx supabase db reset`. **Cancella i dati locali.**
-4. Ripristina (`backup` è la cartella con il file `.dump.age` e con la chiave in `key.txt`):
+2. Crea una cartella di lavoro **fuori dal repo**, per esempio `D:\op-codex-restore`, così chiave e
+   backup non possono finire in un commit. Scaricaci il backup:
+   `gh release download <tag> --repo Ribo14/op-codex-backups --dir D:\op-codex-restore`
+   (i tag si vedono con `gh release list --repo Ribo14/op-codex-backups`).
+3. Nella stessa cartella crea `key.txt` e incollaci la chiave privata dal password manager.
+4. Ricrea lo schema pulito: `npx supabase db reset`. **Cancella i dati locali.**
+5. Ripristina, da PowerShell nella cartella di OP-Codex:
 
-   ```sh
-   docker run --rm -v "$PWD/ops/backup:/ops" -v "$PWD/backup:/w" \
-     -e LOCAL_DB_URL=postgresql://postgres:postgres@host.docker.internal:54322/postgres \
+   ```powershell
+   docker run --rm -v "${PWD}\ops\backup:/ops" -v "D:\op-codex-restore:/w" `
+     -e LOCAL_DB_URL=postgresql://postgres:postgres@host.docker.internal:54322/postgres `
      postgres:17-alpine sh -c "apk add -q age bash && bash /ops/restore-local.sh /w/<file>.dump.age /w/key.txt"
    ```
 
@@ -67,12 +71,18 @@ serve installare nulla:
    replica, come indica Supabase) e mostra le righe per tabella. Si rifiuta di lavorare su un
    database che non sia locale.
 
-5. Cancella la chiave e il backup dalla cartella di lavoro.
+6. Cancella la cartella di lavoro, chiave compresa. Poi rilancia `npx supabase db reset`: il
+   database locale ora contiene i dati veri degli utenti e non deve tenerli.
 
 **Prova eseguita il 2026-09-25** con una chiave usa e getta, sul database locale: 33 utenti con
 password, 31 profili, Collection, Deck, 2.785 carte, 4.843 Printing, 926 FAQ, registro Admin e job.
 Dopo `db reset` e ripristino, conteggi, sequenze e versione delle migrazioni erano identici a prima.
-Il file cifrato non conteneva testo in chiaro. Da ripetere con il primo backup vero di produzione.
+Il file cifrato non conteneva testo in chiaro.
+
+**Prova con il primo backup vero** (`op-codex-2026-09-25-1903`, 2026-09-25), fatta dal proprietario
+con la sua chiave privata sul Supabase locale: ripristino completato con 1 utente, 1 profilo, 1 Deck
+con 14 carte, 9 voci della Ban List, 2.785 carte e 4.843 Printing, come in produzione. Le FAQ erano
+0 perché sono state caricate in produzione pochi minuti dopo il backup.
 
 ## Ripristino in produzione (emergenza)
 

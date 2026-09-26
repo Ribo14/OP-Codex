@@ -93,9 +93,10 @@ describe('App shell', () => {
     expect(links[1]).toHaveAttribute('aria-current', 'page')
   })
 
-  it('le sezioni non ancora pronte mostrano "in arrivo"', () => {
-    renderAt('/regole')
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Regole: in arrivo')
+  it('la sezione Regole apre il glossario (RIB-51)', () => {
+    renderAt('/regole?voce=blocker')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Regole')
+    expect(screen.getByRole('heading', { level: 3, name: '[Blocker]' })).toBeVisible()
   })
 
   it('si naviga tra le sezioni e la voce attiva è segnalata', async () => {

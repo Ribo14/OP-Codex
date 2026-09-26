@@ -92,6 +92,7 @@ test('esci ovunque, verifica in due passaggi ed eliminazione dell’account', as
   await expect(page.getByText('Verifica in due passaggi attivata.')).toBeVisible()
 
   // Da ora l'accesso chiede il codice, e senza codice il profilo non si apre.
+  await page.locator('summary', { hasText: 'Esci da questo dispositivo' }).click()
   await page.getByRole('button', { name: 'Esci', exact: true }).click()
   await login(page)
   await expect(page).toHaveURL(/\/account\/codice\?torna=/)

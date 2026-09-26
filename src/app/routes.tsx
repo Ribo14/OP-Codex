@@ -24,6 +24,8 @@ import { DecksPage } from '@/decks/DecksPage'
 import { LeaderPickerPage } from '@/decks/LeaderPickerPage'
 import { ImportDeckPage } from '@/decks/ImportDeckPage'
 import { DECKS_PATH, IMPORT_DECK_PATH, NEW_DECK_PATH, SHARED_DECK_PATH } from '@/decks/paths'
+import { RULES_PATH } from '@/rules/paths'
+import { RulesPage } from '@/rules/RulesPage'
 import { SharedDeckPage } from '@/decks/SharedDeckPage'
 import { CardDetailRoute } from '@/catalog/CardDetailRoute'
 import { CatalogPage } from '@/catalog/CatalogPage'
@@ -49,6 +51,8 @@ export const routes: RouteObject[] = [
         element: <ComingSoonPage section={s.key} />,
       })),
       { path: '/collezione', element: <CollectionPage /> },
+      // Regole: glossario (RIB-51)
+      { path: RULES_PATH, element: <RulesPage /> },
       // Mazzi (RIB-21)
       { path: DECKS_PATH, element: <DecksPage /> },
       { path: NEW_DECK_PATH, element: <LeaderPickerPage /> },

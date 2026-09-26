@@ -3,7 +3,7 @@ import { cleanup } from '@testing-library/react'
 import { afterEach } from 'vitest'
 import '@/i18n'
 
-// jsdom non implementa matchMedia (tema di sistema) né scrollTo sugli elementi.
+// jsdom non implementa matchMedia (tema di sistema) né scrollTo/scrollIntoView sugli elementi.
 if (typeof window.matchMedia !== 'function') {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -20,6 +20,7 @@ if (typeof window.matchMedia !== 'function') {
   })
 }
 Element.prototype.scrollTo = () => undefined
+Element.prototype.scrollIntoView = () => undefined
 
 afterEach(() => {
   cleanup()

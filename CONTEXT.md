@@ -62,8 +62,14 @@ _Avoid_: traduzione (non è una traduzione del testo ufficiale)
 **Explanation Report** (Segnalazione):
 La segnalazione di un utente che una Card Explanation è sbagliata o poco chiara.
 
+**Explanation Request** (Richiesta di spiegazione):
+La richiesta di un utente di scrivere la Card Explanation di una Card che non ce l'ha ancora. Finisce nella coda Admin insieme agli Explanation Report.
+
+**Rules Search** (Ricerca nel regolamento):
+La ricerca nel testo delle Comprehensive Rules e delle FAQ ufficiali, sul dispositivo e anche offline. Mostra i passaggi originali con il numero della regola; non genera testo.
+
 **Rules Question** (Domanda sul regolamento):
-Una domanda in linguaggio naturale posta alla chat del regolamento, che risponde citando le Comprehensive Rules.
+Una domanda in linguaggio naturale posta alla chat del regolamento, che risponde citando le Comprehensive Rules. Rinviata finché il budget AI è €0 (ADR-0007).
 
 ## Mazzi
 

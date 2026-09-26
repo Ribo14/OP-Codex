@@ -4,6 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { CollectionControls } from '@/collection/CollectionControls'
 import { cn } from '@/lib/utils'
+import { entryForKeyword } from '@/rules/glossary'
+import { KeywordText } from '@/rules/KeywordText'
+import { glossaryPath } from '@/rules/paths'
 import { cardImageUrl } from './card-image'
 import { catalogPath } from './card-links'
 import type { CatalogCard, CatalogSet } from './catalog-data'
@@ -18,6 +21,8 @@ import { useSwipe } from './use-swipe'
 // Testi ufficiali sempre come testo: React fa l'escape, niente HTML grezzo.
 // Sotto il nome, le copie possedute della Printing mostrata (RIB-20). Spazi che arriveranno
 // nelle fasi successive, qui sotto le statistiche: Card Explanation (fase 3), prezzi (fase 5).
+
+const KEYWORD_CHIP = 'rounded-full bg-foreground px-2.5 py-1 text-xs font-medium text-background'
 
 export function CardDetail({
   card,
@@ -259,14 +264,24 @@ export function CardDetail({
 
           {card.keywords.length > 0 && (
             <section aria-label={t('detail.keywords')} className="flex flex-wrap gap-2">
-              {card.keywords.map((keyword) => (
-                <span
-                  key={keyword}
-                  className="rounded-full bg-foreground px-2.5 py-1 text-xs font-medium text-background"
-                >
-                  {keyword}
-                </span>
-              ))}
+              {/* RIB-51: ogni Keyword porta alla sua voce del glossario. */}
+              {card.keywords.map((keyword) => {
+                const entry = entryForKeyword(keyword)
+                return entry ? (
+                  <Link
+                    key={keyword}
+                    to={glossaryPath(entry.id)}
+                    title={entry.summary}
+                    className={cn(KEYWORD_CHIP, 'hover:opacity-85')}
+                  >
+                    {keyword}
+                  </Link>
+                ) : (
+                  <span key={keyword} className={KEYWORD_CHIP}>
+                    {keyword}
+                  </span>
+                )
+              })}
             </section>
           )}
 
@@ -280,7 +295,9 @@ export function CardDetail({
                 <h3 className="mb-1 text-sm font-medium text-muted-foreground">
                   {t('detail.effect')}
                 </h3>
-                <p className="leading-relaxed whitespace-pre-line">{card.effect}</p>
+                <p className="leading-relaxed whitespace-pre-line">
+                  <KeywordText text={card.effect} />
+                </p>
               </div>
             )}
             {card.trigger !== null && (
@@ -288,7 +305,9 @@ export function CardDetail({
                 <h3 className="mb-1 text-sm font-medium text-muted-foreground">
                   {t('detail.trigger')}
                 </h3>
-                <p className="leading-relaxed whitespace-pre-line">{card.trigger}</p>
+                <p className="leading-relaxed whitespace-pre-line">
+                  <KeywordText text={card.trigger} />
+                </p>
               </div>
             )}
           </section>

@@ -220,6 +220,20 @@ describe('HTML inatteso', () => {
     expect(parseCardListPage(cardWithBlock('-')).cards[0]?.block).toBeNull()
   })
 
+  it('tratta "-" come costo 0 per Character, Event e Stage', () => {
+    const withCost = (category: string, cost: string) =>
+      page(`
+        <dl class="modalCol" id="OP04-016">
+          <dt><div class="infoCol"><span>OP04-016</span><span>C</span><span>${category}</span></div>
+          <div class="cardName">Test</div></dt>
+          <dd><div class="backCol"><div class="cost"><h3>Cost</h3>${cost}</div></div></dd>
+        </dl>`)
+    expect(parseCardListPage(withCost('EVENT', '-')).cards[0]?.cost).toBe(0)
+    expect(parseCardListPage(withCost('CHARACTER', '-')).cards[0]?.cost).toBe(0)
+    expect(parseCardListPage(withCost('STAGE', '2')).cards[0]?.cost).toBe(2)
+    expect(parseCardListPage(withCost('DON!!', '-')).cards[0]?.cost).toBeNull()
+  })
+
   it('fallisce su un Block sconosciuto', () => {
     expect(() => parseCardListPage(cardWithBlock('Z9'))).toThrow('OP16-063: Block non valido: "Z9"')
   })

@@ -40,9 +40,13 @@ Prova dell'abbinamento sui dati di produzione (4.843 Printing, 12.573 prodotti):
 
 ## Stato (2026-09-27)
 
-- 5.1 fatta su `dev`: prezzi Cardmarket nel dettaglio Card, Price Sync notturno.
-- 4.1 fatta su `dev`: Scan Recognizer. Anche la pagina Scanner (4.3) c'è già, con il testo
-  letto dall'OCR in fondo per la prova 4.2 sulle carte reali.
+- Fatte su `dev`: 5.1 (prezzi nel dettaglio Card, Price Sync notturno), 5.2 (abbinamenti
+  dall'area Admin), 5.3 (grafico dell'andamento), 5.4 (valore di Collection e Deck; solo le
+  copie inglesi, le altre lingue contate a parte), 4.1 (Scan Recognizer), 4.3 (pagina Scanner,
+  con prezzo sotto ogni stampa e il testo letto dall'OCR in fondo per la prova 4.2), 4.4 (Burst
+  Scan: "Aggiungi alla collezione", +1 sulla stampa giusta, lingua a scelta).
+- Restano: 4.2 (prova su almeno 30 carte reali, la fa l'utente) e 5.5 (CardTrader, serve il
+  token dell'utente).
 - Prova su 16 immagini ufficiali (non foto): codice letto in 14. Le due mancate hanno il
   codice in giallo su illustrazioni molto colorate (OP01-120, OP13-118 SEC).
 - Test E2E dello Scanner con la fotocamera finta di Chromium e una carta disegnata da noi

@@ -1,12 +1,23 @@
-import { ArrowLeft, Camera, LoaderCircle, ScanLine } from 'lucide-react'
+import { ArrowLeft, Camera, LoaderCircle, Plus, ScanLine } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState, type SubmitEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router'
 import { field } from '@/account/form-data'
+import { useSession } from '@/account/session'
 import { cardPath } from '@/catalog/card-links'
-import type { CatalogCard } from '@/catalog/catalog-data'
+import type { CatalogCard, CatalogPrinting } from '@/catalog/catalog-data'
 import { useCatalog } from '@/catalog/local-catalog'
+import { useEuro } from '@/catalog/price-format'
+import {
+  copiesOf,
+  DEFAULT_LANGUAGE,
+  isLanguage,
+  LANGUAGES,
+  type Language,
+} from '@/collection/collection'
+import { useCollection } from '@/collection/collection-store'
 import { CardThumb } from '@/decks/CardThumb'
+import { useOnline } from '@/lib/use-online'
 import { startOcr, type Ocr } from './ocr'
 import { cardFrame, codeZone, toVideo, type Rect } from './scan-geometry'
 import { recognize, type Recognition } from './scan-recognizer'
@@ -15,6 +26,8 @@ import { recognize, type Recognition } from './scan-recognizer'
 // nell'angolo in basso a destra; se la Card ha più Printing si sceglie quella giusta.
 // Tutto sul dispositivo: la foto non viene salvata né inviata. Il testo letto resta visibile
 // in fondo per la prova su carte reali (slice 4.2).
+// Burst Scan (slice 4.4): con "Aggiungi alla collezione" la carta letta non si apre, si
+// aggiunge una copia della stampa giusta e si passa subito alla successiva.
 
 type CameraState = 'idle' | 'starting' | 'ready' | 'denied' | 'unavailable'
 
@@ -24,9 +37,31 @@ interface Reading {
   ms: number
 }
 
+/** Burst Scan attivo: di chi è la Collection, in che lingua si aggiunge, cosa fare dopo. */
+interface Burst {
+  userId: string
+  language: Language
+  onAdded: () => void
+}
+
 export function ScannerPage() {
   const { t } = useTranslation()
   const { catalog } = useCatalog()
+  const session = useSession()
+  const collector = session.status === 'signedIn' && !session.needsCode ? session.user.id : null
+  const [burstOn, setBurstOn] = useState(false)
+  const [language, setLanguage] = useState<Language>(DEFAULT_LANGUAGE)
+  const [added, setAdded] = useState(0)
+  const burst: Burst | null =
+    burstOn && collector
+      ? {
+          userId: collector,
+          language,
+          onAdded: () => {
+            setAdded((n) => n + 1)
+          },
+        }
+      : null
   const video = useRef<HTMLVideoElement>(null)
   const stream = useRef<MediaStream | null>(null)
   const ocr = useRef<Promise<Ocr> | null>(null)
@@ -164,6 +199,46 @@ export function ScannerPage() {
         )}
       </div>
 
+      {collector && (
+        <div className="flex flex-wrap items-center gap-3 rounded-2xl border p-4 text-sm">
+          <label className="flex items-center gap-2 font-medium">
+            <input
+              type="checkbox"
+              role="switch"
+              checked={burstOn}
+              onChange={(e) => {
+                setBurstOn(e.target.checked)
+              }}
+              className="size-4 accent-foreground"
+            />
+            {t('scanner.burst.toggle')}
+          </label>
+          {burstOn && (
+            <>
+              <label className="flex items-center gap-2">
+                <span className="text-muted-foreground">{t('scanner.burst.language')}</span>
+                <select
+                  value={language}
+                  onChange={(e) => {
+                    if (isLanguage(e.target.value)) setLanguage(e.target.value)
+                  }}
+                  className="h-9 rounded-full border bg-background px-3 text-sm"
+                >
+                  {LANGUAGES.map((l) => (
+                    <option key={l} value={l}>
+                      {l}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <p className="w-full text-muted-foreground" aria-live="polite">
+                {t('scanner.burst.added', { count: added })}
+              </p>
+            </>
+          )}
+        </div>
+      )}
+
       {camera === 'ready' && (
         <button
           type="button"
@@ -188,10 +263,21 @@ export function ScannerPage() {
       )}
 
       <div aria-live="polite" className="space-y-4">
-        {last && <ReadingResult reading={last} byCode={byCode} />}
+        {last && <ReadingResult reading={last} byCode={byCode} burst={burst} />}
       </div>
 
-      <ManualCode codes={codes} ready={catalog !== null} />
+      <ManualCode
+        codes={codes}
+        ready={catalog !== null}
+        // Nel Burst Scan il codice scritto a mano si comporta come una lettura: niente cambio pagina.
+        onFound={
+          burst
+            ? (text) => {
+                setLast({ text, result: recognize(text, codes), ms: 0 })
+              }
+            : null
+        }
+      />
 
       {last && (
         <details className="rounded-2xl border p-4 text-sm">
@@ -249,9 +335,11 @@ function FrameOverlay() {
 function ReadingResult({
   reading,
   byCode,
+  burst,
 }: {
   reading: Reading
   byCode: ReadonlyMap<string, CatalogCard>
+  burst: Burst | null
 }) {
   const { t } = useTranslation()
   const { found, unknown } = reading.result
@@ -268,19 +356,27 @@ function ReadingResult({
     <>
       {found.map((code) => {
         const card = byCode.get(code)
-        return card ? <FoundCard key={code} card={card} /> : null
+        return card ? <FoundCard key={code} card={card} burst={burst} /> : null
       })}
     </>
   )
 }
 
-/** La Card letta: si sceglie la Printing giusta e si apre il dettaglio. */
-function FoundCard({ card }: { card: CatalogCard }) {
+/**
+ * La Card letta: si sceglie la Printing giusta. Normalmente se ne apre il dettaglio; nel Burst Scan
+ * se ne aggiunge una copia alla Collection. Sotto ogni stampa il prezzo (user story 58).
+ */
+function FoundCard({ card, burst }: { card: CatalogCard; burst: Burst | null }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const open = (printId: string) => {
     void navigate(cardPath(card.cardCode, new URLSearchParams(), printId))
   }
+  const hint = burst
+    ? t('scanner.burst.choose')
+    : card.printings.length > 1
+      ? t('scanner.choose')
+      : t('scanner.open')
   return (
     <section aria-label={card.name} className="space-y-3 rounded-2xl border p-4">
       <div>
@@ -288,29 +384,33 @@ function FoundCard({ card }: { card: CatalogCard }) {
           {card.cardCode}
         </p>
         <h2 className="text-lg font-semibold">{card.name}</h2>
-        <p className="text-sm text-muted-foreground">
-          {card.printings.length > 1 ? t('scanner.choose') : t('scanner.open')}
-        </p>
+        <p className="text-sm text-muted-foreground">{hint}</p>
       </div>
       <ul className="grid grid-cols-3 gap-3 sm:grid-cols-4">
         {card.printings.map((printing) => (
-          <li key={printing.printId}>
-            <button
-              type="button"
-              onClick={() => {
-                open(printing.printId)
-              }}
-              aria-label={t('scanner.openPrinting', {
-                printId: printing.printId,
-                rarity: printing.rarity,
-              })}
-              className="w-full space-y-1 rounded-lg text-left focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-            >
-              <CardThumb printing={printing} name={card.name} className="w-full" />
-              <span className="block truncate text-xs text-muted-foreground">
-                {printing.printId} · {printing.rarity}
-              </span>
-            </button>
+          <li key={printing.printId} className="space-y-1">
+            {burst ? (
+              <>
+                <CardThumb printing={printing} name={card.name} className="w-full" />
+                <PrintingCaption printing={printing} />
+                <AddCopy printing={printing} name={card.name} burst={burst} />
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  open(printing.printId)
+                }}
+                aria-label={t('scanner.openPrinting', {
+                  printId: printing.printId,
+                  rarity: printing.rarity,
+                })}
+                className="w-full space-y-1 rounded-lg text-left focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+              >
+                <CardThumb printing={printing} name={card.name} className="w-full" />
+                <PrintingCaption printing={printing} />
+              </button>
+            )}
           </li>
         ))}
       </ul>
@@ -318,18 +418,90 @@ function FoundCard({ card }: { card: CatalogCard }) {
   )
 }
 
+function PrintingCaption({ printing }: { printing: CatalogPrinting }) {
+  const euro = useEuro()
+  const trend = printing.price?.trend ?? null
+  return (
+    <span className="block text-xs text-muted-foreground">
+      <span className="block truncate">
+        {printing.printId} · {printing.rarity}
+      </span>
+      {trend !== null && (
+        <span className="block font-medium text-foreground tabular-nums">{euro(trend)}</span>
+      )}
+    </span>
+  )
+}
+
+/** Burst Scan: +1 copia della stampa nella lingua scelta, con le copie già possedute. */
+function AddCopy({
+  printing,
+  name,
+  burst,
+}: {
+  printing: CatalogPrinting
+  name: string
+  burst: Burst
+}) {
+  const { t } = useTranslation()
+  const online = useOnline()
+  const { state, change } = useCollection(burst.userId)
+  const [failed, setFailed] = useState(false)
+  const owned = state.status === 'ready' ? copiesOf(state.entries, printing.printId).total : 0
+  const add = () => {
+    setFailed(false)
+    void change(printing.printId, burst.language, 1).then((saved) => {
+      if (saved) burst.onAdded()
+      else setFailed(true)
+    })
+  }
+  return (
+    <div className="space-y-1">
+      <button
+        type="button"
+        disabled={!online || state.status !== 'ready'}
+        onClick={add}
+        aria-label={t('scanner.burst.add', { printId: printing.printId, name })}
+        className="inline-flex h-9 w-full items-center justify-center gap-1 rounded-full bg-foreground text-xs font-medium text-background disabled:opacity-50"
+      >
+        <Plus className="size-3.5" aria-hidden="true" />
+        {t('scanner.burst.owned', { count: owned })}
+      </button>
+      {failed && (
+        <p role="alert" className="text-xs text-destructive">
+          {t('scanner.burst.failed')}
+        </p>
+      )}
+    </div>
+  )
+}
+
 /** Correzione a mano: si scrive il Card Code (anche con gli stessi errori dell'OCR). */
-function ManualCode({ codes, ready }: { codes: ReadonlySet<string>; ready: boolean }) {
+function ManualCode({
+  codes,
+  ready,
+  onFound,
+}: {
+  codes: ReadonlySet<string>
+  ready: boolean
+  /** Cosa fare con un codice valido; null = aprire il dettaglio della carta. */
+  onFound: ((text: string) => void) | null
+}) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [error, setError] = useState(false)
   const submit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!ready) return
-    const text = field(new FormData(event.currentTarget), 'code')
+    const form = event.currentTarget
+    const text = field(new FormData(form), 'code')
     const [code] = recognize(text, codes).found
     setError(!code)
-    if (code) void navigate(cardPath(code, new URLSearchParams()))
+    if (!code) return
+    if (onFound) {
+      onFound(code)
+      form.reset()
+    } else void navigate(cardPath(code, new URLSearchParams()))
   }
   return (
     <form onSubmit={submit} className="space-y-2">

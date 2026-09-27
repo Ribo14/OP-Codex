@@ -532,6 +532,17 @@
       "submit": "Apri",
       "notFound": "Nessuna carta con questo codice."
     },
+    "burst": {
+      "toggle": "Aggiungi alla collezione",
+      "language": "Lingua",
+      "added_one": "{{count}} carta aggiunta in questa sessione",
+      "added_other": "{{count}} carte aggiunte in questa sessione",
+      "choose": "Tocca +1 sulla stampa giusta, poi inquadra la carta successiva:",
+      "add": "Aggiungi una copia di {{printId}} ({{name}}) alla collezione",
+      "owned_one": "+1 · ne hai {{count}}",
+      "owned_other": "+1 · ne hai {{count}}",
+      "failed": "Non aggiunta: riprova."
+    },
     "test": {
       "title": "Dettagli della lettura (per la prova)",
       "tally": "Codice trovato in {{found}} letture su {{reads}}; ultima lettura {{ms}} ms."

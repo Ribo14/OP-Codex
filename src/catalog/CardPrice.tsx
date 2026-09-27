@@ -2,6 +2,7 @@ import { ExternalLink } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import type { CatalogPrinting } from './catalog-data'
 import { cardmarketUrl, useEuro } from './price-format'
+import { PriceHistoryChart } from './PriceHistoryChart'
 
 // Prezzo Cardmarket della Printing mostrata (RIB-32): tendenza e minimo in euro, giorno del
 // listino e link al Marketplace. Arriva con il catalogo, quindi si vede anche offline.
@@ -59,6 +60,7 @@ export function CardPrice({
               ? t('detail.price.note', { printId: printing?.printId ?? cardCode, date })
               : t('detail.price.noteNoDate', { printId: printing?.printId ?? cardCode })}
           </p>
+          {printing && <PriceHistoryChart key={printing.printId} printId={printing.printId} />}
         </>
       ) : (
         <p className="text-sm text-muted-foreground">{t('detail.price.none')}</p>

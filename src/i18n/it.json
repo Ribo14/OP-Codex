@@ -676,7 +676,15 @@
       "note": "Prezzo di {{printId}} in euro, listino del {{date}}.",
       "noteNoDate": "Prezzo di {{printId}} in euro.",
       "none": "Nessun prezzo per questa stampa: su Cardmarket non l'abbiamo ancora riconosciuta.",
-      "link": "Cerca su Cardmarket"
+      "link": "Cerca su Cardmarket",
+      "history_one": "Andamento della tendenza, {{count}} giorno",
+      "history_other": "Andamento della tendenza, {{count}} giorni",
+      "historyTable": "Prezzo di tendenza per giorno",
+      "day": "Giorno",
+      "range": "da {{min}} a {{max}}",
+      "historySoon": "L'andamento del prezzo compare dopo qualche giorno di aggiornamenti.",
+      "historyOffline": "L'andamento del prezzo si vede con la connessione.",
+      "historyError": "Andamento del prezzo non disponibile ora."
     },
     "faq": {
       "title": "FAQ ufficiali",

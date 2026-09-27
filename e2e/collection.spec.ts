@@ -144,6 +144,38 @@ test('Collection: +/− dal dettaglio, lingue separate, totali nella pagina', as
     await expect(detail.getByText('0 copie di questa stampa')).toBeVisible()
     await page.goto('/collezione')
     await expect(page.getByText('3 carte in tutto · 1 Card diverse')).toBeVisible()
+
+    // Aggiunta in blocco da un Set: proposta 1 base e 0 parallele, si aggiunge anche la parallela.
+    await page.getByRole('link', { name: 'Aggiungi un set o una lista' }).click()
+    await expect(page).toHaveURL(/\/collezione\/aggiungi$/)
+    await page.getByLabel('Set', { exact: true }).selectOption(setCode)
+    await expect(page.getByLabel(`Copie di ${CODE} da aggiungere`)).toHaveText('1')
+    await expect(page.getByLabel(`Copie di ${CODE}_p1 da aggiungere`)).toHaveText('0')
+    await page.getByRole('button', { name: `Una copia in più di ${CODE}_p1` }).click()
+    await page.getByRole('button', { name: 'Aggiungi 2 copie (EN)' }).click()
+    await expect(page.getByText('Aggiunte 2 copie alla collezione.')).toBeVisible()
+
+    // Da una lista, in giapponese; la riga sbagliata è segnalata e non blocca le altre.
+    await page.getByRole('tab', { name: 'Da una lista' }).click()
+    await page.getByLabel('Lista, una carta per riga').fill(`3x${CODE}\nnon è una carta`)
+    await page.getByRole('button', { name: 'Leggi la lista' }).click()
+    await expect(page.getByText('1 riga non letta:')).toBeVisible()
+    await page.getByLabel('Lingua di stampa').selectOption('JP')
+    await page.getByRole('button', { name: 'Aggiungi 3 copie (JP)' }).click()
+    await expect(page.getByText('Aggiunte 3 copie alla collezione.')).toBeVisible()
+
+    const bulk = await sql<{ print_id: string; language: string; quantity: number }[]>`
+      select c.print_id, c.language, c.quantity from public.collection_entries c
+      join auth.users u on u.id = c.user_id
+      where u.email = ${email} order by c.print_id, c.language
+    `
+    expect(bulk).toEqual([
+      { print_id: CODE, language: 'EN', quantity: 3 },
+      { print_id: CODE, language: 'JP', quantity: 4 },
+      { print_id: `${CODE}_p1`, language: 'EN', quantity: 1 },
+    ])
+    await page.getByRole('link', { name: 'Vai alla collezione' }).click()
+    await expect(page.getByText('8 carte in tutto · 1 Card diverse')).toBeVisible()
   } finally {
     await sql`delete from auth.users where email = ${email}`
     await sql`delete from public.ban_list_entries where card_code = ${CODE}`

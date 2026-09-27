@@ -18,7 +18,9 @@ import { ProfilePage } from '@/account/ProfilePage'
 import { RecoverPage } from '@/account/RecoverPage'
 import { SignupPage } from '@/account/SignupPage'
 import { AdminPage } from '@/admin/AdminPage'
+import { BulkAddPage } from '@/collection/BulkAddPage'
 import { CollectionPage } from '@/collection/CollectionPage'
+import { BULK_ADD_PATH, COLLECTION_PATH } from '@/collection/paths'
 import { DeckEditorPage } from '@/decks/DeckEditorPage'
 import { DecksPage } from '@/decks/DecksPage'
 import { LeaderPickerPage } from '@/decks/LeaderPickerPage'
@@ -52,7 +54,8 @@ export const routes: RouteObject[] = [
         path: s.path,
         element: <ComingSoonPage section={s.key} />,
       })),
-      { path: '/collezione', element: <CollectionPage /> },
+      { path: COLLECTION_PATH, element: <CollectionPage /> },
+      { path: BULK_ADD_PATH, element: <BulkAddPage /> },
       // Regole: glossario (RIB-51)
       { path: RULES_PATH, element: <RulesPage /> },
       // Mazzi (RIB-21)

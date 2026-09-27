@@ -671,6 +671,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      aggiungi_copie: { Args: { p_righe: Json }; Returns: number }
       cambia_carte_mazzo: {
         Args: { p_card_code: string; p_deck_id: string; p_delta: number }
         Returns: number

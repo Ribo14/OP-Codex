@@ -33,7 +33,8 @@ const QUANTITY_LAST = new RegExp(String.raw`^${CODE}\s*[xX×]\s*(\d+)$`)
 // "OP01-001" da solo: una copia (tipico della riga del Leader).
 const CODE_ONLY = new RegExp(String.raw`^${CODE}$`)
 
-function readLine(text: string): ParsedLine | null {
+/** Una riga della lista ("4xOP01-016", "OP01-016 x4", "OP01-001"); null se non si legge. */
+export function readLine(text: string): ParsedLine | null {
   let match = QUANTITY_FIRST.exec(text)
   if (match?.[1] && match[2])
     return { quantity: Number(match[1]), cardCode: match[2].toUpperCase() }

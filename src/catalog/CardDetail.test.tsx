@@ -38,7 +38,14 @@ const CATALOG: Catalog = {
       keywords: ['On Play'],
       printings: [
         { printId: 'OP01-016', rarity: 'R', setCode: 'OP-01', hasImage: false },
-        { printId: 'OP01-016_p1', rarity: 'R', setCode: 'OP-01', hasImage: false },
+        {
+          printId: 'OP01-016_p1',
+          rarity: 'R',
+          setCode: 'OP-01',
+          hasImage: false,
+          price: { trend: 45.2, low: 39.99, date: '2026-09-27' },
+          cardtrader: { low: 41.5, blueprintId: 70001, expansion: 'op01' },
+        },
         { printId: 'OP01-016_p8', rarity: 'SP CARD', setCode: 'PRB-01', hasImage: false },
       ],
       faqs: [
@@ -104,6 +111,33 @@ describe('Dettaglio Card', () => {
       'true',
     )
     expect(screen.getByText('OP01-016_p8 · PRB-01 · SP CARD')).toBeInTheDocument()
+  })
+
+  it('mostra il prezzo Cardmarket della Printing scelta, o che non c’è (RIB-32)', async () => {
+    await renderAt('/carta/OP01-016?stampa=OP01-016_p1')
+    const price = within(screen.getByRole('region', { name: it_.detail.price.title }))
+    expect(price.getByText('45,20 €')).toBeInTheDocument()
+    expect(price.getByText('39,99 €')).toBeInTheDocument()
+    expect(price.getByText(/listino del 27\/09\/26/)).toBeInTheDocument()
+    expect(price.getByRole('link', { name: it_.detail.price.link })).toHaveAttribute(
+      'href',
+      'https://www.cardmarket.com/it/OnePiece/Products/Search?searchString=OP01-016',
+    )
+    expect(price.getByText('41,50 €')).toBeInTheDocument()
+    expect(price.getByRole('link', { name: it_.detail.price.cardtraderLink })).toHaveAttribute(
+      'href',
+      'https://www.cardtrader.com/cards/70001',
+    )
+
+    await act(async () => {
+      fireEvent.click(printingRadios().getByRole('radio', { name: /^OP01-016 ·/ }))
+      await Promise.resolve()
+    })
+    expect(
+      within(screen.getByRole('region', { name: it_.detail.price.title })).getByText(
+        it_.detail.price.none,
+      ),
+    ).toBeInTheDocument()
   })
 
   it('cambiare Printing aggiorna rarità, Set e URL senza ricaricare', async () => {

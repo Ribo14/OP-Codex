@@ -50,5 +50,21 @@ jobs:
       # Card Explanation (RIB-52) dai file versionati nel repo: idem, nessuna AI.
       - name: Explanation Sync
         run: node catalog-sync/sync-explanations.ts
+      # Composizione degli Starter Deck (aggiunta in blocco alla Collezione) dal file del repo.
+      - name: Recipe Sync
+        run: node catalog-sync/sync-recipes.ts
       - name: Image Sync
         run: node catalog-sync/sync-images.ts --limit "$IMAGE_LIMIT" --delay-ms 2000
+      # Prezzi Cardmarket (RIB-32, ADR-0008) dai file pubblici: tre download, poi l'abbinamento.
+      # Per ultimo e anche se un passo prima è fallito: i prezzi non dipendono dalle immagini.
+      - name: Price Sync
+        id: prices
+        if: ${{ !cancelled() }}
+        run: node catalog-sync/sync-prices.ts
+      # CardTrader (slice 5.5) usa gli abbinamenti appena calcolati. Senza il segreto
+      # CARDTRADER_TOKEN lo script lo dice e finisce senza errori.
+      - name: CardTrader
+        if: ${{ !cancelled() && steps.prices.outcome == 'success' }}
+        env:
+          CARDTRADER_TOKEN: ${{ secrets.CARDTRADER_TOKEN }}
+        run: node catalog-sync/sync-cardtrader.ts

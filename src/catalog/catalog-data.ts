@@ -9,6 +9,29 @@ export interface CatalogPrinting {
   rarity: string
   setCode: string
   hasImage: boolean
+  /** Ultimo prezzo Cardmarket (RIB-32); null = nessun prezzo. Assente nei dati di prova. */
+  price?: PrintingPrice | null
+  /** Minimo su CardTrader (RIB-32, slice 5.5); null = nessun prezzo. */
+  cardtrader?: CardTraderPrice | null
+}
+
+/** Offerta più economica su CardTrader (inglese, Near Mint o Mint), in euro. */
+export interface CardTraderPrice {
+  low: number
+  /** Blueprint di CardTrader: la pagina della carta. */
+  blueprintId: number | null
+  /** Codice dell'espansione su CardTrader (es. op01, eb-01): serve alle liste per le wishlist. */
+  expansion: string | null
+}
+
+/** Prezzo di una Printing su Cardmarket, in euro. */
+export interface PrintingPrice {
+  /** Prezzo di tendenza. */
+  trend: number | null
+  /** Minimo in vendita. */
+  low: number | null
+  /** Giorno del listino, AAAA-MM-GG. */
+  date: string | null
 }
 
 export interface CatalogCard {
@@ -80,7 +103,7 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
   const changed = <Q extends { gte: (column: 'updated_at', value: string) => Q }>(query: Q) =>
     since === null ? query : query.gte('updated_at', since)
 
-  const [sets, cards, printings, faqs, explanations] = await Promise.all([
+  const [sets, cards, printings, faqs, explanations, prices] = await Promise.all([
     fetchAll((from, to) =>
       changed(supabase.from('sets').select('series_id, code, name, updated_at'))
         .order('series_id')
@@ -116,7 +139,19 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
         .order('card_code')
         .range(from, to),
     ),
+    fetchAll((from, to) =>
+      changed(
+        supabase
+          .from('printing_prices')
+          .select(
+            'print_id, marketplace, product_id, market_set, trend, low, price_date, updated_at',
+          ),
+      )
+        .order('print_id')
+        .order('marketplace')
+        .range(from, to),
+    ),
   ])
 
-  return { sets, cards, printings, faqs, explanations }
+  return { sets, cards, printings, faqs, explanations, prices }
 }

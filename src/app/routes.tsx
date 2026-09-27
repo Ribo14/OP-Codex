@@ -18,7 +18,9 @@ import { ProfilePage } from '@/account/ProfilePage'
 import { RecoverPage } from '@/account/RecoverPage'
 import { SignupPage } from '@/account/SignupPage'
 import { AdminPage } from '@/admin/AdminPage'
+import { BulkAddPage } from '@/collection/BulkAddPage'
 import { CollectionPage } from '@/collection/CollectionPage'
+import { BULK_ADD_PATH, COLLECTION_PATH } from '@/collection/paths'
 import { DeckEditorPage } from '@/decks/DeckEditorPage'
 import { DecksPage } from '@/decks/DecksPage'
 import { LeaderPickerPage } from '@/decks/LeaderPickerPage'
@@ -27,6 +29,8 @@ import { DECKS_PATH, IMPORT_DECK_PATH, NEW_DECK_PATH, SHARED_DECK_PATH } from '@
 import { RULES_PATH } from '@/rules/paths'
 import { RulesPage } from '@/rules/RulesPage'
 import { SharedDeckPage } from '@/decks/SharedDeckPage'
+import { SCANNER_PATH } from '@/scanner/paths'
+import { ScannerPage } from '@/scanner/ScannerPage'
 import { CardDetailRoute } from '@/catalog/CardDetailRoute'
 import { CatalogPage } from '@/catalog/CatalogPage'
 import { AppShell } from './AppShell'
@@ -50,7 +54,8 @@ export const routes: RouteObject[] = [
         path: s.path,
         element: <ComingSoonPage section={s.key} />,
       })),
-      { path: '/collezione', element: <CollectionPage /> },
+      { path: COLLECTION_PATH, element: <CollectionPage /> },
+      { path: BULK_ADD_PATH, element: <BulkAddPage /> },
       // Regole: glossario (RIB-51)
       { path: RULES_PATH, element: <RulesPage /> },
       // Mazzi (RIB-21)
@@ -61,6 +66,8 @@ export const routes: RouteObject[] = [
       { path: SHARED_DECK_PATH, element: <SharedDeckPage /> },
       { path: `${DECKS_PATH}/:deckId`, element: <DeckEditorPage /> },
       { path: `${DECKS_PATH}/:deckId/leader`, element: <LeaderPickerPage /> },
+      // Scanner (fase 4): anche senza account, apre il dettaglio della carta letta.
+      { path: SCANNER_PATH, element: <ScannerPage /> },
       { path: PRIVACY_PATH, element: <PrivacyPage /> },
       { path: SETTINGS_PATH, element: <SettingsPage /> },
       // Account (RIB-14)

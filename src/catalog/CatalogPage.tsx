@@ -1,10 +1,11 @@
-import { LayoutGrid, List, Search, SlidersHorizontal, X } from 'lucide-react'
+import { LayoutGrid, List, ScanLine, Search, SlidersHorizontal, X } from 'lucide-react'
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Outlet, useMatch } from 'react-router'
+import { Link, Outlet, useMatch } from 'react-router'
 import { useSession } from '@/account/session'
 import { useOwnership } from '@/collection/collection-store'
 import { cn } from '@/lib/utils'
+import { SCANNER_PATH } from '@/scanner/paths'
 import { useBanList } from './ban-list'
 import type { CatalogOutletContext } from './CardDetailRoute'
 import { CatalogResults, type CatalogView } from './CatalogResults'
@@ -126,6 +127,15 @@ export function CatalogPage() {
             className="w-full min-w-0 bg-transparent outline-none placeholder:text-muted-foreground"
           />
         </label>
+
+        {/* Fase 4: lo Scanner apre il dettaglio della carta inquadrata. */}
+        <Link
+          to={SCANNER_PATH}
+          className="inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-medium hover:bg-muted"
+        >
+          <ScanLine className="size-4" aria-hidden="true" />
+          {t('scanner.button')}
+        </Link>
 
         <button
           type="button"

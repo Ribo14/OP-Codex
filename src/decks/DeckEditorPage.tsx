@@ -21,6 +21,8 @@ import type { Catalog, CatalogCard, CatalogPrinting } from '@/catalog/catalog-da
 import { catalogFacets, countActiveFilters, relatedFilters } from '@/catalog/filters'
 import { FiltersPanel } from '@/catalog/FiltersPanel'
 import { useCatalog } from '@/catalog/local-catalog'
+import { useEuro } from '@/catalog/price-format'
+import { deckValue, type DeckValue } from '@/catalog/price-value'
 import { useCatalogFilters } from '@/catalog/use-catalog-filters'
 import { useCollection, useOwnership } from '@/collection/collection-store'
 import { useOnline } from '@/lib/use-online'
@@ -51,7 +53,9 @@ import { ShareDeckSection } from './ShareDeckSection'
 // Editor di un Deck (RIB-21). Ogni modifica si salva da sola. Due schede, "Mazzo" e "Aggiungi
 // carte", che non perdono ricerca e filtri. Anche su desktop le schede non sono affiancate
 // (RIB-49): la lista delle carte da aggiungere accanto al mazzo confondeva; lo spazio va alle
-// carte del mazzo, in griglia. Toccando una carta se ne apre il dettaglio (RIB-47).
+// carte del mazzo, in griglia. Anche "Aggiungi carte" su desktop usa tutta la larghezza: filtri
+// fissi a sinistra come nel catalogo e risultati in griglia. Toccando una carta se ne apre il
+// dettaglio (RIB-47).
 
 const PAGE = 40
 const TABS = ['deck', 'add'] as const
@@ -181,6 +185,7 @@ function Editor({ deckId }: { deckId: string }) {
         catalog={catalog}
         editing={editing}
         listText={formatDeckList(deck.leaderCode, cards, byCode)}
+        value={deckValue(deck, cards, catalog.cards)}
         onRelated={(leader) => {
           // RIB-41: la scheda "Aggiungi carte" con colori, tipi ed effetti del Leader.
           update({ ...relatedFilters(leader), q: '' })
@@ -273,7 +278,7 @@ function Editor({ deckId }: { deckId: string }) {
         id="pannello-add"
         role="tabpanel"
         aria-labelledby="scheda-add"
-        className={cn('lg:max-w-3xl', tab !== 'add' && 'hidden')}
+        className={cn(tab !== 'add' && 'hidden')}
       >
         <AddCards cards={cards} catalog={catalog} editing={editing} onOpen={openCard} />
       </section>
@@ -352,6 +357,7 @@ function DeckHeader({
   catalog,
   editing,
   listText,
+  value,
   onRelated,
   onOpen,
 }: {
@@ -360,10 +366,13 @@ function DeckHeader({
   editing: Editing
   /** La Deck List da copiare o condividere (RIB-24). */
   listText: string
+  /** Valore stimato con i prezzi Cardmarket (RIB-32). */
+  value: DeckValue
   onRelated: (leader: CatalogCard) => void
   onOpen: OpenCard
 }) {
   const { t } = useTranslation()
+  const euro = useEuro()
   const [renaming, setRenaming] = useState(false)
   const leader = catalog.cards.find((c) => c.cardCode === deck.leaderCode)
   const leaderName = leader?.name ?? deck.leaderCode
@@ -441,6 +450,12 @@ function DeckHeader({
           <p className="text-sm font-medium tabular-nums" aria-live="polite">
             {t('decks.count', { count: deck.cardCount, size: DECK_SIZE })}
           </p>
+          {value.priced > 0 && (
+            <p className="text-sm text-muted-foreground tabular-nums">
+              {t('decks.value', { value: euro(value.total) })}
+              {value.unpriced > 0 && ` (${t('decks.unpriced', { count: value.unpriced })})`}
+            </p>
+          )}
           {/* Formato (RIB-23): decide gli avvisi sul Block. */}
           <div
             role="radiogroup"
@@ -751,6 +766,9 @@ function AddCards({
     [catalog, deferred, ownership, banList],
   )
   const active = countActiveFilters(filters)
+  const filtersPanel = (
+    <FiltersPanel filters={filters} update={update} facets={facets} sets={catalog.sets} showOwned />
+  )
 
   // Nuova ricerca: si riparte dal primo blocco.
   const [previous, setPrevious] = useState(results)
@@ -791,7 +809,7 @@ function AddCards({
           onClick={() => {
             setPanelOpen(true)
           }}
-          className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-medium"
+          className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full border px-4 text-sm font-medium lg:hidden"
         >
           <SlidersHorizontal className="size-4" aria-hidden="true" />
           {active > 0 ? t('catalog.filtersCount', { count: active }) : t('catalog.filters')}
@@ -810,43 +828,59 @@ function AddCards({
         )}
       </p>
 
-      <ul className="divide-y">
-        {results.slice(0, limit).map(({ card, printing }) => (
-          <CardLine
-            key={card.cardCode}
-            card={card}
-            printing={printing}
-            onOpen={() => {
-              onOpen(card, printing.printId)
-            }}
-          >
-            <Stepper
-              name={card.name}
-              quantity={quantityInDeck(cards, card.cardCode)}
-              cardCode={card.cardCode}
-              editing={editing}
-            />
-          </CardLine>
-        ))}
-      </ul>
-      {results.length > limit && (
-        <button
-          type="button"
-          onClick={() => {
-            setLimit((l) => l + PAGE)
-          }}
-          className="inline-flex h-10 items-center rounded-full border px-4 text-sm font-medium hover:bg-muted"
+      <div className="flex items-start gap-6">
+        {/* Desktop: filtri sempre aperti a sinistra, come nel catalogo. */}
+        <aside
+          aria-label={t('catalog.filters')}
+          className="sticky top-0 hidden max-h-[calc(100svh-4rem)] w-72 shrink-0 overflow-y-auto pr-2 pb-8 lg:block"
         >
-          {t('decks.showMore')}
-        </button>
-      )}
+          {filtersPanel}
+        </aside>
+
+        <div className="min-w-0 flex-1 space-y-4">
+          {/* Telefono: una riga per carta. Desktop: griglia di carte grandi, come il mazzo. */}
+          <ul className="divide-y lg:grid lg:grid-cols-4 lg:gap-x-4 lg:gap-y-6 lg:divide-y-0 xl:grid-cols-5 2xl:grid-cols-7">
+            {results.slice(0, limit).map(({ card, printing }) => (
+              <CardLine
+                key={card.cardCode}
+                card={card}
+                printing={printing}
+                tile
+                onOpen={() => {
+                  onOpen(card, printing.printId)
+                }}
+              >
+                <div className="lg:flex lg:justify-center">
+                  <Stepper
+                    name={card.name}
+                    quantity={quantityInDeck(cards, card.cardCode)}
+                    cardCode={card.cardCode}
+                    editing={editing}
+                  />
+                </div>
+              </CardLine>
+            ))}
+          </ul>
+          {results.length > limit && (
+            <button
+              type="button"
+              onClick={() => {
+                setLimit((l) => l + PAGE)
+              }}
+              className="inline-flex h-10 items-center rounded-full border px-4 text-sm font-medium hover:bg-muted"
+            >
+              {t('decks.showMore')}
+            </button>
+          )}
+        </div>
+      </div>
 
       {panelOpen && (
         <div
           role="dialog"
           aria-modal="true"
           aria-label={t('catalog.filters')}
-          className="fixed inset-0 z-50 flex flex-col bg-background safe-x lg:inset-y-0 lg:right-0 lg:left-auto lg:w-96 lg:border-l lg:shadow-2xl"
+          className="fixed inset-0 z-50 flex flex-col bg-background safe-x lg:hidden"
         >
           <div className="box-content flex h-14 shrink-0 items-center gap-3 border-b px-4 safe-top">
             <span className="font-semibold">{t('catalog.filters')}</span>
@@ -861,15 +895,7 @@ function AddCards({
               <X className="size-5" aria-hidden="true" />
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto px-4 py-5">
-            <FiltersPanel
-              filters={filters}
-              update={update}
-              facets={facets}
-              sets={catalog.sets}
-              showOwned
-            />
-          </div>
+          <div className="flex-1 overflow-y-auto px-4 py-5">{filtersPanel}</div>
           <div className="shrink-0 border-t p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)]">
             <button
               type="button"

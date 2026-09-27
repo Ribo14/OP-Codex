@@ -3,6 +3,8 @@ import type { CatalogCard } from '@/catalog/catalog-data'
 import type { CollectionEntry } from '@/collection/collection'
 import { parseDeckList } from './deck-list'
 import {
+  cardmarketWantsText,
+  cardtraderWishlistText,
   deckOwnership,
   missingCards,
   missingListText,
@@ -95,5 +97,78 @@ describe('Missing Cards', () => {
     // Con il Leader posseduto, il Leader non compare.
     const withLeader = deckOwnership('OP01-001', DECK, [own('OP01-001', 1), own('OP01-006', 4)])
     expect(missingListText('OP01-001', withLeader, catalog)).toBe('4xOP01-016\n2xOP01-025')
+  })
+})
+
+describe('liste per i Marketplace', () => {
+  const card = (cardCode: string, name: string, expansion: string | null): CatalogCard => ({
+    cardCode,
+    name,
+    category: 'Character',
+    cost: 1,
+    life: null,
+    power: null,
+    counter: null,
+    colors: ['Red'],
+    attributes: [],
+    types: [],
+    block: '1',
+    effect: null,
+    trigger: null,
+    keywords: [],
+    printings: [
+      {
+        printId: cardCode,
+        rarity: 'C',
+        setCode: 'OP-01',
+        hasImage: true,
+        cardtrader: expansion ? { low: 1, blueprintId: 1, expansion } : null,
+      },
+    ],
+  })
+  const catalog = new Map(
+    [
+      card('OP01-001', 'Roronoa Zoro', 'op01'),
+      card('OP01-016', 'Nami', 'op01'),
+      card('OP14-020', 'Dracule Mihawk', 'op-14'),
+      card('P-034', 'Sanji', null),
+      card('EB01-006', 'Tony Tony.Chopper', null),
+    ].map((c) => [c.cardCode, c]),
+  )
+  const rows = deckOwnership(
+    'OP01-001',
+    [
+      { cardCode: 'OP01-016', quantity: 4 },
+      { cardCode: 'OP14-020', quantity: 2 },
+      { cardCode: 'P-034', quantity: 1 },
+      { cardCode: 'EB01-006', quantity: 3 },
+    ],
+    [own('OP01-016', 1)],
+  )
+
+  it('Cardmarket (Wants): "3x Nome CODICE", Leader per primo', () => {
+    expect(cardmarketWantsText('OP01-001', rows, catalog)).toBe(
+      [
+        '1x Roronoa Zoro OP01-001',
+        '3x Nami OP01-016',
+        '2x Dracule Mihawk OP14-020',
+        '1x Sanji P-034',
+        '3x Tony Tony.Chopper EB01-006',
+      ].join('\n'),
+    )
+  })
+
+  it('CardTrader (wishlist, formato MTGA): "3 Nome (espansione) numero"', () => {
+    expect(cardtraderWishlistText('OP01-001', rows, catalog)).toBe(
+      [
+        '1 Roronoa Zoro (op01) 001',
+        '3 Nami (op01) 016',
+        // Codice di CardTrader "op-14" senza trattino: con il trattino la riga viene scartata.
+        '2 Dracule Mihawk (op14) 020',
+        // Senza dati CardTrader: promo per le P, prefisso in minuscolo per le altre.
+        '1 Sanji (promo) 034',
+        '3 Tony Tony.Chopper (eb01) 006',
+      ].join('\n'),
+    )
   })
 })

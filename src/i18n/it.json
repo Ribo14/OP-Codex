@@ -229,6 +229,46 @@
     "empty": "La tua Collection è vuota. Apri una carta dal Catalogo e usa + per aggiungerla.",
     "toCatalog": "Vai al Catalogo",
     "totals": "{{copies}} carte in tutto · {{cards}} Card diverse",
+    "value": "Valore stimato: {{value}} (tendenza Cardmarket, stampe inglesi)",
+    "bulkLink": "Aggiungi un set o una lista",
+    "bulk": {
+      "title": "Aggiungi in blocco",
+      "intro": "Aggiungi insieme tutte le carte di un set (per esempio uno Starter Deck che hai comprato) o di una lista. Prima controlli e correggi le quantità, poi confermi.",
+      "mode": {
+        "set": "Da un set",
+        "list": "Da una lista"
+      },
+      "set": "Set",
+      "choose": "Scegli un set…",
+      "setHint": "Per gli Starter Deck proponiamo le copie del mazzo, se le conosciamo; per gli altri set una copia di ogni carta. Correggi le quantità qui sotto prima di aggiungere.",
+      "recipe": "Quantità del mazzo pronto (51 carte con il Leader).",
+      "noRecipe": "Composizione del mazzo non disponibile: una copia per carta. Correggi le quantità o incolla la lista del mazzo in «Da una lista».",
+      "list": "Lista, una carta per riga",
+      "listPlaceholder": "1xST01-001\n4xST01-004\n4xST01-005\n…",
+      "read": "Leggi la lista",
+      "errors_one": "{{count}} riga non letta:",
+      "errors_other": "{{count}} righe non lette:",
+      "errorLine": "riga {{line}} «{{text}}»:",
+      "problem": {
+        "format": "non è nel formato 4xST01-001.",
+        "unknown": "codice non presente nel catalogo."
+      },
+      "preview": "Carte da aggiungere",
+      "language": "Lingua di stampa",
+      "less": "Una copia in meno di {{printId}}",
+      "more": "Una copia in più di {{printId}}",
+      "copies": "Copie di {{printId}} da aggiungere",
+      "add_one": "Aggiungi {{count}} copia ({{language}})",
+      "add_other": "Aggiungi {{count}} copie ({{language}})",
+      "done_one": "Aggiunta {{count}} copia alla collezione.",
+      "done_other": "Aggiunte {{count}} copie alla collezione.",
+      "toCollection": "Vai alla collezione",
+      "failed": "Non aggiunte: controlla la connessione e riprova."
+    },
+    "unpriced_one": "{{count}} copia senza prezzo",
+    "unpriced_other": "{{count}} copie senza prezzo",
+    "otherLanguages_one": "{{count}} copia in altre lingue non valutata",
+    "otherLanguages_other": "{{count}} copie in altre lingue non valutate",
     "setCompletion": "Completamento dei Set",
     "setsAll": "Mostra tutti i Set ({{count}})",
     "setsStarted": "Solo i Set iniziati",
@@ -278,6 +318,9 @@
     "backToList": "Torna ai mazzi",
     "backToDeck": "Torna al mazzo",
     "count": "{{count}}/{{size}} carte",
+    "value": "Valore stimato {{value}}",
+    "unpriced_one": "{{count}} carta senza prezzo",
+    "unpriced_other": "{{count}} carte senza prezzo",
     "name": "Nome del mazzo",
     "rename": "Rinomina",
     "save": "Salva",
@@ -350,7 +393,21 @@
       "count_one": "Ti manca {{count}} carta",
       "count_other": "Ti mancano {{count}} carte",
       "have": "ne hai {{owned}} su {{required}}",
-      "copy": "Copia lista mancanti"
+      "copyFor": {
+        "list": "Copia lista mancanti",
+        "cardmarket": "Copia per Cardmarket",
+        "cardtrader": "Copia per CardTrader"
+      },
+      "pasteIn": {
+        "cardmarket": "Su Cardmarket incollala nei Wants: apri o crea una lista e scegli «Aggiungi una lista» (Add Decklist).",
+        "cardtrader": "Su CardTrader crea una wishlist e scegli «Incolla testo» (Paste text).",
+        "list": "Lista copiata."
+      },
+      "open": {
+        "cardmarket": "Apri i Wants",
+        "cardtrader": "Nuova wishlist",
+        "list": "Apri"
+      }
     },
     "list": {
       "copy": "Copia lista",
@@ -408,6 +465,34 @@
     "notAdmin": "Questa area è riservata agli amministratori.",
     "needsTwoFactor": "Per entrare nell'area Admin serve la verifica in due passaggi: attivala nel Profilo, in «Account e sicurezza».",
     "toProfile": "Vai al Profilo",
+    "prices": {
+      "title": "Abbinamenti dei prezzi",
+      "intro": "Per ogni stampa, il prodotto Cardmarket da cui prendere il prezzo. Il riconoscimento automatico non basta per alcune carte: qui si correggono. La correzione vale dal prossimo aggiornamento dei prezzi (ogni notte).",
+      "list": {
+        "check_one": "Da verificare ({{count}})",
+        "check_other": "Da verificare ({{count}})",
+        "missing_one": "Senza prezzo ({{count}})",
+        "missing_other": "Senza prezzo ({{count}})"
+      },
+      "empty": "Niente da controllare.",
+      "more_one": "E ancora {{count}} carta: cercala per Card Code.",
+      "more_other": "E altre {{count}} carte: cercale per Card Code.",
+      "code": "Card Code, es. OP01-001",
+      "open": "Apri",
+      "noProducts": "Nessun prodotto Cardmarket in inglese con questo Card Code.",
+      "product": "#{{id}} · espansione {{expansion}} · tendenza {{trend}} · minimo {{low}}",
+      "choice": "Prodotto Cardmarket per {{printId}}",
+      "auto": "Automatico",
+      "none": "Nessun prodotto (niente prezzo)",
+      "save": "Salva",
+      "status": {
+        "ok": "Automatico",
+        "check": "Da verificare",
+        "missing": "Senza prezzo",
+        "override": "Corretto a mano",
+        "excluded": "Escluso a mano"
+      }
+    },
     "queue": {
       "title": "Segnalazioni e richieste",
       "intro": "Spiegazioni segnalate dagli utenti e carte di cui chiedono la spiegazione, raggruppate per carta. Copia l'elenco per la prossima sessione di lavoro sulle spiegazioni, poi chiudi le voci.",
@@ -453,7 +538,7 @@
     },
     "jobs": {
       "title": "Stato dei job",
-      "intro": "Le ultime {{count}} esecuzioni del Catalog Sync, dello scaricamento delle immagini e del caricamento delle FAQ.",
+      "intro": "Le ultime {{count}} esecuzioni del Catalog Sync, dello scaricamento delle immagini, del caricamento di FAQ e spiegazioni e dei prezzi.",
       "reload": "Aggiorna",
       "empty": "Nessuna esecuzione registrata.",
       "name": {
@@ -461,6 +546,9 @@
         "image_sync": "Immagini delle carte",
         "faq_sync": "FAQ ufficiali",
         "explanation_sync": "Spiegazioni delle carte",
+        "price_sync": "Prezzi Cardmarket",
+        "cardtrader_sync": "Prezzi CardTrader",
+        "recipe_sync": "Composizione degli Starter Deck",
         "other": "Altro job"
       },
       "status": {
@@ -469,6 +557,46 @@
         "error": "Errore",
         "other": "Sconosciuto"
       }
+    }
+  },
+  "scanner": {
+    "title": "Scanner",
+    "button": "Scansiona",
+    "intro": "Inquadra una carta: l'app legge il codice nell'angolo in basso a destra. La foto resta sul telefono, non viene salvata né inviata.",
+    "preview": "Anteprima della fotocamera",
+    "permission": "Serve la fotocamera: il telefono ti chiederà il permesso.",
+    "start": "Avvia la fotocamera",
+    "denied": "Permesso della fotocamera negato. Consentilo nelle impostazioni del browser (su iPhone: Impostazioni › Safari › Fotocamera) e riprova, oppure scrivi il codice qui sotto.",
+    "unavailable": "Fotocamera non disponibile su questo dispositivo. Puoi scrivere il codice qui sotto.",
+    "aim": "Carta dentro il riquadro, codice nella zona gialla",
+    "read": "Leggi il codice",
+    "reading": "Lettura…",
+    "ocrFailed": "Il lettore del codice non è partito. Controlla la connessione (serve la prima volta) e ricarica la pagina.",
+    "nothing": "Nessun codice letto. Avvicina la carta, evita i riflessi e riprova.",
+    "unknown": "Letto {{codes}}, ma non è nel catalogo: riprova o scrivilo qui sotto.",
+    "choose": "Scegli la stampa giusta:",
+    "open": "Tocca la carta per aprirla:",
+    "openPrinting": "Apri {{printId}} · {{rarity}}",
+    "manual": {
+      "label": "Oppure scrivi il codice",
+      "placeholder": "OP01-001",
+      "submit": "Apri",
+      "notFound": "Nessuna carta con questo codice."
+    },
+    "burst": {
+      "toggle": "Aggiungi alla collezione",
+      "language": "Lingua",
+      "added_one": "{{count}} carta aggiunta in questa sessione",
+      "added_other": "{{count}} carte aggiunte in questa sessione",
+      "choose": "Tocca +1 sulla stampa giusta, poi inquadra la carta successiva:",
+      "add": "Aggiungi una copia di {{printId}} ({{name}}) alla collezione",
+      "owned_one": "+1 · ne hai {{count}}",
+      "owned_other": "+1 · ne hai {{count}}",
+      "failed": "Non aggiunta: riprova."
+    },
+    "test": {
+      "title": "Dettagli della lettura (per la prova)",
+      "tally": "Codice trovato in {{found}} letture su {{reads}}; ultima lettura {{ms}} ms."
     }
   },
   "settings": {
@@ -609,7 +737,27 @@
     "setColumn": "Set",
     "printColumn": "Print ID",
     "rarityColumn": "Rarità",
+    "priceColumn": "Prezzo",
     "officialText": "Testo ufficiale in inglese",
+    "price": {
+      "title": "Prezzi",
+      "trend": "Tendenza",
+      "low": "Minimo",
+      "note": "Prezzo di {{printId}} in euro, listino del {{date}}.",
+      "noteNoDate": "Prezzo di {{printId}} in euro.",
+      "none": "Nessun prezzo per questa stampa: su Cardmarket non l'abbiamo ancora riconosciuta.",
+      "link": "Cerca su Cardmarket",
+      "cardtrader": "Minimo su CardTrader (inglese, Near Mint)",
+      "cardtraderLink": "Vedi su CardTrader",
+      "history_one": "Andamento della tendenza, {{count}} giorno",
+      "history_other": "Andamento della tendenza, {{count}} giorni",
+      "historyTable": "Prezzo di tendenza per giorno",
+      "day": "Giorno",
+      "range": "da {{min}} a {{max}}",
+      "historySoon": "L'andamento del prezzo compare dopo qualche giorno di aggiornamenti.",
+      "historyOffline": "L'andamento del prezzo si vede con la connessione.",
+      "historyError": "Andamento del prezzo non disponibile ora."
+    },
     "faq": {
       "title": "FAQ ufficiali",
       "count_one": "{{count}} domanda",

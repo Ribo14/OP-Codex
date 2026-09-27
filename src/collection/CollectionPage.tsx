@@ -1,4 +1,4 @@
-import { Search } from 'lucide-react'
+import { Plus, Search } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
@@ -9,6 +9,8 @@ import { cardImageUrl } from '@/catalog/card-image'
 import { cardPath } from '@/catalog/card-links'
 import type { CardLinkState } from '@/catalog/CardDetailRoute'
 import { useCatalog } from '@/catalog/local-catalog'
+import { useEuro } from '@/catalog/price-format'
+import { collectionValue } from '@/catalog/price-value'
 import {
   COLLECTION_SORTS,
   ownedItems,
@@ -18,11 +20,10 @@ import {
   type OwnedItem,
 } from './collection'
 import { useCollection } from './collection-store'
+import { BULK_ADD_PATH, COLLECTION_PATH } from './paths'
 import { SetCompletionSection } from './SetCompletionSection'
 
 // Pagina Collezione (RIB-20): le Printing possedute con le copie, totali, ricerca e ordinamento.
-
-const COLLECTION_PATH = '/collezione'
 
 // Chiudere il dettaglio aperto da qui torna alla Collezione (navigate(-1)).
 const LINK_STATE: CardLinkState = { fromCatalog: true }
@@ -44,6 +45,7 @@ export function CollectionPage() {
 
 function Collection({ userId }: { userId: string }) {
   const { t } = useTranslation()
+  const euro = useEuro()
   const { catalog } = useCatalog()
   const { state, reload } = useCollection(userId)
   const [query, setQuery] = useState('')
@@ -76,19 +78,39 @@ function Collection({ userId }: { userId: string }) {
     return (
       <div className="max-w-md space-y-3 rounded-2xl border p-5">
         <p>{t('collection.empty')}</p>
-        <Link to="/" className="text-sm underline underline-offset-2">
-          {t('collection.toCatalog')}
-        </Link>
+        <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+          <Link to="/" className="underline underline-offset-2">
+            {t('collection.toCatalog')}
+          </Link>
+          <BulkLink />
+        </div>
       </div>
     )
   }
 
   const { copies, distinctCards } = totals(entries)
+  // RIB-32: valore stimato con i prezzi Cardmarket delle stampe inglesi.
+  const value = collectionValue(entries, catalog.cards)
   return (
     <div className="space-y-5">
-      <p className="text-sm text-muted-foreground" aria-live="polite">
-        {t('collection.totals', { copies, cards: distinctCards })}
-      </p>
+      <div className="space-y-1">
+        <p className="text-sm text-muted-foreground" aria-live="polite">
+          {t('collection.totals', { copies, cards: distinctCards })}
+        </p>
+        {value.priced > 0 && (
+          <p className="text-sm">
+            {t('collection.value', { value: euro(value.total) })}
+            <span className="text-muted-foreground">
+              {value.unpriced > 0 && ` · ${t('collection.unpriced', { count: value.unpriced })}`}
+              {value.otherLanguages > 0 &&
+                ` · ${t('collection.otherLanguages', { count: value.otherLanguages })}`}
+            </span>
+          </p>
+        )}
+        <p className="pt-1 text-sm">
+          <BulkLink />
+        </p>
+      </div>
       <SetCompletionSection catalog={catalog} entries={entries} />
       <h2 className="pt-2 text-lg font-semibold tracking-tight">{t('collection.yourCards')}</h2>
       <div className="flex flex-wrap gap-3">
@@ -136,6 +158,20 @@ function Collection({ userId }: { userId: string }) {
         </ul>
       )}
     </div>
+  )
+}
+
+/** Verso l'aggiunta in blocco: un Set intero o una lista. */
+function BulkLink() {
+  const { t } = useTranslation()
+  return (
+    <Link
+      to={BULK_ADD_PATH}
+      className="inline-flex items-center gap-1 font-medium underline underline-offset-2"
+    >
+      <Plus className="size-3.5" aria-hidden="true" />
+      {t('collection.bulkLink')}
+    </Link>
   )
 }
 

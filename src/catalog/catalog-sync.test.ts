@@ -64,9 +64,45 @@ const FULL: CatalogRows = {
     { card_code: 'OP01-001', body: 'Zoro **attacca** subito.', updated_at: T1 },
     { card_code: 'OP01-002', body: '', updated_at: T1 },
   ],
+  prices: [
+    {
+      print_id: 'OP01-001_p1',
+      marketplace: 'cardmarket',
+      trend: 574.14,
+      low: 500,
+      price_date: '2026-09-27',
+      updated_at: T1,
+    },
+    {
+      print_id: 'OP01-001_p1',
+      marketplace: 'cardtrader',
+      product_id: 70001,
+      market_set: 'op01',
+      trend: null,
+      low: 549.9,
+      price_date: '2026-09-27',
+      updated_at: T1,
+    },
+    // Una Printing che ha perso l'abbinamento: prezzi vuoti.
+    {
+      print_id: 'OP01-002',
+      marketplace: 'cardmarket',
+      trend: null,
+      low: null,
+      price_date: null,
+      updated_at: T1,
+    },
+  ],
 }
 
-const NOTHING: CatalogRows = { sets: [], cards: [], printings: [], faqs: [], explanations: [] }
+const NOTHING: CatalogRows = {
+  sets: [],
+  cards: [],
+  printings: [],
+  faqs: [],
+  explanations: [],
+  prices: [],
+}
 
 describe('buildCatalog', () => {
   it('ordina le carte e mette la Printing base per prima, col codice del Set', () => {
@@ -78,6 +114,8 @@ describe('buildCatalog', () => {
       rarity: 'C',
       setCode: 'OP-01',
       hasImage: false,
+      price: null,
+      cardtrader: null,
     })
     expect(catalog.sets).toEqual([{ seriesId: 1, code: 'OP-01', name: 'ROMANCE DAWN' }])
   })
@@ -94,6 +132,62 @@ describe('buildCatalog', () => {
     const catalog = buildCatalog(FULL)
     expect(catalog.cards[0]?.explanation).toBe('Zoro **attacca** subito.')
     expect(catalog.cards[1]?.explanation).toBeNull()
+  })
+})
+
+describe('prezzi (RIB-32)', () => {
+  it('ogni Printing ha il suo ultimo prezzo Cardmarket; senza valori vale null', () => {
+    const catalog = buildCatalog(FULL)
+    expect(catalog.cards[0]?.printings[1]?.price).toEqual({
+      trend: 574.14,
+      low: 500,
+      date: '2026-09-27',
+    })
+    expect(catalog.cards[0]?.printings[0]?.price).toBeNull()
+    expect(catalog.cards[1]?.printings[0]?.price).toBeNull()
+  })
+
+  it('il minimo CardTrader sta a parte, con il blueprint per il link (slice 5.5)', () => {
+    const catalog = buildCatalog(FULL)
+    expect(catalog.cards[0]?.printings[1]?.cardtrader).toEqual({
+      low: 549.9,
+      blueprintId: 70001,
+      expansion: 'op01',
+    })
+    expect(catalog.cards[0]?.printings[0]?.cardtrader).toBeNull()
+  })
+
+  it('una copia salvata senza prezzi si usa subito, ma riscarica tutto', () => {
+    const old: Partial<CatalogSnapshot> = mergeSnapshot(null, FULL, 1000)
+    delete old.prices
+    const upgraded = upgradeSnapshot(old as CatalogSnapshot)
+    expect(upgraded).toMatchObject({ prices: [], watermark: null })
+    expect(upgraded.explanations).toHaveLength(2)
+  })
+
+  it('un prezzo aggiornato sostituisce quello vecchio della stessa Printing', () => {
+    const local = mergeSnapshot(null, FULL, 1000)
+    const next = mergeSnapshot(
+      local,
+      {
+        ...NOTHING,
+        prices: [
+          {
+            print_id: 'OP01-001_p1',
+            marketplace: 'cardmarket',
+            trend: 600,
+            low: 550,
+            price_date: '2026-09-28',
+            updated_at: T2,
+          },
+        ],
+      },
+      2000,
+    )
+    // Stessa Printing ma altro Marketplace: la riga CardTrader resta.
+    expect(next.prices).toHaveLength(3)
+    expect(next.watermark).toBe(T2)
+    expect(buildCatalog(next).cards[0]?.printings[1]?.price?.trend).toBe(600)
   })
 })
 
@@ -152,6 +246,7 @@ describe('sincronizzazione incrementale', () => {
       printings: [{ ...rawPrinting('OP01-003', 'OP01-003', T2), image_synced_at: T2 }],
       faqs: [{ card_code: 'OP01-001', items: [], updated_at: T2 }],
       explanations: [{ card_code: 'OP01-001', body: '', updated_at: T2 }],
+      prices: [],
     }
     const { snapshot, changed } = await syncSnapshot(local, () => Promise.resolve(delta), 2000)
     expect(changed).toBe(true)

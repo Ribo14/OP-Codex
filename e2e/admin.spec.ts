@@ -18,6 +18,10 @@ const username = `adm_${run}`.slice(0, 20)
 const password = `Una frase lunga per l'Admin ${crypto.randomUUID()}`
 /** Card Code di prova per la Ban List (non serve che esista nel catalogo). */
 const testCode = `ZZ${String(Math.floor(Math.random() * 90) + 10)}-${String(Math.floor(Math.random() * 900) + 100)}`
+/** Carta di prova per gli abbinamenti dei prezzi (RIB-32): nel catalogo, con due Printing. */
+const PRICE_SERIES = 987000 + Math.floor(Math.random() * 999)
+const priceCode = `EB97-${String(Math.floor(Math.random() * 900) + 100)}`
+const productBase = 990_000_000 + Math.floor(Math.random() * 1_000_000) * 2
 
 function totp(secret: string, step: number): string {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
@@ -54,6 +58,19 @@ test('area Admin: ruolo dal database, verifica obbligatoria, stato dei job', asy
   const sql = postgres(DB_URL, { max: 1, onnotice: () => undefined })
   let jobRunId: string | undefined
   try {
+    await sql`insert into public.sets (series_id, code, name) values (${PRICE_SERIES}, 'EB-97', 'Set di prova prezzi')`
+    await sql`insert into public.cards (card_code, name, category) values (${priceCode}, 'Carta prezzi di prova', 'Event')`
+    await sql`
+      insert into public.printings (print_id, card_code, series_id, rarity)
+      values (${priceCode}, ${priceCode}, ${PRICE_SERIES}, 'C'),
+             (${`${priceCode}_p1`}, ${priceCode}, ${PRICE_SERIES}, 'C')
+    `
+    await sql`
+      insert into public.cardmarket_products (id_product, card_code, name, id_expansion, trend, low)
+      values (${productBase}, ${priceCode}, 'Carta prezzi di prova', 1, 0.2, 0.1),
+             (${productBase + 1}, ${priceCode}, 'Carta prezzi di prova', 1, 12.5, 9)
+    `
+
     // Account con Username.
     const redirect = new URLSearchParams({ redirect_to: `${baseURL ?? ''}/account/conferma` })
     const signup = await fetch(`${SUPABASE_URL}/auth/v1/signup?${redirect.toString()}`, {
@@ -136,6 +153,28 @@ test('area Admin: ruolo dal database, verifica obbligatoria, stato dei job', asy
     await page.getByRole('alertdialog').getByRole('button', { name: 'Elimina' }).click()
     await expect(page.getByText(new RegExp(`^${testCode} ·`))).toHaveCount(0)
 
+    // Abbinamenti dei prezzi (RIB-32): la carta di prova è senza prezzo; l'Admin sceglie il
+    // prodotto della parallela e la correzione finisce nel registro.
+    const prices = page.getByRole('region', { name: 'Abbinamenti dei prezzi' })
+    await prices.getByRole('tab', { name: /^Senza prezzo/ }).click()
+    await prices.getByPlaceholder('Card Code, es. OP01-001').fill(priceCode)
+    await prices.getByRole('button', { name: 'Apri', exact: true }).click()
+    const choice = prices.getByLabel(`Prodotto Cardmarket per ${priceCode}_p1`)
+    await choice.selectOption(String(productBase + 1))
+    await prices.getByRole('button', { name: 'Salva' }).nth(1).click()
+    await expect(prices.getByText('Corretto a mano')).toBeVisible()
+    // Tra importo e "€" c'è uno spazio non separabile: \s lo comprende.
+    await expect(prices.locator('p', { hasText: /tendenza 12,50\s€/ })).toBeVisible()
+    const override = await sql<{ product_id: number }[]>`
+      select product_id from public.mapping_overrides where print_id = ${`${priceCode}_p1`}
+    `
+    expect(override).toEqual([{ product_id: productBase + 1 }])
+    const overrideLog = await sql<{ action: string }[]>`
+      select action from public.admin_audit_log
+      where table_name = 'public.mapping_overrides' and after ->> 'print_id' = ${`${priceCode}_p1`}
+    `
+    expect(overrideLog.map((r) => r.action)).toEqual(['insert'])
+
     // Nuovo accesso: prima il codice, poi di nuovo l'area.
     await page.goto('/profilo')
     await page.locator('summary', { hasText: 'Esci da questo dispositivo' }).click()
@@ -156,6 +195,11 @@ test('area Admin: ruolo dal database, verifica obbligatoria, stato dei job', asy
     // L'account di prova si elimina; il registro, per costruzione, resta.
     await sql`delete from auth.users where email = ${email}`
     if (jobRunId) await sql`delete from public.job_runs where id = ${jobRunId}`
+    await sql`delete from public.mapping_overrides where print_id like ${`${priceCode}%`}`
+    await sql`delete from public.cardmarket_products where card_code = ${priceCode}`
+    await sql`delete from public.printings where series_id = ${PRICE_SERIES}`
+    await sql`delete from public.cards where card_code = ${priceCode}`
+    await sql`delete from public.sets where series_id = ${PRICE_SERIES}`
     await sql.end()
   }
 })

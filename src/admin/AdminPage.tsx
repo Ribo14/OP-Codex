@@ -9,6 +9,7 @@ import { getSupabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
 import { BanListSection } from './BanListSection'
 import { ExplanationQueueSection } from './ExplanationQueueSection'
+import { PriceMappingSection } from './PriceMappingSection'
 import { duration, JOB_RUNS_LIMIT, statsSummary, type JobRun } from './job-runs'
 
 // Area Admin (RIB-19, ADR-0014). Il database decide chi entra (private.admin_attivo): Admin,
@@ -69,6 +70,7 @@ function AdminArea() {
       <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">{t('admin.title')}</h1>
       <ExplanationQueueSection />
       <BanListSection />
+      <PriceMappingSection />
       <JobRuns />
     </div>
   )
@@ -158,7 +160,10 @@ function JobRunItem({ run }: { run: JobRun }) {
     run.job === 'catalog_sync' ||
     run.job === 'image_sync' ||
     run.job === 'faq_sync' ||
-    run.job === 'explanation_sync'
+    run.job === 'explanation_sync' ||
+    run.job === 'price_sync' ||
+    run.job === 'cardtrader_sync' ||
+    run.job === 'recipe_sync'
       ? run.job
       : 'other'
   const status =

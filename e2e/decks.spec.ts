@@ -147,6 +147,28 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     )
     expect(missing).toBe(`1x${LEADER.code}\n1x${BETA.code}\n4x${ALPHA.code}`)
 
+    // Le stesse mancanti nei formati di Cardmarket (Wants) e CardTrader (wishlist), con il link.
+    const clipboard = async () =>
+      String(await page.evaluate('navigator.clipboard.readText()'))
+        .replace(/\r\n/g, '\n')
+        .split('\n')
+    await page.getByRole('button', { name: 'Copia per Cardmarket' }).click()
+    await expect(page.getByRole('link', { name: 'Apri i Wants' })).toHaveAttribute(
+      'href',
+      'https://www.cardmarket.com/it/OnePiece/Wants',
+    )
+    const wants = await clipboard()
+    expect(wants[0]).toBe(`1x ${LEADER.name} ${LEADER.code}`)
+    expect(wants).toEqual(
+      expect.arrayContaining([`4x ${ALPHA.name} ${ALPHA.code}`, `1x ${BETA.name} ${BETA.code}`]),
+    )
+    await page.getByRole('button', { name: 'Copia per CardTrader' }).click()
+    await expect(page.getByRole('link', { name: 'Nuova wishlist' })).toBeVisible()
+    const [prefix, number] = ALPHA.code.split('-')
+    expect(await clipboard()).toContain(
+      `4 ${ALPHA.name} (${String(prefix).toLowerCase()}) ${String(number)}`,
+    )
+
     // Share Link (RIB-26): chi non ha l'account vede il mazzo; dopo la revoca non più.
     await page.getByText('Condividi mazzo').click()
     await page.getByRole('button', { name: 'Crea link' }).click()

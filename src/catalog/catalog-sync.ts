@@ -1,4 +1,10 @@
-import type { CardFaq, Catalog, CatalogPrinting } from './catalog-data'
+import type {
+  CardFaq,
+  CardTraderPrice,
+  Catalog,
+  CatalogPrinting,
+  PrintingPrice,
+} from './catalog-data'
 
 // Copia locale del catalogo (RIB-16): righe del database salvate sul dispositivo e
 // aggiornate in modo incrementale, chiedendo al server solo ciò che è cambiato.
@@ -51,12 +57,27 @@ export interface RawExplanation {
   updated_at: string
 }
 
+/** Ultimo prezzo di una Printing su un Marketplace (RIB-32), in euro; null = nessun prezzo. */
+export interface RawPrice {
+  print_id: string
+  marketplace: string
+  /** Cardmarket: idProduct; CardTrader: id del blueprint. Assente nelle copie salvate prima. */
+  product_id?: number | null
+  /** CardTrader: codice dell'espansione del blueprint (per le wishlist). */
+  market_set?: string | null
+  trend: number | null
+  low: number | null
+  price_date: string | null
+  updated_at: string
+}
+
 export interface CatalogRows {
   sets: RawSet[]
   cards: RawCard[]
   printings: RawPrinting[]
   faqs: RawFaq[]
   explanations: RawExplanation[]
+  prices: RawPrice[]
 }
 
 export interface CatalogSnapshot extends CatalogRows {
@@ -88,6 +109,7 @@ function latest(current: string | null, rows: CatalogRows): string | null {
     ...rows.printings,
     ...rows.faqs,
     ...rows.explanations,
+    ...rows.prices,
   ]) {
     if (max === null || new Date(row.updated_at) > new Date(max)) max = row.updated_at
   }
@@ -117,6 +139,7 @@ export function mergeSnapshot(
     printings: [],
     faqs: [],
     explanations: [],
+    prices: [],
   }
   return {
     sets: upsert(base.sets, delta.sets, (s) => s.series_id),
@@ -124,6 +147,7 @@ export function mergeSnapshot(
     printings: upsert(base.printings, delta.printings, (p) => p.print_id),
     faqs: upsert(base.faqs, delta.faqs, (f) => f.card_code),
     explanations: upsert(base.explanations, delta.explanations, (e) => e.card_code),
+    prices: upsert(base.prices, delta.prices, (p) => `${p.print_id}|${p.marketplace}`),
     watermark: latest(local?.watermark ?? null, delta),
     checkedAt,
   }
@@ -135,23 +159,25 @@ export function isEmpty(rows: CatalogRows): boolean {
     rows.cards.length === 0 &&
     rows.printings.length === 0 &&
     rows.faqs.length === 0 &&
-    rows.explanations.length === 0
+    rows.explanations.length === 0 &&
+    rows.prices.length === 0
   )
 }
 
 /**
- * Una copia salvata da una versione dell'app senza FAQ (prima di RIB-44) o senza Card Explanation
- * (prima di RIB-52): si usa subito così com'è, ma senza watermark, così il prossimo aggiornamento
- * riscarica tutto una volta e prende anche i dati nuovi (con il watermark vecchio quelli già
- * caricati sul server non arriverebbero mai).
+ * Una copia salvata da una versione dell'app senza FAQ (prima di RIB-44), senza Card Explanation
+ * (prima di RIB-52) o senza prezzi (prima di RIB-32): si usa subito così com'è, ma senza
+ * watermark, così il prossimo aggiornamento riscarica tutto una volta e prende anche i dati nuovi
+ * (con il watermark vecchio quelli già caricati sul server non arriverebbero mai).
  */
 export function upgradeSnapshot(stored: CatalogSnapshot): CatalogSnapshot {
-  const { faqs, explanations } = stored as Partial<CatalogSnapshot>
-  if (Array.isArray(faqs) && Array.isArray(explanations)) return stored
+  const { faqs, explanations, prices } = stored as Partial<CatalogSnapshot>
+  if (Array.isArray(faqs) && Array.isArray(explanations) && Array.isArray(prices)) return stored
   return {
     ...stored,
     faqs: Array.isArray(faqs) ? faqs : [],
     explanations: Array.isArray(explanations) ? explanations : [],
+    prices: Array.isArray(prices) ? prices : [],
     watermark: null,
   }
 }
@@ -178,10 +204,46 @@ export async function syncSnapshot(
   return { snapshot: mergeSnapshot(local, delta, now), changed: local === null || !isEmpty(delta) }
 }
 
+/** Un prezzo in euro dal database (numeric, a volte come testo), o null. */
+function euro(value: number | string | null): number | null {
+  if (value === null) return null
+  const n = Number(value)
+  return Number.isFinite(n) && n > 0 ? n : null
+}
+
 /** Dalle righe del database al catalogo usato da ricerca, filtri e dettaglio. */
 export function buildCatalog(rows: CatalogRows): Catalog {
   const sets = [...rows.sets].sort((a, b) => a.code.localeCompare(b.code))
   const setCodes = new Map(sets.map((s) => [s.series_id, s.code]))
+
+  // Solo i prezzi Cardmarket con almeno un valore (RIB-32).
+  const prices = new Map(
+    rows.prices.flatMap((p) => {
+      const trend = euro(p.trend)
+      const low = euro(p.low)
+      return p.marketplace === 'cardmarket' && (trend !== null || low !== null)
+        ? [[p.print_id, { trend, low, date: p.price_date } satisfies PrintingPrice] as const]
+        : []
+    }),
+  )
+  // Minimo CardTrader (slice 5.5), solo se c'è un prezzo.
+  const cardtrader = new Map(
+    rows.prices.flatMap((p) => {
+      const low = euro(p.low)
+      return p.marketplace === 'cardtrader' && low !== null
+        ? [
+            [
+              p.print_id,
+              {
+                low,
+                blueprintId: p.product_id ?? null,
+                expansion: p.market_set ?? null,
+              } satisfies CardTraderPrice,
+            ] as const,
+          ]
+        : []
+    }),
+  )
 
   const printingsByCard = new Map<string, CatalogPrinting[]>()
   for (const p of [...rows.printings].sort((a, b) => a.print_id.localeCompare(b.print_id))) {
@@ -191,6 +253,8 @@ export function buildCatalog(rows: CatalogRows): Catalog {
       rarity: p.rarity,
       setCode: setCodes.get(p.series_id) ?? '',
       hasImage: p.image_synced_at !== null,
+      price: prices.get(p.print_id) ?? null,
+      cardtrader: cardtrader.get(p.print_id) ?? null,
     }
     // La Printing base (senza suffisso) va per prima.
     if (p.print_id === p.card_code) list.unshift(printing)

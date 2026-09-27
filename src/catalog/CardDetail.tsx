@@ -13,6 +13,8 @@ import type { CatalogCard, CatalogSet } from './catalog-data'
 import { filtersToSearchParams, relatedFilters } from './filters'
 import { CardExplanation } from './CardExplanation'
 import { CardFaqs } from './CardFaqs'
+import { CardPrice } from './CardPrice'
+import { useEuro } from './price-format'
 import { ExplanationFeedback } from './ExplanationFeedback'
 import { LegalityTags } from './LegalityTags'
 import { gameColor } from './game-colors'
@@ -21,8 +23,7 @@ import { useSwipe } from './use-swipe'
 // Dettaglio di una Card (docs/design.md): a tutto schermo su telefono (immagine sopra e dati
 // sotto, affiancati su tablet), pannello a destra dei risultati su desktop.
 // Testi ufficiali sempre come testo: React fa l'escape, niente HTML grezzo.
-// Sotto il nome, le copie possedute della Printing mostrata (RIB-20). Spazi che arriveranno
-// nelle fasi successive, qui sotto le statistiche: Card Explanation (fase 3), prezzi (fase 5).
+// Sotto il nome, le copie possedute della Printing mostrata (RIB-20) e il suo prezzo (RIB-32).
 
 const KEYWORD_CHIP = 'rounded-full bg-foreground px-2.5 py-1 text-xs font-medium text-background'
 
@@ -43,6 +44,7 @@ export function CardDetail({
   onClose: () => void
 }) {
   const { t } = useTranslation()
+  const euro = useEuro()
   const heading = useRef<HTMLHeadingElement>(null)
   const printing = card.printings.find((p) => p.printId === printId) ?? card.printings[0]
   const setName = (code: string) => sets.find((s) => s.code === code)?.name ?? ''
@@ -255,6 +257,9 @@ export function CardDetail({
 
           {printing && <CollectionControls printId={printing.printId} />}
 
+          {/* RIB-32: prezzo Cardmarket della Printing mostrata. */}
+          <CardPrice cardCode={card.cardCode} printing={printing} />
+
           <dl className="grid grid-cols-3 gap-2">
             {stats.map(([label, value]) => (
               <div key={label} className="rounded-2xl bg-muted/60 p-3">
@@ -329,6 +334,7 @@ export function CardDetail({
                   <th>{t('detail.printColumn')}</th>
                   <th>{t('detail.setColumn')}</th>
                   <th>{t('detail.rarityColumn')}</th>
+                  <th>{t('detail.priceColumn')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -356,6 +362,9 @@ export function CardDetail({
                       {setName(p.setCode)}
                     </td>
                     <td className="py-2 text-right text-xs">{p.rarity}</td>
+                    <td className="py-2 pl-3 text-right text-xs whitespace-nowrap tabular-nums">
+                      {p.price?.trend != null ? euro(p.price.trend) : '–'}
+                    </td>
                   </tr>
                 ))}
               </tbody>

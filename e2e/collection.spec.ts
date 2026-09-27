@@ -149,6 +149,8 @@ test('Collection: +/− dal dettaglio, lingue separate, totali nella pagina', as
     await page.getByRole('link', { name: 'Aggiungi un set o una lista' }).click()
     await expect(page).toHaveURL(/\/collezione\/aggiungi$/)
     await page.getByLabel('Set', { exact: true }).selectOption(setCode)
+    // Il Set di prova non ha la composizione di un mazzo pronto: si dice.
+    await expect(page.getByText(/^Composizione del mazzo non disponibile/)).toBeVisible()
     await expect(page.getByLabel(`Copie di ${CODE} da aggiungere`)).toHaveText('1')
     await expect(page.getByLabel(`Copie di ${CODE}_p1 da aggiungere`)).toHaveText('0')
     await page.getByRole('button', { name: `Una copia in più di ${CODE}_p1` }).click()

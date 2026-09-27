@@ -55,6 +55,27 @@ describe('setRows', () => {
   it('le stampe di altri Set della stessa carta non ci sono', () => {
     expect(setRows(cards, 'ST-01').map((r) => r.printId)).toEqual(['ST01-001', 'ST01-004'])
   })
+
+  it('con la composizione del mazzo propone le copie esatte sulla stampa del Set', () => {
+    const recipe = { 'ST01-001': 1, 'ST01-004': 4 }
+    expect(setRows(cards, 'ST-01', recipe).map((r) => [r.printId, r.quantity])).toEqual([
+      ['ST01-001', 1],
+      ['ST01-004', 4],
+    ])
+  })
+
+  it('una ristampa nel mazzo va sulla sua stampa del Set; le carte fuori composizione a 0', () => {
+    const recipe = { 'OP01-004': 4 }
+    expect(setRows(cards, 'PRB-01', recipe).map((r) => [r.printId, r.quantity])).toEqual([
+      ['OP01-004_r1', 4],
+    ])
+    expect(setRows(cards, 'OP-01', { 'ST01-004': 2 }).map((r) => [r.printId, r.quantity])).toEqual([
+      // Carta della composizione senza stampa nel Set (dati incompleti): la sua base.
+      ['ST01-004', 2],
+      ['OP01-004', 0],
+      ['OP01-004_p1', 0],
+    ])
+  })
 })
 
 describe('listRows', () => {

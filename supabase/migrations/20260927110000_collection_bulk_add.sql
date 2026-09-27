@@ -46,3 +46,37 @@ comment on function public.aggiungi_copie(jsonb) is
 
 revoke all on function public.aggiungi_copie(jsonb) from public, anon, authenticated;
 grant execute on function public.aggiungi_copie(jsonb) to authenticated;
+
+-- Composizione dei mazzi pronti (Starter Deck): quante copie di ogni carta ci sono dentro, così
+-- "Da un set" propone le quantità giuste. Bandai non le pubblica: vengono dal file versionato
+-- catalog-sync/decks/starter-decks.json (fonte indicata lì), caricato dal job recipe_sync come le
+-- spiegazioni. Aggiungere un mazzo non richiede un deploy dell'app. Lettura pubblica.
+create table public.set_recipes (
+  set_code   text primary key
+    constraint set_recipes_set_code check (set_code ~ '^[A-Z0-9]+(-[A-Z0-9]+)*$'),
+  -- {"ST01-001": 1, "ST01-002": 4, ...}: Card Code → copie nel prodotto.
+  cards      jsonb not null
+    constraint set_recipes_cards check (jsonb_typeof(cards) = 'object'),
+  source     text not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+comment on table public.set_recipes is
+  'Composizione dei mazzi pronti per Set (Card Code → copie), dal file del repo; job recipe_sync.';
+
+alter table public.set_recipes enable row level security;
+
+create policy "Composizioni leggibili da tutti" on public.set_recipes
+  for select to anon, authenticated using (true);
+
+revoke all on public.set_recipes from anon, authenticated;
+grant select on public.set_recipes to anon, authenticated;
+
+alter table public.job_runs drop constraint job_runs_job_check;
+alter table public.job_runs
+  add constraint job_runs_job_check
+  check (job in (
+    'catalog_sync', 'image_sync', 'faq_sync', 'explanation_sync', 'price_sync', 'cardtrader_sync',
+    'recipe_sync'
+  ));

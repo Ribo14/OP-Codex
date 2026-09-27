@@ -17,22 +17,38 @@ export interface BulkRow {
 /** Copie al massimo per stampa in una volta sola (come il database). */
 export const MAX_PER_ROW = 99
 
+/** Composizione di un mazzo pronto: Card Code → copie (tabella set_recipes). */
+export type Recipe = Readonly<Record<string, number>>
+
+const isParallel = (printId: string) => /_p\d+$/.test(printId)
+
 /**
- * Le stampe di un Set. Proposta: una copia delle base e delle ristampe (_r), nessuna delle
- * parallele (_p), che in una busta o in un mazzo capitano di rado. Si corregge a mano.
+ * Le stampe di un Set. Con la composizione del mazzo (Starter Deck) le copie sono quelle vere,
+ * sulla stampa di quel Set; senza, la proposta è una copia delle base e delle ristampe (_r) e
+ * nessuna delle parallele (_p), che in una busta o in un mazzo capitano di rado.
+ * Si corregge sempre a mano prima di aggiungere.
  */
-export function setRows(cards: readonly CatalogCard[], setCode: string): BulkRow[] {
-  return cards.flatMap((card) =>
-    card.printings
-      .filter((p) => p.setCode === setCode)
-      .map((p) => ({
-        printId: p.printId,
-        cardCode: card.cardCode,
-        name: card.name,
-        rarity: p.rarity,
-        quantity: /_p\d+$/.test(p.printId) ? 0 : 1,
-      })),
-  )
+export function setRows(
+  cards: readonly CatalogCard[],
+  setCode: string,
+  recipe: Recipe | null = null,
+): BulkRow[] {
+  return cards.flatMap((card) => {
+    const inSet = card.printings.filter((p) => p.setCode === setCode)
+    const copies = recipe?.[card.cardCode]
+    // Una carta della composizione senza stampa nel Set (dati incompleti): la sua base.
+    const printings =
+      inSet.length === 0 && copies !== undefined ? card.printings.slice(0, 1) : inSet
+    // Con la composizione le copie vanno sulla prima stampa non parallela (o sulla prima).
+    const target = printings.find((p) => !isParallel(p.printId)) ?? printings[0]
+    return printings.map((p) => ({
+      printId: p.printId,
+      cardCode: card.cardCode,
+      name: card.name,
+      rarity: p.rarity,
+      quantity: recipe ? (p === target ? (copies ?? 0) : 0) : isParallel(p.printId) ? 0 : 1,
+    }))
+  })
 }
 
 /**

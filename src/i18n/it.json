@@ -240,7 +240,9 @@
       },
       "set": "Set",
       "choose": "Scegli un set…",
-      "setHint": "Proposta: una copia di ogni carta, nessuna delle versioni parallele. Correggi le quantità qui sotto.",
+      "setHint": "Per gli Starter Deck proponiamo le copie del mazzo, se le conosciamo; per gli altri set una copia di ogni carta. Correggi le quantità qui sotto prima di aggiungere.",
+      "recipe": "Quantità del mazzo pronto (51 carte con il Leader).",
+      "noRecipe": "Composizione del mazzo non disponibile: una copia per carta. Correggi le quantità o incolla la lista del mazzo in «Da una lista».",
       "list": "Lista, una carta per riga",
       "listPlaceholder": "1xST01-001\n4xST01-004\n4xST01-005\n…",
       "read": "Leggi la lista",
@@ -532,6 +534,7 @@
         "explanation_sync": "Spiegazioni delle carte",
         "price_sync": "Prezzi Cardmarket",
         "cardtrader_sync": "Prezzi CardTrader",
+        "recipe_sync": "Composizione degli Starter Deck",
         "other": "Altro job"
       },
       "status": {

@@ -1,6 +1,7 @@
 import type postgres from 'postgres'
 import { afterAll, describe, expect, it } from 'vitest'
 import { connect } from '../../catalog-sync/catalog-store.ts'
+import { upsertRecipes } from '../../catalog-sync/recipe-sync.ts'
 import { actAs, errorCodeOf, inRollback } from './helpers.ts'
 
 // Aggiunta in blocco alla Collection (aggiungi_copie): somma alle copie esistenti, solo nella
@@ -39,6 +40,34 @@ const add = (tx: postgres.TransactionSql, rows: unknown) =>
 
 const mine = (tx: postgres.TransactionSql) =>
   tx`select print_id, language, quantity from public.collection_entries order by print_id, language`
+
+describe('set_recipes', () => {
+  it('il job allinea le composizioni al file, anche togliendo i mazzi spariti; tutti le leggono', async () => {
+    await inRollback(sql, async (tx) => {
+      const deck = { 'ZY99-001': 1, 'ZY99-002': 50 }
+      const first = await upsertRecipes(tx, {
+        source: 'prova',
+        decks: { 'ZY-98': deck, 'ZY-99': deck },
+      })
+      expect(first).toMatchObject({ decks: 2, inserted: 2 })
+      const again = await upsertRecipes(tx, { source: 'prova', decks: { 'ZY-99': deck } })
+      expect(again).toMatchObject({ inserted: 0, updated: 0 })
+      const rows = await tx<{ set_code: string }[]>`
+        select set_code from public.set_recipes where set_code like 'ZY-%'
+      `
+      expect(rows.map((r) => r.set_code)).toEqual(['ZY-99'])
+
+      await actAs(tx, 'anon')
+      const [recipe] = await tx<{ cards: unknown }[]>`
+        select cards from public.set_recipes where set_code = 'ZY-99'
+      `
+      expect(recipe?.cards).toEqual(deck)
+      expect(
+        await errorCodeOf(tx, (sp) => sp`delete from public.set_recipes where set_code = 'ZY-99'`),
+      ).toBe('42501')
+    })
+  })
+})
 
 describe('aggiungi_copie', () => {
   it('aggiunge più stampe insieme, sommando alle copie già possedute e le righe ripetute', async () => {

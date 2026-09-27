@@ -50,6 +50,17 @@ Prova dell'abbinamento sui dati di produzione (4.843 Printing, 12.573 prodotti):
   Near Mint o Mint non gradate. Job `cardtrader_sync` dopo il Price Sync; senza il segreto
   `CARDTRADER_TOKEN` si salta. Da provare con il token vero.
 - Resta: 4.2 (prova su almeno 30 carte reali, la fa l'utente).
+
+## Aggiunta in blocco alla Collezione (suggerimento dell'utente, 2026-09-27)
+
+- Pagina `/collezione/aggiungi`: da un set o da una lista `4xST01-001`, funzione
+  `aggiungi_copie` (un'unica chiamata, policy della Collection).
+- Composizione degli Starter Deck in `catalog-sync/decks/starter-decks.json`, caricata ogni
+  notte in `set_recipes` (job `recipe_sync`): "Da un set" propone le copie esatte. Bandai non
+  pubblica le quantità; le 14 composizioni presenti (ST-01…05, ST-15…22, ST-30) vengono dai link
+  "Decklist" di Limitless TCG, controllate sul catalogo (51 carte, ogni carta con una stampa nel
+  Set). Per aggiungere un mazzo basta una voce nel file: il job la controlla (51 carte, copie da
+  1 a 4) e la carica senza deploy dell'app.
 - Prova su 16 immagini ufficiali (non foto): codice letto in 14. Le due mancate hanno il
   codice in giallo su illustrazioni molto colorate (OP01-120, OP13-118 SEC).
 - Test E2E dello Scanner con la fotocamera finta di Chromium e una carta disegnata da noi

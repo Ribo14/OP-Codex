@@ -639,6 +639,30 @@ export type Database = {
         }
         Relationships: []
       }
+      set_recipes: {
+        Row: {
+          cards: Json
+          created_at: string
+          set_code: string
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          cards: Json
+          created_at?: string
+          set_code: string
+          source: string
+          updated_at?: string
+        }
+        Update: {
+          cards?: Json
+          created_at?: string
+          set_code?: string
+          source?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       sets: {
         Row: {
           code: string

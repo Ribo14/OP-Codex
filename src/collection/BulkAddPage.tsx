@@ -11,7 +11,14 @@ import type { ListError } from '@/decks/deck-list'
 import { getSupabase } from '@/lib/supabase'
 import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
-import { listRows, MAX_PER_ROW, payload, setRows as rowsOfSet, type BulkRow } from './bulk-add'
+import {
+  listRows,
+  MAX_PER_ROW,
+  payload,
+  setRows as rowsOfSet,
+  type BulkRow,
+  type Recipe,
+} from './bulk-add'
 import { DEFAULT_LANGUAGE, isLanguage, LANGUAGES, type Language } from './collection'
 import { useCollection } from './collection-store'
 import { BULK_ADD_PATH, COLLECTION_PATH } from './paths'
@@ -22,6 +29,23 @@ import { BULK_ADD_PATH, COLLECTION_PATH } from './paths'
 // aggiunge tutto insieme con aggiungi_copie.
 
 const MODES = ['set', 'list'] as const
+
+/** La composizione di un mazzo pronto (Card Code → copie), o null se non c'è o non si legge. */
+async function fetchRecipe(setCode: string): Promise<Recipe | null> {
+  const { data, error } = await getSupabase()
+    .from('set_recipes')
+    .select('cards')
+    .eq('set_code', setCode)
+    .maybeSingle()
+  // JSON dal database: si controlla la forma prima di usarlo.
+  const cards: unknown = data?.cards
+  if (error || typeof cards !== 'object' || cards === null) return null
+  const recipe: Record<string, number> = {}
+  for (const [code, copies] of Object.entries(cards)) {
+    if (typeof copies === 'number') recipe[code] = copies
+  }
+  return recipe
+}
 type Mode = (typeof MODES)[number]
 
 export function BulkAddPage() {
@@ -60,6 +84,8 @@ function BulkAdd({ userId }: { userId: string }) {
   const [language, setLanguage] = useState<Language>(DEFAULT_LANGUAGE)
   const [saving, setSaving] = useState(false)
   const [result, setResult] = useState<{ added: number } | 'failed' | null>(null)
+  /** Il Set scelto ha la composizione del mazzo (true), no (false), nessun Set (null). */
+  const [recipeUsed, setRecipeUsed] = useState<boolean | null>(null)
 
   if (!catalog) return <p className="text-muted-foreground">{t('catalog.loading')}</p>
 
@@ -119,12 +145,28 @@ function BulkAdd({ userId }: { userId: string }) {
       </div>
 
       {mode === 'set' ? (
-        <SetPicker
-          catalog={catalog}
-          onPick={(setCode) => {
-            show(setCode ? rowsOfSet(catalog.cards, setCode) : [])
-          }}
-        />
+        <>
+          <SetPicker
+            catalog={catalog}
+            onPick={(setCode) => {
+              setRecipeUsed(null)
+              if (!setCode) {
+                show([])
+                return
+              }
+              // Composizione del mazzo pronto, se c'è; senza (o offline) la proposta standard.
+              void fetchRecipe(setCode).then((recipe) => {
+                show(rowsOfSet(catalog.cards, setCode, recipe))
+                setRecipeUsed(recipe !== null)
+              })
+            }}
+          />
+          {recipeUsed !== null && rows.length > 0 && (
+            <p className="text-sm text-muted-foreground">
+              {t(recipeUsed ? 'collection.bulk.recipe' : 'collection.bulk.noRecipe')}
+            </p>
+          )}
+        </>
       ) : (
         <ListInput
           onRead={(text) => {

@@ -207,7 +207,13 @@ export function upsertCatalogPage(
 }
 
 export type JobName =
-  'catalog_sync' | 'image_sync' | 'faq_sync' | 'explanation_sync' | 'price_sync' | 'cardtrader_sync'
+  | 'catalog_sync'
+  | 'image_sync'
+  | 'faq_sync'
+  | 'explanation_sync'
+  | 'price_sync'
+  | 'cardtrader_sync'
+  | 'recipe_sync'
 
 /** Registra l'inizio di un job in job_runs e restituisce l'id dell'esecuzione. */
 export async function startJobRun(sql: Sql, job: JobName): Promise<number> {

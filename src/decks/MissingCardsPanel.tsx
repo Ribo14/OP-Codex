@@ -1,10 +1,17 @@
-import { Check, CircleCheck, Copy, PackageSearch } from 'lucide-react'
+import { Check, CircleCheck, Copy, ExternalLink, PackageSearch } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CatalogCard } from '@/catalog/catalog-data'
 import { copyText } from '@/lib/clipboard'
 import { cn } from '@/lib/utils'
-import { missingCards, missingListText, missingTotal, type MissingRow } from './missing-cards'
+import {
+  cardmarketWantsText,
+  cardtraderWishlistText,
+  missingCards,
+  missingListText,
+  missingTotal,
+  type MissingRow,
+} from './missing-cards'
 
 // Carte mancanti (RIB-25): cosa manca nella Collection per giocare il Deck dal vivo.
 
@@ -21,7 +28,7 @@ export function MissingCardsPanel({
   loading: boolean
 }) {
   const { t } = useTranslation()
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState<Target | null>(null)
   if (loading) return null
 
   const total = missingTotal(rows)
@@ -56,28 +63,61 @@ export function MissingCardsPanel({
             </li>
           ))}
         </ul>
-        <button
-          type="button"
-          onClick={() => {
-            void copyText(missingListText(leaderCode, rows, catalog)).then((ok) => {
-              setCopied(ok)
-              window.setTimeout(() => {
-                setCopied(false)
-              }, 2500)
-            })
-          }}
-          className="inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-medium hover:bg-muted"
-        >
-          {copied ? (
-            <Check className="size-3.5" aria-hidden="true" />
-          ) : (
-            <Copy className="size-3.5" aria-hidden="true" />
-          )}
-          {copied ? t('decks.list.copied') : t('decks.missing.copy')}
-        </button>
+        <div className="flex flex-wrap gap-2">
+          {TARGETS.map((target) => (
+            <button
+              key={target}
+              type="button"
+              onClick={() => {
+                void copyText(TEXT[target](leaderCode, rows, catalog)).then((ok) => {
+                  setCopied(ok ? target : null)
+                })
+              }}
+              className="inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-medium hover:bg-muted"
+            >
+              {copied === target ? (
+                <Check className="size-3.5" aria-hidden="true" />
+              ) : (
+                <Copy className="size-3.5" aria-hidden="true" />
+              )}
+              {copied === target ? t('decks.list.copied') : t(`decks.missing.copyFor.${target}`)}
+            </button>
+          ))}
+        </div>
+        {/* Dopo la copia per un Marketplace: dove incollarla. */}
+        {copied !== null && copied !== 'list' && (
+          <p className="text-xs text-muted-foreground" aria-live="polite">
+            {t(`decks.missing.pasteIn.${copied}`)}{' '}
+            <a
+              href={PASTE_URL[copied]}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 font-medium text-foreground underline underline-offset-2"
+            >
+              {t(`decks.missing.open.${copied}`)}
+              <ExternalLink className="size-3" aria-hidden="true" />
+            </a>
+          </p>
+        )}
       </div>
     </details>
   )
+}
+
+/** Cosa si copia: la Deck List (per l'app e i simulatori) o le liste per i Marketplace. */
+const TARGETS = ['list', 'cardmarket', 'cardtrader'] as const
+type Target = (typeof TARGETS)[number]
+
+const TEXT: Record<Target, typeof missingListText> = {
+  list: missingListText,
+  cardmarket: cardmarketWantsText,
+  cardtrader: cardtraderWishlistText,
+}
+
+/** Dove incollare la lista: i Wants di Cardmarket, una nuova wishlist di CardTrader. */
+const PASTE_URL: Record<Exclude<Target, 'list'>, string> = {
+  cardmarket: 'https://www.cardmarket.com/it/OnePiece/Wants',
+  cardtrader: 'https://www.cardtrader.com/it/wishlists/new',
 }
 
 /** Segno "2/4" accanto a una carta del Deck: copie possedute sulle richieste. */

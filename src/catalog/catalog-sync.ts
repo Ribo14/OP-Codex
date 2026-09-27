@@ -63,6 +63,8 @@ export interface RawPrice {
   marketplace: string
   /** Cardmarket: idProduct; CardTrader: id del blueprint. Assente nelle copie salvate prima. */
   product_id?: number | null
+  /** CardTrader: codice dell'espansione del blueprint (per le wishlist). */
+  market_set?: string | null
   trend: number | null
   low: number | null
   price_date: string | null
@@ -232,7 +234,11 @@ export function buildCatalog(rows: CatalogRows): Catalog {
         ? [
             [
               p.print_id,
-              { low, blueprintId: p.product_id ?? null } satisfies CardTraderPrice,
+              {
+                low,
+                blueprintId: p.product_id ?? null,
+                expansion: p.market_set ?? null,
+              } satisfies CardTraderPrice,
             ] as const,
           ]
         : []

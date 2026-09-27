@@ -97,13 +97,26 @@ describe('CardTrader: giro completo', () => {
       })
       expect(stats).toMatchObject({ expansions: 1, blueprints: 2, mapped: 2, withPrice: 1 })
       const prices = await sql`
-        select print_id, product_id, low::text, price_date::text from public.printing_prices
+        select print_id, product_id, low::text, market_set, price_date::text
+        from public.printing_prices
         where marketplace = 'cardtrader' and print_id like 'YC01-%' order by print_id
       `
       expect(prices).toEqual([
-        { print_id: 'YC01-001', product_id: 70001, low: '2.50', price_date: '2026-09-27' },
+        {
+          print_id: 'YC01-001',
+          product_id: 70001,
+          low: '2.50',
+          market_set: 'yc01',
+          price_date: '2026-09-27',
+        },
         // Solo offerte in dollari: abbinata, ma senza prezzo.
-        { print_id: 'YC01-001_p1', product_id: 70002, low: null, price_date: '2026-09-27' },
+        {
+          print_id: 'YC01-001_p1',
+          product_id: 70002,
+          low: null,
+          market_set: 'yc01',
+          price_date: '2026-09-27',
+        },
       ])
       const [run] = await latestRuns()
       expect(run?.status).toBe('success')
@@ -140,14 +153,14 @@ describe('CardTrader: salvataggio', () => {
     await inRollback(sql, async (tx) => {
       await setup(tx as unknown as typeof sql)
       const both = new Map([
-        ['YC01-001', { blueprintId: 70001, low: 2.5 }],
-        ['YC01-001_p1', { blueprintId: 70002, low: 12 }],
+        ['YC01-001', { blueprintId: 70001, low: 2.5, expansionCode: 'yc01' }],
+        ['YC01-001_p1', { blueprintId: 70002, low: 12, expansionCode: 'yc01' }],
       ])
       await saveCardTraderPrices(tx, both, '2026-09-27')
       expect((await saveCardTraderPrices(tx, both, '2026-09-27')).pricesChanged).toBe(0)
       const stats = await saveCardTraderPrices(
         tx,
-        new Map([['YC01-001', { blueprintId: 70001, low: 2.5 }]]),
+        new Map([['YC01-001', { blueprintId: 70001, low: 2.5, expansionCode: 'yc01' }]]),
         '2026-09-27',
       )
       expect(stats.pricesChanged).toBe(1)

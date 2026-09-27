@@ -23,6 +23,8 @@ export interface CardTraderPrice {
   blueprintId: number
   /** Minimo in euro, o null se nessuna offerta confrontabile. */
   low: number | null
+  /** Codice dell'espansione del blueprint su CardTrader (per le wishlist). */
+  expansionCode: string | null
 }
 
 export interface CardTraderSaveStats {
@@ -41,6 +43,7 @@ export async function saveCardTraderPrices(
     print_id: printId,
     product_id: p.blueprintId,
     low: p.low,
+    market_set: p.expansionCode,
   }))
   await tx`delete from public.price_mappings where marketplace = 'cardtrader'`
   let pricesChanged = 0
@@ -51,17 +54,20 @@ export async function saveCardTraderPrices(
       from jsonb_to_recordset(${tx.json(batch)}::jsonb) as r(print_id text, product_id integer)
     `
     const changed = await tx`
-      insert into public.printing_prices as p (print_id, marketplace, product_id, low, price_date)
-      select r.print_id, 'cardtrader', r.product_id, r.low, ${priceDate}::date
+      insert into public.printing_prices as p
+        (print_id, marketplace, product_id, low, market_set, price_date)
+      select r.print_id, 'cardtrader', r.product_id, r.low, r.market_set, ${priceDate}::date
       from jsonb_to_recordset(${tx.json(batch)}::jsonb)
-        as r(print_id text, product_id integer, low numeric)
+        as r(print_id text, product_id integer, low numeric, market_set text)
       on conflict (print_id, marketplace) do update set
         product_id = excluded.product_id,
         low = excluded.low,
+        market_set = excluded.market_set,
         price_date = excluded.price_date,
         updated_at = now()
-      where (p.product_id, p.low, p.price_date)
-        is distinct from (excluded.product_id, excluded.low, excluded.price_date)
+      where (p.product_id, p.low, p.market_set, p.price_date)
+        is distinct from
+            (excluded.product_id, excluded.low, excluded.market_set, excluded.price_date)
       returning 1
     `
     pricesChanged += changed.length
@@ -69,7 +75,7 @@ export async function saveCardTraderPrices(
   // Chi ha perso l'abbinamento resta, con il prezzo vuoto (il dispositivo non vede le cancellazioni).
   const emptied = await tx`
     update public.printing_prices set
-      product_id = null, low = null, price_date = null, updated_at = now()
+      product_id = null, low = null, market_set = null, price_date = null, updated_at = now()
     where marketplace = 'cardtrader'
       and product_id is not null
       and print_id <> all(${rows.map((r) => r.print_id)}::text[])
@@ -121,12 +127,15 @@ export async function runCardTraderSync(
     log(`Espansioni One Piece: ${String(expansions.length)}`)
 
     const blueprints: CardTraderBlueprint[] = []
+    const expansionOf = new Map<number, string>()
     const offers = new Map<number, CardTraderOffer[]>()
     for (const [index, expansion] of expansions.entries()) {
       await sleep(delayMs)
-      blueprints.push(
-        ...parseBlueprints(await get(`/blueprints/export?expansion_id=${String(expansion.id)}`)),
+      const found = parseBlueprints(
+        await get(`/blueprints/export?expansion_id=${String(expansion.id)}`),
       )
+      for (const b of found) expansionOf.set(b.id, expansion.code)
+      blueprints.push(...found)
       await sleep(delayMs)
       for (const [blueprintId, list] of parseMarketplace(
         await get(`/marketplace/products?expansion_id=${String(expansion.id)}`),
@@ -146,7 +155,13 @@ export async function runCardTraderSync(
     const prices = new Map<string, CardTraderPrice>()
     for (const [printId, blueprintId] of mapping) {
       const cents = cheapestEuroCents(offers.get(blueprintId) ?? [])
-      prices.set(printId, { blueprintId, low: cents === null ? null : cents / 100 })
+      const code = expansionOf.get(blueprintId) ?? ''
+      prices.set(printId, {
+        blueprintId,
+        low: cents === null ? null : cents / 100,
+        // Un codice vuoto vale come assente.
+        expansionCode: code === '' ? null : code,
+      })
     }
 
     const saved = await sql.begin((tx) => saveCardTraderPrices(tx, prices, today))

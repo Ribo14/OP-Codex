@@ -13,6 +13,8 @@ export const ONE_PIECE_SINGLES = 192
 
 export interface CardTraderExpansion {
   id: number
+  /** Codice dell'espansione (op01, op-14, eb-01, promo…): irregolare, si prende così com'è. */
+  code: string
   name: string
 }
 
@@ -42,7 +44,13 @@ function list(value: unknown, what: string): Record<string, unknown>[] {
 export function parseExpansions(value: unknown): CardTraderExpansion[] {
   return list(value, 'espansioni').flatMap((e) =>
     typeof e.id === 'number' && e.game_id === ONE_PIECE_GAME_ID
-      ? [{ id: e.id, name: typeof e.name === 'string' ? e.name : '' }]
+      ? [
+          {
+            id: e.id,
+            code: typeof e.code === 'string' ? e.code : '',
+            name: typeof e.name === 'string' ? e.name : '',
+          },
+        ]
       : [],
   )
 }

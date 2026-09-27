@@ -77,6 +77,7 @@ const FULL: CatalogRows = {
       print_id: 'OP01-001_p1',
       marketplace: 'cardtrader',
       product_id: 70001,
+      market_set: 'op01',
       trend: null,
       low: 549.9,
       price_date: '2026-09-27',
@@ -148,7 +149,11 @@ describe('prezzi (RIB-32)', () => {
 
   it('il minimo CardTrader sta a parte, con il blueprint per il link (slice 5.5)', () => {
     const catalog = buildCatalog(FULL)
-    expect(catalog.cards[0]?.printings[1]?.cardtrader).toEqual({ low: 549.9, blueprintId: 70001 })
+    expect(catalog.cards[0]?.printings[1]?.cardtrader).toEqual({
+      low: 549.9,
+      blueprintId: 70001,
+      expansion: 'op01',
+    })
     expect(catalog.cards[0]?.printings[0]?.cardtrader).toBeNull()
   })
 

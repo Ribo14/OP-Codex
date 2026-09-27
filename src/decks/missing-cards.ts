@@ -47,6 +47,67 @@ export function missingTotal(rows: readonly MissingRow[]): number {
   return rows.reduce((sum, r) => sum + r.missing, 0)
 }
 
+/** Le mancanti con il nome della carta, Leader per primo; le carte sparite dal catalogo si saltano. */
+function missingWithCards(
+  leaderCode: string | null,
+  rows: readonly MissingRow[],
+  catalog: ReadonlyMap<string, CatalogCard>,
+): { card: CatalogCard; missing: number }[] {
+  const missing = missingCards(rows)
+  const ordered = [
+    ...missing.filter((r) => r.cardCode === leaderCode),
+    ...missing.filter((r) => r.cardCode !== leaderCode),
+  ]
+  return ordered.flatMap((r) => {
+    const card = catalog.get(r.cardCode)
+    return card ? [{ card, missing: r.missing }] : []
+  })
+}
+
+/**
+ * Per i Wants di Cardmarket ("Aggiungi una lista"): "3x Roronoa Zoro OP01-025", il formato della
+ * guida di Cardmarket per One Piece; senza espansione vale qualunque versione della carta.
+ */
+export function cardmarketWantsText(
+  leaderCode: string | null,
+  rows: readonly MissingRow[],
+  catalog: ReadonlyMap<string, CatalogCard>,
+): string {
+  return missingWithCards(leaderCode, rows, catalog)
+    .map(({ card, missing }) => `${String(missing)}x ${card.name} ${card.cardCode}`)
+    .join('\n')
+}
+
+/**
+ * Il codice dell'espansione su CardTrader: quello salvato dal job (irregolare: op01, op-14,
+ * eb-01, promo…) senza trattini, perché l'importazione del testo scarta le righe con il trattino
+ * nel codice (provato il 2026-09-27); senza dati, promo per le P e il prefisso in minuscolo.
+ */
+function cardtraderExpansion(card: CatalogCard): string {
+  const saved = card.printings[0]?.cardtrader?.expansion
+  if (saved) return saved.replaceAll('-', '')
+  const prefix = card.cardCode.split('-')[0] ?? ''
+  return prefix === 'P' ? 'promo' : prefix.toLowerCase()
+}
+
+/**
+ * Per le wishlist di CardTrader ("Incolla testo", formato MTGA): "3 Roronoa Zoro (op01) 025".
+ * Il solo nome non basta (tante carte diverse si chiamano uguale): servono espansione e numero;
+ * il numero solo come cifre, perché "OP01-025" intero viene scartato dall'importazione.
+ */
+export function cardtraderWishlistText(
+  leaderCode: string | null,
+  rows: readonly MissingRow[],
+  catalog: ReadonlyMap<string, CatalogCard>,
+): string {
+  return missingWithCards(leaderCode, rows, catalog)
+    .map(({ card, missing }) => {
+      const number = card.cardCode.split('-')[1] ?? ''
+      return `${String(missing)} ${card.name} (${cardtraderExpansion(card)}) ${number}`
+    })
+    .join('\n')
+}
+
 /**
  * "Copia lista mancanti": le copie che mancano nello stesso formato della Deck List, importabile;
  * il Leader compare solo se manca anche lui.

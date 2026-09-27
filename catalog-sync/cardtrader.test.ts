@@ -19,7 +19,7 @@ describe('parseExpansions', () => {
         { id: 3001, game_id: 15, code: 'op01', name: 'Romance Dawn' },
         { id: 'x', game_id: 15 },
       ]),
-    ).toEqual([{ id: 3001, name: 'Romance Dawn' }])
+    ).toEqual([{ id: 3001, code: 'op01', name: 'Romance Dawn' }])
   })
 
   it('fallisce se la risposta non è un elenco', () => {

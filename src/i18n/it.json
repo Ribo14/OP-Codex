@@ -393,7 +393,21 @@
       "count_one": "Ti manca {{count}} carta",
       "count_other": "Ti mancano {{count}} carte",
       "have": "ne hai {{owned}} su {{required}}",
-      "copy": "Copia lista mancanti"
+      "copyFor": {
+        "list": "Copia lista mancanti",
+        "cardmarket": "Copia per Cardmarket",
+        "cardtrader": "Copia per CardTrader"
+      },
+      "pasteIn": {
+        "cardmarket": "Su Cardmarket incollala nei Wants: apri o crea una lista e scegli «Aggiungi una lista» (Add Decklist).",
+        "cardtrader": "Su CardTrader crea una wishlist e scegli «Incolla testo» (Paste text).",
+        "list": "Lista copiata."
+      },
+      "open": {
+        "cardmarket": "Apri i Wants",
+        "cardtrader": "Nuova wishlist",
+        "list": "Apri"
+      }
     },
     "list": {
       "copy": "Copia lista",

@@ -44,7 +44,7 @@ const CATALOG: Catalog = {
           setCode: 'OP-01',
           hasImage: false,
           price: { trend: 45.2, low: 39.99, date: '2026-09-27' },
-          cardtrader: { low: 41.5, blueprintId: 70001 },
+          cardtrader: { low: 41.5, blueprintId: 70001, expansion: 'op01' },
         },
         { printId: 'OP01-016_p8', rarity: 'SP CARD', setCode: 'PRB-01', hasImage: false },
       ],

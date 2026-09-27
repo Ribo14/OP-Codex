@@ -20,6 +20,8 @@ export interface CardTraderPrice {
   low: number
   /** Blueprint di CardTrader: la pagina della carta. */
   blueprintId: number | null
+  /** Codice dell'espansione su CardTrader (es. op01, eb-01): serve alle liste per le wishlist. */
+  expansion: string | null
 }
 
 /** Prezzo di una Printing su Cardmarket, in euro. */
@@ -141,7 +143,9 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
       changed(
         supabase
           .from('printing_prices')
-          .select('print_id, marketplace, product_id, trend, low, price_date, updated_at'),
+          .select(
+            'print_id, marketplace, product_id, market_set, trend, low, price_date, updated_at',
+          ),
       )
         .order('print_id')
         .order('marketplace')

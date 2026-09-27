@@ -538,6 +538,7 @@ export type Database = {
       printing_prices: {
         Row: {
           low: number | null
+          market_set: string | null
           marketplace: string
           price_date: string | null
           print_id: string
@@ -547,6 +548,7 @@ export type Database = {
         }
         Insert: {
           low?: number | null
+          market_set?: string | null
           marketplace: string
           price_date?: string | null
           print_id: string
@@ -556,6 +558,7 @@ export type Database = {
         }
         Update: {
           low?: number | null
+          market_set?: string | null
           marketplace?: string
           price_date?: string | null
           print_id?: string

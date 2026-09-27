@@ -70,6 +70,9 @@ create table public.printing_prices (
     constraint printing_prices_marketplace check (marketplace in ('cardmarket', 'cardtrader')),
   -- Cardmarket: idProduct; CardTrader: id del blueprint (serve al link della carta).
   product_id  integer,
+  -- CardTrader: codice dell'espansione del blueprint (es. op01, op-14, eb-01, promo), per la
+  -- lista delle carte mancanti da incollare in una wishlist. Irregolare: non si ricostruisce.
+  market_set  text constraint printing_prices_market_set check (char_length(market_set) <= 40),
   -- Euro. trend = prezzo di tendenza, low = minimo in vendita.
   trend       numeric(10, 2) constraint printing_prices_trend check (trend >= 0),
   low         numeric(10, 2) constraint printing_prices_low check (low >= 0),

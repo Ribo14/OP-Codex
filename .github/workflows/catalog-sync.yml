@@ -52,3 +52,8 @@ jobs:
         run: node catalog-sync/sync-explanations.ts
       - name: Image Sync
         run: node catalog-sync/sync-images.ts --limit "$IMAGE_LIMIT" --delay-ms 2000
+      # Prezzi Cardmarket (RIB-32, ADR-0008) dai file pubblici: tre download, poi l'abbinamento.
+      # Per ultimo e anche se un passo prima è fallito: i prezzi non dipendono dalle immagini.
+      - name: Price Sync
+        if: ${{ !cancelled() }}
+        run: node catalog-sync/sync-prices.ts

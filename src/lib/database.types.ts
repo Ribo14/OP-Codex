@@ -145,6 +145,33 @@ export type Database = {
         }
         Relationships: []
       }
+      cardmarket_products: {
+        Row: {
+          card_code: string
+          created_at: string
+          id_expansion: number
+          id_product: number
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          card_code: string
+          created_at?: string
+          id_expansion: number
+          id_product: number
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          card_code?: string
+          created_at?: string
+          id_expansion?: number
+          id_product?: number
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cards: {
         Row: {
           attributes: string[]
@@ -399,6 +426,146 @@ export type Database = {
           status?: string
         }
         Relationships: []
+      }
+      mapping_overrides: {
+        Row: {
+          created_at: string
+          marketplace: string
+          note: string | null
+          print_id: string
+          product_id: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          marketplace: string
+          note?: string | null
+          print_id: string
+          product_id?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          marketplace?: string
+          note?: string | null
+          print_id?: string
+          product_id?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mapping_overrides_print_id_fkey"
+            columns: ["print_id"]
+            isOneToOne: false
+            referencedRelation: "printings"
+            referencedColumns: ["print_id"]
+          },
+        ]
+      }
+      price_mappings: {
+        Row: {
+          confidence: string
+          marketplace: string
+          print_id: string
+          product_id: number
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          confidence: string
+          marketplace: string
+          print_id: string
+          product_id: number
+          source: string
+          updated_at?: string
+        }
+        Update: {
+          confidence?: string
+          marketplace?: string
+          print_id?: string
+          product_id?: number
+          source?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_mappings_print_id_fkey"
+            columns: ["print_id"]
+            isOneToOne: false
+            referencedRelation: "printings"
+            referencedColumns: ["print_id"]
+          },
+        ]
+      }
+      price_snapshots: {
+        Row: {
+          day: string
+          low: number | null
+          marketplace: string
+          print_id: string
+          trend: number | null
+        }
+        Insert: {
+          day: string
+          low?: number | null
+          marketplace: string
+          print_id: string
+          trend?: number | null
+        }
+        Update: {
+          day?: string
+          low?: number | null
+          marketplace?: string
+          print_id?: string
+          trend?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_snapshots_print_id_fkey"
+            columns: ["print_id"]
+            isOneToOne: false
+            referencedRelation: "printings"
+            referencedColumns: ["print_id"]
+          },
+        ]
+      }
+      printing_prices: {
+        Row: {
+          low: number | null
+          marketplace: string
+          price_date: string | null
+          print_id: string
+          product_id: number | null
+          trend: number | null
+          updated_at: string
+        }
+        Insert: {
+          low?: number | null
+          marketplace: string
+          price_date?: string | null
+          print_id: string
+          product_id?: number | null
+          trend?: number | null
+          updated_at?: string
+        }
+        Update: {
+          low?: number | null
+          marketplace?: string
+          price_date?: string | null
+          print_id?: string
+          product_id?: number | null
+          trend?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "printing_prices_print_id_fkey"
+            columns: ["print_id"]
+            isOneToOne: false
+            referencedRelation: "printings"
+            referencedColumns: ["print_id"]
+          },
+        ]
       }
       printings: {
         Row: {

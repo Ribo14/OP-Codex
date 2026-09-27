@@ -453,7 +453,7 @@
     },
     "jobs": {
       "title": "Stato dei job",
-      "intro": "Le ultime {{count}} esecuzioni del Catalog Sync, dello scaricamento delle immagini e del caricamento delle FAQ.",
+      "intro": "Le ultime {{count}} esecuzioni del Catalog Sync, dello scaricamento delle immagini, del caricamento di FAQ e spiegazioni e dei prezzi.",
       "reload": "Aggiorna",
       "empty": "Nessuna esecuzione registrata.",
       "name": {
@@ -461,6 +461,7 @@
         "image_sync": "Immagini delle carte",
         "faq_sync": "FAQ ufficiali",
         "explanation_sync": "Spiegazioni delle carte",
+        "price_sync": "Prezzi Cardmarket",
         "other": "Altro job"
       },
       "status": {
@@ -609,7 +610,17 @@
     "setColumn": "Set",
     "printColumn": "Print ID",
     "rarityColumn": "Rarità",
+    "priceColumn": "Prezzo",
     "officialText": "Testo ufficiale in inglese",
+    "price": {
+      "title": "Prezzo su Cardmarket",
+      "trend": "Tendenza",
+      "low": "Minimo",
+      "note": "Prezzo di {{printId}} in euro, listino del {{date}}.",
+      "noteNoDate": "Prezzo di {{printId}} in euro.",
+      "none": "Nessun prezzo per questa stampa: su Cardmarket non l'abbiamo ancora riconosciuta.",
+      "link": "Cerca su Cardmarket"
+    },
     "faq": {
       "title": "FAQ ufficiali",
       "count_one": "{{count}} domanda",

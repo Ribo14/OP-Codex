@@ -408,6 +408,34 @@
     "notAdmin": "Questa area è riservata agli amministratori.",
     "needsTwoFactor": "Per entrare nell'area Admin serve la verifica in due passaggi: attivala nel Profilo, in «Account e sicurezza».",
     "toProfile": "Vai al Profilo",
+    "prices": {
+      "title": "Abbinamenti dei prezzi",
+      "intro": "Per ogni stampa, il prodotto Cardmarket da cui prendere il prezzo. Il riconoscimento automatico non basta per alcune carte: qui si correggono. La correzione vale dal prossimo aggiornamento dei prezzi (ogni notte).",
+      "list": {
+        "check_one": "Da verificare ({{count}})",
+        "check_other": "Da verificare ({{count}})",
+        "missing_one": "Senza prezzo ({{count}})",
+        "missing_other": "Senza prezzo ({{count}})"
+      },
+      "empty": "Niente da controllare.",
+      "more_one": "E ancora {{count}} carta: cercala per Card Code.",
+      "more_other": "E altre {{count}} carte: cercale per Card Code.",
+      "code": "Card Code, es. OP01-001",
+      "open": "Apri",
+      "noProducts": "Nessun prodotto Cardmarket in inglese con questo Card Code.",
+      "product": "#{{id}} · espansione {{expansion}} · tendenza {{trend}} · minimo {{low}}",
+      "choice": "Prodotto Cardmarket per {{printId}}",
+      "auto": "Automatico",
+      "none": "Nessun prodotto (niente prezzo)",
+      "save": "Salva",
+      "status": {
+        "ok": "Automatico",
+        "check": "Da verificare",
+        "missing": "Senza prezzo",
+        "override": "Corretto a mano",
+        "excluded": "Escluso a mano"
+      }
+    },
     "queue": {
       "title": "Segnalazioni e richieste",
       "intro": "Spiegazioni segnalate dagli utenti e carte di cui chiedono la spiegazione, raggruppate per carta. Copia l'elenco per la prossima sessione di lavoro sulle spiegazioni, poi chiudi le voci.",

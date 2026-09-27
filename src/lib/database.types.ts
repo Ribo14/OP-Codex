@@ -151,7 +151,9 @@ export type Database = {
           created_at: string
           id_expansion: number
           id_product: number
+          low: number | null
           name: string
+          trend: number | null
           updated_at: string
         }
         Insert: {
@@ -159,7 +161,9 @@ export type Database = {
           created_at?: string
           id_expansion: number
           id_product: number
+          low?: number | null
           name: string
+          trend?: number | null
           updated_at?: string
         }
         Update: {
@@ -167,7 +171,9 @@ export type Database = {
           created_at?: string
           id_expansion?: number
           id_product?: number
+          low?: number | null
           name?: string
+          trend?: number | null
           updated_at?: string
         }
         Relationships: []

@@ -127,7 +127,7 @@ export async function savePrices(tx: Tx, files: CardmarketFiles): Promise<PriceS
     overrides: new Map(overrideRows.map((o) => [o.print_id, o.product_id])),
   })
 
-  const productCount = await saveProducts(tx, files)
+  const productCount = await saveProducts(tx, files, priceOf)
   await saveMappings(tx, mappings)
 
   const rows = mappings.map((m) => ({
@@ -210,7 +210,11 @@ export async function pruneSnapshots(tx: Tx, today: string): Promise<number> {
 }
 
 /** I prodotti inglesi con Card Code, per la scelta degli override dall'Admin. */
-async function saveProducts(tx: Tx, files: CardmarketFiles): Promise<number> {
+async function saveProducts(
+  tx: Tx,
+  files: CardmarketFiles,
+  priceOf: ReadonlyMap<number, CardmarketPrice>,
+): Promise<number> {
   const nonEnglish = nonEnglishExpansions(files.sealed)
   const rows = files.singles.flatMap((p) => {
     const cardCode = productCardCode(p.name)
@@ -221,22 +225,30 @@ async function saveProducts(tx: Tx, files: CardmarketFiles): Promise<number> {
             card_code: cardCode,
             name: p.name,
             id_expansion: p.idExpansion,
+            trend: priceOf.get(p.idProduct)?.trend ?? null,
+            low: priceOf.get(p.idProduct)?.low ?? null,
           },
         ]
       : []
   })
   for (const batch of chunks(rows)) {
     await tx`
-      insert into public.cardmarket_products as c (id_product, card_code, name, id_expansion)
-      select * from jsonb_to_recordset(${tx.json(batch)}::jsonb)
-        as r(id_product integer, card_code text, name text, id_expansion integer)
+      insert into public.cardmarket_products as c
+        (id_product, card_code, name, id_expansion, trend, low)
+      select * from jsonb_to_recordset(${tx.json(batch)}::jsonb) as r(
+        id_product integer, card_code text, name text, id_expansion integer,
+        trend numeric, low numeric
+      )
       on conflict (id_product) do update set
         card_code = excluded.card_code,
         name = excluded.name,
         id_expansion = excluded.id_expansion,
+        trend = excluded.trend,
+        low = excluded.low,
         updated_at = now()
-      where (c.card_code, c.name, c.id_expansion)
-        is distinct from (excluded.card_code, excluded.name, excluded.id_expansion)
+      where (c.card_code, c.name, c.id_expansion, c.trend, c.low)
+        is distinct from
+            (excluded.card_code, excluded.name, excluded.id_expansion, excluded.trend, excluded.low)
     `
   }
   return rows.length

@@ -14,6 +14,9 @@ create table public.cardmarket_products (
     constraint cardmarket_products_card_code check (card_code ~ '^[A-Z0-9]+-[0-9]+$'),
   name         text not null,
   id_expansion integer not null,
+  -- Prezzi del listino, in euro: aiutano l'Admin a riconoscere base e parallele.
+  trend        numeric(10, 2) constraint cardmarket_products_trend check (trend >= 0),
+  low          numeric(10, 2) constraint cardmarket_products_low check (low >= 0),
   created_at   timestamptz not null default now(),
   updated_at   timestamptz not null default now()
 );

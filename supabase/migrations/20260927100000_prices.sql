@@ -4,8 +4,9 @@
 --   offline, aggiornamento incrementale su updated_at);
 -- - price_snapshots: lo storico per il grafico, un giorno per riga, 90 giorni poi un lunedì a
 --   settimana (la pulizia la fa il job).
--- Tutto è scritto dal job (connessione diretta al database); i Mapping Override dall'Admin.
--- `marketplace` prepara CardTrader (slice 5.5): per ora c'è solo Cardmarket.
+-- Tutto è scritto dai job (connessione diretta al database); i Mapping Override dall'Admin.
+-- CardTrader (slice 5.5, job cardtrader_sync): abbinamenti e ultimo prezzo minimo, niente storico
+-- (il grafico usa la tendenza Cardmarket) e niente override (derivano da quelli di Cardmarket).
 
 -- Prodotti Cardmarket inglesi con Card Code: i candidati per i Mapping Override dell'Admin.
 create table public.cardmarket_products (
@@ -29,7 +30,8 @@ create index cardmarket_products_card_code_idx on public.cardmarket_products (ca
 -- Abbinamento Printing → prodotto, ricalcolato a ogni Price Sync.
 create table public.price_mappings (
   print_id    text not null references public.printings (print_id),
-  marketplace text not null constraint price_mappings_marketplace check (marketplace in ('cardmarket')),
+  marketplace text not null
+    constraint price_mappings_marketplace check (marketplace in ('cardmarket', 'cardtrader')),
   product_id  integer not null,
   source      text not null constraint price_mappings_source check (source in ('auto', 'override')),
   -- 'check': abbinamento automatico plausibile ma da controllare (per la coda dell'Admin).
@@ -64,7 +66,9 @@ create trigger mapping_overrides_touch_updated_at
 -- invece di sparire: l'aggiornamento incrementale del dispositivo non vede le righe cancellate.
 create table public.printing_prices (
   print_id    text not null references public.printings (print_id),
-  marketplace text not null constraint printing_prices_marketplace check (marketplace in ('cardmarket')),
+  marketplace text not null
+    constraint printing_prices_marketplace check (marketplace in ('cardmarket', 'cardtrader')),
+  -- Cardmarket: idProduct; CardTrader: id del blueprint (serve al link della carta).
   product_id  integer,
   -- Euro. trend = prezzo di tendenza, low = minimo in vendita.
   trend       numeric(10, 2) constraint printing_prices_trend check (trend >= 0),
@@ -133,4 +137,6 @@ create trigger mapping_overrides_audit
 alter table public.job_runs drop constraint job_runs_job_check;
 alter table public.job_runs
   add constraint job_runs_job_check
-  check (job in ('catalog_sync', 'image_sync', 'faq_sync', 'explanation_sync', 'price_sync'));
+  check (job in (
+    'catalog_sync', 'image_sync', 'faq_sync', 'explanation_sync', 'price_sync', 'cardtrader_sync'
+  ));

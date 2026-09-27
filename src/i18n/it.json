@@ -498,6 +498,7 @@
         "faq_sync": "FAQ ufficiali",
         "explanation_sync": "Spiegazioni delle carte",
         "price_sync": "Prezzi Cardmarket",
+        "cardtrader_sync": "Prezzi CardTrader",
         "other": "Altro job"
       },
       "status": {
@@ -689,13 +690,15 @@
     "priceColumn": "Prezzo",
     "officialText": "Testo ufficiale in inglese",
     "price": {
-      "title": "Prezzo su Cardmarket",
+      "title": "Prezzi",
       "trend": "Tendenza",
       "low": "Minimo",
       "note": "Prezzo di {{printId}} in euro, listino del {{date}}.",
       "noteNoDate": "Prezzo di {{printId}} in euro.",
       "none": "Nessun prezzo per questa stampa: su Cardmarket non l'abbiamo ancora riconosciuta.",
       "link": "Cerca su Cardmarket",
+      "cardtrader": "Minimo su CardTrader (inglese, Near Mint)",
+      "cardtraderLink": "Vedi su CardTrader",
       "history_one": "Andamento della tendenza, {{count}} giorno",
       "history_other": "Andamento della tendenza, {{count}} giorni",
       "historyTable": "Prezzo di tendenza per giorno",

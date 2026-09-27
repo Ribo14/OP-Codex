@@ -1,4 +1,10 @@
-import type { CardFaq, Catalog, CatalogPrinting, PrintingPrice } from './catalog-data'
+import type {
+  CardFaq,
+  CardTraderPrice,
+  Catalog,
+  CatalogPrinting,
+  PrintingPrice,
+} from './catalog-data'
 
 // Copia locale del catalogo (RIB-16): righe del database salvate sul dispositivo e
 // aggiornate in modo incrementale, chiedendo al server solo ciò che è cambiato.
@@ -55,6 +61,8 @@ export interface RawExplanation {
 export interface RawPrice {
   print_id: string
   marketplace: string
+  /** Cardmarket: idProduct; CardTrader: id del blueprint. Assente nelle copie salvate prima. */
+  product_id?: number | null
   trend: number | null
   low: number | null
   price_date: string | null
@@ -216,6 +224,20 @@ export function buildCatalog(rows: CatalogRows): Catalog {
         : []
     }),
   )
+  // Minimo CardTrader (slice 5.5), solo se c'è un prezzo.
+  const cardtrader = new Map(
+    rows.prices.flatMap((p) => {
+      const low = euro(p.low)
+      return p.marketplace === 'cardtrader' && low !== null
+        ? [
+            [
+              p.print_id,
+              { low, blueprintId: p.product_id ?? null } satisfies CardTraderPrice,
+            ] as const,
+          ]
+        : []
+    }),
+  )
 
   const printingsByCard = new Map<string, CatalogPrinting[]>()
   for (const p of [...rows.printings].sort((a, b) => a.print_id.localeCompare(b.print_id))) {
@@ -226,6 +248,7 @@ export function buildCatalog(rows: CatalogRows): Catalog {
       setCode: setCodes.get(p.series_id) ?? '',
       hasImage: p.image_synced_at !== null,
       price: prices.get(p.print_id) ?? null,
+      cardtrader: cardtrader.get(p.print_id) ?? null,
     }
     // La Printing base (senza suffisso) va per prima.
     if (p.print_id === p.card_code) list.unshift(printing)

@@ -11,6 +11,15 @@ export interface CatalogPrinting {
   hasImage: boolean
   /** Ultimo prezzo Cardmarket (RIB-32); null = nessun prezzo. Assente nei dati di prova. */
   price?: PrintingPrice | null
+  /** Minimo su CardTrader (RIB-32, slice 5.5); null = nessun prezzo. */
+  cardtrader?: CardTraderPrice | null
+}
+
+/** Offerta più economica su CardTrader (inglese, Near Mint o Mint), in euro. */
+export interface CardTraderPrice {
+  low: number
+  /** Blueprint di CardTrader: la pagina della carta. */
+  blueprintId: number | null
 }
 
 /** Prezzo di una Printing su Cardmarket, in euro. */
@@ -132,7 +141,7 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
       changed(
         supabase
           .from('printing_prices')
-          .select('print_id, marketplace, trend, low, price_date, updated_at'),
+          .select('print_id, marketplace, product_id, trend, low, price_date, updated_at'),
       )
         .order('print_id')
         .order('marketplace')

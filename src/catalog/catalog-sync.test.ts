@@ -73,6 +73,15 @@ const FULL: CatalogRows = {
       price_date: '2026-09-27',
       updated_at: T1,
     },
+    {
+      print_id: 'OP01-001_p1',
+      marketplace: 'cardtrader',
+      product_id: 70001,
+      trend: null,
+      low: 549.9,
+      price_date: '2026-09-27',
+      updated_at: T1,
+    },
     // Una Printing che ha perso l'abbinamento: prezzi vuoti.
     {
       print_id: 'OP01-002',
@@ -105,6 +114,7 @@ describe('buildCatalog', () => {
       setCode: 'OP-01',
       hasImage: false,
       price: null,
+      cardtrader: null,
     })
     expect(catalog.sets).toEqual([{ seriesId: 1, code: 'OP-01', name: 'ROMANCE DAWN' }])
   })
@@ -136,6 +146,12 @@ describe('prezzi (RIB-32)', () => {
     expect(catalog.cards[1]?.printings[0]?.price).toBeNull()
   })
 
+  it('il minimo CardTrader sta a parte, con il blueprint per il link (slice 5.5)', () => {
+    const catalog = buildCatalog(FULL)
+    expect(catalog.cards[0]?.printings[1]?.cardtrader).toEqual({ low: 549.9, blueprintId: 70001 })
+    expect(catalog.cards[0]?.printings[0]?.cardtrader).toBeNull()
+  })
+
   it('una copia salvata senza prezzi si usa subito, ma riscarica tutto', () => {
     const old: Partial<CatalogSnapshot> = mergeSnapshot(null, FULL, 1000)
     delete old.prices
@@ -163,7 +179,8 @@ describe('prezzi (RIB-32)', () => {
       },
       2000,
     )
-    expect(next.prices).toHaveLength(2)
+    // Stessa Printing ma altro Marketplace: la riga CardTrader resta.
+    expect(next.prices).toHaveLength(3)
     expect(next.watermark).toBe(T2)
     expect(buildCatalog(next).cards[0]?.printings[1]?.price?.trend).toBe(600)
   })

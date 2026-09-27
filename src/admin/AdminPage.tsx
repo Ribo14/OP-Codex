@@ -161,7 +161,8 @@ function JobRunItem({ run }: { run: JobRun }) {
     run.job === 'image_sync' ||
     run.job === 'faq_sync' ||
     run.job === 'explanation_sync' ||
-    run.job === 'price_sync'
+    run.job === 'price_sync' ||
+    run.job === 'cardtrader_sync'
       ? run.job
       : 'other'
   const status =

@@ -1,7 +1,7 @@
 import { ExternalLink } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import type { CatalogPrinting } from './catalog-data'
-import { cardmarketUrl, useEuro } from './price-format'
+import type { CardTraderPrice, CatalogPrinting } from './catalog-data'
+import { cardmarketUrl, cardtraderUrl, useEuro } from './price-format'
 import { PriceHistoryChart } from './PriceHistoryChart'
 
 // Prezzo Cardmarket della Printing mostrata (RIB-32): tendenza e minimo in euro, giorno del
@@ -65,6 +65,32 @@ export function CardPrice({
       ) : (
         <p className="text-sm text-muted-foreground">{t('detail.price.none')}</p>
       )}
+      {printing?.cardtrader && <CardTraderLine price={printing.cardtrader} />}
     </section>
+  )
+}
+
+/** Minimo su CardTrader (slice 5.5), con il link alla pagina della carta. */
+function CardTraderLine({ price }: { price: CardTraderPrice }) {
+  const { t } = useTranslation()
+  const euro = useEuro()
+  return (
+    <div className="flex items-center gap-3 rounded-2xl bg-muted/60 p-3">
+      <div>
+        <p className="text-xs text-muted-foreground">{t('detail.price.cardtrader')}</p>
+        <p className="text-lg font-semibold tabular-nums">{euro(price.low)}</p>
+      </div>
+      {price.blueprintId !== null && (
+        <a
+          href={cardtraderUrl(price.blueprintId)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-auto inline-flex items-center gap-1 text-xs font-medium underline-offset-2 hover:underline"
+        >
+          {t('detail.price.cardtraderLink')}
+          <ExternalLink className="size-3.5" aria-hidden="true" />
+        </a>
+      )}
+    </div>
   )
 }

@@ -45,8 +45,11 @@ Prova dell'abbinamento sui dati di produzione (4.843 Printing, 12.573 prodotti):
   copie inglesi, le altre lingue contate a parte), 4.1 (Scan Recognizer), 4.3 (pagina Scanner,
   con prezzo sotto ogni stampa e il testo letto dall'OCR in fondo per la prova 4.2), 4.4 (Burst
   Scan: "Aggiungi alla collezione", +1 sulla stampa giusta, lingua a scelta).
-- Restano: 4.2 (prova su almeno 30 carte reali, la fa l'utente) e 5.5 (CardTrader, serve il
-  token dell'utente).
+- 5.5 (CardTrader) scritta e testata con un'API finta: gioco 15, carte singole categoria 192,
+  abbinamento tramite i `card_market_ids` dei blueprint, minimo in euro delle offerte inglesi
+  Near Mint o Mint non gradate. Job `cardtrader_sync` dopo il Price Sync; senza il segreto
+  `CARDTRADER_TOKEN` si salta. Da provare con il token vero.
+- Resta: 4.2 (prova su almeno 30 carte reali, la fa l'utente).
 - Prova su 16 immagini ufficiali (non foto): codice letto in 14. Le due mancate hanno il
   codice in giallo su illustrazioni molto colorate (OP01-120, OP13-118 SEC).
 - Test E2E dello Scanner con la fotocamera finta di Chromium e una carta disegnata da noi

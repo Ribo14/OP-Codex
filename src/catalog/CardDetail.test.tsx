@@ -44,6 +44,7 @@ const CATALOG: Catalog = {
           setCode: 'OP-01',
           hasImage: false,
           price: { trend: 45.2, low: 39.99, date: '2026-09-27' },
+          cardtrader: { low: 41.5, blueprintId: 70001 },
         },
         { printId: 'OP01-016_p8', rarity: 'SP CARD', setCode: 'PRB-01', hasImage: false },
       ],
@@ -121,6 +122,11 @@ describe('Dettaglio Card', () => {
     expect(price.getByRole('link', { name: it_.detail.price.link })).toHaveAttribute(
       'href',
       'https://www.cardmarket.com/it/OnePiece/Products/Search?searchString=OP01-016',
+    )
+    expect(price.getByText('41,50 €')).toBeInTheDocument()
+    expect(price.getByRole('link', { name: it_.detail.price.cardtraderLink })).toHaveAttribute(
+      'href',
+      'https://www.cardtrader.com/cards/70001',
     )
 
     await act(async () => {

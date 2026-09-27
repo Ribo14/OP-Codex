@@ -7,6 +7,11 @@ export function cardmarketUrl(cardCode: string): string {
   return `https://www.cardmarket.com/it/OnePiece/Products/Search?searchString=${encodeURIComponent(cardCode)}`
 }
 
+/** La pagina di una carta (blueprint) su CardTrader. */
+export function cardtraderUrl(blueprintId: number): string {
+  return `https://www.cardtrader.com/cards/${String(blueprintId)}`
+}
+
 /** Formatta un importo in euro nella lingua dell'app (es. "45,20 €"). */
 export function useEuro(): (value: number) => string {
   const { i18n } = useTranslation()

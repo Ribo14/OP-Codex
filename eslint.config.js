@@ -12,6 +12,8 @@ export default defineConfig([
     'dist',
     'dev-dist',
     'coverage',
+    // File dell'OCR copiati dalle dipendenze (scripts/copy-ocr.mjs)
+    'public/ocr',
     'supabase/.temp',
     'src/lib/database.types.ts',
     'playwright-report',

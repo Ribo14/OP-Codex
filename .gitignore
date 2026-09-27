@@ -4,6 +4,8 @@ dist
 dist-ssr
 dev-dist
 coverage
+# File dell'OCR dello Scanner, copiati dalle dipendenze (scripts/copy-ocr.mjs)
+public/ocr
 *.tsbuildinfo
 
 # Playwright (test E2E)

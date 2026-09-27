@@ -37,4 +37,18 @@ function imageCache(variant: keyof typeof IMAGE_CACHES): RuntimeCaching {
   }
 }
 
-export const runtimeCaching: RuntimeCaching[] = [imageCache('thumb'), imageCache('full')]
+/**
+ * File dell'OCR dello Scanner (fase 4): non sono nel precache, si salvano al primo uso e poi lo
+ * Scanner funziona anche offline. Cambiano solo con un aggiornamento delle dipendenze.
+ */
+const ocrCache: RuntimeCaching = {
+  urlPattern: ({ url, sameOrigin }) => sameOrigin && url.pathname.startsWith('/ocr/'),
+  handler: 'CacheFirst',
+  options: {
+    cacheName: 'op-codex-ocr',
+    cacheableResponse: { statuses: [200] },
+    expiration: { maxEntries: 10, maxAgeSeconds: MAX_AGE_SECONDS, purgeOnQuotaError: true },
+  },
+}
+
+export const runtimeCaching: RuntimeCaching[] = [imageCache('thumb'), imageCache('full'), ocrCache]

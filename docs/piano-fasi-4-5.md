@@ -38,6 +38,16 @@ Prova dell'abbinamento sui dati di produzione (4.843 Printing, 12.573 prodotti):
 - il resto (soprattutto Promo, "OTHER" e Starter Deck con ristampe) resta senza prezzo finché
   un Admin non imposta un Mapping Override.
 
+## Stato (2026-09-27)
+
+- 5.1 fatta su `dev`: prezzi Cardmarket nel dettaglio Card, Price Sync notturno.
+- 4.1 fatta su `dev`: Scan Recognizer. Anche la pagina Scanner (4.3) c'è già, con il testo
+  letto dall'OCR in fondo per la prova 4.2 sulle carte reali.
+- Prova su 16 immagini ufficiali (non foto): codice letto in 14. Le due mancate hanno il
+  codice in giallo su illustrazioni molto colorate (OP01-120, OP13-118 SEC).
+- Test E2E dello Scanner con la fotocamera finta di Chromium e una carta disegnata da noi
+  (`e2e/fixtures/make-scanner-video.mjs`).
+
 ## Fase 5: Prezzi
 
 ### 5.1 Price Sync Cardmarket e prezzo nel dettaglio Card (AFK)
@@ -90,7 +100,7 @@ Prova dell'abbinamento sui dati di produzione (4.843 Printing, 12.573 prodotti):
 - Pulsante Scanner, fotocamera (`getUserMedia`, anche nella PWA installata su iOS e Android),
   ritaglio della zona in basso a destra, scelta della Printing tra le miniature, correzione
   manuale del codice, apertura del dettaglio con prezzo. User story 54–56, 58, 59.
-- `Permissions-Policy` già da aggiornare per la fotocamera (`camera=(self)`).
+- `Permissions-Policy` consente già la fotocamera al nostro dominio (`camera=(self)`).
 
 ### 4.4 Burst Scan verso la Collection (AFK)
 

@@ -472,6 +472,35 @@
       }
     }
   },
+  "scanner": {
+    "title": "Scanner",
+    "button": "Scansiona",
+    "intro": "Inquadra una carta: l'app legge il codice nell'angolo in basso a destra. La foto resta sul telefono, non viene salvata né inviata.",
+    "preview": "Anteprima della fotocamera",
+    "permission": "Serve la fotocamera: il telefono ti chiederà il permesso.",
+    "start": "Avvia la fotocamera",
+    "denied": "Permesso della fotocamera negato. Consentilo nelle impostazioni del browser (su iPhone: Impostazioni › Safari › Fotocamera) e riprova, oppure scrivi il codice qui sotto.",
+    "unavailable": "Fotocamera non disponibile su questo dispositivo. Puoi scrivere il codice qui sotto.",
+    "aim": "Carta dentro il riquadro, codice nella zona gialla",
+    "read": "Leggi il codice",
+    "reading": "Lettura…",
+    "ocrFailed": "Il lettore del codice non è partito. Controlla la connessione (serve la prima volta) e ricarica la pagina.",
+    "nothing": "Nessun codice letto. Avvicina la carta, evita i riflessi e riprova.",
+    "unknown": "Letto {{codes}}, ma non è nel catalogo: riprova o scrivilo qui sotto.",
+    "choose": "Scegli la stampa giusta:",
+    "open": "Tocca la carta per aprirla:",
+    "openPrinting": "Apri {{printId}} · {{rarity}}",
+    "manual": {
+      "label": "Oppure scrivi il codice",
+      "placeholder": "OP01-001",
+      "submit": "Apri",
+      "notFound": "Nessuna carta con questo codice."
+    },
+    "test": {
+      "title": "Dettagli della lettura (per la prova)",
+      "tally": "Codice trovato in {{found}} letture su {{reads}}; ultima lettura {{ms}} ms."
+    }
+  },
   "settings": {
     "title": "Impostazioni",
     "images": {

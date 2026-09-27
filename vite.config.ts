@@ -28,6 +28,8 @@ export default defineConfig({
         // App e font (solo latino) sempre disponibili offline; icone e favicon arrivano da
         // includeAssets e dal manifest; le immagini delle carte da runtimeCaching.
         globPatterns: ['**/*.{js,css,html}', 'assets/geist-latin*.woff2'],
+        // L'OCR dello Scanner (~7 MB) si scarica solo aprendo lo Scanner (runtimeCaching).
+        globIgnores: ['ocr/**'],
         runtimeCaching,
       },
       manifest: {

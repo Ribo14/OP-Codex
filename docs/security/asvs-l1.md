@@ -25,7 +25,7 @@ Architettura in breve, per leggere gli esiti:
 | 1.2.4 | ✅    | Le query passano da PostgREST (parametri) e da funzioni SQL con parametri tipizzati. Nessun `EXECUTE` dinamico con input degli utenti. Gli script del job usano query parametrizzate di `postgres`.                            |
 | 1.2.5 | ✅    | L'app non esegue comandi di sistema. Gli script di CI (`ops/backup`, Catalog Sync) non ricevono input dagli utenti.                                                                                                            |
 | 1.3.1 | ➖    | Nessun editor HTML o WYSIWYG.                                                                                                                                                                                                  |
-| 1.3.2 | ✅    | Nessun `eval` o `new Function`; la CSP non consente `unsafe-eval`.                                                                                                                                                             |
+| 1.3.2 | ✅    | Nessun `eval` o `new Function`; la CSP non consente `unsafe-eval`. Consente solo `wasm-unsafe-eval` (compilare WebAssembly) per l'OCR dello Scanner, servito dal nostro dominio (`/ocr/`).                                     |
 | 1.5.1 | ➖    | Nessun parser XML. Il Catalog Sync legge l'HTML del sito ufficiale con cheerio, che non risolve entità esterne.                                                                                                                |
 
 ## V2 Validazione e logica di business

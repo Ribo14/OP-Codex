@@ -27,6 +27,8 @@ import { DECKS_PATH, IMPORT_DECK_PATH, NEW_DECK_PATH, SHARED_DECK_PATH } from '@
 import { RULES_PATH } from '@/rules/paths'
 import { RulesPage } from '@/rules/RulesPage'
 import { SharedDeckPage } from '@/decks/SharedDeckPage'
+import { SCANNER_PATH } from '@/scanner/paths'
+import { ScannerPage } from '@/scanner/ScannerPage'
 import { CardDetailRoute } from '@/catalog/CardDetailRoute'
 import { CatalogPage } from '@/catalog/CatalogPage'
 import { AppShell } from './AppShell'
@@ -61,6 +63,8 @@ export const routes: RouteObject[] = [
       { path: SHARED_DECK_PATH, element: <SharedDeckPage /> },
       { path: `${DECKS_PATH}/:deckId`, element: <DeckEditorPage /> },
       { path: `${DECKS_PATH}/:deckId/leader`, element: <LeaderPickerPage /> },
+      // Scanner (fase 4): anche senza account, apre il dettaglio della carta letta.
+      { path: SCANNER_PATH, element: <ScannerPage /> },
       { path: PRIVACY_PATH, element: <PrivacyPage /> },
       { path: SETTINGS_PATH, element: <SettingsPage /> },
       // Account (RIB-14)

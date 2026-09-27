@@ -21,6 +21,8 @@ import type { Catalog, CatalogCard, CatalogPrinting } from '@/catalog/catalog-da
 import { catalogFacets, countActiveFilters, relatedFilters } from '@/catalog/filters'
 import { FiltersPanel } from '@/catalog/FiltersPanel'
 import { useCatalog } from '@/catalog/local-catalog'
+import { useEuro } from '@/catalog/price-format'
+import { deckValue, type DeckValue } from '@/catalog/price-value'
 import { useCatalogFilters } from '@/catalog/use-catalog-filters'
 import { useCollection, useOwnership } from '@/collection/collection-store'
 import { useOnline } from '@/lib/use-online'
@@ -183,6 +185,7 @@ function Editor({ deckId }: { deckId: string }) {
         catalog={catalog}
         editing={editing}
         listText={formatDeckList(deck.leaderCode, cards, byCode)}
+        value={deckValue(deck, cards, catalog.cards)}
         onRelated={(leader) => {
           // RIB-41: la scheda "Aggiungi carte" con colori, tipi ed effetti del Leader.
           update({ ...relatedFilters(leader), q: '' })
@@ -354,6 +357,7 @@ function DeckHeader({
   catalog,
   editing,
   listText,
+  value,
   onRelated,
   onOpen,
 }: {
@@ -362,10 +366,13 @@ function DeckHeader({
   editing: Editing
   /** La Deck List da copiare o condividere (RIB-24). */
   listText: string
+  /** Valore stimato con i prezzi Cardmarket (RIB-32). */
+  value: DeckValue
   onRelated: (leader: CatalogCard) => void
   onOpen: OpenCard
 }) {
   const { t } = useTranslation()
+  const euro = useEuro()
   const [renaming, setRenaming] = useState(false)
   const leader = catalog.cards.find((c) => c.cardCode === deck.leaderCode)
   const leaderName = leader?.name ?? deck.leaderCode
@@ -443,6 +450,12 @@ function DeckHeader({
           <p className="text-sm font-medium tabular-nums" aria-live="polite">
             {t('decks.count', { count: deck.cardCount, size: DECK_SIZE })}
           </p>
+          {value.priced > 0 && (
+            <p className="text-sm text-muted-foreground tabular-nums">
+              {t('decks.value', { value: euro(value.total) })}
+              {value.unpriced > 0 && ` (${t('decks.unpriced', { count: value.unpriced })})`}
+            </p>
+          )}
           {/* Formato (RIB-23): decide gli avvisi sul Block. */}
           <div
             role="radiogroup"

@@ -9,6 +9,8 @@ import { cardImageUrl } from '@/catalog/card-image'
 import { cardPath } from '@/catalog/card-links'
 import type { CardLinkState } from '@/catalog/CardDetailRoute'
 import { useCatalog } from '@/catalog/local-catalog'
+import { useEuro } from '@/catalog/price-format'
+import { collectionValue } from '@/catalog/price-value'
 import {
   COLLECTION_SORTS,
   ownedItems,
@@ -44,6 +46,7 @@ export function CollectionPage() {
 
 function Collection({ userId }: { userId: string }) {
   const { t } = useTranslation()
+  const euro = useEuro()
   const { catalog } = useCatalog()
   const { state, reload } = useCollection(userId)
   const [query, setQuery] = useState('')
@@ -84,11 +87,25 @@ function Collection({ userId }: { userId: string }) {
   }
 
   const { copies, distinctCards } = totals(entries)
+  // RIB-32: valore stimato con i prezzi Cardmarket delle stampe inglesi.
+  const value = collectionValue(entries, catalog.cards)
   return (
     <div className="space-y-5">
-      <p className="text-sm text-muted-foreground" aria-live="polite">
-        {t('collection.totals', { copies, cards: distinctCards })}
-      </p>
+      <div className="space-y-1">
+        <p className="text-sm text-muted-foreground" aria-live="polite">
+          {t('collection.totals', { copies, cards: distinctCards })}
+        </p>
+        {value.priced > 0 && (
+          <p className="text-sm">
+            {t('collection.value', { value: euro(value.total) })}
+            <span className="text-muted-foreground">
+              {value.unpriced > 0 && ` · ${t('collection.unpriced', { count: value.unpriced })}`}
+              {value.otherLanguages > 0 &&
+                ` · ${t('collection.otherLanguages', { count: value.otherLanguages })}`}
+            </span>
+          </p>
+        )}
+      </div>
       <SetCompletionSection catalog={catalog} entries={entries} />
       <h2 className="pt-2 text-lg font-semibold tracking-tight">{t('collection.yourCards')}</h2>
       <div className="flex flex-wrap gap-3">

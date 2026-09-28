@@ -1,3 +1,5 @@
+import { isLanguage, type CollectionEntry } from '@/collection/collection'
+import { toSharedDeck, type SharedDeck } from '@/decks/decks-api'
 import { getSupabase } from '@/lib/supabase'
 
 // Chiamate al database per gli Amici (RIB-71, ADR-0015). Tutto passa dalle funzioni del
@@ -119,6 +121,79 @@ export async function regenerateInvite(): Promise<string> {
   const { data, error } = await getSupabase().rpc('rigenera_link_invito_amici')
   fail(error)
   return data
+}
+
+// ---- Profilo di un amico (RIB-73) ----
+
+export interface FriendDeckSummary {
+  id: string
+  name: string
+  leaderCode: string
+  leaderPrintId: string | null
+  format: 'standard' | 'extra'
+  updatedAt: string
+  cardCount: number
+}
+
+export interface FriendProfile {
+  username: string
+  /** La sua Collection è su Amici. */
+  collectionVisible: boolean
+  /** I suoi Deck Friends e Public Link. */
+  decks: FriendDeckSummary[]
+}
+
+interface FriendProfileRow {
+  username: string
+  collection_visible: boolean
+  decks: {
+    id: string
+    name: string
+    leader_code: string
+    leader_print_id: string | null
+    format: string
+    updated_at: string
+    card_count: number
+  }[]
+}
+
+/** Il profilo di un amico; null se non siete amici (o lo Username non esiste). */
+export async function loadFriendProfile(username: string): Promise<FriendProfile | null> {
+  const { data, error } = await getSupabase().rpc('profilo_amico', { p_username: username })
+  fail(error)
+  if (!data) return null
+  const row = data as unknown as FriendProfileRow
+  return {
+    username: row.username,
+    collectionVisible: row.collection_visible,
+    decks: row.decks.map((d) => ({
+      id: d.id,
+      name: d.name,
+      leaderCode: d.leader_code,
+      leaderPrintId: d.leader_print_id,
+      format: d.format === 'extra' ? 'extra' : 'standard',
+      updatedAt: d.updated_at,
+      cardCount: d.card_count,
+    })),
+  }
+}
+
+/** Un Deck di un amico, in sola lettura; null se non è visibile. */
+export async function loadFriendDeck(deckId: string): Promise<SharedDeck | null> {
+  const { data, error } = await getSupabase().rpc('mazzo_amico', { p_deck_id: deckId })
+  fail(error)
+  return data ? toSharedDeck(data) : null
+}
+
+/** La Collection di un amico che l'ha resa visibile (senza prezzi). */
+export async function loadFriendCollection(username: string): Promise<CollectionEntry[]> {
+  const { data, error } = await getSupabase().rpc('collezione_amico', { p_username: username })
+  fail(error)
+  return data.flatMap((e) =>
+    isLanguage(e.language)
+      ? [{ printId: e.print_id, language: e.language, quantity: e.quantity, updatedAt: '' }]
+      : [],
+  )
 }
 
 /** Chi ha mandato il link di invito; null se il link non vale (o non vale per chi lo apre). */

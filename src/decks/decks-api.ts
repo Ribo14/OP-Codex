@@ -1,6 +1,6 @@
 import { isOffline, readPersonal, withOfflineCopy, writePersonal } from '@/lib/personal-cache'
 import { getSupabase } from '@/lib/supabase'
-import type { DeckCard, DeckSummary } from './deck'
+import { toVisibility, type DeckCard, type DeckSummary, type DeckVisibility } from './deck'
 import type { DeckFormat } from './deck-rules'
 
 // Chiamate al database per i Deck (RIB-21). Le policy RLS garantiscono che ognuno tocchi solo i
@@ -16,7 +16,7 @@ function fail(error: { message: string } | null): asserts error is null {
 }
 
 const DECK_COLUMNS =
-  'id, name, leader_code, leader_print_id, format, share_token, updated_at, deck_cards(card_code, quantity, print_id)'
+  'id, name, leader_code, leader_print_id, format, visibility, share_token, updated_at, deck_cards(card_code, quantity, print_id)'
 
 interface DeckRow {
   id: string
@@ -24,6 +24,7 @@ interface DeckRow {
   leader_code: string
   leader_print_id: string | null
   format: string
+  visibility: string
   share_token: string | null
   updated_at: string
   deck_cards: { card_code: string; quantity: number; print_id: string | null }[]
@@ -45,9 +46,25 @@ function toDetail(row: DeckRow): DeckDetail {
       cardCount: cards.reduce((sum, c) => sum + c.quantity, 0),
       format: row.format === 'extra' ? 'extra' : 'standard',
       shareToken: row.share_token,
+      visibility: toVisibility(row.visibility, row.share_token),
     },
     cards,
   }
+}
+
+// ---- Visibility (RIB-73) ----
+
+/** Cambia chi vede il Deck; restituisce il token dello Share Link (solo per "link"). */
+export async function setDeckVisibility(
+  deckId: string,
+  visibility: DeckVisibility,
+): Promise<string | null> {
+  const { data, error } = await getSupabase().rpc('imposta_visibilita_mazzo', {
+    p_deck_id: deckId,
+    p_visibility: visibility,
+  })
+  fail(error)
+  return data
 }
 
 // ---- Share Link (RIB-26) ----
@@ -90,8 +107,14 @@ interface SharedRow {
 export async function loadSharedDeck(token: string): Promise<SharedDeck | null> {
   const { data, error } = await getSupabase().rpc('mazzo_condiviso', { p_token: token })
   fail(error)
-  if (!data) return null
-  const row = data as unknown as SharedRow
+  return data ? toSharedDeck(data) : null
+}
+
+/**
+ * Un Deck letto da mazzo_condiviso o, per gli amici, da mazzo_amico (RIB-73): stessa forma.
+ */
+export function toSharedDeck(data: unknown): SharedDeck {
+  const row = data as SharedRow
   return {
     name: row.name,
     leaderCode: row.leader_code,

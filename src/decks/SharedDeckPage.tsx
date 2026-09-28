@@ -1,5 +1,5 @@
 import { BookmarkPlus } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router'
 import { useSession } from '@/account/session'
@@ -67,7 +67,19 @@ export function SharedDeckPage() {
   return <SharedDeckView deck={state.deck} />
 }
 
-function SharedDeckView({ deck }: { deck: SharedDeck }) {
+/**
+ * Un Deck di un altro in sola lettura, con "Salva nei miei mazzi": da uno Share Link o dal
+ * profilo di un amico (RIB-73), che passa la sua etichetta e il ritorno al profilo.
+ */
+export function SharedDeckView({
+  deck,
+  label,
+  back,
+}: {
+  deck: SharedDeck
+  label?: string
+  back?: ReactNode
+}) {
   const { t } = useTranslation()
   const { catalog } = useCatalog()
   const banList = useBanList()
@@ -113,8 +125,9 @@ function SharedDeckView({ deck }: { deck: SharedDeck }) {
 
   return (
     <div className="mx-auto max-w-3xl space-y-5">
+      {back}
       <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-        {t('decks.shared.title')}
+        {label ?? t('decks.shared.title')}
       </p>
       <div className="flex gap-4">
         <CardThumb

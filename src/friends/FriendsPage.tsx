@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState, type ReactNode, type SubmitEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 import { field } from '@/account/form-data'
 import { RequireAccount } from '@/account/ProfilePage'
 import { canShare, copyText } from '@/lib/clipboard'
@@ -33,7 +34,7 @@ import {
   type FoundUser,
   type FriendsState,
 } from './friends-api'
-import { friendInviteUrl } from './paths'
+import { friendInviteUrl, friendProfilePath } from './paths'
 
 // Pagina Amici (RIB-71): cerca uno Username esatto, link di invito, richieste ricevute e
 // inviate, elenco degli amici. Le regole (blocchi, doppioni) le fa rispettare il database.
@@ -128,7 +129,7 @@ function Friends() {
           ) : (
             <UserList>
               {state.friends.map((f) => (
-                <UserRow key={f.username} username={f.username}>
+                <UserRow key={f.username} username={f.username} to={friendProfilePath(f.username)}>
                   <MoreMenu username={f.username} remove done={reload} />
                 </UserRow>
               ))}
@@ -183,7 +184,7 @@ function Friends() {
  * Menu "⋯" di una riga (RIB-72): rimuovi dagli amici e blocca, ognuno con un passaggio di
  * conferma. L'altro non riceve nessun avviso.
  */
-function MoreMenu({
+export function MoreMenu({
   username,
   remove = false,
   done,
@@ -344,10 +345,13 @@ function UserList({ children }: { children: ReactNode }) {
 function UserRow({
   username,
   hint,
+  to,
   children,
 }: {
   username: string
   hint?: string
+  /** Se c'è, lo Username porta qui (il profilo dell'amico, RIB-73). */
+  to?: string
   children?: ReactNode
 }) {
   return (
@@ -360,7 +364,16 @@ function UserRow({
         {username.charAt(0)}
       </span>
       <div className="min-w-[9rem] flex-1">
-        <p className="truncate text-sm font-medium">@{username}</p>
+        {to ? (
+          <Link
+            to={to}
+            className="block truncate text-sm font-medium underline-offset-2 hover:underline"
+          >
+            @{username}
+          </Link>
+        ) : (
+          <p className="truncate text-sm font-medium">@{username}</p>
+        )}
         {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
       </div>
       {children && <div className="ml-auto flex gap-2">{children}</div>}

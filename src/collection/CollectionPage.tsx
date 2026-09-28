@@ -20,6 +20,7 @@ import {
   type OwnedItem,
 } from './collection'
 import { useCollection } from './collection-store'
+import { CollectionVisibilityRow } from './CollectionVisibility'
 import { BULK_ADD_PATH, COLLECTION_PATH } from './paths'
 import { SetCompletionSection } from './SetCompletionSection'
 
@@ -125,6 +126,7 @@ function Collection({ userId }: { userId: string }) {
       <p className="text-sm">
         <BulkLink />
       </p>
+      <CollectionVisibilityRow userId={userId} />
       <SetCompletionSection catalog={catalog} entries={entries} />
       <h2 className="pt-2 text-lg font-semibold tracking-tight">{t('collection.yourCards')}</h2>
       <div className="flex flex-wrap gap-3">
@@ -189,7 +191,8 @@ function BulkLink() {
   )
 }
 
-function OwnedTile({ item }: { item: OwnedItem }) {
+/** Una Printing posseduta, con le copie; serve anche alla Collection di un amico (RIB-73). */
+export function OwnedTile({ item }: { item: OwnedItem }) {
   const { t } = useTranslation()
   const { card, printing } = item
   return (

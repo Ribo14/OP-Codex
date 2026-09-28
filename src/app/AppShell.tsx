@@ -23,7 +23,9 @@ export function AppShell() {
   // Il dettaglio di una Card (/carta/...) fa parte del Catalogo: aprirlo non cambia sezione.
   const inCardDetail = pathname.startsWith('/carta/')
   const sectionPath = inCardDetail ? '/' : pathname
-  const isActive = (path: string) => (path === '/' ? sectionPath === '/' : sectionPath === path)
+  // Anche le sottopagine (un mazzo, il profilo di un amico) tengono attiva la loro sezione.
+  const isActive = (path: string) =>
+    path === '/' ? sectionPath === '/' : sectionPath === path || sectionPath.startsWith(`${path}/`)
   const { context, showInvite, canInstallFromMenu, install, dismiss } = useInstall()
   // Senza accesso le voci che richiedono l'account non compaiono. Mentre la sessione si legge
   // (pochi istanti) si mostra la barra completa, per non farla saltare a chi è già dentro.

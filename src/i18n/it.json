@@ -233,6 +233,13 @@
     "totals": "{{copies}} carte in tutto · {{cards}} Card diverse",
     "valueTitle": "Valore stimato della collezione",
     "valueSource": "Tendenza Cardmarket delle stampe inglesi",
+    "visibility": {
+      "label": "Chi la vede",
+      "private": "Solo tu",
+      "friends": "Amici",
+      "privateHint": "La tua collezione è privata.",
+      "friendsHint": "I tuoi amici vedono le tue carte e il completamento dei Set dal tuo profilo, mai il valore."
+    },
     "bulkLink": "Aggiungi un set o una lista",
     "bulk": {
       "title": "Aggiungi in blocco",
@@ -371,12 +378,16 @@
       "createAnyway_one": "Crea mazzo comunque ({{count}} riga ignorata)",
       "createAnyway_other": "Crea mazzo comunque ({{count}} righe ignorate)"
     },
+    "visibility": {
+      "label": "Chi vede il mazzo",
+      "private": "Privato",
+      "friends": "Amici",
+      "link": "Link pubblico",
+      "privateHint": "Lo vedi solo tu.",
+      "friendsHint": "Lo vedono i tuoi amici, dal tuo profilo. Scegli \"Link pubblico\" per farlo vedere anche a chi non è tuo amico o non ha un account."
+    },
     "share": {
       "title": "Condividi mazzo",
-      "private": "Privato",
-      "active": "Link attivo",
-      "intro": "Crea un link per far vedere il mazzo a chiunque, anche a chi non ha un account. Lo potrai revocare quando vuoi.",
-      "create": "Crea link",
       "activeHint": "Chi ha questo link vede il mazzo in sola lettura, con il tuo Username.",
       "copy": "Copia link",
       "copied": "Link copiato",
@@ -693,6 +704,17 @@
       "hint": "Non ti trova e non ti chiede l'amicizia",
       "unblock": "Sblocca",
       "unblockLabel": "Sblocca @{{username}}"
+    },
+    "profile": {
+      "missing": "Non trovi questo profilo: potreste non essere amici, oppure lo Username non esiste più.",
+      "decks_one": "{{count}} mazzo condiviso",
+      "decks_other": "{{count}} mazzi condivisi",
+      "noDecks": "Nessun mazzo condiviso con gli amici.",
+      "privateCollection": "@{{username}} non condivide la sua collezione.",
+      "emptyCollection": "La collezione è vuota.",
+      "deckLabel": "Mazzo di un amico",
+      "deckMissing": "Questo mazzo non è più visibile: il tuo amico potrebbe averlo reso privato o eliminato.",
+      "back": "@{{username}}"
     },
     "invitePage": {
       "title": "Invito",

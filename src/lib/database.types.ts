@@ -677,18 +677,21 @@ export type Database = {
       }
       profiles: {
         Row: {
+          collection_visibility: string
           created_at: string
           id: string
           updated_at: string
           username: string
         }
         Insert: {
+          collection_visibility?: string
           created_at?: string
           id: string
           updated_at?: string
           username: string
         }
         Update: {
+          collection_visibility?: string
           created_at?: string
           id?: string
           updated_at?: string
@@ -795,18 +798,32 @@ export type Database = {
           username: string
         }[]
       }
+      collezione_amico: {
+        Args: { p_username: string }
+        Returns: {
+          language: string
+          print_id: string
+          quantity: number
+        }[]
+      }
       crea_link_mazzo: { Args: { p_deck_id: string }; Returns: string }
       duplica_mazzo: { Args: { p_deck_id: string }; Returns: string }
       elimina_account: {
         Args: { conferma_username: string }
         Returns: undefined
       }
+      imposta_visibilita_mazzo: {
+        Args: { p_deck_id: string; p_visibility: string }
+        Returns: string
+      }
       invia_richiesta_amicizia: {
         Args: { p_username: string }
         Returns: string
       }
       link_invito_amici: { Args: never; Returns: string }
+      mazzo_amico: { Args: { p_deck_id: string }; Returns: Json }
       mazzo_condiviso: { Args: { p_token: string }; Returns: Json }
+      profilo_amico: { Args: { p_username: string }; Returns: Json }
       revoca_link_mazzo: { Args: { p_deck_id: string }; Returns: undefined }
       rifiuta_richiesta_amicizia: {
         Args: { p_username: string }

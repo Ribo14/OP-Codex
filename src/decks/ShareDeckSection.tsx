@@ -2,13 +2,15 @@ import { Check, Copy, Link2, Link2Off, Share2 } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { canShare, copyText } from '@/lib/clipboard'
-import type { DeckSummary } from './deck'
+import { cn } from '@/lib/utils'
+import { DECK_VISIBILITIES, toVisibility, type DeckSummary, type DeckVisibility } from './deck'
 import type { DeckStore } from './deck-store'
-import { createShareLink, revokeShareLink } from './decks-api'
+import { createShareLink, revokeShareLink, setDeckVisibility } from './decks-api'
 import { sharedDeckUrl } from './paths'
 
-// "Condividi mazzo" nell'editor (RIB-26): crea lo Share Link, lo copia o lo condivide, lo
-// revoca. Chiunque abbia il link vede il Deck in sola lettura, anche senza account.
+// "Condividi mazzo" nell'editor: chi vede il Deck, a tre livelli crescenti (RIB-73): Privato,
+// Amici (dal tuo profilo), Link pubblico (RIB-26: chiunque abbia il link, anche senza account,
+// e gli amici). Il link si copia, si condivide e si revoca.
 
 const BUTTON =
   'inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-medium hover:bg-muted disabled:opacity-50'
@@ -28,13 +30,14 @@ export function ShareDeckSection({
   const [copied, setCopied] = useState(false)
   const [confirmRevoke, setConfirmRevoke] = useState(false)
   const url = deck.shareToken ? sharedDeckUrl(deck.shareToken) : null
+  const visibility = toVisibility(deck.visibility, deck.shareToken)
 
-  const run = (action: () => Promise<string | null>) => {
+  const run = (next: DeckVisibility, action: () => Promise<string | null>) => {
     setBusy(true)
     setFailed(false)
     void action().then(
       (token) => {
-        store.showShareToken(token)
+        store.showSharing(next, token)
         setBusy(false)
         setConfirmRevoke(false)
       },
@@ -45,16 +48,47 @@ export function ShareDeckSection({
     )
   }
 
+  const choose = (next: DeckVisibility) => {
+    if (next === visibility) return
+    run(next, () => (next === 'link' ? createShareLink(deck.id) : setDeckVisibility(deck.id, next)))
+  }
+
   return (
     <details className="rounded-2xl border text-sm">
       <summary className="flex cursor-pointer items-center gap-2 px-4 py-3 font-medium">
         <Link2 className="size-4 shrink-0" aria-hidden="true" />
         {t('decks.share.title')}
         <span className="ml-auto text-xs font-normal text-muted-foreground">
-          {url ? t('decks.share.active') : t('decks.share.private')}
+          {t(`decks.visibility.${visibility}`)}
         </span>
       </summary>
       <div className="space-y-3 px-4 pb-4">
+        <div
+          role="radiogroup"
+          aria-label={t('decks.visibility.label')}
+          className="grid grid-cols-3 gap-1 rounded-full bg-muted p-1 text-xs font-medium"
+        >
+          {DECK_VISIBILITIES.map((v) => (
+            <button
+              key={v}
+              type="button"
+              role="radio"
+              aria-checked={visibility === v}
+              disabled={busy || disabled}
+              onClick={() => {
+                choose(v)
+              }}
+              className={cn(
+                'h-8 rounded-full px-2 disabled:opacity-60',
+                visibility === v
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground',
+              )}
+            >
+              {t(`decks.visibility.${v}`)}
+            </button>
+          ))}
+        </div>
         {url ? (
           <>
             <p className="text-muted-foreground">{t('decks.share.activeHint')}</p>
@@ -103,7 +137,7 @@ export function ShareDeckSection({
                     type="button"
                     disabled={busy || disabled}
                     onClick={() => {
-                      run(() => revokeShareLink(deck.id).then(() => null))
+                      run('private', () => revokeShareLink(deck.id).then(() => null))
                     }}
                     className="inline-flex h-9 items-center gap-1.5 rounded-full bg-destructive px-3 text-xs font-medium text-white disabled:opacity-50"
                   >
@@ -139,20 +173,11 @@ export function ShareDeckSection({
             )}
           </>
         ) : (
-          <>
-            <p className="text-muted-foreground">{t('decks.share.intro')}</p>
-            <button
-              type="button"
-              disabled={busy || disabled}
-              onClick={() => {
-                run(() => createShareLink(deck.id))
-              }}
-              className="inline-flex h-9 items-center gap-1.5 rounded-full bg-foreground px-3 text-xs font-medium text-background disabled:opacity-50"
-            >
-              <Link2 className="size-3.5" aria-hidden="true" />
-              {t('decks.share.create')}
-            </button>
-          </>
+          <p className="text-muted-foreground">
+            {visibility === 'friends'
+              ? t('decks.visibility.friendsHint')
+              : t('decks.visibility.privateHint')}
+          </p>
         )}
         {failed && (
           <p role="alert" className="text-xs text-destructive">

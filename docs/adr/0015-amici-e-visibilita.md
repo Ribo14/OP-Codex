@@ -24,7 +24,8 @@ La fase 6 (RIB-33) apre i dati di un User ad altri User: è la parte più delica
 
 - Tabelle `friend_requests`, `friendships` (una riga per coppia, `user_a < user_b`), `user_blocks`, con cascade da `auth.users` e la policy restrictive "Solo con un accesso valido" (regola delle tabelle personali, ADR-0013).
 - Le scritture passano da funzioni `security definer` con controlli espliciti (richiesta, accetta, rifiuta, annulla, rimuovi, blocca), non da insert diretti: così blocchi e duplicati si controllano in un solo posto.
-- La lettura dei dati di un amico usa `private.sono_amici(a, b)`; le policy di `decks`, `deck_cards` e `collection_entries` aggiungono il caso "amico", mai quello "chiunque".
+- I dati di un amico si leggono solo da funzioni `security definer` (`profilo_amico`, `mazzo_amico`, `collezione_amico`) che controllano `private.sono_amici(a, b)` e la Visibility. Le policy di `decks`, `deck_cards` e `collection_entries` restano "solo i propri": le liste dei propri dati leggono le tabelle affidandosi alle policy, e un caso "amico" nelle policy ci farebbe entrare i dati degli altri (RIB-73).
+- La Collection di un amico arriva senza prezzi: il valore stimato non si mostra (è una scelta di presentazione; le copie sono comunque visibili).
 - Ogni riga della matrice ha un test sul database che agisce come i diversi User.
 - Friendship, Friend Request e User Block entrano nell'export dei dati e si cancellano con l'account.
 

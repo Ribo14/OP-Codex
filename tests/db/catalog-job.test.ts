@@ -83,7 +83,8 @@ async function catalogCounts() {
   return row
 }
 
-describe('Catalog Sync completo', () => {
+// Un sync completo di tre Set: su una macchina carica (tutti i test insieme) supera i 5 s.
+describe('Catalog Sync completo', { timeout: 20_000 }, () => {
   it('scopre i Set dal menu, li scarica uno alla volta con una pausa e li salva', async () => {
     const { stats, site, sleeps } = await run(PAGES)
 

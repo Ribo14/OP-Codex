@@ -5,6 +5,20 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* RIB-38: il medaglione del logo che ondeggia mentre il catalogo si carica. */
+@theme {
+  --animate-logo-sway: logo-sway 1.8s ease-in-out infinite;
+  @keyframes logo-sway {
+    0%,
+    100% {
+      transform: translateY(0) rotate(-7deg);
+    }
+    50% {
+      transform: translateY(-8px) rotate(7deg);
+    }
+  }
+}
+
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: 'Geist Variable', sans-serif;

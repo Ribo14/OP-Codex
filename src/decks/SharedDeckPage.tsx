@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router'
 import { useSession } from '@/account/session'
+import { LogoLoader } from '@/app/LogoLoader'
 import { useBanList } from '@/catalog/ban-list'
 import { useCatalog } from '@/catalog/local-catalog'
 import { CardThumb } from './CardThumb'
@@ -90,7 +91,7 @@ function SharedDeckView({ deck }: { deck: SharedDeck }) {
   )
   const stats = useMemo(() => deckStats(deck.cards, byCode), [deck, byCode])
 
-  if (!catalog) return <p className="text-muted-foreground">{t('catalog.loading')}</p>
+  if (!catalog) return <LogoLoader label={t('catalog.loading')} />
 
   const leader = byCode.get(deck.leaderCode)
   const count = deck.cards.reduce((sum, c) => sum + c.quantity, 0)

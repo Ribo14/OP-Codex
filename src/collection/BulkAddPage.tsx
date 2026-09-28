@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { RequireAccount } from '@/account/ProfilePage'
+import { LogoLoader } from '@/app/LogoLoader'
 import { useSession } from '@/account/session'
 import { SignedOutInvite } from '@/account/SignedOutInvite'
 import type { Catalog } from '@/catalog/catalog-data'
@@ -87,7 +88,7 @@ function BulkAdd({ userId }: { userId: string }) {
   /** Il Set scelto ha la composizione del mazzo (true), no (false), nessun Set (null). */
   const [recipeUsed, setRecipeUsed] = useState<boolean | null>(null)
 
-  if (!catalog) return <p className="text-muted-foreground">{t('catalog.loading')}</p>
+  if (!catalog) return <LogoLoader label={t('catalog.loading')} />
 
   const total = rows.reduce((sum, r) => sum + Math.min(r.quantity, MAX_PER_ROW), 0)
   const change = (printId: string, quantity: number) => {

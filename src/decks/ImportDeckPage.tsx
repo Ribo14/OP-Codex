@@ -3,6 +3,7 @@ import { useDeferredValue, useId, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router'
 import { RequireAccount } from '@/account/ProfilePage'
+import { LogoLoader } from '@/app/LogoLoader'
 import { useSession } from '@/account/session'
 import { SignedOutInvite } from '@/account/SignedOutInvite'
 import { useCatalog } from '@/catalog/local-catalog'
@@ -60,7 +61,7 @@ function Importer() {
   const leader = parsed.leaderCode ? byCode.get(parsed.leaderCode) : undefined
   const count = parsed.cards.reduce((sum, c) => sum + c.quantity, 0)
 
-  if (!catalog) return <p className="text-muted-foreground">{t('catalog.loading')}</p>
+  if (!catalog) return <LogoLoader label={t('catalog.loading')} />
 
   const create = () => {
     if (!leader) return

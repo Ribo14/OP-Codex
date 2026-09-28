@@ -15,6 +15,8 @@ export interface FriendsState {
   friends: { username: string; since: string }[]
   received: { username: string; at: string }[]
   sent: { username: string; at: string }[]
+  /** Gli utenti bloccati da chi chiama (RIB-72). */
+  blocked: { username: string; since: string }[]
 }
 
 function fail(error: { message: string } | null): asserts error is null {
@@ -61,6 +63,17 @@ export const acceptRequest = (username: string) => answer('accetta_richiesta_ami
 export const rejectRequest = (username: string) => answer('rifiuta_richiesta_amicizia', username)
 export const cancelRequest = (username: string) => answer('annulla_richiesta_amicizia', username)
 
+// Rimuovi amico e User Block (RIB-72). Chi viene rimosso o bloccato non viene avvisato.
+async function manage(fn: 'rimuovi_amico' | 'blocca_utente' | 'sblocca_utente', username: string) {
+  const { error } = await getSupabase().rpc(fn, { p_username: username })
+  fail(error)
+  changed()
+}
+
+export const removeFriend = (username: string) => manage('rimuovi_amico', username)
+export const blockUser = (username: string) => manage('blocca_utente', username)
+export const unblockUser = (username: string) => manage('sblocca_utente', username)
+
 interface StateRow {
   amici: { username: string; dal: string }[]
   ricevute: { username: string; il: string }[]
@@ -68,13 +81,19 @@ interface StateRow {
 }
 
 export async function loadFriends(): Promise<FriendsState> {
-  const { data, error } = await getSupabase().rpc('stato_amici')
-  fail(error)
-  const row = data as unknown as StateRow
+  const supabase = getSupabase()
+  const [state, blocked] = await Promise.all([
+    supabase.rpc('stato_amici'),
+    supabase.rpc('utenti_bloccati'),
+  ])
+  fail(state.error)
+  fail(blocked.error)
+  const row = state.data as unknown as StateRow
   return {
     friends: row.amici.map((f) => ({ username: f.username, since: f.dal })),
     received: row.ricevute.map((r) => ({ username: r.username, at: r.il })),
     sent: row.inviate.map((r) => ({ username: r.username, at: r.il })),
+    blocked: blocked.data.map((b) => ({ username: b.username, since: b.dal })),
   }
 }
 

@@ -98,6 +98,7 @@ const DATA: ExportData = {
     friends: [{ username: 'Nami', since: 'a' }],
     received: [{ username: 'Usopp', at: 'b' }],
     sent: [],
+    blocked: [{ username: 'Buggy', since: 'c' }],
   },
 }
 

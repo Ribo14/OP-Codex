@@ -1,19 +1,35 @@
-import { Check, Copy, RefreshCw, Search, Share2, UserPlus, X } from 'lucide-react'
-import { useCallback, useEffect, useState, type ReactNode, type SubmitEvent } from 'react'
+import {
+  Ban,
+  Check,
+  Copy,
+  Ellipsis,
+  RefreshCw,
+  Search,
+  Share2,
+  Unlock,
+  UserMinus,
+  UserPlus,
+  X,
+} from 'lucide-react'
+import { useCallback, useEffect, useRef, useState, type ReactNode, type SubmitEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { field } from '@/account/form-data'
 import { RequireAccount } from '@/account/ProfilePage'
 import { canShare, copyText } from '@/lib/clipboard'
 import { useOnline } from '@/lib/use-online'
+import { cn } from '@/lib/utils'
 import {
   acceptRequest,
+  blockUser,
   cancelRequest,
   inviteToken,
   loadFriends,
   regenerateInvite,
   rejectRequest,
+  removeFriend,
   searchUser,
   sendRequest,
+  unblockUser,
   type FoundUser,
   type FriendsState,
 } from './friends-api'
@@ -98,6 +114,7 @@ function Friends() {
                   done={reload}
                   describe={t('friends.received.rejectLabel', { username: r.username })}
                 />
+                <MoreMenu username={r.username} done={reload} />
               </UserRow>
             ))}
           </UserList>
@@ -111,7 +128,9 @@ function Friends() {
           ) : (
             <UserList>
               {state.friends.map((f) => (
-                <UserRow key={f.username} username={f.username} />
+                <UserRow key={f.username} username={f.username}>
+                  <MoreMenu username={f.username} remove done={reload} />
+                </UserRow>
               ))}
             </UserList>
           )}
@@ -136,7 +155,170 @@ function Friends() {
           </UserList>
         </Section>
       )}
+
+      {/* User Block (RIB-72): chi è qui non ti trova e non ti chiede l'amicizia. */}
+      {state && state.blocked.length > 0 && (
+        <Section id="bloccati" title={t('friends.blocked.title', { count: state.blocked.length })}>
+          <UserList>
+            {state.blocked.map((b) => (
+              <UserRow key={b.username} username={b.username} hint={t('friends.blocked.hint')}>
+                <Action
+                  className={BUTTON}
+                  label={t('friends.blocked.unblock')}
+                  icon={<Unlock className="size-3.5" aria-hidden="true" />}
+                  run={() => unblockUser(b.username)}
+                  done={reload}
+                  describe={t('friends.blocked.unblockLabel', { username: b.username })}
+                />
+              </UserRow>
+            ))}
+          </UserList>
+        </Section>
+      )}
     </>
+  )
+}
+
+/**
+ * Menu "⋯" di una riga (RIB-72): rimuovi dagli amici e blocca, ognuno con un passaggio di
+ * conferma. L'altro non riceve nessun avviso.
+ */
+function MoreMenu({
+  username,
+  remove = false,
+  done,
+}: {
+  username: string
+  /** true = anche "Rimuovi dagli amici" (solo per gli amici). */
+  remove?: boolean
+  done: () => void
+}) {
+  const { t } = useTranslation()
+  const online = useOnline()
+  const box = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false)
+  const [confirm, setConfirm] = useState<'remove' | 'block' | null>(null)
+  const [busy, setBusy] = useState(false)
+  const [failed, setFailed] = useState(false)
+
+  const close = useCallback(() => {
+    setOpen(false)
+    setConfirm(null)
+    setFailed(false)
+  }, [])
+
+  // Si chiude toccando fuori o con Esc.
+  useEffect(() => {
+    if (!open) return
+    const onPointer = (e: PointerEvent) => {
+      if (!box.current?.contains(e.target as Node)) close()
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close()
+    }
+    document.addEventListener('pointerdown', onPointer)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('pointerdown', onPointer)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open, close])
+
+  const run = (action: () => Promise<void>) => {
+    setBusy(true)
+    setFailed(false)
+    action().then(
+      () => {
+        setBusy(false)
+        close()
+        done()
+      },
+      () => {
+        setBusy(false)
+        setFailed(true)
+      },
+    )
+  }
+
+  const item =
+    'flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm hover:bg-muted disabled:opacity-50'
+
+  return (
+    <div ref={box} className="relative">
+      <button
+        type="button"
+        aria-label={t('friends.more.label', { username })}
+        aria-expanded={open}
+        onClick={() => {
+          if (open) close()
+          else setOpen(true)
+        }}
+        className="inline-flex size-9 items-center justify-center rounded-full border hover:bg-muted"
+      >
+        <Ellipsis className="size-4" aria-hidden="true" />
+      </button>
+      {open && (
+        <div className="absolute top-11 right-0 z-20 w-64 space-y-1 rounded-2xl border bg-background p-2 shadow-lg">
+          {confirm ? (
+            <div
+              role="alertdialog"
+              aria-label={t(`friends.more.${confirm}Title`, { username })}
+              className="space-y-3 p-2"
+            >
+              <p className="text-sm font-medium">
+                {t(`friends.more.${confirm}Title`, { username })}
+              </p>
+              <p className="text-xs text-muted-foreground">{t(`friends.more.${confirm}Hint`)}</p>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  disabled={busy || !online}
+                  onClick={() => {
+                    run(() => (confirm === 'block' ? blockUser(username) : removeFriend(username)))
+                  }}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-full bg-destructive px-3 text-xs font-medium text-white disabled:opacity-50"
+                >
+                  {t(`friends.more.${confirm}Confirm`)}
+                </button>
+                <button type="button" onClick={close} className={BUTTON}>
+                  {t('decks.cancel')}
+                </button>
+              </div>
+              {failed && (
+                <p role="alert" className="text-xs text-destructive">
+                  {t('friends.actionFailed')}
+                </p>
+              )}
+            </div>
+          ) : (
+            <>
+              {remove && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setConfirm('remove')
+                  }}
+                  className={item}
+                >
+                  <UserMinus className="size-4" aria-hidden="true" />
+                  {t('friends.more.remove')}
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  setConfirm('block')
+                }}
+                className={cn(item, 'text-destructive')}
+              >
+                <Ban className="size-4" aria-hidden="true" />
+                {t('friends.more.block')}
+              </button>
+            </>
+          )}
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -155,7 +337,8 @@ function Section({ id, title, children }: { id: string; title: string; children:
 }
 
 function UserList({ children }: { children: ReactNode }) {
-  return <ul className="divide-y overflow-hidden rounded-2xl border">{children}</ul>
+  // Niente overflow-hidden: il menu "⋯" deve poter uscire dal riquadro.
+  return <ul className="divide-y rounded-2xl border">{children}</ul>
 }
 
 function UserRow({
@@ -304,7 +487,7 @@ function SearchUser({ onChanged }: { onChanged: () => void }) {
           </p>
         )}
         {result && result !== 'error' && (
-          <ul className="overflow-hidden rounded-2xl border">
+          <ul className="rounded-2xl border">
             <UserRow username={result.username} hint={t(`friends.relation.${result.relation}`)}>
               {result.relation === 'nessuno' && (
                 <Action
@@ -332,6 +515,14 @@ function SearchUser({ onChanged }: { onChanged: () => void }) {
                   describe={t('friends.received.acceptLabel', { username: result.username })}
                 />
               )}
+              <MoreMenu
+                username={result.username}
+                remove={result.relation === 'amico'}
+                done={() => {
+                  setResult(undefined)
+                  onChanged()
+                }}
+              />
             </UserRow>
           </ul>
         )}

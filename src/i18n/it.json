@@ -676,6 +676,24 @@
       "title_other": "{{count}} amici",
       "empty": "Non hai ancora amici su OP-Codex: cerca il loro Username o mandagli il tuo link di invito."
     },
+    "more": {
+      "label": "Altre azioni per @{{username}}",
+      "remove": "Rimuovi dagli amici",
+      "removeTitle": "Rimuovere @{{username}} dagli amici?",
+      "removeHint": "Non vedrete più i mazzi e la collezione condivisi con gli amici. Non riceverà nessun avviso.",
+      "removeConfirm": "Sì, rimuovi",
+      "block": "Blocca",
+      "blockTitle": "Bloccare @{{username}}?",
+      "blockHint": "Non potrà più trovarti né chiederti l'amicizia; se siete amici, non lo sarete più. Non riceverà nessun avviso.",
+      "blockConfirm": "Sì, blocca"
+    },
+    "blocked": {
+      "title_one": "{{count}} utente bloccato",
+      "title_other": "{{count}} utenti bloccati",
+      "hint": "Non ti trova e non ti chiede l'amicizia",
+      "unblock": "Sblocca",
+      "unblockLabel": "Sblocca @{{username}}"
+    },
     "invitePage": {
       "title": "Invito",
       "from": "@{{username}} ti ha invitato a diventare amici su OP-Codex.",

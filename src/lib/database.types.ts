@@ -779,6 +779,7 @@ export type Database = {
         Args: { p_username: string }
         Returns: undefined
       }
+      blocca_utente: { Args: { p_username: string }; Returns: undefined }
       cambia_carte_mazzo: {
         Args: { p_card_code: string; p_deck_id: string; p_delta: number }
         Returns: number
@@ -812,12 +813,21 @@ export type Database = {
         Returns: undefined
       }
       rigenera_link_invito_amici: { Args: never; Returns: string }
+      rimuovi_amico: { Args: { p_username: string }; Returns: undefined }
+      sblocca_utente: { Args: { p_username: string }; Returns: undefined }
       stato_admin: { Args: never; Returns: string }
       stato_amici: { Args: never; Returns: Json }
       utente_da_invito: {
         Args: { p_token: string }
         Returns: {
           rapporto: string
+          username: string
+        }[]
+      }
+      utenti_bloccati: {
+        Args: never
+        Returns: {
+          dal: string
           username: string
         }[]
       }

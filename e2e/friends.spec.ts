@@ -117,6 +117,30 @@ test('amicizia per Username e con il link di invito', async ({ browser, baseURL 
           join auth.users u on u.id = r.to_user where u.email = ${anna.email}) as requests
     `
     expect(counts).toEqual({ friends: 1, requests: 1 })
+
+    // RIB-72: Anna blocca Carla dalla richiesta ricevuta; Carla non la trova più.
+    await anna.page.reload()
+    await anna.page.getByRole('button', { name: `Altre azioni per @${carla.username}` }).click()
+    await anna.page.getByRole('button', { name: 'Blocca' }).click()
+    await anna.page.getByRole('button', { name: 'Sì, blocca' }).click()
+    await expect(anna.page.getByText('1 utente bloccato')).toBeVisible()
+    await expect(anna.page.getByText('1 richiesta ricevuta')).toBeHidden()
+    await carla.page.goto('/amici')
+    await carla.page.getByLabel('Username del tuo amico').fill(anna.username)
+    await carla.page.getByRole('button', { name: 'Cerca' }).click()
+    await expect(carla.page.getByText('Nessun utente con questo Username.')).toBeVisible()
+    // Carla non sa di essere bloccata: la sua richiesta è sparita come se fosse stata rifiutata.
+    await expect(carla.page.getByText('1 richiesta inviata')).toBeHidden()
+
+    // Anna sblocca Carla e rimuove Bruno dagli amici.
+    await anna.page.getByRole('button', { name: `Sblocca @${carla.username}` }).click()
+    await expect(anna.page.getByText('1 utente bloccato')).toBeHidden()
+    await anna.page.getByRole('button', { name: `Altre azioni per @${bruno.username}` }).click()
+    await anna.page.getByRole('button', { name: 'Rimuovi dagli amici' }).click()
+    await anna.page.getByRole('button', { name: 'Sì, rimuovi' }).click()
+    await expect(anna.page.getByText('0 amici', { exact: true })).toBeVisible()
+    await bruno.page.reload()
+    await expect(bruno.page.getByText('0 amici', { exact: true })).toBeVisible()
   } finally {
     for (const a of accounts) await a.page.context().close()
     await sql`delete from auth.users where email like 'e2e-amici-%'`

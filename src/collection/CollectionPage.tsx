@@ -93,24 +93,38 @@ function Collection({ userId }: { userId: string }) {
   const value = collectionValue(entries, catalog.cards)
   return (
     <div className="space-y-5">
-      <div className="space-y-1">
-        <p className="text-sm text-muted-foreground" aria-live="polite">
+      {/* RIB-70: il valore stimato in evidenza, in un riquadro in cima. */}
+      <section
+        aria-labelledby="valore-collezione"
+        className="space-y-3 rounded-3xl border bg-muted/40 p-5 sm:max-w-md"
+      >
+        <div>
+          <h2 id="valore-collezione" className="text-sm text-muted-foreground">
+            {t('collection.valueTitle')}
+          </h2>
+          <p className="text-3xl font-semibold tracking-tight tabular-nums lg:text-4xl">
+            {value.priced > 0 ? euro(value.total) : '—'}
+          </p>
+          <p className="text-xs text-muted-foreground">{t('collection.valueSource')}</p>
+        </div>
+        <p className="text-sm" aria-live="polite">
           {t('collection.totals', { copies, cards: distinctCards })}
         </p>
-        {value.priced > 0 && (
-          <p className="text-sm">
-            {t('collection.value', { value: euro(value.total) })}
-            <span className="text-muted-foreground">
-              {value.unpriced > 0 && ` · ${t('collection.unpriced', { count: value.unpriced })}`}
-              {value.otherLanguages > 0 &&
-                ` · ${t('collection.otherLanguages', { count: value.otherLanguages })}`}
-            </span>
+        {(value.unpriced > 0 || value.otherLanguages > 0) && (
+          <p className="text-xs text-muted-foreground">
+            {[
+              value.unpriced > 0 && t('collection.unpriced', { count: value.unpriced }),
+              value.otherLanguages > 0 &&
+                t('collection.otherLanguages', { count: value.otherLanguages }),
+            ]
+              .filter(Boolean)
+              .join(' · ')}
           </p>
         )}
-        <p className="pt-1 text-sm">
-          <BulkLink />
-        </p>
-      </div>
+      </section>
+      <p className="text-sm">
+        <BulkLink />
+      </p>
       <SetCompletionSection catalog={catalog} entries={entries} />
       <h2 className="pt-2 text-lg font-semibold tracking-tight">{t('collection.yourCards')}</h2>
       <div className="flex flex-wrap gap-3">

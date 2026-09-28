@@ -10,6 +10,7 @@
     "collection": "Collezione",
     "rules": "Regole",
     "profile": "Profilo",
+    "scanner": "Scanner",
     "login": "Accedi"
   },
   "theme": {
@@ -229,7 +230,8 @@
     "empty": "La tua Collection è vuota. Apri una carta dal Catalogo e usa + per aggiungerla.",
     "toCatalog": "Vai al Catalogo",
     "totals": "{{copies}} carte in tutto · {{cards}} Card diverse",
-    "value": "Valore stimato: {{value}} (tendenza Cardmarket, stampe inglesi)",
+    "valueTitle": "Valore stimato della collezione",
+    "valueSource": "Tendenza Cardmarket delle stampe inglesi",
     "bulkLink": "Aggiungi un set o una lista",
     "bulk": {
       "title": "Aggiungi in blocco",
@@ -318,7 +320,7 @@
     "backToList": "Torna ai mazzi",
     "backToDeck": "Torna al mazzo",
     "count": "{{count}}/{{size}} carte",
-    "value": "Valore stimato {{value}}",
+    "valueLabel": "Valore stimato",
     "unpriced_one": "{{count}} carta senza prezzo",
     "unpriced_other": "{{count}} carte senza prezzo",
     "name": "Nome del mazzo",
@@ -569,11 +571,22 @@
     "denied": "Permesso della fotocamera negato. Consentilo nelle impostazioni del browser (su iPhone: Impostazioni › Safari › Fotocamera) e riprova, oppure scrivi il codice qui sotto.",
     "unavailable": "Fotocamera non disponibile su questo dispositivo. Puoi scrivere il codice qui sotto.",
     "aim": "Carta dentro il riquadro, codice nella zona gialla",
-    "read": "Leggi il codice",
-    "reading": "Lettura…",
+    "glare": "Riflessi sulla bustina? Inclina appena la carta.",
+    "status": {
+      "searching": "Cerco il codice…",
+      "hold": "Letto {{code}}: tieni ferma la carta",
+      "unknown": "Letto {{code}}, non è nel catalogo: sposta appena la carta",
+      "found": "Trovata {{code}}"
+    },
+    "mode": {
+      "label": "Cosa fare con la carta letta",
+      "look": "Consulta",
+      "collect": "Colleziona",
+      "lookHint": "Inquadra una carta per vederne prezzo, dettagli, spiegazione e FAQ.",
+      "collectHint": "Burst Scan: inquadra le carte una dopo l'altra, un tocco e sono nella collezione."
+    },
+    "notThis": "Non è questa",
     "ocrFailed": "Il lettore del codice non è partito. Controlla la connessione (serve la prima volta) e ricarica la pagina.",
-    "nothing": "Nessun codice letto. Avvicina la carta, evita i riflessi e riprova.",
-    "unknown": "Letto {{codes}}, ma non è nel catalogo: riprova o scrivilo qui sotto.",
     "choose": "Scegli la stampa giusta:",
     "open": "Tocca la carta per aprirla:",
     "openPrinting": "Apri {{printId}} · {{rarity}}",
@@ -584,14 +597,22 @@
       "notFound": "Nessuna carta con questo codice."
     },
     "burst": {
-      "toggle": "Aggiungi alla collezione",
       "language": "Lingua",
-      "added_one": "{{count}} carta aggiunta in questa sessione",
-      "added_other": "{{count}} carte aggiunte in questa sessione",
-      "choose": "Tocca +1 sulla stampa giusta, poi inquadra la carta successiva:",
-      "add": "Aggiungi una copia di {{printId}} ({{name}}) alla collezione",
-      "owned_one": "+1 · ne hai {{count}}",
-      "owned_other": "+1 · ne hai {{count}}",
+      "added_one": "{{count}} carta aggiunta",
+      "added_other": "{{count}} carte aggiunte",
+      "choose": "Scegli la stampa giusta:",
+      "pick_one": "{{printId}} · {{rarity}}, ne hai {{count}}",
+      "pick_other": "{{printId}} · {{rarity}}, ne hai {{count}}",
+      "owned_one": "Ne hai {{count}}",
+      "owned_other": "Ne hai {{count}}",
+      "copies": "Copie da aggiungere",
+      "less": "Una copia in meno",
+      "more": "Una copia in più",
+      "add_one": "Aggiungi {{count}} copia ({{language}})",
+      "add_other": "Aggiungi {{count}} copie ({{language}})",
+      "done_one": "Aggiunta {{count}} copia di {{printId}}: inquadra la prossima",
+      "done_other": "Aggiunte {{count}} copie di {{printId}}: inquadra la prossima",
+      "offline": "Senza connessione non si può aggiungere alla collezione.",
       "failed": "Non aggiunta: riprova."
     },
     "test": {

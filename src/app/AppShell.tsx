@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useLocation } from 'react-router'
-import { Download, LogIn, Settings, WifiOff } from 'lucide-react'
+import { Download, LogIn, Settings, User, WifiOff } from 'lucide-react'
 import { ACCOUNT_PATHS, LOGIN_PATH } from '@/account/paths'
 import { loginPath } from '@/account/return-path'
 import { useSession } from '@/account/session'
@@ -10,7 +10,14 @@ import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { useInstall } from './install'
 import { InstallInvite } from './InstallInvite'
-import { navSections, PRIVACY_PATH, SETTINGS_PATH } from './sections'
+import {
+  navSections,
+  phoneSections,
+  PRIVACY_PATH,
+  PROFILE_PATH,
+  SETTINGS_PATH,
+  type Section,
+} from './sections'
 import { ThemeCycleButton, ThemeSegmented } from './ThemeToggle'
 
 // Struttura dell'app (docs/design.md): barra in basso su telefono, barra laterale da `lg`.
@@ -28,6 +35,7 @@ export function AppShell() {
   // (pochi istanti) si mostra la barra completa, per non farla saltare a chi è già dentro.
   const signedOut = useSession().status === 'signedOut'
   const sections = navSections(!signedOut)
+  const phone = phoneSections(!signedOut)
 
   // A ogni cambio di sezione si riparte dall'alto (aprire una carta non perde la posizione).
   useEffect(() => {
@@ -114,8 +122,20 @@ export function AppShell() {
           </Link>
           <div className="-mr-2 ml-auto flex items-center gap-1">
             <OfflineBadge className="mr-1" />
-            {/* "Accedi" sul telefono sta nella barra in basso, al posto del Profilo. */}
             <ThemeCycleButton />
+            {/* Il Profilo sta qui e non nella barra in basso, dove c'è lo Scanner (RIB-69).
+                Senza accesso "Accedi" sta nella barra in basso. */}
+            {!signedOut && (
+              <Link
+                to={PROFILE_PATH}
+                aria-label={t('nav.profile')}
+                title={t('nav.profile')}
+                aria-current={pathname === PROFILE_PATH ? 'page' : undefined}
+                className="inline-flex size-10 items-center justify-center rounded-full text-foreground/80 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-[current=page]:bg-muted"
+              >
+                <User className="size-5" aria-hidden="true" />
+              </Link>
+            )}
             <Link
               to={SETTINGS_PATH}
               aria-label={t('settings.title')}
@@ -161,17 +181,21 @@ export function AppShell() {
         aria-label={t('nav.label')}
         className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border/60 bg-background safe-x pb-[env(safe-area-inset-bottom)] lg:hidden"
       >
-        {sections.map((section) => (
-          <Link
-            key={section.key}
-            to={section.path}
-            aria-current={isActive(section.path) ? 'page' : undefined}
-            className={cn(BOTTOM_ITEM, isActive(section.path) ? BOTTOM_ACTIVE : BOTTOM_IDLE)}
-          >
-            <section.icon className="size-5" aria-hidden="true" />
-            {t(`nav.${section.key}`)}
-          </Link>
-        ))}
+        {phone.map((section) =>
+          section.key === 'scanner' ? (
+            <ScannerButton key={section.key} section={section} active={isActive(section.path)} />
+          ) : (
+            <Link
+              key={section.key}
+              to={section.path}
+              aria-current={isActive(section.path) ? 'page' : undefined}
+              className={cn(BOTTOM_ITEM, isActive(section.path) ? BOTTOM_ACTIVE : BOTTOM_IDLE)}
+            >
+              <section.icon className="size-5" aria-hidden="true" />
+              {t(`nav.${section.key}`)}
+            </Link>
+          ),
+        )}
         {signedOut && <BottomLoginLink />}
       </nav>
     </div>
@@ -213,6 +237,28 @@ const BOTTOM_ITEM =
   'flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[11px] focus-visible:bg-muted focus-visible:outline-none'
 const BOTTOM_ACTIVE = 'font-medium text-foreground'
 const BOTTOM_IDLE = 'text-muted-foreground'
+
+/**
+ * Telefono: lo Scanner è la voce centrale della barra, un pulsante tondo che sporge sopra le
+ * altre (RIB-69): prezzo e dettagli di una carta a un tocco.
+ */
+function ScannerButton({ section, active }: { section: Section; active: boolean }) {
+  const { t } = useTranslation()
+  return (
+    <Link
+      to={section.path}
+      aria-current={active ? 'page' : undefined}
+      className={cn(BOTTOM_ITEM, 'relative', active ? BOTTOM_ACTIVE : BOTTOM_IDLE)}
+    >
+      {/* Al posto dell'icona uno spazio uguale, così l'etichetta resta in riga con le altre. */}
+      <span className="size-5" aria-hidden="true" />
+      <span className="absolute -top-7 left-1/2 grid size-14 -translate-x-1/2 place-items-center rounded-full bg-foreground text-background shadow-lg ring-4 ring-background">
+        <section.icon className="size-6" aria-hidden="true" />
+      </span>
+      {t(`nav.${section.key}`)}
+    </Link>
+  )
+}
 
 /**
  * Telefono, senza accesso: "Accedi" è l'ultima voce della barra, al posto del Profilo. Dopo

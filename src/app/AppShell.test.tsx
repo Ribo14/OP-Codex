@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 import '@/i18n'
 import it_ from '@/i18n/it.json'
 import { routes } from './routes'
-import { navSections, SECTIONS } from './sections'
+import { navSections, phoneSections, SECTIONS } from './sections'
 import { THEME_STORAGE_KEY } from './theme'
 import { ThemeProvider } from './ThemeProvider'
 
@@ -31,12 +31,23 @@ describe('navigazione con e senza account', () => {
   })
 
   it('senza accesso restano solo le sezioni consultabili senza account', () => {
-    expect(navSections(false).map((s) => s.key)).toEqual(['catalog', 'rules'])
+    expect(navSections(false).map((s) => s.key)).toEqual(['catalog', 'scanner', 'rules'])
+  })
+
+  it('sul telefono lo Scanner sta al centro e il Profilo va nell’intestazione (RIB-69)', () => {
+    expect(phoneSections(true).map((s) => s.key)).toEqual([
+      'catalog',
+      'decks',
+      'scanner',
+      'collection',
+      'rules',
+    ])
+    expect(phoneSections(false).map((s) => s.key)).toEqual(['catalog', 'scanner', 'rules'])
   })
 })
 
 describe('App shell', () => {
-  it('senza account la barra del telefono ha Catalogo, Regole e Accedi; il desktop le sezioni', async () => {
+  it('senza account la barra del telefono ha Catalogo, Scanner, Regole e Accedi; il desktop le sezioni', async () => {
     renderAt('/')
     const navs = screen.getAllByRole('navigation', { name: it_.nav.label })
     expect(navs).toHaveLength(2)
@@ -47,9 +58,14 @@ describe('App shell', () => {
         .getAllByRole('link')
         .map((a) => a.textContent)
     await waitFor(() => {
-      expect(labels(phone)).toEqual([it_.nav.catalog, it_.nav.rules, it_.nav.login])
+      expect(labels(phone)).toEqual([
+        it_.nav.catalog,
+        it_.nav.scanner,
+        it_.nav.rules,
+        it_.nav.login,
+      ])
     })
-    expect(labels(desktop)).toEqual([it_.nav.catalog, it_.nav.rules])
+    expect(labels(desktop)).toEqual([it_.nav.catalog, it_.nav.scanner, it_.nav.rules])
   })
 
   it('le Impostazioni si aprono dall’ingranaggio (telefono) e dalla barra laterale', async () => {

@@ -1,8 +1,10 @@
 import type { User } from '@supabase/supabase-js'
-import { KeyRound, LogOut } from 'lucide-react'
+import { ChevronRight, KeyRound, LogOut, Users } from 'lucide-react'
 import { useState, type SubmitEvent, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Navigate, useLocation, useNavigate, useSearchParams } from 'react-router'
+import { FRIENDS_PATH } from '@/friends/paths'
+import { usePendingRequests } from '@/friends/use-pending-requests'
 import { getSupabase } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
 import { field } from './form-data'
@@ -174,6 +176,9 @@ export function ProfilePage() {
             <FormMessage tone="success">{t('account.changePassword.done')}</FormMessage>
           )}
 
+          {/* Amici (RIB-71): sul telefono si arriva da qui; il pallino segnala le richieste. */}
+          <FriendsEntry />
+
           <section aria-labelledby="account-titolo" className="space-y-2">
             <h2
               id="account-titolo"
@@ -224,6 +229,27 @@ export function ProfilePage() {
         </div>
       )}
     </RequireAccount>
+  )
+}
+
+function FriendsEntry() {
+  const { t } = useTranslation()
+  const pending = usePendingRequests()
+  return (
+    <Link
+      to={FRIENDS_PATH}
+      className="flex items-center gap-3 rounded-2xl border px-4 py-3.5 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+    >
+      <Users className="size-5 shrink-0" aria-hidden="true" />
+      <span className="flex-1 text-sm font-medium">{t('friends.title')}</span>
+      {pending > 0 && (
+        <span className="rounded-full bg-destructive px-2 py-0.5 text-xs font-semibold text-white tabular-nums">
+          <span aria-hidden="true">{t('friends.badgeShort', { count: pending })}</span>
+          <span className="sr-only">{t('friends.badge', { count: pending })}</span>
+        </span>
+      )}
+      <ChevronRight className="size-4 text-muted-foreground" aria-hidden="true" />
+    </Link>
   )
 }
 

@@ -4,16 +4,16 @@ import {
   LibraryBig,
   ScanLine,
   User,
+  Users,
   WalletCards,
   type LucideIcon,
 } from 'lucide-react'
+import { PROFILE_PATH } from '@/account/paths'
+import { FRIENDS_PATH } from '@/friends/paths'
 import { SCANNER_PATH } from '@/scanner/paths'
 
-/** Il Profilo, raggiungibile sul telefono dall'intestazione (RIB-69). */
-export const PROFILE_PATH = '/profilo'
-
 export interface Section {
-  key: 'catalog' | 'scanner' | 'decks' | 'collection' | 'rules' | 'profile'
+  key: 'catalog' | 'scanner' | 'decks' | 'collection' | 'friends' | 'rules' | 'profile'
   path: string
   icon: LucideIcon
   /** false = la sezione mostra "in arrivo". */
@@ -28,6 +28,8 @@ export const SECTIONS: readonly Section[] = [
   { key: 'scanner', path: SCANNER_PATH, icon: ScanLine, ready: true, account: false },
   { key: 'decks', path: '/mazzi', icon: Layers, ready: true, account: true },
   { key: 'collection', path: '/collezione', icon: WalletCards, ready: true, account: true },
+  // Amici (RIB-71): sul telefono si raggiungono dal Profilo, non dalla barra in basso.
+  { key: 'friends', path: FRIENDS_PATH, icon: Users, ready: true, account: true },
   { key: 'rules', path: '/regole', icon: BookOpen, ready: true, account: false },
   { key: 'profile', path: PROFILE_PATH, icon: User, ready: true, account: true },
 ]

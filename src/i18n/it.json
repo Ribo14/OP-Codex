@@ -11,6 +11,7 @@
     "rules": "Regole",
     "profile": "Profilo",
     "scanner": "Scanner",
+    "friends": "Amici",
     "login": "Accedi"
   },
   "theme": {
@@ -618,6 +619,72 @@
     "test": {
       "title": "Dettagli della lettura (per la prova)",
       "tally": "Codice trovato in {{found}} letture su {{reads}}; ultima lettura {{ms}} ms."
+    }
+  },
+  "friends": {
+    "title": "Amici",
+    "loadFailed": "Non riesco a leggere i tuoi amici. Controlla la connessione e riprova.",
+    "actionFailed": "Non è andata: controlla la connessione e riprova.",
+    "badge_one": "{{count}} richiesta di amicizia da vedere",
+    "badge_other": "{{count}} richieste di amicizia da vedere",
+    "badgeShort_one": "{{count}} nuova",
+    "badgeShort_other": "{{count}} nuove",
+    "add": {
+      "title": "Aggiungi un amico",
+      "searchLabel": "Username del tuo amico",
+      "searchPlaceholder": "es. Ribo",
+      "search": "Cerca",
+      "searchHint": "Scrivi lo Username completo: per riservatezza non si cercano le prime lettere.",
+      "notFound": "Nessun utente con questo Username.",
+      "send": "Chiedi l'amicizia",
+      "sendLabel": "Chiedi l'amicizia a @{{username}}"
+    },
+    "relation": {
+      "nessuno": "Non siete ancora amici",
+      "inviata": "Richiesta inviata, in attesa di risposta",
+      "ricevuta": "Ti ha chiesto l'amicizia",
+      "amico": "Siete amici"
+    },
+    "invite": {
+      "title": "Oppure mandagli il tuo link di invito",
+      "intro": "Chi apre il link può chiederti l'amicizia con un tocco; poi la accetti tu.",
+      "copy": "Copia link",
+      "copied": "Copiato",
+      "send": "Invia",
+      "shareTitle": "Diventiamo amici su OP-Codex",
+      "regenerate": "Nuovo link",
+      "regenerateConfirm": "Sì, crea un nuovo link",
+      "regenerateHint": "Il link di adesso smetterà di funzionare, anche per chi l'ha già ricevuto."
+    },
+    "received": {
+      "title_one": "{{count}} richiesta ricevuta",
+      "title_other": "{{count}} richieste ricevute",
+      "accept": "Accetta",
+      "acceptLabel": "Accetta la richiesta di @{{username}}",
+      "reject": "Rifiuta",
+      "rejectLabel": "Rifiuta la richiesta di @{{username}}"
+    },
+    "sent": {
+      "title_one": "{{count}} richiesta inviata",
+      "title_other": "{{count}} richieste inviate",
+      "waiting": "In attesa di risposta",
+      "cancel": "Annulla",
+      "cancelLabel": "Annulla la richiesta a @{{username}}"
+    },
+    "list": {
+      "title_one": "{{count}} amico",
+      "title_other": "{{count}} amici",
+      "empty": "Non hai ancora amici su OP-Codex: cerca il loro Username o mandagli il tuo link di invito."
+    },
+    "invitePage": {
+      "title": "Invito",
+      "from": "@{{username}} ti ha invitato a diventare amici su OP-Codex.",
+      "nessuno": "Chiedi l'amicizia: quando @{{username}} la accetta, sarete amici.",
+      "inviata": "Richiesta inviata: quando @{{username}} la accetta, sarete amici.",
+      "ricevuta": "Anche @{{username}} ti ha chiesto l'amicizia: accettala e siete amici.",
+      "amico": "Tu e @{{username}} siete già amici.",
+      "invalid": "Questo link di invito non vale più: chiedi al tuo amico di mandartene uno nuovo, oppure cerca il suo Username.",
+      "toFriends": "Vai ai tuoi amici"
     }
   },
   "settings": {

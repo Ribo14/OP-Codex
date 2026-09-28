@@ -26,6 +26,9 @@ import { DecksPage } from '@/decks/DecksPage'
 import { LeaderPickerPage } from '@/decks/LeaderPickerPage'
 import { ImportDeckPage } from '@/decks/ImportDeckPage'
 import { DECKS_PATH, IMPORT_DECK_PATH, NEW_DECK_PATH, SHARED_DECK_PATH } from '@/decks/paths'
+import { FriendsPage } from '@/friends/FriendsPage'
+import { InvitePage } from '@/friends/InvitePage'
+import { FRIEND_INVITE_PATH, FRIENDS_PATH } from '@/friends/paths'
 import { RULES_PATH } from '@/rules/paths'
 import { RulesPage } from '@/rules/RulesPage'
 import { SharedDeckPage } from '@/decks/SharedDeckPage'
@@ -66,6 +69,9 @@ export const routes: RouteObject[] = [
       { path: SHARED_DECK_PATH, element: <SharedDeckPage /> },
       { path: `${DECKS_PATH}/:deckId`, element: <DeckEditorPage /> },
       { path: `${DECKS_PATH}/:deckId/leader`, element: <LeaderPickerPage /> },
+      // Amici (RIB-71)
+      { path: FRIENDS_PATH, element: <FriendsPage /> },
+      { path: FRIEND_INVITE_PATH, element: <InvitePage /> },
       // Scanner (fase 4): anche senza account, apre il dettaglio della carta letta.
       { path: SCANNER_PATH, element: <ScannerPage /> },
       { path: PRIVACY_PATH, element: <PrivacyPage /> },

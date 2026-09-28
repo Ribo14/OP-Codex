@@ -2,22 +2,16 @@ import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useLocation } from 'react-router'
 import { Download, LogIn, Settings, User, WifiOff } from 'lucide-react'
-import { ACCOUNT_PATHS, LOGIN_PATH } from '@/account/paths'
+import { ACCOUNT_PATHS, LOGIN_PATH, PROFILE_PATH } from '@/account/paths'
 import { loginPath } from '@/account/return-path'
 import { useSession } from '@/account/session'
 import { UsernameGate } from '@/account/UsernameGate'
+import { usePendingRequests } from '@/friends/use-pending-requests'
 import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { useInstall } from './install'
 import { InstallInvite } from './InstallInvite'
-import {
-  navSections,
-  phoneSections,
-  PRIVACY_PATH,
-  PROFILE_PATH,
-  SETTINGS_PATH,
-  type Section,
-} from './sections'
+import { navSections, phoneSections, PRIVACY_PATH, SETTINGS_PATH, type Section } from './sections'
 import { ThemeCycleButton, ThemeSegmented } from './ThemeToggle'
 
 // Struttura dell'app (docs/design.md): barra in basso su telefono, barra laterale da `lg`.
@@ -36,6 +30,9 @@ export function AppShell() {
   const signedOut = useSession().status === 'signedOut'
   const sections = navSections(!signedOut)
   const phone = phoneSections(!signedOut)
+  // Friend Request ricevute (RIB-71): numero accanto ad Amici, pallino sul Profilo.
+  const pending = usePendingRequests()
+  const pendingLabel = pending > 0 ? t('friends.badge', { count: pending }) : null
 
   // A ogni cambio di sezione si riparte dall'alto (aprire una carta non perde la posizione).
   useEffect(() => {
@@ -76,6 +73,12 @@ export function AppShell() {
             >
               <section.icon className="size-[18px]" aria-hidden="true" />
               {t(`nav.${section.key}`)}
+              {section.key === 'friends' && pendingLabel && (
+                <span className="ml-auto rounded-full bg-destructive px-2 py-0.5 text-[11px] leading-none font-semibold text-white tabular-nums">
+                  <span aria-hidden="true">{pending}</span>
+                  <span className="sr-only">{pendingLabel}</span>
+                </span>
+              )}
             </Link>
           ))}
         </nav>
@@ -128,12 +131,20 @@ export function AppShell() {
             {!signedOut && (
               <Link
                 to={PROFILE_PATH}
-                aria-label={t('nav.profile')}
+                aria-label={
+                  pendingLabel ? `${t('nav.profile')} · ${pendingLabel}` : t('nav.profile')
+                }
                 title={t('nav.profile')}
                 aria-current={pathname === PROFILE_PATH ? 'page' : undefined}
-                className="inline-flex size-10 items-center justify-center rounded-full text-foreground/80 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-[current=page]:bg-muted"
+                className="relative inline-flex size-10 items-center justify-center rounded-full text-foreground/80 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none aria-[current=page]:bg-muted"
               >
                 <User className="size-5" aria-hidden="true" />
+                {pendingLabel && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute top-1.5 right-1.5 size-2.5 rounded-full bg-destructive ring-2 ring-background"
+                  />
+                )}
               </Link>
             )}
             <Link

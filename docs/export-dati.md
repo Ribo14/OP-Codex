@@ -15,6 +15,7 @@ Il file si chiama `op-codex-<username>-<AAAA-MM-GG>.zip`.
 | `mazzi.json`        | JSON                               | `{ version, exportedAt, decks: [{ id, name, leaderCode, leaderPrintId, format, visibility, shareLink, createdAt, updatedAt, cards: [{ cardCode, quantity, printId }] }] }`    |
 | `mazzi/*.txt`       | Deck List (`4xOP01-016`, RIB-24)   | Un file per Deck, il Leader per primo. Si reimporta in OP-Codex o in OPTCG Sim.                                                                                               |
 | `segnalazioni.json` | JSON                               | `{ version, exportedAt, reports: [{ cardCode, kind, reason, note, status, createdAt, updatedAt }] }`: segnalazioni (`report`) e richieste (`request`) di spiegazione, RIB-54. |
+| `amici.json`        | JSON                               | `{ version, exportedAt, friends: [{ username, since }], received: [{ username, at }], sent: [{ username, at }] }`: amici e Friend Request, RIB-71.                            |
 
 Nome e Set della Collection vengono dal catalogo sul dispositivo; una Printing non più nel catalogo
 resta comunque nel file, con le colonne che si conoscono.

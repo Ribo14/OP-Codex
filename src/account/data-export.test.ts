@@ -94,6 +94,11 @@ const DATA: ExportData = {
       updatedAt: 'b',
     },
   ],
+  friends: {
+    friends: [{ username: 'Nami', since: 'a' }],
+    received: [{ username: 'Usopp', at: 'b' }],
+    sent: [],
+  },
 }
 
 describe('Esporta i miei dati', () => {
@@ -137,7 +142,13 @@ describe('Esporta i miei dati', () => {
       'mazzi/Zoro_ rosso_verde.txt',
       'mazzi/zoro_ ROSSO_verde (2).txt',
       'segnalazioni.json',
+      'amici.json',
     ])
+    expect(JSON.parse(String(files.get('amici.json')))).toEqual({
+      version: 1,
+      exportedAt: DATA.exportedAt,
+      ...DATA.friends,
+    })
     expect(JSON.parse(String(files.get('segnalazioni.json')))).toEqual({
       version: 1,
       exportedAt: DATA.exportedAt,

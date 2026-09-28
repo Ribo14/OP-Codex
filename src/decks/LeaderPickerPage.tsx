@@ -3,6 +3,7 @@ import { useDeferredValue, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router'
 import { RequireAccount } from '@/account/ProfilePage'
+import { LogoLoader } from '@/app/LogoLoader'
 import { useSession } from '@/account/session'
 import { SignedOutInvite } from '@/account/SignedOutInvite'
 import type { CatalogCard } from '@/catalog/catalog-data'
@@ -87,7 +88,7 @@ function Picker({ deckId }: { deckId: string | null }) {
     )
   }
 
-  if (!catalog) return <p className="text-muted-foreground">{t('catalog.loading')}</p>
+  if (!catalog) return <LogoLoader label={t('catalog.loading')} />
 
   return (
     <div className="space-y-4">

@@ -35,6 +35,9 @@ describe('cardCodesIn', () => {
     // Il trattino a volte sparisce.
     ['OP01001', ['OP01-001']],
     ['ST21017 C', ['ST21-017']],
+    // Senza trattino e con altro attaccato dopo (lettura vera, RIB-68): conta l'inizio.
+    ['OP17039019 S', ['OP17-039']],
+    ['PRB01001SR', ['PRB01-001']],
     // Rumore attorno, a capo, simboli.
     ['| OP07-051 |\nSR ®', ['OP07-051']],
     ['~.,OP13-118 SEC', ['OP13-118']],

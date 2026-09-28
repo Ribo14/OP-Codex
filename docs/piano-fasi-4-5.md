@@ -1,8 +1,10 @@
 # Piano delle fasi 4 (Scanner) e 5 (Prezzi)
 
 Divisione in slice delle issue ombrello RIB-31 (fase 4) e RIB-32 (fase 5), decisa il 2026-09-27.
-Le slice diventeranno issue su Linear appena il servizio torna disponibile; fino ad allora il
-riferimento è questo file. Terminologia in `CONTEXT.md`, decisione sulla fonte dei prezzi in
+Issue su Linear (create il 2026-09-27, figlie di RIB-5): fase 5 RIB-57 (5.1), RIB-58 (5.2),
+RIB-59 (5.3), RIB-60 (5.4), RIB-61 (5.5); fase 4 RIB-62 (4.1 e 4.3), RIB-63 (4.2, prova
+dell'utente), RIB-67 (4.4); richieste dell'utente RIB-65 (aggiunta in blocco alla Collezione) e
+RIB-66 (carte mancanti per Cardmarket e CardTrader). Terminologia in `CONTEXT.md`, decisione sulla fonte dei prezzi in
 ADR-0008.
 
 ## Decisioni prese (2026-09-27)

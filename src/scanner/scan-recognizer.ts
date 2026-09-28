@@ -78,6 +78,14 @@ function withoutHyphen(token: string): string | null {
   return prefix && prefix !== 'P' && number ? `${prefix}-${number}` : null
 }
 
+/**
+ * Un blocco più lungo (OP17039019: rarità o Block attaccati dopo il numero) si legge dall'inizio,
+ * provando la forma lunga PRB e poi quella corta. Il catalogo scarta poi i codici inesistenti.
+ */
+function longToken(token: string): string | null {
+  return withoutHyphen(token.slice(0, 8)) ?? withoutHyphen(token.slice(0, 7))
+}
+
 /** Tutti i Card Code nel testo dell'OCR, corretti, una volta sola e nell'ordine in cui compaiono. */
 export function cardCodesIn(text: string): string[] {
   const clean = text
@@ -93,8 +101,9 @@ export function cardCodesIn(text: string): string[] {
     const code = withHyphen(m[1] ?? '', m[2] ?? '')
     if (code) found.push({ index: m.index, code })
   }
-  for (const m of clean.matchAll(/(?<![A-Z0-9-])([A-Z0-9]{7,8})(?![A-Z0-9-])/g)) {
-    const code = withoutHyphen(m[1] ?? '')
+  for (const m of clean.matchAll(/(?<![A-Z0-9-])([A-Z0-9]{7,})(?![A-Z0-9-])/g)) {
+    const token = m[1] ?? ''
+    const code = token.length <= 8 ? withoutHyphen(token) : longToken(token)
     if (code) found.push({ index: m.index, code })
   }
   return [...new Set(found.sort((a, b) => a.index - b.index).map((f) => f.code))]

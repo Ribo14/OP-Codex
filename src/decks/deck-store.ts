@@ -5,6 +5,7 @@ import {
   withPrint,
   type DeckCard,
   type DeckSummary,
+  type DeckVisibility,
 } from './deck'
 import type { DeckFormat } from './deck-rules'
 import * as api from './decks-api'
@@ -36,8 +37,10 @@ export interface DeckStore {
   rename: (name: string) => Promise<boolean>
   setLeader: (leaderCode: string, leaderPrintId: string | null) => Promise<boolean>
   setFormat: (format: DeckFormat) => Promise<boolean>
-  /** Aggiorna lo Share Link mostrato, dopo averlo creato o revocato sul server (RIB-26). */
-  showShareToken: (token: string | null) => void
+  /**
+   * Aggiorna Visibility e Share Link mostrati, dopo averli cambiati sul server (RIB-26, RIB-73).
+   */
+  showSharing: (visibility: DeckVisibility, token: string | null) => void
 }
 
 const LOADING: DeckState = { status: 'loading' }
@@ -153,8 +156,9 @@ export function createDeckStore(deps: DeckDeps): DeckStore {
         return false
       }
     },
-    showShareToken: (token) => {
-      if (owner) update(owner, (s) => ({ ...s, deck: { ...s.deck, shareToken: token } }))
+    showSharing: (visibility, token) => {
+      if (owner)
+        update(owner, (s) => ({ ...s, deck: { ...s.deck, visibility, shareToken: token } }))
     },
     setFormat: async (format) => {
       if (state.status !== 'ready' || !owner) return false

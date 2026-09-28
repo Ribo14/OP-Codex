@@ -11,6 +11,7 @@ const DECK = {
   cardCount: 0,
   format: 'standard' as const,
   shareToken: null,
+  visibility: 'private' as const,
 }
 
 /** Un server finto che risponde quando lo si decide. */

@@ -47,11 +47,7 @@ test('Scanner: legge il Card Code dalla fotocamera e apre la stampa scelta', asy
     await page.getByRole('link', { name: 'Scansiona' }).click()
     await expect(page.getByRole('heading', { level: 1, name: 'Scanner' })).toBeVisible()
 
-    await page.getByRole('button', { name: 'Avvia la fotocamera' }).click()
-    const read = page.getByRole('button', { name: 'Leggi il codice' })
-    await expect(read).toBeVisible()
-    await read.click()
-
+    // Il permesso c'è già: la fotocamera parte da sola e la lettura è continua, senza pulsanti.
     // L'OCR (la prima volta scarica i suoi file) trova la carta: se ne sceglie la parallela.
     const found = page.getByRole('region', { name: 'Carta di prova Scanner' })
     await expect(found).toBeVisible({ timeout: 60_000 })
@@ -136,28 +132,26 @@ test('Burst Scan: le carte lette finiscono nella Collection senza lasciare lo Sc
     await page.getByRole('button', { name: 'Conferma' }).click()
     await expect(page.getByRole('heading', { level: 1, name: `@${username}` })).toBeVisible()
 
-    // Scanner con "Aggiungi alla collezione", in giapponese.
+    // Scanner in modalità "Colleziona" (Burst Scan), in giapponese.
     await page.goto('/scanner')
-    await page.getByRole('switch', { name: 'Aggiungi alla collezione' }).check()
+    await page.getByRole('button', { name: 'Colleziona' }).click()
     await page.getByLabel('Lingua').selectOption('JP')
-    await page.getByRole('button', { name: 'Avvia la fotocamera' }).click()
 
-    // Due letture della stessa carta: +1 sulla parallela e poi sulla base.
+    // La carta letta: due copie della parallela.
     const found = page.getByRole('region', { name: 'Carta di prova Scanner' })
-    await page.getByRole('button', { name: 'Leggi il codice' }).click()
     await found
-      .getByRole('button', {
-        name: `Aggiungi una copia di ${CODE}_p1 (Carta di prova Scanner) alla collezione`,
-      })
+      .getByRole('button', { name: `${CODE}_p1 · SR, ne hai 0` })
       .click({ timeout: 60_000 })
-    await expect(page.getByText('1 carta aggiunta in questa sessione')).toBeVisible()
-    await page.getByRole('button', { name: 'Leggi il codice' }).click()
-    await found
-      .getByRole('button', {
-        name: `Aggiungi una copia di ${CODE} (Carta di prova Scanner) alla collezione`,
-      })
-      .click()
-    await expect(page.getByText('2 carte aggiunte in questa sessione')).toBeVisible()
+    await found.getByRole('button', { name: 'Una copia in più' }).click()
+    await found.getByRole('button', { name: 'Aggiungi 2 copie (JP)' }).click()
+    await expect(page.getByText('2 carte aggiunte', { exact: true })).toBeVisible()
+    // La carta resta inquadrata ma non si ripropone: si continua con il codice scritto a mano.
+    await expect(found).toBeHidden()
+    await page.getByLabel('Oppure scrivi il codice').fill(CODE)
+    await page.getByRole('button', { name: 'Apri', exact: true }).click()
+    await found.getByRole('button', { name: `${CODE} · SR, ne hai 0` }).click()
+    await found.getByRole('button', { name: 'Aggiungi 1 copia (JP)' }).click()
+    await expect(page.getByText('3 carte aggiunte', { exact: true })).toBeVisible()
     // Sempre sullo Scanner.
     await expect(page).toHaveURL(/\/scanner$/)
 
@@ -168,7 +162,7 @@ test('Burst Scan: le carte lette finiscono nella Collection senza lasciare lo Sc
     `
     expect(entries).toEqual([
       { print_id: CODE, language: 'JP', quantity: 1 },
-      { print_id: `${CODE}_p1`, language: 'JP', quantity: 1 },
+      { print_id: `${CODE}_p1`, language: 'JP', quantity: 2 },
     ])
   } finally {
     await sql`delete from auth.users where email = ${email}`

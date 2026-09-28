@@ -1,4 +1,5 @@
 import type { User } from '@supabase/supabase-js'
+import { loadFriends } from '@/friends/friends-api'
 import { getSupabase } from '@/lib/supabase'
 import type { ExportCollectionEntry, ExportData, ExportDeck, ExportReport } from './data-export'
 
@@ -29,7 +30,7 @@ export async function loadExportData(
   shareUrl: (token: string) => string,
 ): Promise<ExportData> {
   const supabase = getSupabase()
-  const [profile, collection, decks, reports] = await Promise.all([
+  const [profile, collection, decks, reports, friends] = await Promise.all([
     supabase.from('profiles').select('username, created_at, updated_at').eq('id', user.id).single(),
     allPages((from, to) =>
       supabase
@@ -62,6 +63,8 @@ export async function loadExportData(
         .order('id')
         .range(from, to),
     ),
+    // Amici e Friend Request (RIB-71): con gli Username, che solo il database può leggere.
+    loadFriends(),
   ])
   if (profile.error) throw new Error(profile.error.message)
 
@@ -103,6 +106,7 @@ export async function loadExportData(
       createdAt: row.created_at,
       updatedAt: row.updated_at,
     })),
+    friends,
   }
 }
 

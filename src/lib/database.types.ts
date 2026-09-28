@@ -403,6 +403,60 @@ export type Database = {
         }
         Relationships: []
       }
+      friend_invites: {
+        Row: {
+          created_at: string
+          token: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          token: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          token?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      friend_requests: {
+        Row: {
+          created_at: string
+          from_user: string
+          to_user: string
+        }
+        Insert: {
+          created_at?: string
+          from_user: string
+          to_user: string
+        }
+        Update: {
+          created_at?: string
+          from_user?: string
+          to_user?: string
+        }
+        Relationships: []
+      }
+      friendships: {
+        Row: {
+          created_at: string
+          user_a: string
+          user_b: string
+        }
+        Insert: {
+          created_at?: string
+          user_a: string
+          user_b: string
+        }
+        Update: {
+          created_at?: string
+          user_a?: string
+          user_b?: string
+        }
+        Relationships: []
+      }
       job_runs: {
         Row: {
           error: string | null
@@ -623,18 +677,21 @@ export type Database = {
       }
       profiles: {
         Row: {
+          collection_visibility: string
           created_at: string
           id: string
           updated_at: string
           username: string
         }
         Insert: {
+          collection_visibility?: string
           created_at?: string
           id: string
           updated_at?: string
           username: string
         }
         Update: {
+          collection_visibility?: string
           created_at?: string
           id?: string
           updated_at?: string
@@ -693,12 +750,39 @@ export type Database = {
         }
         Relationships: []
       }
+      user_blocks: {
+        Row: {
+          blocked: string
+          blocker: string
+          created_at: string
+        }
+        Insert: {
+          blocked: string
+          blocker: string
+          created_at?: string
+        }
+        Update: {
+          blocked?: string
+          blocker?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      accetta_richiesta_amicizia: {
+        Args: { p_username: string }
+        Returns: undefined
+      }
       aggiungi_copie: { Args: { p_righe: Json }; Returns: number }
+      annulla_richiesta_amicizia: {
+        Args: { p_username: string }
+        Returns: undefined
+      }
+      blocca_utente: { Args: { p_username: string }; Returns: undefined }
       cambia_carte_mazzo: {
         Args: { p_card_code: string; p_deck_id: string; p_delta: number }
         Returns: number
@@ -707,15 +791,63 @@ export type Database = {
         Args: { p_delta: number; p_language: string; p_print_id: string }
         Returns: number
       }
+      cerca_utente: {
+        Args: { p_username: string }
+        Returns: {
+          rapporto: string
+          username: string
+        }[]
+      }
+      collezione_amico: {
+        Args: { p_username: string }
+        Returns: {
+          language: string
+          print_id: string
+          quantity: number
+        }[]
+      }
       crea_link_mazzo: { Args: { p_deck_id: string }; Returns: string }
       duplica_mazzo: { Args: { p_deck_id: string }; Returns: string }
       elimina_account: {
         Args: { conferma_username: string }
         Returns: undefined
       }
+      imposta_visibilita_mazzo: {
+        Args: { p_deck_id: string; p_visibility: string }
+        Returns: string
+      }
+      invia_richiesta_amicizia: {
+        Args: { p_username: string }
+        Returns: string
+      }
+      link_invito_amici: { Args: never; Returns: string }
+      mazzo_amico: { Args: { p_deck_id: string }; Returns: Json }
       mazzo_condiviso: { Args: { p_token: string }; Returns: Json }
+      profilo_amico: { Args: { p_username: string }; Returns: Json }
       revoca_link_mazzo: { Args: { p_deck_id: string }; Returns: undefined }
+      rifiuta_richiesta_amicizia: {
+        Args: { p_username: string }
+        Returns: undefined
+      }
+      rigenera_link_invito_amici: { Args: never; Returns: string }
+      rimuovi_amico: { Args: { p_username: string }; Returns: undefined }
+      sblocca_utente: { Args: { p_username: string }; Returns: undefined }
       stato_admin: { Args: never; Returns: string }
+      stato_amici: { Args: never; Returns: Json }
+      utente_da_invito: {
+        Args: { p_token: string }
+        Returns: {
+          rapporto: string
+          username: string
+        }[]
+      }
+      utenti_bloccati: {
+        Args: never
+        Returns: {
+          dal: string
+          username: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -49,12 +49,21 @@ export interface ExportReport {
   updatedAt: string
 }
 
+/** Amici, Friend Request (RIB-71) e utenti bloccati (RIB-72), con gli Username. */
+export interface ExportFriends {
+  friends: { username: string; since: string }[]
+  received: { username: string; at: string }[]
+  sent: { username: string; at: string }[]
+  blocked: { username: string; since: string }[]
+}
+
 export interface ExportData {
   exportedAt: string
   profile: ExportProfile
   collection: ExportCollectionEntry[]
   decks: ExportDeck[]
   reports: ExportReport[]
+  friends: ExportFriends
 }
 
 // ---- CSV della Collection ----
@@ -135,6 +144,7 @@ collezione.csv   La Collection: una riga per Printing e lingua (separatore ";", 
 mazzi.json       Tutti i mazzi con le carte (Card Code, copie, Printing scelta).
 mazzi/*.txt      Ogni mazzo come lista "4xOP01-016", da importare in OP-Codex o in OPTCG Sim.
 segnalazioni.json Le segnalazioni e le richieste di spiegazione che hai inviato.
+amici.json       I tuoi amici, le richieste di amicizia e gli utenti che hai bloccato.
 
 Versione del formato: ${String(EXPORT_VERSION)}.
 `
@@ -156,6 +166,7 @@ export function exportFiles(data: ExportData, catalog: Catalog): ZipEntry[] {
       content: `${formatDeckList(deck.leaderCode, deck.cards, cardsByCode)}\n`,
     })),
     { name: 'segnalazioni.json', content: json({ ...meta, reports: data.reports }) },
+    { name: 'amici.json', content: json({ ...meta, ...data.friends }) },
   ]
 }
 

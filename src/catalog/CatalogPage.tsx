@@ -3,6 +3,7 @@ import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useMatch } from 'react-router'
 import { useSession } from '@/account/session'
+import { LogoLoader } from '@/app/LogoLoader'
 import { useOwnership } from '@/collection/collection-store'
 import { cn } from '@/lib/utils'
 import { SCANNER_PATH } from '@/scanner/paths'
@@ -75,7 +76,7 @@ export function CatalogPage() {
 
   if (!catalog) {
     // Primo avvio: il catalogo non è ancora sul dispositivo.
-    if (!error) return <p className="text-muted-foreground">{t('catalog.loading')}</p>
+    if (!error) return <LogoLoader label={t('catalog.loading')} />
     return (
       <div role="alert" className="flex flex-col items-start gap-3">
         <p>{t('offline.firstLoadError')}</p>

@@ -26,6 +26,16 @@ export interface DeckSummary {
   format: DeckFormat
   /** Token dello Share Link attivo (RIB-26), null se il Deck è privato. */
   shareToken: string | null
+  /** Chi vede il Deck (RIB-73): tre livelli crescenti, il link è visibile anche agli amici. */
+  visibility: DeckVisibility
+}
+
+export const DECK_VISIBILITIES = ['private', 'friends', 'link'] as const
+export type DeckVisibility = (typeof DECK_VISIBILITIES)[number]
+
+/** La Visibility letta dal server (o da una copia offline di prima di RIB-73). */
+export function toVisibility(value: string | undefined, shareToken: string | null): DeckVisibility {
+  return DECK_VISIBILITIES.find((v) => v === value) ?? (shareToken ? 'link' : 'private')
 }
 
 export interface DeckCard {

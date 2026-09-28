@@ -1,7 +1,19 @@
-import { BookOpen, Layers, LibraryBig, User, WalletCards, type LucideIcon } from 'lucide-react'
+import {
+  BookOpen,
+  Layers,
+  LibraryBig,
+  ScanLine,
+  User,
+  Users,
+  WalletCards,
+  type LucideIcon,
+} from 'lucide-react'
+import { PROFILE_PATH } from '@/account/paths'
+import { FRIENDS_PATH } from '@/friends/paths'
+import { SCANNER_PATH } from '@/scanner/paths'
 
 export interface Section {
-  key: 'catalog' | 'decks' | 'collection' | 'rules' | 'profile'
+  key: 'catalog' | 'scanner' | 'decks' | 'collection' | 'friends' | 'rules' | 'profile'
   path: string
   icon: LucideIcon
   /** false = la sezione mostra "in arrivo". */
@@ -10,13 +22,16 @@ export interface Section {
   account: boolean
 }
 
-/** Le sezioni principali, nell'ordine della navigazione. */
+/** Le sezioni principali, nell'ordine della barra laterale (desktop). */
 export const SECTIONS: readonly Section[] = [
   { key: 'catalog', path: '/', icon: LibraryBig, ready: true, account: false },
+  { key: 'scanner', path: SCANNER_PATH, icon: ScanLine, ready: true, account: false },
   { key: 'decks', path: '/mazzi', icon: Layers, ready: true, account: true },
   { key: 'collection', path: '/collezione', icon: WalletCards, ready: true, account: true },
+  // Amici (RIB-71): sul telefono si raggiungono dal Profilo, non dalla barra in basso.
+  { key: 'friends', path: FRIENDS_PATH, icon: Users, ready: true, account: true },
   { key: 'rules', path: '/regole', icon: BookOpen, ready: true, account: false },
-  { key: 'profile', path: '/profilo', icon: User, ready: true, account: true },
+  { key: 'profile', path: PROFILE_PATH, icon: User, ready: true, account: true },
 ]
 
 /**
@@ -25,6 +40,24 @@ export const SECTIONS: readonly Section[] = [
  */
 export function navSections(signedIn: boolean): readonly Section[] {
   return signedIn ? SECTIONS : SECTIONS.filter((section) => !section.account)
+}
+
+/** Ordine della barra in basso del telefono (RIB-69): lo Scanner al centro. */
+const PHONE_ORDER: readonly Section['key'][] = [
+  'catalog',
+  'decks',
+  'scanner',
+  'collection',
+  'rules',
+]
+
+/**
+ * Le voci della barra in basso del telefono: lo Scanner al centro e il Profilo fuori, perché
+ * sta nell'intestazione (RIB-69). Senza accesso: Catalogo, Scanner, Regole (e poi "Accedi").
+ */
+export function phoneSections(signedIn: boolean): readonly Section[] {
+  const available = navSections(signedIn)
+  return PHONE_ORDER.flatMap((key) => available.filter((section) => section.key === key))
 }
 
 export const PRIVACY_PATH = '/privacy'

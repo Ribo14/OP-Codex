@@ -171,7 +171,7 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
 
     // Share Link (RIB-26): chi non ha l'account vede il mazzo; dopo la revoca non più.
     await page.getByText('Condividi mazzo').click()
-    await page.getByRole('button', { name: 'Crea link' }).click()
+    await page.getByRole('radio', { name: 'Link pubblico' }).click()
     const link = (await page.getByText(/\/m\/[A-Za-z0-9_-]{22}$/).innerText()).trim()
     const visitor = await browser.newContext({ viewport: { width: 390, height: 844 } })
     const guest = await visitor.newPage()
@@ -182,7 +182,7 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     await expect(guest.getByRole('button', { name: 'Salva nei miei mazzi' })).toHaveCount(0)
     await page.getByRole('button', { name: 'Revoca link' }).click()
     await page.getByRole('alertdialog').getByRole('button', { name: 'Revoca link' }).click()
-    await expect(page.getByRole('button', { name: 'Crea link' })).toBeVisible()
+    await expect(page.getByRole('radio', { name: 'Privato' })).toBeChecked()
     await guest.reload()
     await expect(guest.getByText('Questo link non esiste o è stato revocato')).toBeVisible()
     await visitor.close()

@@ -451,9 +451,15 @@ function DeckHeader({
             {t('decks.count', { count: deck.cardCount, size: DECK_SIZE })}
           </p>
           {value.priced > 0 && (
-            <p className="text-sm text-muted-foreground tabular-nums">
-              {t('decks.value', { value: euro(value.total) })}
-              {value.unpriced > 0 && ` (${t('decks.unpriced', { count: value.unpriced })})`}
+            // RIB-70: il valore ben in vista, cifra in grassetto.
+            <p className="inline-flex items-baseline gap-1.5 rounded-full bg-muted px-3 py-1 tabular-nums">
+              <span className="text-xs text-muted-foreground">{t('decks.valueLabel')}</span>
+              <span className="text-base font-semibold">{euro(value.total)}</span>
+              {value.unpriced > 0 && (
+                <span className="text-xs text-muted-foreground">
+                  ({t('decks.unpriced', { count: value.unpriced })})
+                </span>
+              )}
             </p>
           )}
           {/* Formato (RIB-23): decide gli avvisi sul Block. */}

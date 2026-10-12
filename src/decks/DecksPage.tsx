@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 import { field } from '@/account/form-data'
 import { RequireAccount } from '@/account/ProfilePage'
 import { useSession } from '@/account/session'
+import { FriendsShortcut } from '@/friends/FriendsShortcut'
 import { SignedOutInvite } from '@/account/SignedOutInvite'
 import type { CatalogCard } from '@/catalog/catalog-data'
 import { useCatalog } from '@/catalog/local-catalog'
@@ -24,7 +25,13 @@ export function DecksPage() {
   const session = useSession()
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">{t('nav.decks')}</h1>
+      <div className="flex items-center gap-3">
+        <h1 className="min-w-0 flex-1 text-2xl font-semibold tracking-tight lg:text-3xl">
+          {t('nav.decks')}
+        </h1>
+        {/* Collezione e mazzi degli amici, a un tocco (prima solo nella pagina dell'amico). */}
+        {session.status === 'signedIn' && <FriendsShortcut section="decks" />}
+      </div>
       {session.status === 'signedOut' ? (
         <SignedOutInvite text={t('decks.signedOut')} returnTo={DECKS_PATH} />
       ) : (

@@ -86,9 +86,21 @@ export interface CatalogRows {
   faqs: RawFaq[]
   explanations: RawExplanation[]
   prices: RawPrice[]
+  /** Righe lette con le colonne di prima: il database non ha ancora le migrazioni nuove. */
+  legacy?: boolean
 }
 
+/**
+ * Versione delle colonne lette dall'app. Si alza quando l'app comincia a leggere colonne nuove
+ * di righe che il dispositivo ha già: quelle righe sul server non cambiano, quindi con il solo
+ * aggiornamento incrementale la copia locale non le riceverebbe mai.
+ * 2: anteprime (`preview`, ADR-0016) e Block per Printing (RIB-76).
+ */
+export const SNAPSHOT_COLUMNS = 2
+
 export interface CatalogSnapshot extends CatalogRows {
+  /** Versione delle colonne della copia (SNAPSHOT_COLUMNS); assente nelle copie di prima. */
+  columns?: number
   /** Il più recente updated_at visto (orologio del server): da qui riparte il prossimo aggiornamento. */
   watermark: string | null
   /** Quando il dispositivo ha controllato l'ultima volta con successo (ms, orologio del dispositivo). */
@@ -156,6 +168,7 @@ export function mergeSnapshot(
     faqs: upsert(base.faqs, delta.faqs, (f) => f.card_code),
     explanations: upsert(base.explanations, delta.explanations, (e) => e.card_code),
     prices: upsert(base.prices, delta.prices, (p) => `${p.print_id}|${p.marketplace}`),
+    columns: local ? local.columns : delta.legacy ? 0 : SNAPSHOT_COLUMNS,
     watermark: latest(local?.watermark ?? null, delta),
     checkedAt,
   }
@@ -202,14 +215,23 @@ function faqItems(items: unknown): CardFaq[] {
   })
 }
 
-/** Aggiorna la copia locale: tutto al primo avvio, poi solo le righe cambiate. */
+/**
+ * Aggiorna la copia locale: tutto al primo avvio, poi solo le righe cambiate. Si riscarica
+ * tutto anche quando la copia ha colonne di una versione precedente (salvata da una versione
+ * vecchia dell'app, o letta con le colonne di prima da un database senza le migrazioni):
+ * la copia resta visibile intanto, e le righe scaricate la completano.
+ */
 export async function syncSnapshot(
   local: CatalogSnapshot | null,
   fetchRowsSince: FetchRowsSince,
   now: number,
 ): Promise<{ snapshot: CatalogSnapshot; changed: boolean }> {
-  const delta = await fetchRowsSince(local ? sinceFor(local.watermark) : null)
-  return { snapshot: mergeSnapshot(local, delta, now), changed: local === null || !isEmpty(delta) }
+  const current = local?.columns === SNAPSHOT_COLUMNS
+  const full = !current
+  const delta = await fetchRowsSince(current ? sinceFor(local.watermark) : null)
+  const merged = mergeSnapshot(local, delta, now)
+  const columns = delta.legacy ? 0 : full ? SNAPSHOT_COLUMNS : merged.columns
+  return { snapshot: { ...merged, columns }, changed: full || !isEmpty(delta) }
 }
 
 /** Un prezzo in euro dal database (numeric, a volte come testo), o null. */

@@ -100,6 +100,29 @@ describe('Panoramica e utenti per l’Admin attivo', () => {
     })
   })
 
+  it('contenuti da completare: carte senza spiegazione per Set e booster senza FAQ (RIB-93)', async () => {
+    await inRollback(sql, async (tx) => {
+      await setup(tx)
+      await tx`insert into public.sets (series_id, code, name) values (-990, 'OP-99', 'Prova')`
+      await tx`
+        insert into public.cards (card_code, name, category, effect)
+        values ('OP99-001', 'A', 'Character', '[On Play] Draw 1 card.'),
+               ('OP99-002', 'B', 'Character', '[Blocker]'),
+               ('OP99-003', 'C', 'Character', null)
+      `
+      await tx`insert into public.card_explanations (card_code, body) values ('OP99-002', 'Ha [Blocker].')`
+      await as(tx, ADMIN, { aal: 'aal2' })
+      const [row] = await tx<{ c: Record<string, unknown> }[]>`
+        select public.admin_panoramica() -> 'content' as c
+      `
+      const content = row?.c ?? {}
+      expect(content.missing_by_set).toEqual(
+        expect.arrayContaining([{ set: 'OP99', count: 1, preview: false }]),
+      )
+      expect(content.sets_without_faq).toEqual(expect.arrayContaining(['OP-99']))
+    })
+  })
+
   it('elenco senza email; il dettaglio la mostra', async () => {
     await inRollback(sql, async (tx) => {
       await setup(tx)

@@ -4,6 +4,7 @@ import {
   mergeSnapshot,
   OVERLAP_MS,
   sinceFor,
+  SNAPSHOT_COLUMNS,
   syncSnapshot,
   upgradeSnapshot,
   type CatalogRows,
@@ -323,6 +324,39 @@ describe('sincronizzazione incrementale', () => {
     ).rejects.toThrow('offline')
     expect(local.checkedAt).toBe(1000)
     expect(local.cards).toHaveLength(2)
+  })
+
+  it('copia salvata da una versione senza anteprime e Block: riscarica tutto una volta', async () => {
+    // Le righe delle anteprime arrivate con le colonne di prima: senza `preview`, l'immagine
+    // si cercherebbe nella cartella sbagliata e il Set non comparirebbe.
+    const old: CatalogSnapshot = { ...mergeSnapshot(null, FULL, 1000), watermark: T2 }
+    delete old.columns
+    const withPreview: CatalogRows = {
+      ...FULL,
+      printings: FULL.printings.map((p) => ({ ...p, preview: false })),
+    }
+    const fetchRows = vi.fn().mockResolvedValue(withPreview)
+    const first = await syncSnapshot(old, fetchRows, 2000)
+    expect(fetchRows).toHaveBeenLastCalledWith(null)
+    expect(first.changed).toBe(true)
+    expect(first.snapshot.columns).toBe(SNAPSHOT_COLUMNS)
+    expect(first.snapshot.printings.every((p) => p.preview === false)).toBe(true)
+
+    // Dopo, di nuovo solo le righe cambiate.
+    fetchRows.mockResolvedValue(NOTHING)
+    await syncSnapshot(first.snapshot, fetchRows, 3000)
+    expect(fetchRows).toHaveBeenLastCalledWith(sinceFor(T2))
+  })
+
+  it('righe lette con le colonne di prima: al prossimo aggiornamento si riscarica tutto', async () => {
+    const local = mergeSnapshot(null, FULL, 1000)
+    const fetchRows = vi.fn().mockResolvedValue({ ...NOTHING, legacy: true })
+    const { snapshot } = await syncSnapshot(local, fetchRows, 2000)
+    expect(snapshot.columns).toBe(0)
+    expect(snapshot).not.toHaveProperty('legacy')
+    fetchRows.mockResolvedValue(NOTHING)
+    await syncSnapshot(snapshot, fetchRows, 3000)
+    expect(fetchRows).toHaveBeenLastCalledWith(null)
   })
 
   it('sinceFor: null senza watermark', () => {

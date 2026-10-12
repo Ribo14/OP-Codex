@@ -139,7 +139,8 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
   try {
     return await fetchRows(since, true)
   } catch (error) {
-    if (error instanceof MissingColumnError) return fetchRows(since, false)
+    if (error instanceof MissingColumnError)
+      return { ...(await fetchRows(since, false)), legacy: true }
     throw error
   }
 }

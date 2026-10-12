@@ -1,23 +1,131 @@
 [
   {
+    "cardCode": "P-001",
+    "body": "Con almeno 2 DON!! dati ha [Rush]. Se durante l’attacco perde i DON!!, l’attacco continua (FAQ)."
+  },
+  {
+    "cardCode": "P-002",
+    "body": "[Main]: rimetti tutta la mano nel mazzo, lo mescoli e peschi tante carte quante ne hai rimesse (questa non conta: con la mano vuota peschi 0, FAQ).\n\n[Trigger]: attivi lo stesso effetto."
+  },
+  {
+    "cardCode": "P-003",
+    "body": "Con almeno 2 DON!! dati ha [Double Attack]: un danno al Leader avversario ne vale 2."
+  },
+  {
+    "cardCode": "P-004",
+    "body": "Con almeno 1 DON!! dato ha [Blocker]. Se dopo il blocco perde il DON!!, il blocco resta valido (FAQ)."
+  },
+  {
+    "cardCode": "P-005",
+    "body": "Nella tua Main Phase puoi pagare DON!! −2: ha [Banish] per il turno, quindi la carta Vita colpita va nel cestino senza [Trigger]. Usarlo più volte non aggiunge nulla (FAQ)."
+  },
+  {
+    "cardCode": "P-006",
+    "body": "Con almeno 2 DON!! dati, nel tuo turno ha +2000 potenza."
+  },
+  {
+    "cardCode": "P-007",
+    "body": "Con almeno 1 DON!! dato non può essere messo K.O. in battaglia da Leader o Character <Strike>; contro gli altri attributi sì (FAQ)."
+  },
+  {
+    "cardCode": "P-008",
+    "body": "Nella tua Main Phase puoi metterla a riposo per mettere a riposo un Character avversario di costo 2 o meno."
+  },
+  {
+    "cardCode": "P-009",
+    "body": "Quando lo giochi, se l’avversario ha 6 o più carte in mano, prende in mano 1 carta della sua Vita (obbligatorio). Non fa vincere se l’avversario ha 0 Vite (FAQ)."
+  },
+  {
+    "cardCode": "P-010",
+    "body": "Alla fine del tuo turno aggiungi 1 DON!! dal mazzo DON!! **attivo**: un DON!! in più ogni turno, utile anche nel turno avversario."
+  },
+  {
     "cardCode": "P-011",
     "body": "Una volta per turno, nella tua Main Phase, paghi 1 DON!! (a riposo): un tuo Character **senza effetto** ha +2000 potenza per il turno."
   },
   {
-    "cardCode": "P-047",
-    "body": "Con almeno 1 DON!! dato al Leader, quando attacca **peschi 1 carta** se hai 3 carte o meno in mano."
+    "cardCode": "P-013",
+    "body": "Nella tua Main Phase puoi mettere Gordon in fondo al mazzo per dare −3000 potenza per il turno a un Character avversario."
   },
   {
-    "cardCode": "P-076",
-    "body": "Una volta per turno, nella tua Main Phase, puoi scartare una carta {Navy}: dai −1 costo per il turno a un Character avversario.\n\nPrepara gli effetti neri che eliminano i Character di costo basso."
+    "cardCode": "P-014",
+    "body": "Ha [Blocker].\n\n[Trigger]: puoi giocarlo gratis."
   },
   {
-    "cardCode": "P-117",
-    "body": "Con questo Leader **nel mazzo puoi mettere solo carte {East Blue}**, e quando il tuo mazzo arriva a 0 carte vinci invece di perdere.\n\nCon almeno 1 DON!! dato al Leader, quando un suo attacco toglie Vita all’avversario puoi scartare la prima carta del tuo mazzo."
+    "cardCode": "P-017",
+    "body": "Quando lo giochi, dai −2000 potenza per il turno a un Character avversario."
   },
   {
-    "cardCode": "PRB01-001",
-    "body": "Una volta per turno, nella tua Main Phase, un tuo Character **senza [On Play]** e di costo 8 o meno guadagna [Rush] per il turno: può attaccare anche se è appena entrato."
+    "cardCode": "P-018",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "P-019",
+    "body": "Con almeno 1 DON!! dato, quando attacca metti K.O. un Character avversario con 3000 potenza o meno."
+  },
+  {
+    "cardCode": "P-020",
+    "body": "Quando lo giochi, il Leader o un tuo Character ha +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "P-024",
+    "body": "[Main]: il tuo Leader ha +1000 potenza per il turno per ogni tuo Character in campo.\n\n[Trigger]: il Leader o un tuo Character ha +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "P-025",
+    "body": "Con almeno 1 DON!! dato può essere messo K.O. in battaglia solo da Character <Special>."
+  },
+  {
+    "cardCode": "P-026",
+    "body": "Quando attacca, dai −3 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "P-027",
+    "body": "Per le regole conta anche come [Franky].\n\nNel turno avversario i tuoi Character con **potenza base** 3000 o meno hanno +1000 potenza. Con due copie in campo, +2000 (FAQ)."
+  },
+  {
+    "cardCode": "P-028",
+    "body": "Ha [Double Attack]: un danno al Leader avversario ne vale 2."
+  },
+  {
+    "cardCode": "P-029",
+    "body": "Alla fine del tuo turno puoi metterlo a riposo per rimettere attivo un tuo Character {FILM} (non un altro [Bartolomeo]): ha attaccato ma resta pronto a bloccare."
+  },
+  {
+    "cardCode": "P-030",
+    "body": "Quando va K.O., metti in fondo al mazzo del proprietario un Character di costo 3 o meno (anche tuo, FAQ)."
+  },
+  {
+    "cardCode": "P-031",
+    "body": "Quando la giochi, aggiungi 1 DON!! dal mazzo DON!! a riposo."
+  },
+  {
+    "cardCode": "P-032",
+    "body": "Con almeno 1 DON!! dato, nel tuo turno tutti i Character avversari in campo hanno −2 costo (non le carte in mano o nel cestino, FAQ)."
+  },
+  {
+    "cardCode": "P-033",
+    "body": "Nella tua Main Phase puoi mettere Luffy in fondo al mazzo per pescare 1 carta. Anche con 1 sola carta nel mazzo non perdi: prima entra Luffy, poi peschi (FAQ)."
+  },
+  {
+    "cardCode": "P-034",
+    "body": "Con almeno 1 DON!! dato, nel tuo turno, se hai 2 carte Vita o meno, ha +2000 potenza."
+  },
+  {
+    "cardCode": "P-035",
+    "body": "Con almeno 1 DON!! dato, quando attacca puoi scartare 1 carta per mettere K.O. un Character avversario di costo 0."
+  },
+  {
+    "cardCode": "P-036",
+    "body": "Quando attacca, puoi prendere in mano la prima o l’ultima carta della tua Vita: Luffy e il tuo Leader hanno +1000 potenza per il turno. Il bonus a Luffy è obbligatorio, quello al Leader facoltativo (FAQ)."
+  },
+  {
+    "cardCode": "P-037",
+    "body": "Quando attacca, se hai 2 o più Character a riposo, ha +1000 potenza per il turno."
+  },
+  {
+    "cardCode": "P-039",
+    "body": "Ha [Banish]: la carta Vita colpita va nel cestino senza [Trigger].\n\nCon almeno 2 DON!! dati, se hai 0 carte Vita, ha +2000 potenza."
   },
   {
     "cardCode": "P-042",
@@ -38,6 +146,10 @@
   {
     "cardCode": "P-046",
     "body": "Quando la giochi puoi mettere in fondo al mazzo **tutta** la mano (nell’ordine che vuoi) e pescare altrettante carte."
+  },
+  {
+    "cardCode": "P-047",
+    "body": "Con almeno 1 DON!! dato al Leader, quando attacca **peschi 1 carta** se hai 3 carte o meno in mano."
   },
   {
     "cardCode": "P-048",
@@ -134,6 +246,10 @@
   {
     "cardCode": "P-075",
     "body": "Quando lo giochi dai 1 DON!! a riposo al Leader o a un Character.\n\nQuando attacca, se hai un Character di costo 8 o più, peschi 1 carta e ne scarti 1."
+  },
+  {
+    "cardCode": "P-076",
+    "body": "Una volta per turno, nella tua Main Phase, puoi scartare una carta {Navy}: dai −1 costo per il turno a un Character avversario.\n\nPrepara gli effetti neri che eliminano i Character di costo basso."
   },
   {
     "cardCode": "P-077",
@@ -252,12 +368,20 @@
     "body": "Quando la giochi dai 1 DON!! a riposo al Leader o a un Character.\n\nIl [Trigger] gioca gratis dalla mano un Character giallo con [Trigger] e 5000 potenza o meno."
   },
   {
+    "cardCode": "P-117",
+    "body": "Con questo Leader **nel mazzo puoi mettere solo carte {East Blue}**, e quando il tuo mazzo arriva a 0 carte vinci invece di perdere.\n\nCon almeno 1 DON!! dato al Leader, quando un suo attacco toglie Vita all’avversario puoi scartare la prima carta del tuo mazzo."
+  },
+  {
     "cardCode": "P-135",
     "body": "Ha [Blocker].\n\nQuando lo giochi metti a riposo un Character avversario di costo 5 o meno."
   },
   {
     "cardCode": "P-155",
     "body": "Quando attacca puoi scartare una carta con [Trigger]: dai −2000 potenza per il turno a un Character avversario.\n\nIl [Trigger] lo gioca gratis se l’avversario ha 3 Vite o meno."
+  },
+  {
+    "cardCode": "PRB01-001",
+    "body": "Una volta per turno, nella tua Main Phase, un tuo Character **senza [On Play]** e di costo 8 o meno guadagna [Rush] per il turno: può attaccare anche se è appena entrato."
   },
   {
     "cardCode": "PRB02-001",

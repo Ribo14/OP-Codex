@@ -4,6 +4,74 @@
     "body": "Quando il Leader attacca **o viene attaccato**, puoi scartare dalla mano quanti Event o Stage vuoi: per ognuno il Leader guadagna +1000 potenza per quella battaglia.\n\nFunziona sia in attacco sia in difesa, e non ha limite per turno. Gli Event e gli Stage nel mazzo diventano quindi anche “Counter” per il Leader. Attenzione: in difesa aiuta solo il Leader, non i tuoi Character attaccati."
   },
   {
+    "cardCode": "OP03-002",
+    "body": "Con almeno 1 DON!! dato, quando attacca l’avversario non può usare in questa battaglia i Character con [Blocker] che hanno 2000 potenza o meno."
+  },
+  {
+    "cardCode": "OP03-003",
+    "body": "Quando la giochi, guardi le prime 5 carte del mazzo e puoi prendere in mano 1 carta il cui tipo contiene \"Whitebeard Pirates\" (non un altro [Izo]); le altre vanno in fondo nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "OP03-004",
+    "body": "Con almeno 1 DON!! dato ha [Rush], ma nel turno in cui lo giochi **non può attaccare il Leader**: solo i Character avversari a riposo."
+  },
+  {
+    "cardCode": "OP03-005",
+    "body": "Una volta per turno, nella tua Main Phase, ha +2000 potenza per il turno; alla fine del turno va nel cestino.\n\nSe nel frattempo è tornato in mano o nel mazzo, non lo scarti (FAQ)."
+  },
+  {
+    "cardCode": "OP03-008",
+    "body": "Non può essere messo K.O. in battaglia dalle carte <Slash>.\n\nQuando lo giochi, guardi le prime 5 carte del mazzo e puoi prendere in mano 1 Event rosso; le altre vanno in fondo nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "OP03-009",
+    "body": "Una volta per turno, nella tua Main Phase, dai 1 DON!! **a riposo** al Leader o a un tuo Character: riusi un DON!! già speso come bonus di potenza."
+  },
+  {
+    "cardCode": "OP03-010",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP03-011",
+    "body": "Con almeno 1 DON!! dato, quando attacca dai −2000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP03-012",
+    "body": "Quando attacca, puoi mandare nel cestino un tuo Character rosso con 4000 potenza o più (contano anche i bonus, per esempio dei DON!!, FAQ): peschi 1 carta e Teach ha +1000 potenza in questa battaglia.\n\nIl Character va nel cestino, non K.O.: il suo [On K.O.] non si attiva (FAQ)."
+  },
+  {
+    "cardCode": "OP03-013",
+    "body": "Solo nel tuo turno, quando lo giochi, metti K.O. un Character avversario con 3000 potenza o meno.\n\nQuando va K.O., puoi scartare 1 Event per rigiocarlo gratis **dal cestino**, a riposo."
+  },
+  {
+    "cardCode": "OP03-014",
+    "body": "Quando attacca, giochi gratis dalla mano un Character rosso di costo 1."
+  },
+  {
+    "cardCode": "OP03-015",
+    "body": "Ha [Blocker].\n\nNel turno avversario, quando va K.O., dai −2000 potenza per il turno al Leader o a un Character avversario: spesso basta a fermare l’attacco successivo."
+  },
+  {
+    "cardCode": "OP03-016",
+    "body": "[Main]: se il tuo Leader è [Portgas.D.Ace], metti K.O. un Character avversario con 8000 potenza o meno, e il Leader ha [Double Attack] e +3000 potenza per il turno (anche se non metti K.O. nessuno, FAQ).\n\n[Trigger]: metti K.O. un Character avversario con 6000 potenza o meno."
+  },
+  {
+    "cardCode": "OP03-017",
+    "body": "[Main] e [Counter]: se il tipo del tuo Leader contiene \"Whitebeard Pirates\", dai −4000 potenza per il turno a un Character avversario.\n\n[Trigger]: attivi lo stesso effetto."
+  },
+  {
+    "cardCode": "OP03-018",
+    "body": "[Main]: puoi scartare 1 Event per mettere K.O. un Character avversario con 5000 potenza o meno **e** uno con 4000 potenza o meno.\n\n[Trigger]: metti K.O. un Character avversario con 5000 potenza o meno."
+  },
+  {
+    "cardCode": "OP03-019",
+    "body": "[Main]: il tuo Leader ha +4000 potenza per il turno.\n\n[Trigger]: dai −10000 potenza per il turno al Leader o a un Character avversario."
+  },
+  {
+    "cardCode": "OP03-020",
+    "body": "Stage. Nella tua Main Phase paghi ② e lo metti a riposo: se il tuo Leader è [Portgas.D.Ace], guardi le prime 5 carte del mazzo e puoi prendere in mano 1 Event; le altre vanno in fondo nell’ordine che vuoi."
+  },
+  {
     "cardCode": "OP03-021",
     "body": "Nella tua Main Phase paghi 3 DON!! (a riposo) e metti a riposo 2 tuoi Character {East Blue}: il Leader torna **attivo** e metti a riposo un Character avversario di costo 5 o meno.\n\nNon è limitato a una volta per turno: se hai DON!! e Character sufficienti puoi ripeterlo, e ogni volta il Leader può attaccare di nuovo. Si usa di solito dopo che il Leader ha già attaccato."
   },
@@ -12,12 +80,192 @@
     "body": "Con almeno 2 DON!! dati al Leader, quando attacca puoi mettere a riposo 1 DON!! della cost area: giochi gratis dalla mano un Character di costo 4 o meno **con [Trigger]**.\n\nOgni attacco del Leader mette in campo un Character senza pagarne il costo. Il mazzo è pieno di Character con [Trigger], utili anche quando escono dalla Vita."
   },
   {
+    "cardCode": "OP03-024",
+    "body": "Quando lo giochi, se il tuo Leader è {East Blue}, metti a riposo fino a 2 Character avversari di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP03-025",
+    "body": "Quando lo giochi, puoi scartare 1 carta per mettere K.O. fino a 2 Character avversari **a riposo** di costo 4 o meno.\n\nCon almeno 1 DON!! dato ha [Double Attack]."
+  },
+  {
+    "cardCode": "OP03-026",
+    "body": "Quando lo giochi, se il tuo Leader è {East Blue}, metti a riposo un Character avversario di qualsiasi costo.\n\n[Trigger]: puoi giocarlo gratis (e il suo effetto si attiva)."
+  },
+  {
+    "cardCode": "OP03-027",
+    "body": "Quando lo giochi, se il tuo Leader è {East Blue}: metti a riposo un Character avversario di costo 2 o meno e, se non hai un [Buchi] in campo, giochi gratis un [Buchi] dalla mano. Con un altro Leader non fa nulla (FAQ)."
+  },
+  {
+    "cardCode": "OP03-028",
+    "body": "Quando lo giochi, scegli una cosa:\n- rimetti attivo il Leader o un tuo Character {East Blue} di costo 6 o meno (deve essere {East Blue}, FAQ);\n- metti a riposo Jango **e** un Character avversario (Jango va a riposo per forza, FAQ)."
+  },
+  {
+    "cardCode": "OP03-029",
+    "body": "Quando lo giochi, metti K.O. un Character avversario **a riposo** di costo 4 o meno.\n\n[Trigger]: puoi giocarlo gratis (e il suo effetto si attiva)."
+  },
+  {
+    "cardCode": "OP03-030",
+    "body": "Quando la giochi, guardi le prime 5 carte del mazzo e puoi prendere in mano 1 carta verde {East Blue} (non una [Nami]); le altre vanno in fondo nell’ordine che vuoi.\n\n[Trigger]: puoi giocarla gratis."
+  },
+  {
+    "cardCode": "OP03-031",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP03-032",
+    "body": "Non può essere messo K.O. in battaglia dalle carte <Slash>. Con 5000 potenza a costo 3 è un buon attaccante."
+  },
+  {
+    "cardCode": "OP03-034",
+    "body": "Quando lo giochi, metti K.O. un Character avversario **a riposo** di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP03-036",
+    "body": "[Main]: puoi mettere a riposo un tuo Character {East Blue} per rimettere **attivo** un tuo [Kuro], Leader o Character (FAQ).\n\n[Trigger]: metti K.O. un Character avversario a riposo di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP03-037",
+    "body": "[Main]: puoi mettere a riposo un tuo Character {East Blue} per mettere K.O. un Character avversario **a riposo** di costo 3 o meno.\n\n[Trigger]: giochi gratis dalla mano un Character di costo 4 o meno con [Trigger]."
+  },
+  {
+    "cardCode": "OP03-038",
+    "body": "[Main]: metti a riposo fino a 2 Character avversari di costo 2 o meno.\n\n[Trigger]: metti a riposo un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP03-039",
+    "body": "[Main]: metti a riposo un Character avversario di costo 1 o meno, poi un tuo Character ha +1000 potenza per il turno.\n\n[Trigger]: metti a riposo un Character avversario di costo 4 o meno."
+  },
+  {
     "cardCode": "OP03-040",
     "body": "Con questo Leader, quando il tuo mazzo arriva a 0 carte **vinci** invece di perdere.\n\nCon almeno 1 DON!! dato al Leader, quando un suo attacco toglie Vita all’avversario puoi scartare la prima carta del tuo mazzo. Il piano è svuotare il proprio mazzo il più in fretta possibile, con questo effetto e con le carte blu che fanno pescare o scartare dal mazzo."
   },
   {
+    "cardCode": "OP03-041",
+    "body": "Ha [Rush].\n\nCon almeno 1 DON!! dato, quando il suo attacco infligge danno alla Vita avversaria, puoi mandare nel cestino le prime 7 carte del tuo mazzo. Serve ai mazzi che vogliono un mazzo piccolo (20 carte o meno). L’effetto arriva dopo che l’avversario ha guardato la Vita e prima del suo [Trigger] (FAQ)."
+  },
+  {
+    "cardCode": "OP03-042",
+    "body": "Quando la giochi, prendi in mano dal cestino un [Usopp] blu."
+  },
+  {
+    "cardCode": "OP03-043",
+    "body": "Quando infliggi danno alla Vita avversaria (con qualsiasi tuo attacco, FAQ), puoi mandare nel cestino le prime 3 carte del tuo mazzo; se lo fai, Gaimon va nel cestino.\n\nVale una volta anche con [Double Attack], e non con le Vite tolte dagli effetti (FAQ)."
+  },
+  {
+    "cardCode": "OP03-044",
+    "body": "Quando la giochi, peschi 2 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "OP03-045",
+    "body": "Ha [Blocker].\n\nNel turno avversario, se hai 20 carte o meno nel mazzo, ha +3000 potenza (6000)."
+  },
+  {
+    "cardCode": "OP03-047",
+    "body": "Quando lo giochi, rimandi in mano un Character di costo 3 o meno e puoi mandare nel cestino le prime 2 carte del tuo mazzo (facoltativo, FAQ).\n\nCon almeno 1 DON!! dato, quando il suo attacco infligge danno alla Vita avversaria, puoi mandare nel cestino le prime 7 carte del tuo mazzo."
+  },
+  {
+    "cardCode": "OP03-048",
+    "body": "Quando la giochi, se il tuo Leader è [Nami], rimandi nella mano del proprietario un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP03-049",
+    "body": "Quando lo giochi, se hai 20 carte o meno nel mazzo, rimandi nella mano del proprietario un Character di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP03-050",
+    "body": "Ha [Blocker].\n\nQuando va K.O., puoi mandare nel cestino la prima carta del tuo mazzo."
+  },
+  {
+    "cardCode": "OP03-051",
+    "body": "Con almeno 1 DON!! dato, quando il suo attacco infligge danno alla Vita avversaria, puoi mandare nel cestino le prime 7 carte del tuo mazzo.\n\nQuando va K.O., puoi mandare nel cestino le prime 3 carte del tuo mazzo."
+  },
+  {
+    "cardCode": "OP03-053",
+    "body": "Con almeno 1 DON!! dato, se hai 20 carte o meno nel mazzo, ha +2000 potenza (5000 a costo 1)."
+  },
+  {
+    "cardCode": "OP03-054",
+    "body": "[Counter]: il Leader o un tuo Character ha +2000 potenza in questa battaglia; poi puoi mandare nel cestino la prima carta del tuo mazzo (facoltativo).\n\n[Trigger]: peschi 1 carta (obbligatorio) e puoi mandare nel cestino la prima carta del mazzo (FAQ)."
+  },
+  {
+    "cardCode": "OP03-055",
+    "body": "[Counter]: puoi scartare 1 carta: il tuo Leader ha +4000 potenza in questa battaglia; poi puoi mandare nel cestino le prime 2 carte del tuo mazzo (facoltativo, FAQ).\n\n[Trigger]: rimandi in mano un Character di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP03-056",
+    "body": "[Main]: peschi 2 carte.\n\n[Trigger]: attivi lo stesso effetto."
+  },
+  {
+    "cardCode": "OP03-057",
+    "body": "[Main]: metti in fondo al mazzo del proprietario un Character di costo 5 o meno.\n\n[Trigger]: metti in fondo al mazzo un Character di costo 3 o meno."
+  },
+  {
     "cardCode": "OP03-058",
     "body": "Questo Leader **non può attaccare**.\n\nNella tua Main Phase paghi DON!! −1 e metti a riposo il Leader: giochi gratis dalla mano un Character {Galley-La Company} di costo 5 o meno. Visto che serve mettere a riposo il Leader, di solito lo usi una volta per turno. Il mazzo vince con i Character, non con il Leader."
+  },
+  {
+    "cardCode": "OP03-059",
+    "body": "Quando attacca, puoi pagare DON!! −1: ha [Banish] in questa battaglia, quindi la carta Vita colpita va nel cestino senza [Trigger]."
+  },
+  {
+    "cardCode": "OP03-060",
+    "body": "Quando attacca, puoi pagare DON!! −1 per pescare 2 carte e scartarne 1."
+  },
+  {
+    "cardCode": "OP03-062",
+    "body": "Quando la giochi, guardi le prime 5 carte del mazzo e puoi prendere in mano 1 carta {Water Seven} (non un’altra [Kokoro]); le altre vanno in fondo nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "OP03-063",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, puoi pagare DON!! −1: se il tuo Leader è {Water Seven}, peschi 1 carta."
+  },
+  {
+    "cardCode": "OP03-064",
+    "body": "Quando va K.O., se il tuo Leader è {Galley-La Company}, aggiungi 1 DON!! dal mazzo DON!! a riposo."
+  },
+  {
+    "cardCode": "OP03-065",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP03-066",
+    "body": "Quando lo giochi, puoi pagare ②: aggiungi 1 DON!! dal mazzo DON!! **attivo**; poi, se hai 8 o più DON!! in campo (contando quello appena aggiunto, FAQ), metti K.O. un Character avversario di costo 4 o meno."
+  },
+  {
+    "cardCode": "OP03-067",
+    "body": "Con almeno 1 DON!! dato, quando attacca, se il tuo Leader è {Galley-La Company}, aggiungi 1 DON!! dal mazzo DON!! a riposo."
+  },
+  {
+    "cardCode": "OP03-068",
+    "body": "Ha [Banish]: la carta Vita colpita va nel cestino senza [Trigger].\n\nQuando va K.O., se il tuo Leader è {Impel Down}, aggiungi 1 DON!! dal mazzo DON!! a riposo."
+  },
+  {
+    "cardCode": "OP03-069",
+    "body": "Quando va K.O., se il tuo Leader è {Impel Down}, peschi 2 carte e ne scarti 1."
+  },
+  {
+    "cardCode": "OP03-070",
+    "body": "Quando lo giochi, puoi pagare DON!! −1 e scartare un Character di costo **esattamente** 5 (FAQ): Luffy ha [Rush] per il turno."
+  },
+  {
+    "cardCode": "OP03-071",
+    "body": "Quando attacca, puoi pagare DON!! −1 per mettere a riposo un Character avversario di costo 5 o meno."
+  },
+  {
+    "cardCode": "OP03-072",
+    "body": "Costa 0. [Counter]: puoi scartare 1 carta per dare +3000 potenza al Leader o a un tuo Character in questa battaglia (senza scartare non dà nulla, FAQ).\n\n[Trigger]: aggiungi 1 DON!! dal mazzo DON!! **attivo**."
+  },
+  {
+    "cardCode": "OP03-073",
+    "body": "[Main]: paghi DON!! −1; se il tuo Leader è {Water Seven}, metti K.O. un Character avversario di costo 2 o meno.\n\n[Trigger]: attivi lo stesso effetto."
+  },
+  {
+    "cardCode": "OP03-074",
+    "body": "[Main]: paghi DON!! −2 per mettere in fondo al mazzo del proprietario un Character avversario di costo 4 o meno.\n\n[Trigger]: attivi lo stesso effetto."
+  },
+  {
+    "cardCode": "OP03-075",
+    "body": "Stage. Nella tua Main Phase puoi metterlo a riposo: se il tuo Leader è [Iceburg], aggiungi 1 DON!! dal mazzo DON!! a riposo."
   },
   {
     "cardCode": "OP03-076",
@@ -28,7 +276,151 @@
     "body": "Con almeno 2 DON!! dati al Leader, quando attacca puoi pagare 2 DON!! (a riposo) e scartare 1 carta: se hai **1 Vita o nessuna**, aggiungi la prima carta del mazzo in cima alla tua Vita.\n\nÈ un modo per “ricaricare” la Vita quando stai per perdere. Funziona solo quando sei già molto in basso con le Vite."
   },
   {
+    "cardCode": "OP03-078",
+    "body": "Con almeno 1 DON!! dato, nel tuo turno tutti i Character avversari hanno −3 costo.\n\nQuando lo giochi, se l’avversario ha 6 o più carte in mano, scegli tu 2 carte a caso dalla sua mano (coperte, e lui può mescolarle prima) e le scarta (FAQ)."
+  },
+  {
+    "cardCode": "OP03-079",
+    "body": "Con almeno 1 DON!! dato non può essere messo K.O. in battaglia (gli effetti invece sì)."
+  },
+  {
+    "cardCode": "OP03-080",
+    "body": "Quando lo giochi, puoi mettere in fondo al mazzo 2 carte del cestino il cui tipo contiene \"CP\": metti K.O. un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP03-081",
+    "body": "Quando la giochi, peschi 2 carte e ne scarti 2; poi dai −2 costo per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP03-083",
+    "body": "Quando lo giochi, guardi le prime 5 carte del mazzo, ne mandi fino a 2 nel cestino e metti le altre in fondo nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "OP03-086",
+    "body": "Quando lo giochi, se il tipo del tuo Leader contiene \"CP\", guardi le prime 3 carte del mazzo e puoi prendere in mano 1 carta il cui tipo contiene \"CP\" (non un altro [Spandam]); **le altre vanno nel cestino**."
+  },
+  {
+    "cardCode": "OP03-088",
+    "body": "Ha [Blocker] e non può essere messo K.O. dagli effetti (in battaglia sì)."
+  },
+  {
+    "cardCode": "OP03-089",
+    "body": "Quando lo giochi, guardi le prime 3 carte del mazzo e puoi prendere in mano 1 carta {Navy} (non un altro [Brannew]; non valgono {Former Navy} o {Neo Navy}, FAQ); **le altre vanno nel cestino**."
+  },
+  {
+    "cardCode": "OP03-090",
+    "body": "Con almeno 1 DON!! dato ha [Blocker].\n\nQuando va K.O., giochi **dal cestino**, a riposo, un Character il cui tipo contiene \"CP\" di costo 4 o meno; può essere anche uno andato K.O. insieme a lui (FAQ)."
+  },
+  {
+    "cardCode": "OP03-091",
+    "body": "Quando lo giochi, un Character avversario **senza effetti** ha costo 0 per il turno: diventa bersaglio degli effetti che colpiscono il costo 0."
+  },
+  {
+    "cardCode": "OP03-092",
+    "body": "Quando lo giochi, puoi mettere in fondo al mazzo 2 carte del cestino il cui tipo contiene \"CP\": ha [Rush] per il turno."
+  },
+  {
+    "cardCode": "OP03-093",
+    "body": "Quando lo giochi, puoi scartare 1 carta: se il tipo del tuo Leader contiene \"CP\", metti K.O. un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP03-094",
+    "body": "[Main]: se il tipo del tuo Leader contiene \"CP\", guardi le prime 5 carte del mazzo e puoi giocare gratis un Character il cui tipo contiene \"CP\" di costo 5 o meno; **le altre vanno nel cestino**. L’effetto “quando lo giochi” si attiva dopo lo scarto (FAQ).\n\n[Trigger]: giochi dal cestino un Character nero di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP03-095",
+    "body": "[Main]: dai −2 costo per il turno a fino a 2 Character avversari **diversi** (FAQ).\n\n[Trigger]: l’avversario scarta 1 carta dalla mano."
+  },
+  {
+    "cardCode": "OP03-096",
+    "body": "[Main]: metti K.O. un Character avversario di costo 0 **oppure** uno Stage avversario di costo 3 o meno.\n\n[Trigger]: peschi 2 carte."
+  },
+  {
+    "cardCode": "OP03-097",
+    "body": "Costa 0. [Counter]: puoi scartare 1 carta per dare +3000 potenza al Leader o a un tuo Character in questa battaglia.\n\n[Trigger]: peschi 1 carta, poi metti K.O. un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP03-098",
+    "body": "Stage. Nella tua Main Phase puoi metterlo a riposo: se il tipo del tuo Leader contiene \"CP\", dai −2 costo per il turno a un Character avversario.\n\n[Trigger]: puoi giocarlo gratis."
+  },
+  {
     "cardCode": "OP03-099",
     "body": "Con almeno 1 DON!! dato al Leader, quando attacca guardi la prima carta della Vita **tua o dell’avversario** e la lasci in cima o la metti in fondo. Poi il Leader ha +1000 potenza per quella battaglia.\n\nSulla Vita avversaria serve a spostare in fondo una carta con [Trigger] pericoloso; sulla tua a tenere in cima un [Trigger] utile. Si attiva a ogni attacco del Leader."
+  },
+  {
+    "cardCode": "OP03-102",
+    "body": "Con almeno 2 DON!! dati, quando attacca puoi prendere in mano la prima o l’ultima carta della tua Vita: poi aggiungi la prima carta del mazzo in cima alla Vita. Il numero delle Vite resta uguale, ma guadagni una carta."
+  },
+  {
+    "cardCode": "OP03-104",
+    "body": "Ha [Blocker].\n\nQuando la giochi, guardi la prima carta della Vita tua o dell’avversario e la rimetti in cima o in fondo."
+  },
+  {
+    "cardCode": "OP03-105",
+    "body": "Con almeno 1 DON!! dato, quando attacca puoi scartare 1 carta con [Trigger] per avere +3000 potenza in questa battaglia."
+  },
+  {
+    "cardCode": "OP03-107",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP03-108",
+    "body": "Con almeno 1 DON!! dato, se hai **meno carte Vita** dell’avversario, ha [Double Attack] e +1000 potenza.\n\nSe dopo il primo danno le Vite diventano pari, perde il bonus ma il secondo danno avviene lo stesso (FAQ).\n\n[Trigger]: puoi scartare 1 carta per giocarlo gratis."
+  },
+  {
+    "cardCode": "OP03-109",
+    "body": "Quando la giochi, puoi mandare nel cestino la prima o l’ultima carta della tua Vita: aggiungi la prima carta del mazzo in cima alla Vita. Il numero resta uguale, ma la carta cambia."
+  },
+  {
+    "cardCode": "OP03-110",
+    "body": "Quando attacca, puoi prendere in mano la prima o l’ultima carta della tua Vita: ha +2000 potenza in questa battaglia.\n\n[Trigger]: puoi scartare 1 carta per giocarla gratis."
+  },
+  {
+    "cardCode": "OP03-112",
+    "body": "Quando la giochi, guardi le prime 4 carte del mazzo e puoi prendere in mano 1 [Sanji] (di qualsiasi tipo, FAQ) o 1 carta {Big Mom Pirates} (non un’altra [Charlotte Pudding]); le altre vanno in fondo nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "OP03-113",
+    "body": "Quando va K.O., guardi le prime 3 carte del mazzo e puoi prendere in mano 1 carta {Big Mom Pirates}; le altre vanno in fondo nell’ordine che vuoi.\n\n[Trigger]: puoi scartare 1 carta per giocarlo gratis."
+  },
+  {
+    "cardCode": "OP03-114",
+    "body": "Quando la giochi, se il tuo Leader è {Big Mom Pirates}, aggiungi la prima carta del mazzo in cima alla tua Vita; poi mandi nel cestino la prima carta della Vita avversaria (senza [Trigger], perché non è danno)."
+  },
+  {
+    "cardCode": "OP03-115",
+    "body": "Quando lo giochi, puoi scartare 1 carta con [Trigger] per mettere K.O. un Character avversario di costo 1 o meno."
+  },
+  {
+    "cardCode": "OP03-116",
+    "body": "Quando la giochi, peschi 3 carte e ne scarti 2.\n\n[Trigger]: puoi giocarla gratis (e il suo effetto si attiva)."
+  },
+  {
+    "cardCode": "OP03-117",
+    "body": "Nella tua Main Phase puoi metterlo a riposo per dare +1000 potenza a un tuo [Charlotte Linlin] (Leader o Character, FAQ) fino all’inizio del tuo prossimo turno: vale anche in difesa.\n\n[Trigger]: puoi giocarlo gratis."
+  },
+  {
+    "cardCode": "OP03-118",
+    "body": "[Counter]: il Leader o un tuo Character ha +5000 potenza in questa battaglia.\n\n[Trigger]: puoi scartare 2 carte per aggiungere la prima carta del mazzo in cima alla tua Vita. Contro un [Double Attack] la nuova Vita arriva prima del secondo danno (FAQ)."
+  },
+  {
+    "cardCode": "OP03-119",
+    "body": "[Main]: se hai **meno carte Vita** dell’avversario (al momento in cui la usi, FAQ), metti K.O. un Character avversario di costo 4 o meno.\n\n[Trigger]: giochi gratis dalla mano un Character di costo 4 o meno con [Trigger]."
+  },
+  {
+    "cardCode": "OP03-120",
+    "body": "[Main]: se l’avversario ha 4 o più carte Vita, mandi nel cestino la prima della sua Vita (senza [Trigger]).\n\n[Trigger]: attivi lo stesso effetto."
+  },
+  {
+    "cardCode": "OP03-121",
+    "body": "[Main]: puoi mandare nel cestino la prima carta della tua Vita per mettere K.O. un Character avversario di costo 5 o meno.\n\n[Trigger]: metti K.O. un Character avversario di costo 5 o meno, senza costo."
+  },
+  {
+    "cardCode": "OP03-122",
+    "body": "Per le regole conta anche come [Usopp].\n\nQuando lo giochi, rimandi in mano un Character di costo 6 o meno (facoltativo); poi peschi 2 carte e ne scarti 2 (obbligatorio, FAQ)."
+  },
+  {
+    "cardCode": "OP03-123",
+    "body": "Quando lo giochi, metti un Character di costo 8 o meno, a faccia in su, in cima o in fondo alla Vita del proprietario.\n\nSu un Character avversario lo toglie dal campo (ma gli dà una Vita in più); puoi anche metterci un tuo Character per avere una Vita in più (FAQ)."
   }
 ]

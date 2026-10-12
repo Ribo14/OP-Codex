@@ -8,20 +8,60 @@
     "body": "Una volta per turno, nella tua Main Phase, scarti dalla mano una carta {Revolutionary Army}: fino a 3 tuoi Character {Revolutionary Army} **o con [Trigger]** guadagnano +3000 potenza per il turno.\n\nÈ un grande bonus d’attacco per tutto il campo; conviene usarlo quando hai più Character pronti ad attaccare."
   },
   {
-    "cardCode": "OP05-022",
-    "body": "Il Leader ha [Blocker]: può mettersi a riposo per subire lui un attacco diretto a un tuo Character.\n\nAlla fine del tuo turno, se hai 6 carte o meno in mano, il Leader torna **attivo**. Così puoi attaccare con il Leader e averlo comunque pronto a bloccare nel turno avversario."
+    "cardCode": "OP05-003",
+    "body": "Se hai un altro Character con 7000 potenza o più, ha [Rush].\n\nLa condizione conta quando dichiari l’attacco: se la perdi prima, non può attaccare; se la ottieni più tardi nel turno, sì; se la perdi durante la battaglia, l’attacco continua (FAQ)."
   },
   {
-    "cardCode": "OP05-041",
-    "body": "Una volta per turno, nella tua Main Phase, puoi scartare 1 carta per pescarne 1 (per migliorare la mano).\n\nQuando il Leader attacca, dai −1 costo per il turno a un Character avversario: utile con le carte nere che eliminano i Character di costo basso."
+    "cardCode": "OP05-004",
+    "body": "Una volta per turno, nella tua Main Phase, se Ivankov ha **7000 potenza o più** giochi gratis dalla mano un Character {Revolutionary Army} con 5000 potenza o meno (non un altro [Emporio.Ivankov]).\n\nDa solo ha 5000: gli servono +2000, per esempio 2 DON!! dati o un bonus del Leader. Ricorda che la condizione si controlla quando usi l’effetto."
   },
   {
-    "cardCode": "OP05-060",
-    "body": "Una volta per turno, nella tua Main Phase, puoi prendere in mano la prima carta della tua Vita: se in campo hai **0 DON!! oppure 3 o più**, prendi 1 DON!! dal mazzo DON!! e lo metti attivo.\n\nScambi una Vita con un DON!! in più (e una carta in mano). La condizione “0 DON!!” si usa dopo aver speso tutto con i costi DON!! −X."
+    "cardCode": "OP05-005",
+    "body": "Quando lo giochi, se il tuo Leader è {Revolutionary Army}, dai −1000 potenza per il turno al Leader o a un Character avversario.\n\nQuando attacca, se ha 7000 potenza o più, altri −1000 a un bersaglio avversario (questa parte vale con qualsiasi Leader, FAQ)."
   },
   {
-    "cardCode": "OP05-098",
-    "body": "Una volta per turno, **nel turno avversario**, quando le tue Vite scendono a 0 aggiungi la prima carta del mazzo in cima alla tua Vita, poi scarti 1 carta dalla mano.\n\nÈ come avere una Vita in più ogni turno avversario: all’avversario serve un colpo in più per vincere. Lo scarto è obbligatorio, se hai carte in mano."
+    "cardCode": "OP05-006",
+    "body": "Quando la giochi, se il tuo Leader è {Revolutionary Army}, dai −3000 potenza per il turno a un Character avversario.\n\nServe a rendere più facile un attacco, oppure a preparare un K.O. per potenza (per esempio con [Sabo] OP05-007 o [Nico Robin] OP05-010)."
+  },
+  {
+    "cardCode": "OP05-007",
+    "body": "Quando lo giochi, metti K.O. fino a 2 Character avversari la cui potenza **sommata** è 4000 o meno.\n\nPuoi anche prenderne uno solo da 4000. Le potenze ridotte contano: un Character a −2000 e uno a 6000 fanno 4000 in totale, quindi vanno K.O. entrambi (FAQ). Usa prima gli effetti che tolgono potenza."
+  },
+  {
+    "cardCode": "OP05-008",
+    "body": "Con almeno 1 DON!! dato, una volta per turno, nella tua Main Phase dai fino a 2 DON!! **a riposo** al Leader **o** a un solo tuo Character: non puoi dividerli (FAQ)."
+  },
+  {
+    "cardCode": "OP05-009",
+    "body": "Quando la giochi, se il tuo Leader ha 0 potenza o meno, peschi 1 carta. Si usa con le carte {Alabasta} che tolgono potenza al proprio Leader."
+  },
+  {
+    "cardCode": "OP05-010",
+    "body": "Quando la giochi, metti K.O. un Character avversario con 1000 potenza o meno.\n\nCosta solo 1: funziona bene contro i Character piccoli o dopo un effetto che toglie potenza (per esempio −3000 da [Koala] OP05-006)."
+  },
+  {
+    "cardCode": "OP05-011",
+    "body": "Quando lo giochi, metti K.O. un Character avversario con 2000 potenza o meno.\n\n[Trigger]: se il tuo Leader è multicolore, puoi giocarlo gratis (e il suo effetto si attiva)."
+  },
+  {
+    "cardCode": "OP05-013",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP05-014",
+    "body": "Con almeno 1 DON!! dato, quando attacca dai −2000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP05-015",
+    "body": "Quando la giochi, guardi le prime 5 carte del mazzo, puoi mostrare e prendere in mano 1 carta {Revolutionary Army} (non un’altra [Belo Betty]); le altre vanno in fondo al mazzo nell’ordine che vuoi.\n\nCosta 1 e cerca il pezzo che ti manca."
+  },
+  {
+    "cardCode": "OP05-016",
+    "body": "Quando attacca, se ha 7000 potenza o più, l’avversario non può usare [Blocker] in questa battaglia.\n\n[Trigger]: puoi scartare 1 carta; se il tuo Leader è multicolore, lo giochi gratis."
+  },
+  {
+    "cardCode": "OP05-017",
+    "body": "Quando attacca, se ha 7000 potenza o più, metti K.O. un Character avversario con 3000 potenza o meno.\n\n[Trigger]: puoi scartare 1 carta; se il tuo Leader è multicolore, lo giochi gratis."
   },
   {
     "cardCode": "OP05-018",
@@ -40,6 +80,62 @@
     "body": "Stage. Nella tua Main Phase puoi scartare 1 carta e metterlo a riposo: guardi le prime 3 carte e prendi una carta {Revolutionary Army}."
   },
   {
+    "cardCode": "OP05-022",
+    "body": "Il Leader ha [Blocker]: può mettersi a riposo per subire lui un attacco diretto a un tuo Character.\n\nAlla fine del tuo turno, se hai 6 carte o meno in mano, il Leader torna **attivo**. Così puoi attaccare con il Leader e averlo comunque pronto a bloccare nel turno avversario."
+  },
+  {
+    "cardCode": "OP05-023",
+    "body": "Con almeno 1 DON!! dato, quando attacca metti K.O. un Character avversario **a riposo** di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP05-024",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP05-025",
+    "body": "Nella tua Main Phase puoi metterlo a riposo per mettere a riposo un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP05-026",
+    "body": "Con almeno 1 DON!! dato, una volta per turno, quando attacca puoi mettere a riposo un tuo Character di costo 3 o più: Sarquiss torna **attivo** e può attaccare di nuovo."
+  },
+  {
+    "cardCode": "OP05-027",
+    "body": "Nella tua Main Phase puoi mandarlo nel cestino per mettere a riposo un Character avversario di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP05-028",
+    "body": "Nella tua Main Phase puoi mandarlo nel cestino per mettere K.O. un Character avversario **a riposo** di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP05-029",
+    "body": "Una volta per turno, quando l’avversario attacca, puoi pagare ① per mettere a riposo un Character avversario di costo 6 o meno."
+  },
+  {
+    "cardCode": "OP05-030",
+    "body": "Ha [Blocker].\n\nNel turno avversario, se un tuo Character **a riposo** sta per essere messo K.O., puoi mandare Rosinante nel cestino al suo posto. Se più Character a riposo vanno K.O. per lo stesso effetto, li salvi tutti insieme (FAQ).\n\nRosinante va nel cestino, non K.O.: gli effetti che scattano “quando un Character va K.O.” non si attivano (FAQ)."
+  },
+  {
+    "cardCode": "OP05-031",
+    "body": "Una volta per turno, quando attacca: se hai 2 o più Character a riposo (contando lui, FAQ), rimetti attivo un tuo Character a riposo di costo 1."
+  },
+  {
+    "cardCode": "OP05-032",
+    "body": "Alla fine del tuo turno puoi pagare ① (mettere a riposo 1 DON!! dell’area dei costi) per rimettere Pica **attivo**: così attacca e resta pronto a difendersi.\n\nUna volta per turno, se Pica sta per essere messo K.O., puoi invece mettere a riposo un altro tuo Character di costo 3 o più. Va bene anche un Character che sta per andare K.O. insieme a Pica (FAQ)."
+  },
+  {
+    "cardCode": "OP05-033",
+    "body": "Nella tua Main Phase paghi ① e la metti a riposo per giocare gratis dalla mano un Character {Donquixote Pirates} di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP05-034",
+    "body": "Nella tua Main Phase paghi ① e metti a riposo Baby 5: guardi le prime 5 carte del mazzo e puoi prendere in mano 1 carta {Donquixote Pirates}; le altre vanno in fondo al mazzo nell’ordine che vuoi.\n\nÈ un Character da 1 che cerca carte ogni turno in cui resta in campo."
+  },
+  {
+    "cardCode": "OP05-036",
+    "body": "Ha [Blocker].\n\nQuando blocca, metti a riposo un Character avversario di costo 4 o meno: così quel Character non può attaccare in quel turno e diventa un bersaglio nel tuo."
+  },
+  {
     "cardCode": "OP05-037",
     "body": "Counter da 0 DON!!: scarti 1 carta e il Leader o un Character ha +3000 potenza per la battaglia.\n\nIl [Trigger] mette a riposo un Character avversario di costo 4 o meno."
   },
@@ -56,6 +152,66 @@
     "body": "Stage di costo 5. Se il Leader è [Donquixote Doflamingo], nessun Character di costo 5 o meno (tuo o avversario) torna attivo nelle Refresh Phase.\n\nAlla fine del tuo turno, se hai 10 DON!! in campo, metti K.O. tutti i Character a riposo di costo 5 o meno, poi lo Stage va nel cestino."
   },
   {
+    "cardCode": "OP05-041",
+    "body": "Una volta per turno, nella tua Main Phase, puoi scartare 1 carta per pescarne 1 (per migliorare la mano).\n\nQuando il Leader attacca, dai −1 costo per il turno a un Character avversario: utile con le carte nere che eliminano i Character di costo basso."
+  },
+  {
+    "cardCode": "OP05-042",
+    "body": "Quando lo giochi, un Character avversario di costo 7 o meno non può attaccare fino all’inizio del tuo prossimo turno."
+  },
+  {
+    "cardCode": "OP05-043",
+    "body": "Quando la giochi, se il tuo Leader è **multicolore**, guardi le prime 3 carte del mazzo e ne prendi 1 in mano; le altre le rimetti in cima o in fondo, nell’ordine che vuoi.\n\nCon un Leader di un solo colore l’effetto non fa nulla."
+  },
+  {
+    "cardCode": "OP05-045",
+    "body": "Nella tua Main Phase puoi scartare 1 carta e metterlo a riposo per mettere in fondo al mazzo del proprietario un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP05-046",
+    "body": "Quando va K.O., peschi 1 carta e poi metti 1 carta dalla mano in fondo al mazzo."
+  },
+  {
+    "cardCode": "OP05-047",
+    "body": "Ha [Blocker].\n\nQuando blocca, se hai 3 carte o meno in mano, peschi 1 carta e ha +1000 potenza in questa battaglia. Con 4 o più carte non succede nulla, nemmeno se poi ne usi qualcuna come Counter (FAQ)."
+  },
+  {
+    "cardCode": "OP05-048",
+    "body": "Con almeno 1 DON!! dato, quando attacca metti in fondo al mazzo del proprietario un Character di costo 2 o meno."
+  },
+  {
+    "cardCode": "OP05-049",
+    "body": "Con almeno 1 DON!! dato, quando attacca rimandi nella mano del proprietario un Character di costo 3 o meno."
+  },
+  {
+    "cardCode": "OP05-050",
+    "body": "Quando la giochi, se hai 5 carte o meno in mano, peschi 1 carta."
+  },
+  {
+    "cardCode": "OP05-051",
+    "body": "Quando lo giochi, metti in fondo al mazzo del proprietario un Character di costo 4 o meno.\n\nIl Character non va K.O. e non va nel cestino: gli effetti che scattano con il K.O. non si attivano. Il testo non dice “avversario”, quindi puoi scegliere anche un tuo Character."
+  },
+  {
+    "cardCode": "OP05-052",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
+    "cardCode": "OP05-053",
+    "body": "Nel tuo turno, una volta per turno, quando peschi una carta **fuori dalla Draw Phase** (per un effetto), ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP05-054",
+    "body": "Quando lo giochi, peschi 2 carte e poi metti 2 carte dalla mano in fondo al mazzo, nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "OP05-055",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, guardi le prime 5 carte del mazzo e le rimetti in cima o in fondo, nell’ordine che vuoi: scegli le prossime carte che peschi."
+  },
+  {
+    "cardCode": "OP05-056",
+    "body": "Quando lo giochi, puoi mettere in fondo al mazzo un altro tuo Character per pescare 1 carta."
+  },
+  {
     "cardCode": "OP05-057",
     "body": "Il Leader o un Character ha +3000 potenza per il turno, poi metti in fondo al mazzo un Character di costo 2 o meno.\n\nIl [Trigger] rimanda in mano un Character di costo 3 o meno."
   },
@@ -68,6 +224,66 @@
     "body": "Costa 5: se il Leader è multicolore peschi 1 carta; poi rimandi in mano un Character di costo 5 o meno.\n\nIl [Trigger]: con Leader multicolore peschi 2 carte."
   },
   {
+    "cardCode": "OP05-060",
+    "body": "Una volta per turno, nella tua Main Phase, puoi prendere in mano la prima carta della tua Vita: se in campo hai **0 DON!! oppure 3 o più**, prendi 1 DON!! dal mazzo DON!! e lo metti attivo.\n\nScambi una Vita con un DON!! in più (e una carta in mano). La condizione “0 DON!!” si usa dopo aver speso tutto con i costi DON!! −X."
+  },
+  {
+    "cardCode": "OP05-061",
+    "body": "Con almeno 1 DON!! dato, quando attacca: se hai **8 o più DON!!** in campo, metti a riposo un Character avversario di costo 4 o meno.\n\nContano tutti i DON!! sul tuo campo, anche quelli a riposo o dati ai Character."
+  },
+  {
+    "cardCode": "OP05-062",
+    "body": "Se hai **10 DON!!** in campo, ha [Blocker]. Se scendi a 9 o meno, non può più bloccare (FAQ).\n\nNon conta come carta di nome [Nami] (FAQ)."
+  },
+  {
+    "cardCode": "OP05-063",
+    "body": "Quando la giochi, se hai **8 o più DON!!** in campo, metti K.O. un Character avversario di costo 3 o meno.\n\nAttento con gli effetti DON!! −X: se riduci i DON!! sotto 8, l’effetto non funziona."
+  },
+  {
+    "cardCode": "OP05-064",
+    "body": "Quando lo giochi, guardi le prime 5 carte del mazzo e puoi prendere in mano 1 carta {Kid Pirates} (non un altro [Killer]); le altre vanno in fondo nell’ordine che vuoi."
+  },
+  {
+    "cardCode": "OP05-066",
+    "body": "Ha [Blocker].\n\nNel turno avversario, se hai **10 DON!!** in campo, ha +1000 potenza (7000): un difensore più difficile da superare."
+  },
+  {
+    "cardCode": "OP05-067",
+    "body": "Quando attacca, se hai **3 carte Vita o meno**, aggiungi 1 DON!! dal mazzo DON!! e lo metti **attivo**.\n\nIl DON!! nuovo si può usare subito, per esempio come bonus di potenza o per un altro effetto."
+  },
+  {
+    "cardCode": "OP05-068",
+    "body": "Quando lo giochi, se hai **8 o più DON!!** in campo, rimetti **attivo** un tuo Character viola {Straw Hat Crew} con 6000 potenza o meno.\n\nSe quel Character aveva già attaccato, può attaccare di nuovo; oppure resta pronto a bloccare."
+  },
+  {
+    "cardCode": "OP05-069",
+    "body": "Quando attacca, se l’avversario ha **più DON!! di te** in campo, guardi le prime 5 carte del mazzo e puoi prendere in mano 1 carta {Heart Pirates}; le altre vanno in fondo nell’ordine che vuoi.\n\nFunziona bene nei mazzi che riducono i propri DON!! con gli effetti DON!! −X."
+  },
+  {
+    "cardCode": "OP05-070",
+    "body": "Con almeno 1 DON!! dato e **8 o più DON!!** in campo, ha [Rush]: può attaccare nel turno in cui lo giochi.\n\nRicordati di dargli il DON!! prima di dichiarare l’attacco."
+  },
+  {
+    "cardCode": "OP05-071",
+    "body": "Quando attacca, se l’avversario ha **più DON!! di te** in campo, dai −2000 potenza per il turno a un Character avversario."
+  },
+  {
+    "cardCode": "OP05-072",
+    "body": "Quando lo giochi, se hai **8 o più DON!!** in campo, dai −2000 potenza per il turno a fino a 2 Character avversari.\n\nRende più facili i tuoi attacchi di quel turno contro i loro Character."
+  },
+  {
+    "cardCode": "OP05-073",
+    "body": "Quando la giochi, puoi scartare 1 carta dalla mano per aggiungere 1 DON!! dal mazzo DON!! **a riposo**: avrai un DON!! in più dal turno dopo.\n\n[Trigger]: quando arriva dalla Vita, puoi rimettere 1 DON!! dal campo nel mazzo DON!! (DON!! −1) per giocarla gratis."
+  },
+  {
+    "cardCode": "OP05-074",
+    "body": "Ha [Blocker].\n\nNel tuo turno, una volta per turno, quando un DON!! del tuo campo torna nel mazzo DON!! (per esempio pagando un costo DON!! −X), aggiungi 1 DON!! dal mazzo DON!! e lo metti **attivo**. In pratica ti restituisce subito uno dei DON!! spesi."
+  },
+  {
+    "cardCode": "OP05-075",
+    "body": "Una volta per turno, quando l’avversario attacca, puoi pagare DON!! −1 per giocare gratis dalla mano un Character {Baroque Works} di costo 3 o meno.\n\nSe giochi un altro Mr.1, il suo effetto non si attiva durante lo stesso attacco (FAQ)."
+  },
+  {
     "cardCode": "OP05-076",
     "body": "Guardi le prime 3 carte e prendi una carta {Straw Hat Crew}, {Kid Pirates} o {Heart Pirates}.\n\nIl [Trigger] attiva lo stesso effetto."
   },
@@ -78,6 +294,62 @@
   {
     "cardCode": "OP05-078",
     "body": "DON!! −1: un tuo Leader o Character {Kid Pirates} ha +5000 potenza per il turno.\n\nIl [Trigger] ti dà 1 DON!! attivo."
+  },
+  {
+    "cardCode": "OP05-079",
+    "body": "Quando la giochi, l’avversario mette in fondo al suo mazzo 3 carte del suo cestino, scelte da lui (FAQ). Rallenta i mazzi che contano le carte nel cestino."
+  },
+  {
+    "cardCode": "OP05-080",
+    "body": "Una volta per turno, quando attacca, puoi rimettere 20 carte del cestino nel mazzo e mescolarlo: in questa battaglia ha [Double Attack] e +10000 potenza."
+  },
+  {
+    "cardCode": "OP05-081",
+    "body": "Nella tua Main Phase puoi mandarlo nel cestino per dare −3 costo per il turno a un Character avversario.\n\nPrepara gli effetti neri che eliminano i Character di costo basso: usalo prima di quelli, nello stesso turno."
+  },
+  {
+    "cardCode": "OP05-082",
+    "body": "Nella tua Main Phase metti a riposo Shirahoshi e metti in fondo al mazzo 2 carte del tuo cestino: se l’avversario ha **6 o più carte** in mano, ne scarta 1.\n\nPuoi pagare il costo anche se l’avversario ha 5 carte o meno, ma allora non scarta nulla (FAQ)."
+  },
+  {
+    "cardCode": "OP05-084",
+    "body": "Nel tuo turno, se in campo hai **solo** Character {Celestial Dragons}, tutti i Character avversari hanno −4 costo.\n\nSe giochi un Character di altro tipo, la condizione sparisce subito: il suo effetto “quando lo giochi” non vede il −4 (FAQ)."
+  },
+  {
+    "cardCode": "OP05-085",
+    "body": "Ha [Blocker].\n\nQuando lo giochi, mandi nel cestino la prima carta del tuo mazzo."
+  },
+  {
+    "cardCode": "OP05-086",
+    "body": "Se hai **10 o più carte nel cestino**, ha [Blocker].\n\nLa condizione si controlla sempre: se il cestino scende a 9 carte o meno, perde [Blocker] e non può bloccare (FAQ)."
+  },
+  {
+    "cardCode": "OP05-087",
+    "body": "Con almeno 1 DON!! dato, quando attacca puoi mettere K.O. un altro tuo Character per dare −5 costo per il turno a un Character avversario.\n\nSe il tuo Character non va davvero K.O. (per esempio [Fukurou] OP03-088 o [Kyros] OP04-082), il −5 non arriva (FAQ)."
+  },
+  {
+    "cardCode": "OP05-088",
+    "body": "Nella tua Main Phase paghi ①, metti a riposo Mansherry e metti in fondo al mazzo 2 carte del tuo cestino: prendi in mano dal cestino un Character nero di costo da 3 a 5.\n\nRecupera un Character utile ogni turno in cui resta in campo."
+  },
+  {
+    "cardCode": "OP05-089",
+    "body": "Nella tua Main Phase paghi ① e metti a riposo questo e un altro tuo Character: prendi in mano dal cestino un Character nero di costo 1."
+  },
+  {
+    "cardCode": "OP05-090",
+    "body": "Ha [Blocker].\n\nQuando lo giochi e quando va K.O., un tuo Character {Dressrosa} ha +2000 potenza per il turno."
+  },
+  {
+    "cardCode": "OP05-091",
+    "body": "Ha [Blocker].\n\nQuando la giochi, prendi in mano dal cestino un Character nero di costo da 3 a 7 (non un’altra [Rebecca]); poi puoi giocare gratis dalla mano, **a riposo**, un Character nero di costo 3 o meno. Può essere anche quello appena ripreso, se costa 3 (FAQ)."
+  },
+  {
+    "cardCode": "OP05-092",
+    "body": "Nel tuo turno, se in campo hai **solo** Character {Celestial Dragons}, tutti i Character avversari hanno −6 costo.\n\nSe giochi un Character di altro tipo, la condizione sparisce subito (FAQ)."
+  },
+  {
+    "cardCode": "OP05-093",
+    "body": "Quando lo giochi, puoi mettere in fondo al mazzo 3 carte del tuo cestino: metti K.O. un Character avversario di costo 2 o meno **e** un altro di costo 1 o meno.\n\nCon gli effetti che tolgono costo (per esempio [One-Legged Toy Soldier] OP05-081) puoi colpire Character più grandi."
   },
   {
     "cardCode": "OP05-094",
@@ -96,6 +368,58 @@
     "body": "Stage. Nel tuo turno i Character {Celestial Dragons} di costo 2 o più che giochi dalla mano costano 1 in meno."
   },
   {
+    "cardCode": "OP05-098",
+    "body": "Una volta per turno, **nel turno avversario**, quando le tue Vite scendono a 0 aggiungi la prima carta del mazzo in cima alla tua Vita, poi scarti 1 carta dalla mano.\n\nÈ come avere una Vita in più ogni turno avversario: all’avversario serve un colpo in più per vincere. Lo scarto è obbligatorio, se hai carte in mano."
+  },
+  {
+    "cardCode": "OP05-099",
+    "body": "Quando l’avversario attacca, puoi metterla a riposo: l’avversario può mandare nel cestino la prima carta della sua Vita; se non lo fa, dai −2000 potenza per il turno al suo Leader o a un suo Character. Sceglie lui cosa perdere."
+  },
+  {
+    "cardCode": "OP05-100",
+    "body": "Ha [Rush].\n\nUna volta per turno, se Enel sta per lasciare il campo (K.O., in fondo al mazzo, in mano…), puoi invece mandare nel cestino la prima carta della tua Vita. Vale anche contro i tuoi effetti (FAQ); se però lo scegli come costo di un effetto e lo salvi così, il resto di quell’effetto non avviene (FAQ, con [Trafalgar Law] OP01-047).\n\nSe in campo c’è un Character [Monkey.D.Luffy], questo effetto non funziona; [Rush] invece resta (FAQ)."
+  },
+  {
+    "cardCode": "OP05-101",
+    "body": "Se hai 2 carte Vita o meno, ha +1000 potenza.\n\nQuando lo giochi, guardi le prime 5 carte del mazzo e puoi prendere in mano un [Holly]; le altre vanno in fondo. Poi puoi giocare gratis un [Holly] dalla mano, anche uno che avevi già (FAQ)."
+  },
+  {
+    "cardCode": "OP05-102",
+    "body": "Quando lo giochi, metti K.O. un Character avversario di costo **uguale o inferiore al numero delle carte Vita dell’avversario**.\n\nÈ più forte a inizio partita, quando l’avversario ha ancora molte carte Vita."
+  },
+  {
+    "cardCode": "OP05-103",
+    "body": "Quando la giochi, se hai una [Hotori] in campo, metti K.O. un Character avversario di costo uguale o inferiore al numero delle carte Vita dell’avversario."
+  },
+  {
+    "cardCode": "OP05-104",
+    "body": "Quando la giochi, puoi mettere in fondo al mazzo un tuo Stage per pescare 1 carta e scartarne 1."
+  },
+  {
+    "cardCode": "OP05-106",
+    "body": "Quando lo giochi, guardi le prime 5 carte del mazzo e puoi prendere in mano 1 carta {Sky Island} (non un altro [Shura]); le altre vanno in fondo al mazzo nell’ordine che vuoi.\n\n[Trigger]: quando arriva dalla Vita, puoi giocarlo gratis (e il suo effetto si attiva)."
+  },
+  {
+    "cardCode": "OP05-107",
+    "body": "Nel tuo turno, una volta per turno, quando una carta della tua Vita arriva nella tua mano, ha +2000 potenza per il turno. Non vale se la carta arriva in mano per il suo stesso [Trigger] (FAQ)."
+  },
+  {
+    "cardCode": "OP05-109",
+    "body": "Una volta per turno, quando si attiva un [Trigger] (tuo **o** dell’avversario, FAQ), peschi 2 carte e ne scarti 2."
+  },
+  {
+    "cardCode": "OP05-111",
+    "body": "Quando la giochi, puoi giocare un [Kotori] dalla mano: metti un Character avversario di costo 3 o meno, a faccia in su, in cima o in fondo alla Vita avversaria."
+  },
+  {
+    "cardCode": "OP05-112",
+    "body": "Ha [Blocker].\n\nQuando va K.O., giochi gratis dalla mano un Character {Sky Island} di costo 1."
+  },
+  {
+    "cardCode": "OP05-113",
+    "body": "Ha [Blocker]: un difensore economico."
+  },
+  {
     "cardCode": "OP05-114",
     "body": "Counter: il Leader o un Character ha +2000 potenza per la battaglia; se l’avversario ha 2 Vite o meno, altri +2000.\n\nIl [Trigger] mette K.O. un Character avversario con costo non superiore alle Vite dell’avversario."
   },
@@ -110,5 +434,13 @@
   {
     "cardCode": "OP05-117",
     "body": "Stage. Quando lo giochi guardi le prime 5 carte e prendi una carta {Sky Island}."
+  },
+  {
+    "cardCode": "OP05-118",
+    "body": "Quando lo giochi, se l’avversario ha **3 carte Vita o meno**, peschi 4 carte.\n\nCosta 10: di solito si gioca a fine partita, per ricaricare la mano."
+  },
+  {
+    "cardCode": "OP05-119",
+    "body": "Quando lo giochi puoi rimettere 10 DON!! dal campo nel mazzo DON!! (DON!! −10; contano anche quelli a riposo, come quelli appena usati per giocarlo): metti in fondo al mazzo tutti gli altri tuoi Character e, dopo questo turno, **giochi un turno extra**.\n\nUna volta per turno, nella tua Main Phase, paghi ① per aggiungere 1 DON!! dal mazzo DON!! e metterlo **attivo**: serve a ricostruire i DON!! dopo il primo effetto."
   }
 ]

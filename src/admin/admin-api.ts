@@ -12,7 +12,17 @@ export interface Overview {
   decks: number
   collection_copies: number
   open_reports: number
+  /** Contenuti da completare in sessione (RIB-93); assente prima della migrazione. */
+  content?: MissingContent
   jobs: JobSummary[]
+}
+
+export interface MissingContent {
+  missing_explanations: number
+  missing_explanations_preview: number
+  /** Per prefisso del Card Code ("OP19"), dal Set con più carte mancanti. */
+  missing_by_set: { set: string; count: number; preview: boolean }[]
+  sets_without_faq: string[]
 }
 
 export interface AdminUser {

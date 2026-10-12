@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { FormMessage } from '@/account/form'
 import { cn } from '@/lib/utils'
-import { fetchOverview, type Overview } from './admin-api'
+import { fetchOverview, type MissingContent, type Overview } from './admin-api'
 import { adminJobPath, adminPath, type AdminTab } from './admin-paths'
 import { healthCounts, jobTiles, overallHealth, STALE_HOURS, type Health } from './job-health'
 
@@ -137,6 +137,8 @@ export function AdminOverviewPage() {
         </ul>
       </section>
 
+      {overview.content && <ContentSection content={overview.content} />}
+
       <section aria-labelledby="numeri-titolo" className="space-y-3">
         <h2 id="numeri-titolo" className="text-lg font-semibold tracking-tight">
           {t('admin.overview.numbersTitle')}
@@ -213,4 +215,59 @@ function Ago({ iso, now }: { iso: string; now: number }) {
   if (minutes < 60) return t('admin.overview.ago.minutes', { count: minutes })
   if (hours < 48) return t('admin.overview.ago.hours', { count: hours })
   return t('admin.overview.ago.days', { count: Math.round(hours / 24) })
+}
+
+/**
+ * Contenuti da completare in sessione (RIB-93): le carte nuove arrivano da sole, spiegazioni
+ * e FAQ no. Così si vede quando serve una sessione di lavoro.
+ */
+function ContentSection({ content }: { content: MissingContent }) {
+  const { t } = useTranslation()
+  const sets = content.missing_by_set.slice(0, 8)
+  const complete =
+    content.missing_explanations === 0 &&
+    content.missing_explanations_preview === 0 &&
+    content.sets_without_faq.length === 0
+  return (
+    <section aria-labelledby="contenuti-titolo" className="space-y-3">
+      <h2 id="contenuti-titolo" className="text-lg font-semibold tracking-tight">
+        {t('admin.overview.content.title')}
+      </h2>
+      {complete ? (
+        <p className={cn('flex items-center gap-2 rounded-2xl border p-4', HEALTH_STYLE.ok)}>
+          <CheckCircle2 className="size-5 shrink-0" aria-hidden="true" />
+          {t('admin.overview.content.complete')}
+        </p>
+      ) : (
+        <div className={cn('space-y-2 rounded-2xl border p-4 text-sm', HEALTH_STYLE.stale)}>
+          {content.missing_explanations > 0 && (
+            <p className="font-medium">
+              {t('admin.overview.content.explanations', { count: content.missing_explanations })}
+            </p>
+          )}
+          {content.missing_explanations_preview > 0 && (
+            <p className="font-medium">
+              {t('admin.overview.content.previews', {
+                count: content.missing_explanations_preview,
+              })}
+            </p>
+          )}
+          {sets.length > 0 && (
+            <p className="opacity-90">
+              {sets
+                .map(
+                  (s) =>
+                    `${s.set} ${String(s.count)}${s.preview ? ` (${t('admin.overview.content.preview')})` : ''}`,
+                )
+                .join(' · ')}
+            </p>
+          )}
+          {content.sets_without_faq.length > 0 && (
+            <p>{t('admin.overview.content.faq', { sets: content.sets_without_faq.join(', ') })}</p>
+          )}
+          <p className="text-xs opacity-80">{t('admin.overview.content.hint')}</p>
+        </div>
+      )}
+    </section>
+  )
 }

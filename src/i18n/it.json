@@ -783,6 +783,7 @@
       "failed": "Serve la connessione",
       "manage": "Aggiungi o gestisci amici"
     },
+    "viewWhole": "Vedi tutto il profilo",
     "loadFailed": "Non riesco a leggere i tuoi amici. Controlla la connessione e riprova.",
     "actionFailed": "Non è andata: controlla la connessione e riprova.",
     "badge_one": "{{count}} richiesta di amicizia da vedere",

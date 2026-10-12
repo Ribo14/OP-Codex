@@ -14,5 +14,10 @@ export const friendInvitePath = (token: string) => `/amici/invito/${token}`
 export const friendInviteUrl = (token: string) =>
   `${window.location.origin}${friendInvitePath(token)}`
 
-/** Le sezioni della pagina di un amico (id dei titoli), per aprirla al punto giusto. */
-export const FRIEND_SECTION = { collection: 'amico-collezione', decks: 'amico-mazzi' } as const
+/** Solo i mazzi o solo la Collection di un amico (RIB-95): ci si arriva da Mazzi e da Collezione. */
+export type FriendView = 'decks' | 'collection'
+const VIEW_SEGMENT = { decks: 'mazzi', collection: 'collezione' } as const
+export const FRIEND_DECKS_PATH = '/amici/:username/mazzi'
+export const FRIEND_COLLECTION_PATH = '/amici/:username/collezione'
+export const friendViewPath = (username: string, view: FriendView) =>
+  `${friendProfilePath(username)}/${VIEW_SEGMENT[view]}`

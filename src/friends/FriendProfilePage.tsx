@@ -1,7 +1,7 @@
 import { ArrowLeft } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useLocation, useNavigate, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 import { RequireAccount } from '@/account/ProfilePage'
 import { LogoLoader } from '@/app/LogoLoader'
 import { useCatalog } from '@/catalog/local-catalog'
@@ -11,38 +11,51 @@ import { OwnedTile } from '@/collection/CollectionPage'
 import { SetCompletionSection } from '@/collection/SetCompletionSection'
 import { CardThumb } from '@/decks/CardThumb'
 import { DECK_SIZE, shownPrinting } from '@/decks/deck'
+import { COLLECTION_PATH } from '@/collection/paths'
+import { DECKS_PATH } from '@/decks/paths'
+import { FriendsShortcut } from './FriendsShortcut'
 import { loadFriendCollection, loadFriendProfile, type FriendProfile } from './friends-api'
 import { MoreMenu } from './FriendsPage'
-import { friendDeckPath, FRIENDS_PATH } from './paths'
+import { friendDeckPath, friendProfilePath, FRIENDS_PATH, type FriendView } from './paths'
 
 // Profilo di un amico (RIB-73, ADR-0015): i suoi mazzi Amici e Link pubblico e, se l'ha resa
 // visibile, la sua Collection con la Set Completion. Mai il valore stimato. Chi non è amico (o
 // è bloccato, o lo Username non esiste) vede lo stesso messaggio.
+// Con `view` (da Mazzi o da Collezione, RIB-95) mostra solo i mazzi o solo la Collection.
 
-export function FriendProfilePage() {
+export function FriendProfilePage({ view }: { view?: FriendView }) {
   const { username = '' } = useParams()
   return (
     <div className="mx-auto max-w-5xl space-y-6">
-      <BackToFriends />
-      <RequireAccount>{() => <Profile key={username} username={username} />}</RequireAccount>
+      <BackLink view={view} />
+      <RequireAccount>
+        {() => <Profile key={username} username={username} view={view} />}
+      </RequireAccount>
     </div>
   )
 }
 
-function BackToFriends() {
+/** Si torna da dove si è venuti: Mazzi, Collezione o l'elenco degli amici. */
+function BackLink({ view }: { view?: FriendView }) {
   const { t } = useTranslation()
+  const back =
+    view === 'decks'
+      ? { to: DECKS_PATH, label: t('nav.decks') }
+      : view === 'collection'
+        ? { to: COLLECTION_PATH, label: t('nav.collection') }
+        : { to: FRIENDS_PATH, label: t('friends.title') }
   return (
     <Link
-      to={FRIENDS_PATH}
+      to={back.to}
       className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
     >
       <ArrowLeft className="size-4" aria-hidden="true" />
-      {t('friends.title')}
+      {back.label}
     </Link>
   )
 }
 
-function Profile({ username }: { username: string }) {
+function Profile({ username, view }: { username: string; view?: FriendView }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [profile, setProfile] = useState<FriendProfile | null | undefined>(undefined)
@@ -53,15 +66,6 @@ function Profile({ username }: { username: string }) {
       setFailed(true)
     })
   }, [username])
-
-  // Arrivando dalla scorciatoia di Collezione o Mazzi (#amico-collezione, #amico-mazzi) si va
-  // dritti alla sezione, appena il profilo è caricato.
-  const { hash } = useLocation()
-  const loaded = profile !== undefined
-  useEffect(() => {
-    if (!loaded || hash === '') return
-    document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView({ block: 'start' })
-  }, [loaded, hash])
 
   if (failed) {
     return (
@@ -87,38 +91,55 @@ function Profile({ username }: { username: string }) {
         <h1 className="min-w-0 flex-1 truncate text-2xl font-semibold tracking-tight lg:text-3xl">
           @{profile.username}
         </h1>
-        <MoreMenu
-          username={profile.username}
-          remove
-          done={() => {
-            void navigate(FRIENDS_PATH)
-          }}
-        />
+        {view ? (
+          <FriendsShortcut section={view} />
+        ) : (
+          <MoreMenu
+            username={profile.username}
+            remove
+            done={() => {
+              void navigate(FRIENDS_PATH)
+            }}
+          />
+        )}
       </div>
 
-      <section aria-labelledby="amico-mazzi" className="space-y-3">
-        <h2 id="amico-mazzi" className="scroll-mt-24 text-lg font-semibold tracking-tight">
-          {t('friends.profile.decks', { count: profile.decks.length })}
-        </h2>
-        {profile.decks.length === 0 ? (
-          <p className="text-sm text-muted-foreground">{t('friends.profile.noDecks')}</p>
-        ) : (
-          <FriendDecks profile={profile} />
-        )}
-      </section>
+      {view !== 'collection' && (
+        <section aria-labelledby="amico-mazzi" className="space-y-3">
+          <h2 id="amico-mazzi" className="text-lg font-semibold tracking-tight">
+            {t('friends.profile.decks', { count: profile.decks.length })}
+          </h2>
+          {profile.decks.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t('friends.profile.noDecks')}</p>
+          ) : (
+            <FriendDecks profile={profile} />
+          )}
+        </section>
+      )}
 
-      <section aria-labelledby="amico-collezione" className="space-y-3">
-        <h2 id="amico-collezione" className="scroll-mt-24 text-lg font-semibold tracking-tight">
-          {t('nav.collection')}
-        </h2>
-        {profile.collectionVisible ? (
-          <FriendCollection username={profile.username} />
-        ) : (
-          <p className="text-sm text-muted-foreground">
-            {t('friends.profile.privateCollection', { username: profile.username })}
-          </p>
-        )}
-      </section>
+      {view !== 'decks' && (
+        <section aria-labelledby="amico-collezione" className="space-y-3">
+          <h2 id="amico-collezione" className="text-lg font-semibold tracking-tight">
+            {t('nav.collection')}
+          </h2>
+          {profile.collectionVisible ? (
+            <FriendCollection username={profile.username} />
+          ) : (
+            <p className="text-sm text-muted-foreground">
+              {t('friends.profile.privateCollection', { username: profile.username })}
+            </p>
+          )}
+        </section>
+      )}
+
+      {view && (
+        <Link
+          to={friendProfilePath(profile.username)}
+          className="inline-block text-sm underline underline-offset-2"
+        >
+          {t('friends.viewWhole')}
+        </Link>
+      )}
     </>
   )
 }

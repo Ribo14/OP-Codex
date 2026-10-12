@@ -11,14 +11,15 @@ import {
   MenuTrigger,
 } from '@/components/Menu'
 import { loadFriends } from './friends-api'
-import { FRIEND_SECTION, friendProfilePath, FRIENDS_PATH } from './paths'
+import { FRIENDS_PATH, friendViewPath, type FriendView } from './paths'
 
 // Scorciatoia "Amici" in Collezione e Mazzi: la collezione e i mazzi degli amici erano solo
-// nella pagina di ogni amico, troppo nascosti. Un tocco e si apre la sezione giusta.
+// nella pagina di ogni amico, troppo nascosti. Da Mazzi si aprono i mazzi dell'amico, da
+// Collezione la sua collezione.
 
 type Friends = { status: 'loading' } | { status: 'error' } | { status: 'ready'; names: string[] }
 
-export function FriendsShortcut({ section }: { section: keyof typeof FRIEND_SECTION }) {
+export function FriendsShortcut({ section }: { section: FriendView }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [friends, setFriends] = useState<Friends>({ status: 'loading' })
@@ -68,7 +69,7 @@ export function FriendsShortcut({ section }: { section: keyof typeof FRIEND_SECT
             <MenuItem
               key={name}
               onSelect={() => {
-                void navigate(`${friendProfilePath(name)}#${FRIEND_SECTION[section]}`)
+                void navigate(friendViewPath(name, section))
               }}
             >
               <span

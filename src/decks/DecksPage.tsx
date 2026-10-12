@@ -6,6 +6,7 @@ import { field } from '@/account/form-data'
 import { RequireAccount } from '@/account/ProfilePage'
 import { useSession } from '@/account/session'
 import { FriendsShortcut } from '@/friends/FriendsShortcut'
+import { PLAYTEST_PATH } from '@/playtest/paths'
 import { SignedOutInvite } from '@/account/SignedOutInvite'
 import type { CatalogCard } from '@/catalog/catalog-data'
 import { useCatalog } from '@/catalog/local-catalog'
@@ -30,6 +31,12 @@ export function DecksPage() {
           {t('nav.decks')}
         </h1>
         {/* Collezione e mazzi degli amici, a un tocco (prima solo nella pagina dell'amico). */}
+        <Link
+          to={PLAYTEST_PATH}
+          className="inline-flex h-9 shrink-0 items-center rounded-full border px-3 text-sm font-medium hover:bg-muted"
+        >
+          {t('playtest.title')}
+        </Link>
         {session.status === 'signedIn' && <FriendsShortcut section="decks" />}
       </div>
       {session.status === 'signedOut' ? (

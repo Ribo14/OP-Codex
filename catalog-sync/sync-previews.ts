@@ -21,7 +21,22 @@ async function get(url: string): Promise<Response> {
   return fetch(url, {
     headers: { 'User-Agent': USER_AGENT },
     signal: AbortSignal.timeout(TIMEOUT_MS),
+    // Niente reindirizzamenti verso altri siti: si legge solo da images.optcgleaks.com.
+    redirect: 'error',
   })
+}
+
+/** Il JSON di un Set vero pesa ~70 kB, un'immagine ~80 kB: molto oltre, qualcosa non va. */
+const MAX_JSON_BYTES = 2 * 1024 * 1024
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024
+
+/** Il corpo della risposta, rifiutato se supera `max` byte (anche senza Content-Length). */
+async function body(response: Response, max: number): Promise<Uint8Array> {
+  const declared = Number(response.headers.get('content-length') ?? '0')
+  if (declared > max) throw new Error(`risposta troppo grande (${String(declared)} byte)`)
+  const bytes = new Uint8Array(await response.arrayBuffer())
+  if (bytes.length > max) throw new Error(`risposta troppo grande (${String(bytes.length)} byte)`)
+  return bytes
 }
 
 async function main(): Promise<void> {
@@ -41,13 +56,13 @@ async function main(): Promise<void> {
         // Il sito risponde 403 (S3) per i Set che non ha.
         if (response.status === 403 || response.status === 404) return null
         if (!response.ok) throw new Error(`HTTP ${String(response.status)} per ${siteId}`)
-        return response.json()
+        return JSON.parse(new TextDecoder().decode(await body(response, MAX_JSON_BYTES))) as unknown
       },
       async fetchImage(path) {
         const [set, image] = path.split('/')
         const response = await get(`${PREVIEW_SITE}/${set ?? ''}/images/${image ?? ''}.webp`)
         if (!response.ok) throw new Error(`HTTP ${String(response.status)}`)
-        return new Uint8Array(await response.arrayBuffer())
+        return body(response, MAX_IMAGE_BYTES)
       },
       async storeImage(printId, image) {
         const { thumb, full } = await convertCardImage(image)

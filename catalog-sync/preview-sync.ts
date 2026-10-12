@@ -80,21 +80,45 @@ const ENTITIES: Record<string, string> = {
   '&amp;': '&',
 }
 
-/** Testo semplice: entità HTML decodificate, spazi in ordine; vuoto o "-" diventa null. */
-function text(value: unknown): string | null {
-  if (typeof value !== 'string') return null
+/**
+ * Limiti sui dati del sito delle anteprime: è un sito di terzi, quello che manda finisce nel
+ * nostro database e nello Storage. Ben sopra le carte vere (un Set ha ~150 carte, un effetto
+ * lungo ~600 caratteri), così qualcosa di strano o enorme si scarta invece di entrare.
+ */
+export const PREVIEW_LIMITS = {
+  /** Carte in un Set: oltre, il Set intero si rifiuta. */
+  cards: 400,
+  /** Immagini (stampe) per carta: le altre si ignorano. */
+  images: 12,
+  /** Voci di colori, attributi, tipi: le altre si ignorano. */
+  items: 10,
+  /** Lunghezza di un nome, di una voce, di chi ha tradotto. */
+  short: 100,
+  /** Lunghezza di effetto e Trigger. */
+  long: 2000,
+} as const
+
+/** Rarità come quelle ufficiali (C, UC, R, SR, SEC, L, SP, P…); altrimenti "-". */
+const RARITY = /^[A-Z]{1,4}$/
+
+/**
+ * Testo semplice: entità HTML decodificate, spazi in ordine; vuoto o "-" diventa null, e così
+ * un testo più lungo di `max` (meglio senza che troncato a metà).
+ */
+function text(value: unknown, max: number = PREVIEW_LIMITS.short): string | null {
+  if (typeof value !== 'string' || value.length > max * 2) return null
   const decoded = value
     .replace(/&(?:lt|gt|quot|#39|apos|amp);/g, (entity) => ENTITIES[entity] ?? entity)
     .split('\n')
     .map((line) => line.replace(/\s+/g, ' ').trim())
     .filter((line) => line !== '')
     .join('\n')
-  return decoded === '' || decoded === '-' ? null : decoded
+  return decoded === '' || decoded === '-' || decoded.length > max ? null : decoded
 }
 
 const strings = (value: unknown): string[] =>
   Array.isArray(value)
-    ? value.flatMap((v) => {
+    ? value.slice(0, PREVIEW_LIMITS.items).flatMap((v) => {
         const t = text(v)
         return t === null ? [] : [t]
       })
@@ -124,8 +148,19 @@ function parseCard(raw: unknown, warn: (message: string) => void): PreviewCard |
     warn(`Carta scartata: ${JSON.stringify(c.id)} (codice, nome o categoria non validi)`)
     return null
   }
-  const rarity = text(c.rarity) ?? '-'
-  const images = Array.isArray(c.images) ? c.images : []
+  const rawRarity = str(c.rarity).trim().toUpperCase()
+  const rarity = RARITY.test(rawRarity) ? rawRarity : '-'
+  // Testi troppo lunghi: la carta si scarta (un effetto troncato direbbe il falso).
+  const effect = text(c.effect, PREVIEW_LIMITS.long)
+  const trigger = text(c.trigger, PREVIEW_LIMITS.long)
+  if (
+    (effect === null && str(c.effect).length > PREVIEW_LIMITS.long) ||
+    (trigger === null && str(c.trigger).length > PREVIEW_LIMITS.long)
+  ) {
+    warn(`${cardCode}: testo troppo lungo, scartata`)
+    return null
+  }
+  const images = Array.isArray(c.images) ? c.images.slice(0, PREVIEW_LIMITS.images) : []
   const printings = images.flatMap((image: unknown, i) => {
     const id = str((image as Record<string, unknown> | null)?.id)
     if (!IMAGE_ID.test(id)) {
@@ -155,8 +190,8 @@ function parseCard(raw: unknown, warn: (message: string) => void): PreviewCard |
     types: strings(c.type),
     // Il sito delle anteprime non indica il Block: nessun limite finché non arriva quello ufficiale.
     block: null,
-    effect: text(c.effect),
-    trigger: text(c.trigger),
+    effect,
+    trigger,
     keywords: [],
     credit: text(c.translation_credit),
     printings,
@@ -175,6 +210,9 @@ export function parsePreviewSet(
   if (typeof json !== 'object' || json === null) throw new Error(`${siteId}: JSON non valido`)
   const { data, cards } = json as { data?: { name?: unknown }; cards?: unknown }
   if (!Array.isArray(cards)) throw new Error(`${siteId}: manca l'elenco delle carte`)
+  if (cards.length > PREVIEW_LIMITS.cards) {
+    throw new Error(`${siteId}: ${String(cards.length)} carte, troppe per un Set: rifiutato`)
+  }
 
   const byCode = new Map<string, PreviewCard>()
   for (const raw of cards) {
@@ -418,9 +456,17 @@ export async function runPreviewSync(options: PreviewSyncOptions): Promise<Previ
       continue
     }
     if (json === null) continue
-    const set = parsePreviewSet(siteId, json, (message) => {
-      log(`${siteId}: ${message}`)
-    })
+    let set: PreviewSet
+    try {
+      set = parsePreviewSet(siteId, json, (message) => {
+        log(`${siteId}: ${message}`)
+      })
+    } catch (error) {
+      // Un Set che non si legge (o troppo grande) si salta: gli altri vanno avanti.
+      stats.failedSets.push(siteId)
+      log(`${siteId}: rifiutato (${error instanceof Error ? error.message : String(error)})`)
+      continue
+    }
     const saved = await sql.begin((tx) => upsertPreviewSet(tx, set))
     stats.sets.push(set.code)
     stats.cards += saved.cards

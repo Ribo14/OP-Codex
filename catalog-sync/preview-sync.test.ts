@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { PREVIEW_JSON } from './fixtures/preview-set.ts'
-import { candidateSets, parsePreviewSet, previewSetCode } from './preview-sync.ts'
+import { candidateSets, parsePreviewSet, PREVIEW_LIMITS, previewSetCode } from './preview-sync.ts'
 
 describe('Preview Sync: quali Set cercare (ADR-0016)', () => {
   it('per ogni serie i 4 numeri dopo l’ultimo Set ufficiale, anche dentro codici doppi', () => {
@@ -75,6 +75,40 @@ describe('Preview Sync: dal JSON al catalogo', () => {
       { printId: 'EB05-002', rarity: 'SR', image: 'eb05-002v2' },
       { printId: 'EB05-002_p1', rarity: 'SR', image: 'eb05-002a' },
     ])
+  })
+
+  it('limiti sui dati del sito esterno: niente testi enormi, rarità inventate, Set giganti', () => {
+    const base = PREVIEW_JSON.cards[0]
+    const card = (patch: Record<string, unknown>) => ({ ...base, ...patch })
+    const warnings: string[] = []
+    const parsed = parsePreviewSet(
+      'eb05',
+      {
+        data: { name: 'x'.repeat(500) },
+        cards: [
+          card({ id: 'EB05-090', effect: 'a'.repeat(PREVIEW_LIMITS.long + 1) }),
+          card({ id: 'EB05-091', rarity: '<script>' }),
+          card({
+            id: 'EB05-092',
+            images: Array.from({ length: 30 }, (_, i) => ({ id: `eb05-092-${String(i)}` })),
+            type: Array.from({ length: 30 }, (_, i) => `Tipo ${String(i)}`),
+          }),
+        ],
+      },
+      (m) => warnings.push(m),
+    )
+    // Effetto troppo lungo: la carta si scarta; nome del Set troppo lungo: quello di riserva.
+    expect(parsed.cards.map((c) => c.cardCode)).toEqual(['EB05-091', 'EB05-092'])
+    expect(warnings.some((w) => w.includes('EB05-090'))).toBe(true)
+    expect(parsed.name).toBe('EB-05')
+    expect(parsed.cards[0]?.printings[0]?.rarity).toBe('-')
+    expect(parsed.cards[1]?.printings).toHaveLength(PREVIEW_LIMITS.images)
+    expect(parsed.cards[1]?.types).toHaveLength(PREVIEW_LIMITS.items)
+
+    const tooMany = Array.from({ length: PREVIEW_LIMITS.cards + 1 }, (_, i) =>
+      card({ id: `EB05-${String(i + 1).padStart(3, '0')}` }),
+    )
+    expect(() => parsePreviewSet('eb05', { cards: tooMany })).toThrow(/troppe/)
   })
 
   it('un JSON senza carte è un errore', () => {

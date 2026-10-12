@@ -13,6 +13,8 @@ export interface RawSet {
   series_id: number
   code: string
   name: string
+  /** Set in anteprima (ADR-0016); assente nelle copie salvate prima. */
+  preview?: boolean
   updated_at: string
 }
 
@@ -31,6 +33,9 @@ export interface RawCard {
   effect: string | null
   trigger: string | null
   keywords: string[]
+  /** Anteprima (ADR-0016); assenti nelle copie salvate prima. */
+  preview?: boolean
+  preview_credit?: string | null
   updated_at: string
 }
 
@@ -41,6 +46,7 @@ export interface RawPrinting {
   series_id: number
   /** Block della singola Printing (RIB-76); assente nelle copie salvate prima. */
   block?: string | null
+  preview?: boolean
   image_synced_at: string | null
   updated_at: string
 }
@@ -215,9 +221,6 @@ function euro(value: number | string | null): number | null {
 
 /** Dalle righe del database al catalogo usato da ricerca, filtri e dettaglio. */
 export function buildCatalog(rows: CatalogRows): Catalog {
-  const sets = [...rows.sets].sort((a, b) => a.code.localeCompare(b.code))
-  const setCodes = new Map(sets.map((s) => [s.series_id, s.code]))
-
   // Solo i prezzi Cardmarket con almeno un valore (RIB-32).
   const prices = new Map(
     rows.prices.flatMap((p) => {
@@ -247,8 +250,19 @@ export function buildCatalog(rows: CatalogRows): Catalog {
     }),
   )
 
+  // La copia locale non cancella mai righe, ma sul server le anteprime (ADR-0016) spariscono
+  // quando la carta esce: una Printing in anteprima di una Card ormai ufficiale si scarta, e
+  // così un Set in anteprima rimasto senza Printing.
+  const previewCards = new Set(rows.cards.filter((c) => c.preview).map((c) => c.card_code))
+  const livePrintings = rows.printings.filter((p) => !p.preview || previewCards.has(p.card_code))
+  const usedSeries = new Set(livePrintings.map((p) => p.series_id))
+  const sets = [...rows.sets]
+    .filter((s) => !s.preview || usedSeries.has(s.series_id))
+    .sort((a, b) => a.code.localeCompare(b.code))
+  const setCodes = new Map(sets.map((s) => [s.series_id, s.code]))
+
   const printingsByCard = new Map<string, CatalogPrinting[]>()
-  for (const p of [...rows.printings].sort((a, b) => a.print_id.localeCompare(b.print_id))) {
+  for (const p of [...livePrintings].sort((a, b) => a.print_id.localeCompare(b.print_id))) {
     const list = printingsByCard.get(p.card_code) ?? []
     const printing: CatalogPrinting = {
       printId: p.print_id,
@@ -258,6 +272,7 @@ export function buildCatalog(rows: CatalogRows): Catalog {
       hasImage: p.image_synced_at !== null,
       price: prices.get(p.print_id) ?? null,
       cardtrader: cardtrader.get(p.print_id) ?? null,
+      ...(p.preview ? { preview: true } : {}),
     }
     // La Printing base (senza suffisso) va per prima.
     if (p.print_id === p.card_code) list.unshift(printing)
@@ -273,7 +288,12 @@ export function buildCatalog(rows: CatalogRows): Catalog {
   )
 
   return {
-    sets: sets.map((s) => ({ seriesId: s.series_id, code: s.code, name: s.name })),
+    sets: sets.map((s) => ({
+      seriesId: s.series_id,
+      code: s.code,
+      name: s.name,
+      ...(s.preview ? { preview: true } : {}),
+    })),
     cards: [...rows.cards]
       .sort((a, b) => a.card_code.localeCompare(b.card_code))
       .map((c) => ({
@@ -294,6 +314,7 @@ export function buildCatalog(rows: CatalogRows): Catalog {
         printings: printingsByCard.get(c.card_code) ?? [],
         faqs: faqsByCard.get(c.card_code) ?? [],
         explanation: explanations.get(c.card_code) ?? null,
+        ...(c.preview ? { preview: true, previewCredit: c.preview_credit ?? null } : {}),
       })),
   }
 }

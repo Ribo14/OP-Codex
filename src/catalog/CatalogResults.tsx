@@ -4,6 +4,7 @@ import { Link, useLocation, useSearchParams } from 'react-router'
 import { cn } from '@/lib/utils'
 import { useBanKinds } from './ban-list'
 import { BanBadge } from './LegalityTags'
+import { PreviewBadge } from './PreviewNotice'
 import { cardImageUrl } from './card-image'
 import { cardPath } from './card-links'
 import type { CardLinkState } from './CardDetailRoute'
@@ -40,7 +41,7 @@ function Thumbnail({ entry, className }: { entry: CatalogEntry; className?: stri
   }
   return (
     <img
-      src={cardImageUrl(printing.printId, 'thumb')}
+      src={cardImageUrl(printing, 'thumb')}
       // Richiesta CORS: così il service worker può salvarla per l'offline (RIB-16).
       crossOrigin="anonymous"
       alt={card.name}
@@ -134,6 +135,15 @@ export function CatalogResults({
                       className="absolute top-2 left-2"
                     />
                   )}
+                  {/* ADR-0016: carta non ancora uscita. */}
+                  {entry.printing.preview && (
+                    <PreviewBadge
+                      className={cn(
+                        'absolute',
+                        gridSize === 'small' ? 'bottom-0.5 left-0.5 px-1' : 'bottom-2 left-2',
+                      )}
+                    />
+                  )}
                 </div>
                 {/* Con le carte piccole i testi non ci stanno: il nome resta nell'alt. */}
                 {gridSize === 'large' && (
@@ -207,6 +217,7 @@ export function CatalogResults({
                       {bans.has(card.cardCode) && (
                         <BanBadge kind={bans.get(card.cardCode) ?? 'banned'} className="mb-0.5" />
                       )}
+                      {printing.preview && <PreviewBadge className="mb-0.5" />}
                       <span className="block truncate font-medium">{card.name}</span>
                       <span className="block truncate text-xs text-muted-foreground md:hidden">
                         {t('catalog.cardLabel', { code: printing.printId, name: category })}

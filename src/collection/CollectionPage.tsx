@@ -202,7 +202,7 @@ export function OwnedTile({ item, size = 'large' }: { item: OwnedItem; size?: Gr
         <div className="relative">
           {printing.hasImage ? (
             <img
-              src={cardImageUrl(printing.printId, 'thumb')}
+              src={cardImageUrl(printing, 'thumb')}
               crossOrigin="anonymous"
               alt={card.name}
               width={300}

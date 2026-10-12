@@ -122,6 +122,56 @@ describe('buildCatalog', () => {
     expect(catalog.sets).toEqual([{ seriesId: 1, code: 'OP-01', name: 'ROMANCE DAWN' }])
   })
 
+  it('anteprime (ADR-0016): segnate, e scartate dalla copia locale quando la carta esce', () => {
+    const previewSet = {
+      series_id: -1,
+      code: 'EB-05',
+      name: 'Anteprima',
+      preview: true,
+      updated_at: T1,
+    }
+    const rows: CatalogRows = {
+      ...FULL,
+      sets: [...FULL.sets, previewSet],
+      cards: [
+        ...FULL.cards,
+        { ...rawCard('EB05-001', 'Nuova'), preview: true, preview_credit: 'Traduttore' },
+      ],
+      printings: [
+        ...FULL.printings,
+        { ...rawPrinting('EB05-001', 'EB05-001'), series_id: -1, preview: true },
+        { ...rawPrinting('EB05-001_p1', 'EB05-001'), series_id: -1, preview: true },
+      ],
+    }
+    const before = buildCatalog(rows)
+    const card = before.cards.find((c) => c.cardCode === 'EB05-001')
+    expect(card).toMatchObject({ preview: true, previewCredit: 'Traduttore' })
+    expect(card?.printings.map((p) => [p.printId, p.preview, p.setCode])).toEqual([
+      ['EB05-001', true, 'EB-05'],
+      ['EB05-001_p1', true, 'EB-05'],
+    ])
+    expect(before.sets.find((s) => s.code === 'EB-05')?.preview).toBe(true)
+
+    // Uscita: la Card e la sua base arrivano ufficiali in un Set vero; la variante dell'anteprima
+    // e il Set in anteprima (cancellati sul server) restano nella copia locale ma si scartano.
+    const after = buildCatalog({
+      ...rows,
+      sets: [...rows.sets, { series_id: 569205, code: 'EB-05 ', name: 'Uscito', updated_at: T2 }],
+      cards: rows.cards.map((c) =>
+        c.card_code === 'EB05-001' ? rawCard('EB05-001', 'Uscita') : c,
+      ),
+      printings: rows.printings.map((p) =>
+        p.print_id === 'EB05-001'
+          ? { ...rawPrinting('EB05-001', 'EB05-001'), series_id: 569205 }
+          : p,
+      ),
+    })
+    const released = after.cards.find((c) => c.cardCode === 'EB05-001')
+    expect(released?.preview).toBeUndefined()
+    expect(released?.printings.map((p) => p.printId)).toEqual(['EB05-001'])
+    expect(after.sets.some((s) => s.preview)).toBe(false)
+  })
+
   it('FAQ ufficiali sulla carta, solo quelle ben formate (RIB-44)', () => {
     const catalog = buildCatalog(FULL)
     expect(catalog.cards[0]?.faqs).toEqual([

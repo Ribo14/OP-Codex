@@ -32,6 +32,7 @@ export type WarningCode =
   | 'leaderMaxCost'
   | 'leaderMaxEventCost'
   | 'leaderOnlyType'
+  | 'preview'
 
 export interface DeckWarning {
   code: WarningCode
@@ -128,6 +129,14 @@ export function checkDeck(
       warn('block', illegal, { block: minimumStandardBlock(options.today) })
     }
   }
+
+  // Anteprime (ADR-0016): carte non ancora uscite, Leader compreso. Il mazzo si può provare,
+  // ma non portare a un torneo.
+  const previews = [
+    ...(validLeader?.preview ? [validLeader.cardCode] : []),
+    ...codesWhere((e) => e.card.preview === true),
+  ]
+  if (previews.length > 0) warn('preview', previews)
 
   // Ban List: bandite, limitate, coppie.
   const inDeck = new Map(entries.map((e) => [e.card.cardCode, e.quantity]))

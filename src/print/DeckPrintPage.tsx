@@ -136,11 +136,12 @@ function PrintRows({
       {rows.map((row) => {
         const { card } = row
         const printable = printablePrintings(card)
+        const shown = printable.find((p) => p.printId === row.printId)
         return (
           <li key={card.cardCode} className="flex items-center gap-3 py-2">
-            {row.printId ? (
+            {shown ? (
               <img
-                src={cardImageUrl(row.printId, 'thumb')}
+                src={cardImageUrl(shown, 'thumb')}
                 crossOrigin="anonymous"
                 alt=""
                 width={300}

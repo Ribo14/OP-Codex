@@ -67,7 +67,7 @@ export function CardPrintButton({
           </div>
           <PrintColorToggle color={color} onChange={setColor} />
           <PrintPdfPanel
-            items={[{ printId: printing.printId, copies }]}
+            items={[{ printId: printing.printId, copies, preview: printing.preview === true }]}
             name={`${card.name} ${printing.printId}`}
             color={color}
           />

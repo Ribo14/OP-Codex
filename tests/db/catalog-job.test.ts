@@ -107,9 +107,9 @@ describe('Catalog Sync completo', { timeout: 20_000 }, () => {
     expect(job).toMatchObject({ job: 'catalog_sync', status: 'success', finished: true })
     expect(job?.catalog).toEqual(stats.catalog)
 
-    // RIB-76: ogni Printing salva il suo Block.
+    // RIB-76: ogni Printing ufficiale salva il suo Block (le anteprime non lo hanno, ADR-0016).
     const [blocks] = await sql<{ missing: number }[]>`
-      select count(*)::int as missing from public.printings where block is null
+      select count(*)::int as missing from public.printings where block is null and not preview
     `
     expect(blocks?.missing).toBe(0)
   })

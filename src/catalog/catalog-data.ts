@@ -14,6 +14,8 @@ export interface CatalogPrinting {
   block?: string | null
   setCode: string
   hasImage: boolean
+  /** Anteprima di un Set non ancora uscito (ADR-0016): mai in una Collection. */
+  preview?: boolean
   /** Ultimo prezzo Cardmarket (RIB-32); null = nessun prezzo. Assente nei dati di prova. */
   price?: PrintingPrice | null
   /** Minimo su CardTrader (RIB-32, slice 5.5); null = nessun prezzo. */
@@ -56,6 +58,13 @@ export interface CatalogCard {
   keywords: string[]
   /** Tutte le Printing, la base per prima e poi in ordine di Print ID. */
   printings: CatalogPrinting[]
+  /**
+   * Anteprima (ADR-0016): dati e traduzione non ufficiali, presi da OPTCG Leaks finché la carta
+   * non arriva nella Official Card List. Assente nei dati di prova.
+   */
+  preview?: boolean
+  /** Chi ha tradotto il testo dell'anteprima, se il sito lo dice. */
+  previewCredit?: string | null
   /** FAQ ufficiali di Bandai (RIB-44), nell'ordine dei PDF; assenti nei dati di prova. */
   faqs?: CardFaq[]
   /**
@@ -77,6 +86,8 @@ export interface CatalogSet {
   seriesId: number
   code: string
   name: string
+  /** Set non ancora uscito (ADR-0016). */
+  preview?: boolean
 }
 
 export interface Catalog {
@@ -110,7 +121,7 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
 
   const [sets, cards, printings, faqs, explanations, prices] = await Promise.all([
     fetchAll((from, to) =>
-      changed(supabase.from('sets').select('series_id, code, name, updated_at'))
+      changed(supabase.from('sets').select('series_id, code, name, preview, updated_at'))
         .order('series_id')
         .range(from, to),
     ),
@@ -119,7 +130,7 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
         supabase
           .from('cards')
           .select(
-            'card_code, name, category, cost, life, power, counter, colors, attributes, types, block, effect, trigger, keywords, updated_at',
+            'card_code, name, category, cost, life, power, counter, colors, attributes, types, block, effect, trigger, keywords, preview, preview_credit, updated_at',
           ),
       )
         .order('card_code')
@@ -129,7 +140,9 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
       changed(
         supabase
           .from('printings')
-          .select('print_id, card_code, rarity, series_id, block, image_synced_at, updated_at'),
+          .select(
+            'print_id, card_code, rarity, series_id, block, preview, image_synced_at, updated_at',
+          ),
       )
         .order('print_id')
         .range(from, to),

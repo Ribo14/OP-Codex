@@ -193,6 +193,8 @@ export type Database = {
           life: number | null
           name: string
           power: number | null
+          preview: boolean
+          preview_credit: string | null
           trigger: string | null
           types: string[]
           updated_at: string
@@ -211,6 +213,8 @@ export type Database = {
           life?: number | null
           name: string
           power?: number | null
+          preview?: boolean
+          preview_credit?: string | null
           trigger?: string | null
           types?: string[]
           updated_at?: string
@@ -229,6 +233,8 @@ export type Database = {
           life?: number | null
           name?: string
           power?: number | null
+          preview?: boolean
+          preview_credit?: string | null
           trigger?: string | null
           types?: string[]
           updated_at?: string
@@ -636,6 +642,8 @@ export type Database = {
           card_code: string
           created_at: string
           image_synced_at: string | null
+          preview: boolean
+          preview_image: string | null
           print_id: string
           rarity: string
           series_id: number
@@ -646,6 +654,8 @@ export type Database = {
           card_code: string
           created_at?: string
           image_synced_at?: string | null
+          preview?: boolean
+          preview_image?: string | null
           print_id: string
           rarity: string
           series_id: number
@@ -656,6 +666,8 @@ export type Database = {
           card_code?: string
           created_at?: string
           image_synced_at?: string | null
+          preview?: boolean
+          preview_image?: string | null
           print_id?: string
           rarity?: string
           series_id?: number
@@ -731,6 +743,7 @@ export type Database = {
           code: string
           created_at: string
           name: string
+          preview: boolean
           product_type: string | null
           series_id: number
           updated_at: string
@@ -739,6 +752,7 @@ export type Database = {
           code: string
           created_at?: string
           name: string
+          preview?: boolean
           product_type?: string | null
           series_id: number
           updated_at?: string
@@ -747,6 +761,7 @@ export type Database = {
           code?: string
           created_at?: string
           name?: string
+          preview?: boolean
           product_type?: string | null
           series_id?: number
           updated_at?: string

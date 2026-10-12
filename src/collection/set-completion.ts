@@ -28,6 +28,8 @@ export function setCompletion(
   }
   for (const card of cards) {
     for (const printing of card.printings) {
+      // Le anteprime (ADR-0016) non si possono possedere: nessun completamento.
+      if (printing.preview) continue
       add(total, printing.setCode, card.cardCode)
       if (ownedPrints.has(printing.printId)) add(owned, printing.setCode, card.cardCode)
     }

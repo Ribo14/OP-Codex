@@ -1,4 +1,4 @@
-import { cardImageUrl } from '@/catalog/card-image'
+import { cardImageUrl, type ImageSource } from '@/catalog/card-image'
 import { buildPdf, type JpegImage } from './pdf'
 import { layoutSheets, type PrintItem } from './print-sheet'
 
@@ -36,8 +36,8 @@ function toGray(data: Uint8ClampedArray) {
   }
 }
 
-async function printingJpeg(printId: string, color: PrintColor): Promise<JpegImage> {
-  const image = await loadImage(cardImageUrl(printId, 'full'))
+async function printingJpeg(source: ImageSource, color: PrintColor): Promise<JpegImage> {
+  const image = await loadImage(cardImageUrl(source, 'full'))
   const canvas = document.createElement('canvas')
   canvas.width = image.naturalWidth
   canvas.height = image.naturalHeight
@@ -73,16 +73,16 @@ export async function createPrintPdf(
   onProgress: (done: number, total: number) => void = () => undefined,
 ): Promise<Blob> {
   const sheets = layoutSheets(items)
-  const printIds = [...new Set(sheets.flat().map((card) => card.printId))]
+  const sources = [...new Map(sheets.flat().map((card) => [card.printId, card])).values()]
   const images = new Map<string, JpegImage>()
   let next = 0
-  onProgress(0, printIds.length)
+  onProgress(0, sources.length)
   const worker = async () => {
-    while (next < printIds.length) {
-      const printId = printIds[next++]
-      if (printId === undefined) return
-      images.set(printId, await printingJpeg(printId, color))
-      onProgress(images.size, printIds.length)
+    while (next < sources.length) {
+      const source = sources[next++]
+      if (source === undefined) return
+      images.set(source.printId, await printingJpeg(source, color))
+      onProgress(images.size, sources.length)
     }
   }
   await Promise.all(Array.from({ length: CONCURRENCY }, worker))

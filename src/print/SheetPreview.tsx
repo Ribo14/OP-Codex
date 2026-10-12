@@ -34,7 +34,7 @@ export function SheetPreview({ items, color }: { items: readonly PrintItem[]; co
             {sheet.map((card, j) => (
               <img
                 key={j}
-                src={cardImageUrl(card.printId, 'thumb')}
+                src={cardImageUrl(card, 'thumb')}
                 crossOrigin="anonymous"
                 alt=""
                 loading="lazy"

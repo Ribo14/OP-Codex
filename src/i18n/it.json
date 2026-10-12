@@ -454,7 +454,8 @@
       "bannedPair": "Coppia bandita: queste carte non possono stare nello stesso mazzo.",
       "leaderMaxCost": "Il Leader vieta le carte di costo {{cost}} o più.",
       "leaderMaxEventCost": "Il Leader vieta gli Event di costo {{cost}} o più.",
-      "leaderOnlyType": "Il Leader ammette solo carte di tipo {{type}}."
+      "leaderOnlyType": "Il Leader ammette solo carte di tipo {{type}}.",
+      "preview": "Carte in anteprima, non ancora uscite: dati non ufficiali e non valide nei tornei finché non escono."
     },
     "stats": {
       "title": "Statistiche",
@@ -564,6 +565,7 @@
         "price_sync": "Prezzi Cardmarket",
         "cardtrader_sync": "Prezzi CardTrader",
         "recipe_sync": "Composizione degli Starter Deck",
+        "preview_sync": "Anteprime dei Set in uscita",
         "other": "Altro job"
       },
       "status": {
@@ -875,6 +877,7 @@
     "rarityColumn": "Rarità",
     "priceColumn": "Prezzo",
     "officialText": "Testo ufficiale in inglese",
+    "previewText": "Testo in inglese, traduzione non ufficiale",
     "price": {
       "title": "Prezzi",
       "trend": "Tendenza",
@@ -1036,6 +1039,14 @@
     "contactLink": "github.com/Ribo14/OP-Codex",
     "bandaiTitle": "Marchi",
     "bandai": "OP-Codex non è affiliato né approvato da Bandai. ONE PIECE © Eiichiro Oda/Shueisha, Toei Animation. Le immagini e i testi delle carte appartengono ai rispettivi titolari."
+  },
+  "preview": {
+    "badge": "Anteprima",
+    "title": "Anteprima: carta non ancora uscita",
+    "text": "Dati e traduzione non ufficiali, presi da",
+    "source": "OPTCG Leaks",
+    "credit": "traduzione di {{name}}",
+    "noCollection": "Quando Bandai la pubblica, la sostituiamo con quella ufficiale. Finché non esce non si può aggiungere alla Collezione, ma puoi già metterla in un mazzo."
   },
   "print": {
     "title": "Stampa carte",

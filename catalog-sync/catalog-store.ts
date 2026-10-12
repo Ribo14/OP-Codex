@@ -32,7 +32,8 @@ export function imageSyncRepository(sql: Sql): ImageSyncRepository {
     async pendingPrintIds(limit) {
       const rows = await sql<{ print_id: string }[]>`
         select print_id from public.printings
-        where image_synced_at is null
+        -- Le anteprime prendono l'immagine dal loro sito, nel Preview Sync (ADR-0016).
+        where image_synced_at is null and not preview
         order by print_id
         limit ${limit}
       `
@@ -40,7 +41,8 @@ export function imageSyncRepository(sql: Sql): ImageSyncRepository {
     },
     async countPending() {
       const [row] = await sql<{ n: number }[]>`
-        select count(*)::int as n from public.printings where image_synced_at is null
+        select count(*)::int as n from public.printings
+        where image_synced_at is null and not preview
       `
       return row?.n ?? 0
     },
@@ -82,9 +84,44 @@ function count(rows: readonly { inserted: boolean }[], into: UpsertCounts): void
 }
 
 /**
+ * Le anteprime (ADR-0016) che la Official Card List ora pubblica lasciano il posto ai dati
+ * ufficiali: le loro Printing si cancellano (i mazzi che le mostravano tornano alla base, il
+ * conteggio per Card Code non cambia), la Card viene sovrascritta dall'upsert che segue. Un Set
+ * in anteprima con lo stesso codice di uno ufficiale si cancella se è vuoto, altrimenti cambia
+ * codice (il codice dei Set è unico).
+ */
+async function retirePreviews(tx: postgres.TransactionSql, catalog: MergedCatalog) {
+  const cardCodes = catalog.cards.map((c) => c.cardCode)
+  const setCodes = catalog.sets.map((s) => s.code)
+  await tx`
+    update public.deck_cards set print_id = null
+    where print_id in (
+      select print_id from public.printings where preview and card_code = any(${cardCodes})
+    )
+  `
+  await tx`
+    update public.decks set leader_print_id = null
+    where leader_print_id in (
+      select print_id from public.printings where preview and card_code = any(${cardCodes})
+    )
+  `
+  await tx`delete from public.printings where preview and card_code = any(${cardCodes})`
+  await tx`
+    delete from public.sets s
+    where s.preview and s.code = any(${setCodes})
+      and not exists (select 1 from public.printings p where p.series_id = s.series_id)
+  `
+  await tx`
+    update public.sets set code = code || ' (anteprima)', updated_at = now()
+    where preview and code = any(${setCodes})
+  `
+}
+
+/**
  * Salva il catalogo con upsert idempotenti. Una riga esistente viene aggiornata solo se
  * qualche campo è davvero cambiato: rilanciare il sync senza novità non modifica nulla.
- * Non cancella mai niente. Va chiamata dentro una transazione.
+ * Non cancella mai dati ufficiali, solo le anteprime che diventano ufficiali (retirePreviews).
+ * Va chiamata dentro una transazione.
  */
 export async function upsertCatalog(
   tx: postgres.TransactionSql,
@@ -95,6 +132,8 @@ export async function upsertCatalog(
     cards: { inserted: 0, updated: 0 },
     printings: { inserted: 0, updated: 0 },
   }
+
+  await retirePreviews(tx, catalog)
 
   for (const batch of chunks(catalog.sets)) {
     const rows = batch.map((s) => ({
@@ -160,6 +199,9 @@ export async function upsertCatalog(
         effect = excluded.effect,
         trigger = excluded.trigger,
         keywords = excluded.keywords,
+        -- Un'anteprima diventa ufficiale (ADR-0016).
+        preview = false,
+        preview_credit = null,
         updated_at = now()
       where (c.name, c.category, c.cost, c.life, c.power, c.counter,
              c.attributes, c.colors, c.types, c.block, c.effect, c.trigger, c.keywords)
@@ -167,6 +209,7 @@ export async function upsertCatalog(
             (excluded.name, excluded.category, excluded.cost, excluded.life, excluded.power,
              excluded.counter, excluded.attributes, excluded.colors, excluded.types,
              excluded.block, excluded.effect, excluded.trigger, excluded.keywords)
+        or c.preview
       returning (xmax = 0) as inserted
     `
     count(result, stats.cards)
@@ -216,6 +259,7 @@ export type JobName =
   | 'price_sync'
   | 'cardtrader_sync'
   | 'recipe_sync'
+  | 'preview_sync'
 
 /** Registra l'inizio di un job in job_runs e restituisce l'id dell'esecuzione. */
 export async function startJobRun(sql: Sql, job: JobName): Promise<number> {

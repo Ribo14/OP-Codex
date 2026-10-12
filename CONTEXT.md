@@ -39,6 +39,10 @@ Il numero di blocco stampato sulla carta che determina in quale rotazione è leg
 **Official Card List**:
 L'elenco delle carte sul sito ufficiale inglese di Bandai: è la fonte di verità del catalogo.
 
+**Preview** (Anteprima):
+Una Card di un Set non ancora uscito, presa da OPTCG Leaks finché la Official Card List non la pubblica; poi il Catalog Sync la sostituisce con quella ufficiale (ADR-0016). Si può mettere in un Deck ma non in una Collection.
+_Avoid_: spoiler, leak (come nome del concetto)
+
 **Catalog Sync**:
 L'aggiornamento periodico del catalogo a partire dalla Official Card List.
 _Avoid_: scraping (come nome del concetto), import

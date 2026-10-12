@@ -18,6 +18,7 @@ import { CardPrice } from './CardPrice'
 import { useEuro } from './price-format'
 import { ExplanationFeedback } from './ExplanationFeedback'
 import { LegalityTags } from './LegalityTags'
+import { PreviewNotice } from './PreviewNotice'
 import { gameColor } from './game-colors'
 import { useSwipe } from './use-swipe'
 
@@ -144,7 +145,7 @@ export function CardDetail({
           >
             {printing?.hasImage ? (
               <img
-                src={cardImageUrl(printing.printId, 'full')}
+                src={cardImageUrl(printing, 'full')}
                 crossOrigin="anonymous"
                 alt={card.name}
                 width={600}
@@ -194,7 +195,7 @@ export function CardDetail({
                 >
                   {p.hasImage ? (
                     <img
-                      src={cardImageUrl(p.printId, 'thumb')}
+                      src={cardImageUrl(p, 'thumb')}
                       crossOrigin="anonymous"
                       alt=""
                       width={300}
@@ -272,10 +273,13 @@ export function CardDetail({
           {/* RIB-29: tag rossi della Ban List e arancione per il formato Standard. */}
           <LegalityTags card={card} cards={cards} />
 
-          {printing && <CollectionControls printId={printing.printId} />}
+          {/* ADR-0016: un'anteprima non si possiede ancora, niente Collection. */}
+          {card.preview && <PreviewNotice card={card} />}
+          {printing && !printing.preview && <CollectionControls printId={printing.printId} />}
 
           {/* RIB-32: prezzo Cardmarket della Printing mostrata. */}
-          <CardPrice cardCode={card.cardCode} printing={printing} />
+          {/* Un'anteprima non è ancora in vendita: niente prezzi. */}
+          {!card.preview && <CardPrice cardCode={card.cardCode} printing={printing} />}
 
           <dl className="grid grid-cols-3 gap-2">
             {stats.map(([label, value]) => (
@@ -310,7 +314,9 @@ export function CardDetail({
           )}
 
           <section className="space-y-4">
-            <p className="text-xs text-muted-foreground">{t('detail.officialText')}</p>
+            <p className="text-xs text-muted-foreground">
+              {t(card.preview ? 'detail.previewText' : 'detail.officialText')}
+            </p>
             {card.effect === null && card.trigger === null && (
               <p className="text-muted-foreground">{t('detail.noEffect')}</p>
             )}

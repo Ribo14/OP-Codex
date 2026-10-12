@@ -71,7 +71,8 @@ export function listRows(
     }
     const card = catalog.get(parsed.cardCode)
     const base = card?.printings[0]
-    if (!card || !base) {
+    // Un'anteprima (ADR-0016) non è ancora uscita: come una carta sconosciuta.
+    if (!card || !base || base.preview) {
       errors.push({ line: index + 1, text: line, problem: 'unknown' })
       return
     }

@@ -44,6 +44,12 @@ jobs:
       - run: npm ci
       - name: Catalog Sync
         run: node catalog-sync/sync-catalog.ts --delay-ms 3000
+      # Anteprime dei Set non ancora usciti (ADR-0016), dopo il Catalog Sync: le carte appena
+      # diventate ufficiali sono già state sostituite. Se il sito delle anteprime non risponde,
+      # il resto della notte va avanti lo stesso.
+      - name: Preview Sync
+        continue-on-error: true
+        run: node catalog-sync/sync-previews.ts --delay-ms 1000
       # FAQ ufficiali (RIB-44) dal file versionato nel repo: idempotente, non chiede nulla a Bandai.
       - name: FAQ Sync
         run: node catalog-sync/sync-faqs.ts

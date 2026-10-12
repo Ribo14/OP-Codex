@@ -16,11 +16,14 @@ export const CARDS_PER_SHEET = COLUMNS * ROWS
 export interface PrintItem {
   printId: string
   copies: number
+  /** Printing in anteprima (ADR-0016): l'immagine sta altrove. */
+  preview?: boolean
 }
 
 /** Una carta sul foglio: Print ID e angolo in alto a sinistra, in mm. */
 export interface PlacedCard {
   printId: string
+  preview?: boolean
   x: number
   y: number
 }
@@ -45,17 +48,18 @@ export function sheetCount(items: readonly PrintItem[]): number {
  * della lista.
  */
 export function layoutSheets(items: readonly PrintItem[]): PlacedCard[][] {
-  const printIds = items.flatMap((item) =>
-    Array.from({ length: Math.max(0, item.copies) }, () => item.printId),
+  const copies = items.flatMap((item) =>
+    Array.from({ length: Math.max(0, item.copies) }, () => item),
   )
   const sheets: PlacedCard[][] = []
-  printIds.forEach((printId, i) => {
+  copies.forEach(({ printId, preview }, i) => {
     const slot = i % CARDS_PER_SHEET
     if (slot === 0) sheets.push([])
     const column = slot % COLUMNS
     const row = Math.floor(slot / COLUMNS)
     sheets[sheets.length - 1]?.push({
       printId,
+      ...(preview ? { preview } : {}),
       x: MARGIN_X_MM + column * (CARD_WIDTH_MM + GAP_MM),
       y: MARGIN_Y_MM + row * (CARD_HEIGHT_MM + GAP_MM),
     })

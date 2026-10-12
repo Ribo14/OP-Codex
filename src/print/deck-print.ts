@@ -55,7 +55,9 @@ export function deckPrintRows(
 
 /** Cosa va nel PDF: le righe con almeno una copia e un'immagine. */
 export function printItems(rows: readonly DeckPrintRow[]): PrintItem[] {
-  return rows.flatMap((row) =>
-    row.printId !== null && row.copies > 0 ? [{ printId: row.printId, copies: row.copies }] : [],
-  )
+  return rows.flatMap((row) => {
+    if (row.printId === null || row.copies <= 0) return []
+    const preview = row.card.printings.find((p) => p.printId === row.printId)?.preview === true
+    return [{ printId: row.printId, copies: row.copies, ...(preview ? { preview } : {}) }]
+  })
 }

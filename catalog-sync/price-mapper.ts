@@ -7,13 +7,19 @@
 // 1. si scartano le espansioni non inglesi;
 // 2. per ogni Set si sceglie l'espansione inglese che contiene più Card Code del Set;
 // 3. per ogni Card del Set, se l'espansione ha tanti prodotti quante Printing, si abbinano in
-//    ordine: la base al prodotto più economico, le altre per idProduct. Altrimenti niente.
+//    ordine: la base al prodotto più economico, le altre per idProduct;
+// 4. se il Set ha solo la base della Card ma Cardmarket ha più versioni (negli Starter Deck la
+//    "Super PreRelease" timbrata, poi le ristampe), la base va al prodotto più economico tra
+//    quelli aggiunti il giorno dell'uscita, cercati in tutte le espansioni inglesi (RIB-96);
+// 5. una ristampa (_rN) rimasta senza prodotto prende quello della base. Altrimenti niente.
 // I Mapping Override dell'Admin prevalgono sempre, anche per togliere un abbinamento.
 
 export interface CardmarketProduct {
   idProduct: number
   name: string
   idExpansion: number
+  /** Quando Cardmarket l'ha aggiunto ("2023-01-06 10:12:00"): distingue l'uscita dalle aggiunte successive. */
+  dateAdded?: string
 }
 
 /** Prodotto sigillato (busta, box): serve solo a capire la lingua di un'espansione. */
@@ -54,7 +60,9 @@ export function productCardCode(name: string): string | null {
   return CODE_IN_NAME.exec(name)?.[1] ?? null
 }
 
-const NON_ENGLISH = /\((Non-English|Asia Region Legal)\)/
+// Alcuni Starter Deck giapponesi sono "(Japanese)" invece di "(Non-English)", e un box ha il
+// refuso "(Asia Region Lega)" (RIB-96).
+const NON_ENGLISH = /\((Non-English|Asia Region Legal?|Japanese)\)/
 
 /** Le espansioni in cui la maggior parte dei prodotti sigillati non è in inglese. */
 export function nonEnglishExpansions(sealed: readonly CardmarketSealed[]): Set<number> {
@@ -95,12 +103,18 @@ export function mapCardmarket(input: CardmarketMapperInput): PriceMapping[] {
 
   // Prodotti inglesi con Card Code, per (Card Code, espansione), in ordine di idProduct.
   const productsOf = new Map<string, CardmarketProduct[]>()
+  const englishOf = new Map<string, CardmarketProduct[]>()
+  // Quanti prodotti di ogni serie di Card Code ("ST11", "P") ha ogni espansione inglese.
+  const seriesCount = new Map<string, number>()
   const expansionsOf = new Map<string, Set<number>>()
   for (const p of [...input.products].sort((a, b) => a.idProduct - b.idProduct)) {
     const code = productCardCode(p.name)
     if (code === null || nonEnglish.has(p.idExpansion)) continue
     const key = `${code}|${String(p.idExpansion)}`
     productsOf.set(key, [...(productsOf.get(key) ?? []), p])
+    englishOf.set(code, [...(englishOf.get(code) ?? []), p])
+    const series = `${seriesOf(code)}|${String(p.idExpansion)}`
+    seriesCount.set(series, (seriesCount.get(series) ?? 0) + 1)
     expansionsOf.set(code, (expansionsOf.get(code) ?? new Set()).add(p.idExpansion))
   }
 
@@ -109,15 +123,40 @@ export function mapCardmarket(input: CardmarketMapperInput): PriceMapping[] {
   const matched: PriceMapping[] = []
   for (const [seriesId, setPrintings] of sets) {
     const expansion = homes.get(seriesId)
-    if (expansion === undefined) continue
     for (const [cardCode, cardPrintings] of groupBy(setPrintings, (p) => p.cardCode)) {
-      const candidates = productsOf.get(`${cardCode}|${String(expansion)}`) ?? []
-      matched.push(...matchInOrder([...cardPrintings].sort(printingOrder), candidates, trends))
+      const candidates =
+        expansion === undefined ? [] : (productsOf.get(`${cardCode}|${String(expansion)}`) ?? [])
+      const ordered = [...cardPrintings].sort(printingOrder)
+      const [only] = ordered
+      // Regola 4: il Set ha solo la base e l'espansione non ha esattamente un prodotto: si
+      // guarda l'uscita originale della Card in tutte le espansioni inglesi. L'espansione del Set
+      // può non essere quella giusta (uno Starter Deck pieno di ristampe, le Promo che finiscono
+      // nell'espansione dei DON!! Card Pack con le versioni speciali).
+      // Prima l'espansione "di casa" della Card, quella con più carte della sua serie (le Promo
+      // nell'espansione delle Promo, ST11 in "Starter Deck: Uta" e non nella busta del Capodanno
+      // cinese uscita prima); se lì non c'è un prezzo, tutte.
+      if (ordered.length === 1 && only && candidates.length !== 1) {
+        const all = englishOf.get(cardCode) ?? []
+        const own = ownExpansion(cardCode, all, seriesCount)
+        const found = matchBaseOnly(only, own, trends)
+        matched.push(...(found.length > 0 ? found : matchBaseOnly(only, all, trends)))
+      } else {
+        matched.push(...matchInOrder(ordered, candidates, trends))
+      }
     }
   }
   // Rete di sicurezza: un prodotto finito su due Printing è ambiguo, non lo si usa.
   const uses = groupBy(matched, (m) => m.productId)
   const auto = matched.filter((m) => uses.get(m.productId)?.length === 1)
+
+  // Regola 5 (RIB-96): una ristampa (_rN) senza prodotto suo, di solito negli Starter Deck,
+  // per Cardmarket è la stessa carta dell'originale: prende il prodotto della base.
+  const byPrint = new Map(auto.map((m) => [m.printId, m]))
+  for (const p of input.printings) {
+    if (!/_r\d+$/.test(p.printId) || byPrint.has(p.printId)) continue
+    const base = byPrint.get(p.cardCode)
+    if (base) auto.push({ ...base, printId: p.printId })
+  }
 
   // Gli override vincono: sostituiscono l'abbinamento della loro Printing e tolgono il loro
   // prodotto a qualunque altra Printing abbinata in automatico.
@@ -194,6 +233,52 @@ function matchInOrder(
       ? [{ printId: p.printId, productId: product.idProduct, source: 'auto' as const, confidence }]
       : []
   })
+}
+
+/**
+ * Il Set ha solo la base, Cardmarket più versioni della stessa Card (regola 4). Si guarda solo
+ * il giorno dell'uscita, quando arrivano base e varianti promozionali (le ristampe arrivano
+ * dopo e possono costare meno della base); la base è la più economica. Sicuro ("high") se costa
+ * al massimo la metà della seconda, altrimenti da controllare. Senza prezzi, niente.
+ */
+function matchBaseOnly(
+  printing: MapperPrinting,
+  products: readonly CardmarketProduct[],
+  trends: ReadonlyMap<number, number | null>,
+): PriceMapping[] {
+  if (printing.printId !== printing.cardCode) return []
+  const day = (p: CardmarketProduct) => p.dateAdded?.slice(0, 10) ?? ''
+  const firstDay = products.map(day).sort()[0] ?? ''
+  const priced = products
+    .filter((p) => day(p) === firstDay)
+    .flatMap((p) => {
+      const trend = trends.get(p.idProduct)
+      return typeof trend === 'number' && trend > 0 ? [{ p, trend }] : []
+    })
+    .sort((a, b) => a.trend - b.trend)
+  const [best, second] = priced
+  if (!best) return []
+  const confidence = !second || best.trend * 2 <= second.trend ? 'high' : 'check'
+  return [{ printId: printing.printId, productId: best.p.idProduct, source: 'auto', confidence }]
+}
+
+/** La serie di un Card Code: "ST11" per ST11-001, "P" per P-030. */
+function seriesOf(cardCode: string): string {
+  return cardCode.split('-')[0] ?? cardCode
+}
+
+/** I prodotti della Card nell'espansione con più carte della sua serie (a parità, la più vecchia). */
+function ownExpansion(
+  cardCode: string,
+  products: readonly CardmarketProduct[],
+  seriesCount: ReadonlyMap<string, number>,
+): CardmarketProduct[] {
+  const series = seriesOf(cardCode)
+  const count = (expansion: number) => seriesCount.get(`${series}|${String(expansion)}`) ?? 0
+  const [best] = [...new Set(products.map((p) => p.idExpansion))].sort(
+    (a, b) => count(b) - count(a) || a - b,
+  )
+  return products.filter((p) => p.idExpansion === best)
 }
 
 /** Indice del prodotto con il trend più basso; 0 se i prezzi mancano. */

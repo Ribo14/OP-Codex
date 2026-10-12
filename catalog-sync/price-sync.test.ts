@@ -20,7 +20,13 @@ const raw = () => ({
   },
   singles: {
     products: [
-      { idProduct: 1, name: 'Roronoa Zoro (OP01-001)', idExpansion: 5229, dateAdded: 'x' },
+      {
+        idProduct: 1,
+        name: 'Roronoa Zoro (OP01-001)',
+        idExpansion: 5229,
+        dateAdded: '2022-12-28 22:11:43',
+        idMetacard: 415369,
+      },
       { idProduct: 2, name: 'senza espansione' },
       ...many(1000, (i) => ({
         idProduct: 10 + i,
@@ -45,6 +51,8 @@ describe('parseCardmarketFiles', () => {
       idProduct: 1,
       name: 'Roronoa Zoro (OP01-001)',
       idExpansion: 5229,
+      // Serve al Price Mapper per riconoscere i prodotti del giorno dell'uscita (RIB-96).
+      dateAdded: '2022-12-28 22:11:43',
     })
     expect(files.singles.some((p) => p.idProduct === 2)).toBe(false)
     expect(files.sealed).toEqual([

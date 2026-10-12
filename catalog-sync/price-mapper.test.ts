@@ -103,8 +103,13 @@ describe('nonEnglishExpansions', () => {
       { name: 'The Best Booster Box', idExpansion: EN_PRB01 },
       { name: 'The Best Booster', idExpansion: EN_PRB01 },
       { name: 'The Best Booster Box Case (Asia Region Legal)', idExpansion: EN_PRB01 },
+      // RIB-96: alcuni Starter Deck sono "(Japanese)", e c'è il refuso "Lega".
+      { name: 'Starter Deck: Uta (Japanese)', idExpansion: 5591 },
+      { name: 'Egghead Crisis Booster Box (Asia Region Lega)', idExpansion: 6478 },
+      // Un set inglese con "Japanese" nel nome resta inglese.
+      { name: '2nd Japanese Anniversary Set (English Version)', idExpansion: 5267 },
     ]
-    expect(nonEnglishExpansions(sealed)).toEqual(new Set([JP_OP01, 6723]))
+    expect(nonEnglishExpansions(sealed)).toEqual(new Set([JP_OP01, 6723, 5591, 6478]))
   })
 })
 
@@ -120,6 +125,108 @@ describe('mapCardmarket', () => {
     const result = map()
     expect(result.get('OP01-016')).toMatchObject({ productId: 690401, confidence: 'check' })
     expect(result.get('OP01-016_p1')).toMatchObject({ productId: 690400, confidence: 'check' })
+  })
+
+  it('Starter Deck: solo la base nel Set, più versioni su Cardmarket (RIB-96)', () => {
+    // Dai file del 2026-10-12: base e "Super PreRelease" lo stesso giorno, poi una ristampa.
+    const ST01 = 569001
+    const EN_ST01 = 5237
+    const day1 = '2023-01-06 10:00:00'
+    const st = (idProduct: number, name: string, dateAdded: string) => ({
+      ...product(idProduct, name, EN_ST01),
+      dateAdded,
+    })
+    const result = new Map(
+      mapCardmarket({
+        printings: [
+          printing('ST01-001', ST01),
+          printing('ST01-006', ST01),
+          printing('ST01-007', ST01),
+          printing('ST01-008', ST01),
+        ],
+        products: [
+          st(690965, 'Monkey.D.Luffy (ST01-001)', day1),
+          st(690966, 'Monkey.D.Luffy (ST01-001)', day1),
+          // La ristampa successiva costa meno della variante, ma non è la base.
+          st(864285, 'Monkey.D.Luffy (ST01-001)', '2025-12-23 09:00:00'),
+          st(690975, 'Tony Tony.Chopper (ST01-006)', day1),
+          st(690976, 'Tony Tony.Chopper (ST01-006)', day1),
+          // Prezzi vicini: la base è incerta, abbinamento da controllare.
+          st(690977, 'Nami (ST01-007)', day1),
+          st(690978, 'Nami (ST01-007)', day1),
+          // Nessun prezzo: niente abbinamento.
+          st(690979, 'Nico Robin (ST01-008)', day1),
+          st(690980, 'Nico Robin (ST01-008)', day1),
+        ],
+        nonEnglish: new Set(),
+        trends: new Map([
+          [690965, 6.5],
+          [690966, 667.25],
+          [864285, 32.8],
+          [690975, 13.52],
+          [690976, 0.09],
+          [690977, 0.4],
+          [690978, 0.6],
+        ]),
+        overrides: new Map(),
+      }).map((m) => [m.printId, m]),
+    )
+    expect(result.get('ST01-001')).toMatchObject({ productId: 690965, confidence: 'high' })
+    expect(result.get('ST01-006')).toMatchObject({ productId: 690976, confidence: 'high' })
+    expect(result.get('ST01-007')).toMatchObject({ productId: 690977, confidence: 'check' })
+    expect(result.has('ST01-008')).toBe(false)
+  })
+
+  it("Promo e Starter Deck: si cerca la base nell'espansione della sua serie (RIB-96)", () => {
+    // Dai file del 2026-10-12. Le Promo vivono in 5230; 5262 (DON!! Card Pack) ha le versioni
+    // speciali. ST11 è in 5427 ("Starter Deck: Uta"); 5510 (busta del Capodanno cinese) è uscita
+    // prima con una versione speciale.
+    const PROMO = 569901
+    const ST11 = 569011
+    const p = (idProduct: number, name: string, idExpansion: number, dateAdded: string) => ({
+      ...product(idProduct, name, idExpansion),
+      dateAdded,
+    })
+    const result = new Map(
+      mapCardmarket({
+        printings: [printing('P-030', PROMO), printing('P-021', PROMO), printing('ST11-005', ST11)],
+        products: [
+          p(692224, 'Jinbe (P-030)', 5230, '2023-01-17 10:00:00'),
+          p(692219, 'Benn.Beckman (P-021)', 5230, '2023-01-17 10:00:00'),
+          p(752020, 'Jinbe (P-030)', 5262, '2024-01-22 10:00:00'),
+          p(845299, 'Jinbe (P-030)', 5262, '2025-08-26 10:00:00'),
+          p(750514, "I'm invincible (ST11-005)", 5510, '2024-01-12 10:00:00'),
+          p(754837, "I'm invincible (ST11-005)", 5427, '2024-02-02 10:00:00'),
+          p(754838, 'Uta (ST11-001)', 5427, '2024-02-02 10:00:00'),
+        ],
+        nonEnglish: new Set(),
+        trends: new Map([
+          [692224, 0.59],
+          [692219, 0.36],
+          [752020, 59.03],
+          [845299, 36.21],
+          [750514, 0.62],
+          [754837, 0.4],
+        ]),
+        overrides: new Map(),
+      }).map((m) => [m.printId, m]),
+    )
+    expect(result.get('P-030')?.productId).toBe(692224)
+    expect(result.get('ST11-005')?.productId).toBe(754837)
+  })
+
+  it('una ristampa senza prodotto suo prende quello della base (RIB-96)', () => {
+    const ST15 = 569015
+    const result = new Map(
+      mapCardmarket({
+        printings: [printing('OP01-004', OP01), printing('OP01-004_r2', ST15)],
+        products,
+        nonEnglish,
+        trends,
+        overrides: new Map(),
+      }).map((m) => [m.printId, m]),
+    )
+    expect(result.get('OP01-004_r2')).toMatchObject({ productId: 690370, source: 'auto' })
   })
 
   it('senza lo stesso numero di prodotti e Printing non abbina nulla', () => {

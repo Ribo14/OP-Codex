@@ -4,7 +4,7 @@ Le spiegazioni in italiano delle carte si scrivono in anticipo, nelle sessioni d
 
 ## Dove stanno
 
-- `catalog-sync/explanations/*.json`, un file per Set o gruppo (`op01.json` … `op17.json`, `eb.json`, `st.json`, `promo.json`).
+- `catalog-sync/explanations/*.json`, un file per Set o gruppo (`op01.json` … `op17.json`, `eb.json`, `st.json`, `promo.json`), più `anteprime.json` per le carte dei Set non ancora usciti.
 - Ogni voce: `{ "cardCode": "OP01-001", "body": "..." }`, una per Card (non per Printing).
 - Il job notturno `catalog-sync.yml` (passo "Explanation Sync") le carica nella tabella `card_explanations`; da lì arrivano nella copia del catalogo sul dispositivo, anche offline. Per caricarle subito: lanciare a mano il workflow, oppure `node catalog-sync/sync-explanations.ts` con `SUPABASE_DB_URL`.
 - Una spiegazione tolta dal file resta nel database con il testo vuoto e sparisce dall'app.
@@ -31,4 +31,6 @@ Le spiegazioni in italiano delle carte si scrivono in anticipo, nelle sessioni d
 ## Stato
 
 - 2026-09-26: tutti i 142 Leader (RIB-52) e tutte le carte con effetto legali in Standard (RIB-55): OP-05…OP-17, EB-01…EB-04, ST-10…ST-36, Promo e PRB-02. In totale 1.889 spiegazioni.
+- 2026-10-12: le 34 carte di OP-05 legali in Standard che mancavano (RIB-90) e le 95 anteprime di EB-05, OP-18, ST-37 e ST-38 (RIB-91). In totale 2.018 spiegazioni.
+- **Anteprime** (ADR-0016): stanno in `anteprime.json` e partono dal testo non ufficiale di OPTCG Leaks. Quando il Set esce, si confrontano con il testo ufficiale, si correggono e si spostano nel file del Set. La spiegazione è legata al Card Code, quindi resta visibile anche dopo l'uscita: va ricontrollata.
 - Da fare: rileggere i testi (revisione con gli amici prima del merge in prod), scrivere le spiegazioni delle carte nuove a ogni Set, e dare la precedenza alle richieste della coda Admin (RIB-54).

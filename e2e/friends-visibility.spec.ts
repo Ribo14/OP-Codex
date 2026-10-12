@@ -116,6 +116,18 @@ test('mazzi e Collection su Amici: li vede l’amico, non gli altri', async ({
     ).toBeVisible()
     await expect(bruno.page.getByText('Mazzo di un amico')).toBeVisible()
 
+    // RIB-95: da Collezione e da Mazzi, il pulsante Amici apre la pagina di Anna alla sezione giusta.
+    await bruno.page.goto('/collezione')
+    await bruno.page.getByRole('button', { name: 'Amici' }).click()
+    await bruno.page.getByRole('menuitem', { name: `@${anna.username}` }).click()
+    await expect(bruno.page).toHaveURL(new RegExp(`/amici/${anna.username}#amico-collezione$`))
+    await expect(bruno.page.getByText('×3')).toBeVisible()
+    await bruno.page.goto('/mazzi')
+    await bruno.page.getByRole('button', { name: 'Amici' }).click()
+    await bruno.page.getByRole('menuitem', { name: `@${anna.username}` }).click()
+    await expect(bruno.page).toHaveURL(new RegExp(`/amici/${anna.username}#amico-mazzi$`))
+    await expect(bruno.page.getByText('1 mazzo condiviso')).toBeVisible()
+
     // Carla non è amica: stesso messaggio di un profilo che non esiste; il mazzo non si apre.
     await carla.page.goto(`/amici/${anna.username}`)
     await expect(carla.page.getByText('Non trovi questo profilo', { exact: false })).toBeVisible()

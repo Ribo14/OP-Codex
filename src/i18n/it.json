@@ -504,6 +504,17 @@
     "overview": {
       "jobsTitle": "Job della notte",
       "numbersTitle": "L'app in numeri",
+      "content": {
+        "title": "Contenuti da completare",
+        "complete": "Spiegazioni e FAQ complete: ogni carta con effetto ha la sua spiegazione.",
+        "explanations_one": "{{count}} carta senza spiegazione",
+        "explanations_other": "{{count}} carte senza spiegazione",
+        "previews_one": "{{count}} anteprima senza spiegazione",
+        "previews_other": "{{count}} anteprime senza spiegazione",
+        "preview": "anteprima",
+        "faq": "Set senza FAQ ufficiali: {{sets}}",
+        "hint": "Spiegazioni e FAQ si aggiungono in una sessione di lavoro con Claude (docs/spiegazioni.md)."
+      },
       "overall": {
         "ok": "Tutto a posto: stanotte i job sono andati bene.",
         "running": "Qualche job è ancora in corso.",
@@ -765,6 +776,13 @@
   },
   "friends": {
     "title": "Amici",
+    "shortcut": {
+      "collection": "Collezione di un amico",
+      "decks": "Mazzi di un amico",
+      "none": "Ancora nessun amico",
+      "failed": "Serve la connessione",
+      "manage": "Aggiungi o gestisci amici"
+    },
     "loadFailed": "Non riesco a leggere i tuoi amici. Controlla la connessione e riprova.",
     "actionFailed": "Non è andata: controlla la connessione e riprova.",
     "badge_one": "{{count}} richiesta di amicizia da vedere",
@@ -1205,7 +1223,7 @@
     "download": "Scarica il PDF",
     "failed": "PDF non creato: controlla la connessione e riprova.",
     "hintScale": "Stampa su A4 a dimensione reale (100%), senza «Adatta alla pagina»: ogni carta misura 63×88 mm.",
-    "hintCut": "Taglia lungo le linee grigie sottili.",
+    "hintCut": "Prima di tagliare, misura la linea di controllo in fondo al foglio: deve essere 5 cm. Poi taglia esattamente sulla linea scura attorno a ogni carta (non a metà dello spazio tra le carte); i segni nei margini ti aiutano ad andare dritto.",
     "hintProxy": "Le immagini ufficiali portano la scritta SAMPLE. Le carte stampate valgono per giocare tra amici, non nei tornei ufficiali.",
     "preview": "Anteprima dei fogli",
     "sheet": "Foglio {{n}} di {{total}}",

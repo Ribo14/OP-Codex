@@ -2,12 +2,15 @@ import {
   CARD_HEIGHT_MM,
   CARD_WIDTH_MM,
   PAGE_HEIGHT_MM,
+  MARGIN_X_MM,
+  MARGIN_Y_MM,
   PAGE_WIDTH_MM,
   type PlacedCard,
 } from './print-sheet'
 
 // Stampa delle carte (RIB-80): un PDF minimo scritto a mano, senza librerie. Contiene solo
-// immagini JPEG (che il PDF incorpora così come sono, filtro DCTDecode) e le linee di taglio:
+// immagini JPEG (che il PDF incorpora così come sono, filtro DCTDecode), le linee di taglio e una
+// linea di controllo della scala:
 // poche righe di formato, nessuna dipendenza in più da scaricare e da tenere aggiornata.
 
 /** Un'immagine JPEG già pronta: i byte del file e le sue dimensioni in pixel. */
@@ -19,8 +22,21 @@ export interface JpegImage {
 
 const PT_PER_MM = 72 / 25.4
 const pt = (mm: number) => (mm * PT_PER_MM).toFixed(2)
-/** Grigio chiaro e sottile delle linee di taglio: si vede sul bianco, non disturba la carta. */
-const CUT_LINE = '0.6 G 0.3 w'
+/**
+ * Linee di taglio sul bordo esatto della carta. Molte carte hanno il bordo quasi bianco: una
+ * linea troppo chiara non si vede e si finisce per tagliare a metà dello spazio tra le carte,
+ * con la carta più grande di ~1,5 mm per lato. Grigio scuro e un po' più spessa (0,18 mm).
+ */
+const CUT_LINE = '0.3 G 0.5 w'
+/** Segni di taglio nei margini del foglio, allineati ai bordi delle carte. */
+const CROP_MARK = '0 G 0.5 w'
+/** Distanza dei segni di taglio dalla griglia e loro lunghezza, in mm. */
+const CROP_OFFSET_MM = 1.5
+const CROP_LENGTH_MM = 4
+/** Linea di controllo in fondo al foglio: se non misura 50 mm, la stampa è stata scalata. */
+export const RULER_MM = 50
+const RULER_LABEL =
+  'Controllo: questa linea deve misurare 5 cm. Se no, stampa al 100% (dimensioni reali).'
 
 const encoder = new TextEncoder()
 
@@ -51,11 +67,12 @@ export function buildPdf(
     write('endobj\n')
   }
 
-  // Numeri degli oggetti: 1 catalogo, 2 elenco delle pagine, poi le immagini, poi per ogni
-  // foglio la pagina e il suo contenuto.
+  // Numeri degli oggetti: 1 catalogo, 2 elenco delle pagine, poi le immagini, il font della
+  // scritta di controllo, poi per ogni foglio la pagina e il suo contenuto.
   const used = [...new Set(sheets.flat().map((card) => card.printId))]
   const imageIds = new Map(used.map((printId, i) => [printId, 3 + i]))
-  const firstPage = 3 + used.length
+  const fontId = 3 + used.length
+  const firstPage = fontId + 1
   const pageIds = sheets.map((_, i) => firstPage + i * 2)
 
   // Intestazione; la seconda riga con byte oltre 127 dice ai programmi che il file è binario.
@@ -77,6 +94,11 @@ export function buildPdf(
       image.bytes,
     )
   }
+  // Helvetica è uno dei font di base del PDF: non va incorporato.
+  object(
+    fontId,
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+  )
 
   sheets.forEach((sheet, i) => {
     const pageId = pageIds[i] ?? 0
@@ -96,11 +118,15 @@ export function buildPdf(
         `q ${CUT_LINE}`,
         ...sheet.map((card) => `${pt(card.x)} ${bottom(card)} ${width} ${height} re S`),
         'Q',
+        `q ${CROP_MARK}`,
+        ...cropMarks(sheet),
+        'Q',
+        ...ruler(),
       ].join('\n'),
     )
     object(
       pageId,
-      `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pt(PAGE_WIDTH_MM)} ${pt(PAGE_HEIGHT_MM)}] /Resources << /XObject << ${resources} >> >> /Contents ${String(pageId + 1)} 0 R >>`,
+      `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pt(PAGE_WIDTH_MM)} ${pt(PAGE_HEIGHT_MM)}] /Resources << /XObject << ${resources} >> /Font << /F1 ${String(fontId)} 0 R >> >> /Contents ${String(pageId + 1)} 0 R >>`,
     )
     object(pageId + 1, `<< /Length ${String(content.length)} >>`, content)
   })
@@ -121,4 +147,46 @@ export function buildPdf(
     at += chunk.length
   }
   return pdf
+}
+
+/** Una linea da (x1, y1) a (x2, y2), in mm dall'alto a sinistra. */
+const line = (x1: number, y1: number, x2: number, y2: number) =>
+  `${pt(x1)} ${pt(PAGE_HEIGHT_MM - y1)} m ${pt(x2)} ${pt(PAGE_HEIGHT_MM - y2)} l S`
+
+/**
+ * Segni di taglio fuori dalla griglia, sul prolungamento di ogni bordo delle carte: in alto per
+ * i tagli verticali, a sinistra e a destra per quelli orizzontali. Restano visibili anche dopo
+ * aver tagliato le carte vicine.
+ */
+function cropMarks(sheet: readonly PlacedCard[]): string[] {
+  if (sheet.length === 0) return []
+  const xs = [...new Set(sheet.flatMap((c) => [c.x, c.x + CARD_WIDTH_MM]))]
+  const ys = [...new Set(sheet.flatMap((c) => [c.y, c.y + CARD_HEIGHT_MM]))]
+  const top = Math.min(...ys)
+  const left = Math.min(...xs)
+  const right = Math.max(...xs)
+  const near = CROP_OFFSET_MM
+  const far = CROP_OFFSET_MM + CROP_LENGTH_MM
+  return [
+    ...xs.map((x) => line(x, top - far, x, top - near)),
+    ...ys.flatMap((y) => [
+      line(left - far, y, left - near, y),
+      line(right + near, y, right + far, y),
+    ]),
+  ]
+}
+
+/** La linea di controllo da 50 mm nel margine in basso, con la scritta accanto. */
+function ruler(): string[] {
+  const y = PAGE_HEIGHT_MM - MARGIN_Y_MM / 2
+  const x = MARGIN_X_MM
+  const label = RULER_LABEL.replace(/[()\\]/g, (c) => `\\${c}`)
+  return [
+    `q ${CROP_MARK}`,
+    line(x, y, x + RULER_MM, y),
+    line(x, y - 1.5, x, y + 1.5),
+    line(x + RULER_MM, y - 1.5, x + RULER_MM, y + 1.5),
+    'Q',
+    `BT /F1 7 Tf 0.3 g ${pt(x + RULER_MM + 3)} ${pt(PAGE_HEIGHT_MM - y - 0.8)} Td (${label}) Tj ET`,
+  ]
 }

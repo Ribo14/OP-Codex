@@ -13,3 +13,6 @@ export const FRIEND_INVITE_PATH = '/amici/invito/:token'
 export const friendInvitePath = (token: string) => `/amici/invito/${token}`
 export const friendInviteUrl = (token: string) =>
   `${window.location.origin}${friendInvitePath(token)}`
+
+/** Le sezioni della pagina di un amico (id dei titoli), per aprirla al punto giusto. */
+export const FRIEND_SECTION = { collection: 'amico-collezione', decks: 'amico-mazzi' } as const

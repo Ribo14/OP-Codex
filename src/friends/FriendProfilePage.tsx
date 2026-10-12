@@ -1,7 +1,7 @@
 import { ArrowLeft } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useNavigate, useParams } from 'react-router'
+import { Link, useLocation, useNavigate, useParams } from 'react-router'
 import { RequireAccount } from '@/account/ProfilePage'
 import { LogoLoader } from '@/app/LogoLoader'
 import { useCatalog } from '@/catalog/local-catalog'
@@ -54,6 +54,15 @@ function Profile({ username }: { username: string }) {
     })
   }, [username])
 
+  // Arrivando dalla scorciatoia di Collezione o Mazzi (#amico-collezione, #amico-mazzi) si va
+  // dritti alla sezione, appena il profilo è caricato.
+  const { hash } = useLocation()
+  const loaded = profile !== undefined
+  useEffect(() => {
+    if (!loaded || hash === '') return
+    document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView({ block: 'start' })
+  }, [loaded, hash])
+
   if (failed) {
     return (
       <p role="alert" className="text-sm text-destructive">
@@ -88,7 +97,7 @@ function Profile({ username }: { username: string }) {
       </div>
 
       <section aria-labelledby="amico-mazzi" className="space-y-3">
-        <h2 id="amico-mazzi" className="text-lg font-semibold tracking-tight">
+        <h2 id="amico-mazzi" className="scroll-mt-24 text-lg font-semibold tracking-tight">
           {t('friends.profile.decks', { count: profile.decks.length })}
         </h2>
         {profile.decks.length === 0 ? (
@@ -99,7 +108,7 @@ function Profile({ username }: { username: string }) {
       </section>
 
       <section aria-labelledby="amico-collezione" className="space-y-3">
-        <h2 id="amico-collezione" className="text-lg font-semibold tracking-tight">
+        <h2 id="amico-collezione" className="scroll-mt-24 text-lg font-semibold tracking-tight">
           {t('nav.collection')}
         </h2>
         {profile.collectionVisible ? (

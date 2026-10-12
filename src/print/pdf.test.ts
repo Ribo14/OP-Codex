@@ -40,6 +40,20 @@ describe('PDF delle carte (RIB-80)', () => {
     expect(body.match(/ 178\.58 249\.45 re S/g)).toHaveLength(10)
   })
 
+  it('linee di taglio scure, segni nei margini e la linea di controllo da 5 cm', () => {
+    expect(body).toContain('q 0.3 G 0.5 w')
+    // Prima pagina, griglia piena: 6 bordi verticali in alto, 6 orizzontali a sinistra e destra.
+    const start = body.indexOf('q 0.3 G 0.5 w')
+    const firstPage = body.slice(start, body.indexOf('endstream', start))
+    expect(firstPage.match(/ m [\d.]+ [\d.]+ l S/g)).toHaveLength(6 + 12 + 3)
+    // Il segno in alto sul bordo sinistro: x = 7,5 mm, da 13,5 − 5,5 = 8 mm a 12 mm dall'alto.
+    expect(body).toContain('21.26 819.21 m 21.26 807.87 l S')
+    // 50 mm = 141,73 punti, a partire dal margine sinistro.
+    expect(body).toContain('21.26 19.13 m 162.99 19.13 l S')
+    expect(body).toContain('/BaseFont /Helvetica')
+    expect(body).toContain('stampa al 100% \\(dimensioni reali\\)')
+  })
+
   it('la tabella dei riferimenti punta all’inizio di ogni oggetto', () => {
     const xref = Number(/startxref\n(\d+)\n%%EOF\n$/.exec(body)?.[1])
     expect(body.slice(xref, xref + 4)).toBe('xref')

@@ -4,9 +4,15 @@ import type { Rect } from './scan-geometry'
 // non esce dal telefono. La libreria si carica solo aprendo lo Scanner e i suoi file arrivano da
 // /ocr/ (scripts/copy-ocr.mjs): la CSP non permette CDN.
 
+/**
+ * Come leggere la zona (RIB-84): `block` la tratta come un blocco di testo, `sparse` come testo
+ * sparso. Sulle foto vere i due modi leggono carte diverse: la cascata li usa entrambi.
+ */
+export type OcrLayout = 'block' | 'sparse'
+
 export interface Ocr {
-  /** Legge il testo di una zona di un fotogramma del video. */
-  read: (video: HTMLVideoElement, zone: Rect) => Promise<string>
+  /** Legge il testo di una zona di un'immagine (fotogramma o fusione di fotogrammi). */
+  read: (source: CanvasImageSource, zone: Rect, layout: OcrLayout) => Promise<string>
   stop: () => Promise<void>
 }
 
@@ -23,15 +29,23 @@ export async function startOcr(): Promise<Ocr> {
     workerBlobURL: false,
     gzip: true,
   })
+  const PAGE_SEG: Record<OcrLayout, (typeof PSM)[keyof typeof PSM]> = {
+    block: PSM.SINGLE_BLOCK,
+    sparse: PSM.SPARSE_TEXT,
+  }
+  let current: OcrLayout = 'sparse'
   await worker.setParameters({
-    // Testo sparso: nella zona ci sono anche rarità, bordi e simboli.
-    tessedit_pageseg_mode: PSM.SPARSE_TEXT,
+    tessedit_pageseg_mode: PAGE_SEG[current],
     tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-',
   })
 
   const canvas = document.createElement('canvas')
   return {
-    async read(video, zone) {
+    async read(source, zone, layout) {
+      if (layout !== current) {
+        await worker.setParameters({ tessedit_pageseg_mode: PAGE_SEG[layout] })
+        current = layout
+      }
       const scale = Math.max(1, TARGET_WIDTH / zone.width)
       canvas.width = Math.round(zone.width * scale)
       canvas.height = Math.round(zone.height * scale)
@@ -40,7 +54,7 @@ export async function startOcr(): Promise<Ocr> {
       // In scala di grigi e con più contrasto: le carte foil riflettono e confondono i colori.
       context.filter = 'grayscale(1) contrast(1.6)'
       context.drawImage(
-        video,
+        source,
         zone.x,
         zone.y,
         zone.width,

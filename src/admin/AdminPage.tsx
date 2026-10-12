@@ -6,6 +6,7 @@ import { FormMessage } from '@/account/form'
 import { PROFILE_PATH } from '@/account/paths'
 import { RequireAccount } from '@/account/ProfilePage'
 import { getSupabase } from '@/lib/supabase'
+import { DiagnosticsControls } from '@/scanner/DiagnosticsControls'
 import { cn } from '@/lib/utils'
 import { BanListSection } from './BanListSection'
 import { ExplanationQueueSection } from './ExplanationQueueSection'
@@ -71,6 +72,8 @@ function AdminArea() {
       <ExplanationQueueSection />
       <BanListSection />
       <PriceMappingSection />
+      {/* RIB-87: ritagli dello Scanner letti male, per migliorarne la lettura. */}
+      <DiagnosticsControls withToggle />
       <JobRuns />
     </div>
   )

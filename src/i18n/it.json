@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "OP-Codex",
-    "skipToContent": "Vai al contenuto"
+    "skipToContent": "Vai al contenuto",
+    "clearSearch": "Svuota la ricerca"
   },
   "nav": {
     "label": "Sezioni",
@@ -829,6 +830,12 @@
     "view": "Vista",
     "grid": "Griglia",
     "list": "Elenco",
+    "gridSize": "Dimensione delle carte",
+    "gridSizes": {
+      "large": "Carte grandi",
+      "medium": "Carte medie",
+      "small": "Carte piccole"
+    },
     "loadMore": "Mostra altre carte",
     "columns": {
       "code": "Codice",
@@ -856,6 +863,7 @@
     "attributes": "Attributo",
     "types": "Tipo",
     "block": "Block",
+    "blockReprint": "{{block}} (ristampata con Block {{latest}}: vale per tutte le stampe)",
     "rarity": "Rarità",
     "keywords": "Keyword",
     "effect": "Effetto",
@@ -1028,5 +1036,42 @@
     "contactLink": "github.com/Ribo14/OP-Codex",
     "bandaiTitle": "Marchi",
     "bandai": "OP-Codex non è affiliato né approvato da Bandai. ONE PIECE © Eiichiro Oda/Shueisha, Toei Animation. Le immagini e i testi delle carte appartengono ai rispettivi titolari."
+  },
+  "print": {
+    "title": "Stampa carte",
+    "intro": "Stampa le carte che ti mancano per giocarci subito: ritagliale e mettile nelle bustine davanti a una carta qualsiasi.",
+    "fromDeck": "Stampa le mancanti",
+    "missing": "Carte mancanti",
+    "others_one": "Altra carta del mazzo ({{count}})",
+    "others_other": "Altre carte del mazzo ({{count}})",
+    "missingOf": "ne mancano {{missing}} su {{required}}",
+    "noImage": "Immagine non ancora disponibile: non si può stampare.",
+    "printing": "Variante da stampare per {{name}}",
+    "less": "Una copia in meno di {{name}}",
+    "more": "Una copia in più di {{name}}",
+    "copies_one": "{{count}} copia",
+    "copies_other": "{{count}} copie",
+    "copiesLabel": "Copie da stampare",
+    "color": "Colori di stampa",
+    "colors": {
+      "color": "A colori",
+      "gray": "Bianco e nero"
+    },
+    "cards_one": "{{count}} carta",
+    "cards_other": "{{count}} carte",
+    "sheets_one": "{{count}} foglio A4",
+    "sheets_other": "{{count}} fogli A4",
+    "create": "Crea il PDF",
+    "working": "Preparo le immagini… {{done}}/{{total}}",
+    "share": "Condividi o salva",
+    "download": "Scarica il PDF",
+    "failed": "PDF non creato: controlla la connessione e riprova.",
+    "hintScale": "Stampa su A4 a dimensione reale (100%), senza «Adatta alla pagina»: ogni carta misura 63×88 mm.",
+    "hintCut": "Taglia lungo le linee grigie sottili.",
+    "hintProxy": "Le immagini ufficiali portano la scritta SAMPLE. Le carte stampate valgono per giocare tra amici, non nei tornei ufficiali.",
+    "preview": "Anteprima dei fogli",
+    "sheet": "Foglio {{n}} di {{total}}",
+    "cardButton": "Stampa",
+    "cardTitle": "Stampa {{printId}} su A4"
   }
 }

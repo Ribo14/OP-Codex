@@ -1,4 +1,4 @@
-import { ArrowLeft, Search } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { useDeferredValue, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router'
@@ -11,6 +11,7 @@ import { COLORS } from '@/catalog/filters'
 import { gameColor } from '@/catalog/game-colors'
 import { useCatalog } from '@/catalog/local-catalog'
 import { toggle } from '@/catalog/use-catalog-filters'
+import { SearchField } from '@/components/SearchField'
 import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { CardThumb } from './CardThumb'
@@ -92,20 +93,15 @@ function Picker({ deckId }: { deckId: string | null }) {
 
   return (
     <div className="space-y-4">
-      <label className="flex h-11 max-w-md items-center gap-2 rounded-full bg-muted px-4 text-sm">
-        <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-        <span className="sr-only">{t('decks.searchLeader')}</span>
-        <input
-          type="search"
-          value={q}
-          placeholder={t('decks.searchLeader')}
-          onChange={(e) => {
-            setQ(e.target.value)
-            setLimit(PAGE)
-          }}
-          className="w-full min-w-0 bg-transparent text-base outline-none placeholder:text-muted-foreground"
-        />
-      </label>
+      <SearchField
+        value={q}
+        label={t('decks.searchLeader')}
+        onChange={(value) => {
+          setQ(value)
+          setLimit(PAGE)
+        }}
+        className="h-11 max-w-md"
+      />
       <div role="group" aria-label={t('filters.colors')} className="flex flex-wrap gap-2">
         {COLORS.map((color) => (
           <button

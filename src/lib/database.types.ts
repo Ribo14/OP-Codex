@@ -632,6 +632,7 @@ export type Database = {
       }
       printings: {
         Row: {
+          block: string | null
           card_code: string
           created_at: string
           image_synced_at: string | null
@@ -641,6 +642,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          block?: string | null
           card_code: string
           created_at?: string
           image_synced_at?: string | null
@@ -650,6 +652,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          block?: string | null
           card_code?: string
           created_at?: string
           image_synced_at?: string | null

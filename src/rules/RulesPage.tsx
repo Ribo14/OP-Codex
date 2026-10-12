@@ -1,9 +1,10 @@
-import { ArrowLeft, ExternalLink, Search } from 'lucide-react'
+import { ArrowLeft, ExternalLink } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useSearchParams } from 'react-router'
 import { cardPath } from '@/catalog/card-links'
 import { useCatalog } from '@/catalog/local-catalog'
+import { SearchField } from '@/components/SearchField'
 import { cn } from '@/lib/utils'
 import { GLOSSARY, GLOSSARY_GROUPS, type GlossaryEntry } from './glossary'
 import { ENTRY_PARAM, RULE_PARAM, rulePath, SEARCH_PARAM } from './paths'
@@ -70,19 +71,7 @@ export function RulesPage() {
         <RuleView n={ruleNumber} doc={doc} />
       ) : (
         <>
-          <label className="flex h-11 items-center gap-2 rounded-full bg-muted px-4 text-sm">
-            <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-            <span className="sr-only">{t('rules.search')}</span>
-            <input
-              type="search"
-              value={query}
-              placeholder={t('rules.search')}
-              onChange={(e) => {
-                search(e.target.value)
-              }}
-              className="w-full min-w-0 bg-transparent text-base outline-none placeholder:text-muted-foreground"
-            />
-          </label>
+          <SearchField value={query} label={t('rules.search')} onChange={search} className="h-11" />
           {query.trim() ? (
             <SearchResults query={query} doc={doc} />
           ) : (

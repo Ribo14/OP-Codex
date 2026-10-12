@@ -4,7 +4,6 @@ import {
   Pencil,
   Plus,
   ScanSearch,
-  Search,
   SlidersHorizontal,
   TriangleAlert,
   X,
@@ -25,6 +24,7 @@ import { useEuro } from '@/catalog/price-format'
 import { deckValue, type DeckValue } from '@/catalog/price-value'
 import { useCatalogFilters } from '@/catalog/use-catalog-filters'
 import { useCollection, useOwnership } from '@/collection/collection-store'
+import { SearchField } from '@/components/SearchField'
 import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { CardThumb } from './CardThumb'
@@ -47,7 +47,7 @@ import { DeckStatsPanel } from './DeckStats'
 import { DeckWarningsPanel } from './DeckWarnings'
 import { deckOwnership, type MissingRow } from './missing-cards'
 import { MissingCardsPanel, OwnedBadge } from './MissingCardsPanel'
-import { deckLeaderPath, DECKS_PATH } from './paths'
+import { deckLeaderPath, deckPrintPath, DECKS_PATH } from './paths'
 import { ShareDeckSection } from './ShareDeckSection'
 
 // Editor di un Deck (RIB-21). Ogni modifica si salva da sola. Due schede, "Mazzo" e "Aggiungi
@@ -200,6 +200,7 @@ function Editor({ deckId }: { deckId: string }) {
         rows={ownership}
         catalog={byCode}
         loading={collectionEntries === null}
+        printPath={deckPrintPath(deck.id)}
       />
       <ShareDeckSection deck={deck} store={store} disabled={!online} />
 
@@ -797,19 +798,14 @@ function AddCards({
   return (
     <div className="space-y-3">
       <div className="flex gap-2">
-        <label className="flex h-10 min-w-0 flex-1 items-center gap-2 rounded-full bg-muted px-4 text-sm">
-          <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-          <span className="sr-only">{t('catalog.search')}</span>
-          <input
-            type="search"
-            value={filters.q}
-            placeholder={t('catalog.search')}
-            onChange={(e) => {
-              update({ q: e.target.value }, { typing: true })
-            }}
-            className="w-full min-w-0 bg-transparent text-base outline-none placeholder:text-muted-foreground"
-          />
-        </label>
+        <SearchField
+          value={filters.q}
+          label={t('catalog.search')}
+          onChange={(q) => {
+            update({ q }, { typing: true })
+          }}
+          className="min-w-0 flex-1"
+        />
         <button
           type="button"
           onClick={() => {

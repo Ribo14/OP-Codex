@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { parseCardListPage, parseSeriesList } from './card-list-parser.ts'
-import { extractKeywords, mergeCatalogPages } from './catalog-merge.ts'
+import { extractKeywords, latestBlock, mergeCatalogPages } from './catalog-merge.ts'
 
 const html = (name: string) =>
   readFileSync(new URL(`./fixtures/${name}.html`, import.meta.url), 'utf8')
@@ -102,6 +102,15 @@ describe('Keyword', () => {
   })
 })
 
+describe('latestBlock', () => {
+  it('"X" vince sui numeri, poi il numero più alto; null se nessuno ha un Block', () => {
+    expect(latestBlock(['1', 'X', '2'])).toBe('X')
+    expect(latestBlock(['1', '10', '2'])).toBe('10')
+    expect(latestBlock([null, '1'])).toBe('1')
+    expect(latestBlock([null, null])).toBeNull()
+  })
+})
+
 describe('mergeCatalogPages', () => {
   it('unisce Set, Card e Printing senza duplicati', () => {
     const catalog = mergeCatalogPages([op01, st01, prb01])
@@ -140,6 +149,26 @@ describe('mergeCatalogPages', () => {
       const card = mergeCatalogPages(pages).cards.find((c) => c.cardCode === 'OP01-006')
       expect(card?.effect).toBe(op01.cards.find((c) => c.cardCode === 'OP01-006')?.effect)
     }
+  })
+
+  it('il Block della Card è il più recente tra le Printing; ognuna tiene il suo (RIB-76)', () => {
+    // Come la Nami OP01-016: base Block 1, ristampa nello ST-31 (OP01-016_p9) con Block X.
+    const reprint = structuredClone(prb01)
+    const p = reprint.printings.find((r) => r.cardCode === 'OP01-006' && r.printId !== 'OP01-006')
+    if (!p) throw new Error('ristampa di OP01-006 mancante nella fixture')
+    p.block = 'X'
+
+    for (const pages of [
+      [op01, reprint],
+      [reprint, op01],
+    ]) {
+      const catalog = mergeCatalogPages(pages)
+      expect(catalog.cards.find((c) => c.cardCode === 'OP01-006')?.block).toBe('X')
+      expect(catalog.printings.find((r) => r.printId === 'OP01-006')?.block).toBe('1')
+      expect(catalog.printings.find((r) => r.printId === p.printId)?.block).toBe('X')
+    }
+    // Senza ristampe più recenti resta quello della base.
+    expect(mergeCatalogPages([op01]).cards.find((c) => c.cardCode === 'OP01-006')?.block).toBe('1')
   })
 
   it('un Print ID ripetuto in due Set resta collegato al primo per series_id', () => {

@@ -10,3 +10,5 @@ export const SHARED_DECK_PATH = '/m/:token'
 export const sharedDeckPath = (token: string) => `/m/${token}`
 export const sharedDeckUrl = (token: string) => `${window.location.origin}${sharedDeckPath(token)}`
 export const deckLeaderPath = (deckId: string) => `${DECKS_PATH}/${deckId}/leader`
+/** Stampa delle carte del Deck (RIB-80). */
+export const deckPrintPath = (deckId: string) => `${DECKS_PATH}/${deckId}/stampa`

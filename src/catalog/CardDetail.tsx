@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { CollectionControls } from '@/collection/CollectionControls'
 import { cn } from '@/lib/utils'
+import { CardPrintButton } from '@/print/CardPrintButton'
 import { entryForKeyword } from '@/rules/glossary'
 import { KeywordText } from '@/rules/KeywordText'
 import { glossaryPath } from '@/rules/paths'
@@ -87,13 +88,23 @@ export function CardDetail({
     }
   }, [onClose])
 
+  // RIB-76: il Block stampato su questa Printing; se una ristampa ne ha uno più recente lo si
+  // dice, perché è quello che decide la legalità di tutte le stampe.
+  const printedBlock = printing?.block ?? card.block
+  const blockLabel =
+    printedBlock === null
+      ? '–'
+      : printedBlock !== card.block && card.block !== null
+        ? t('detail.blockReprint', { block: printedBlock, latest: card.block })
+        : printedBlock
+
   const stats: [string, ReactNode][] = [
     [t('detail.category'), t(`category.${card.category as 'Leader'}`)],
     ...(card.life !== null ? [[t('detail.life'), card.life] as [string, ReactNode]] : []),
     ...(card.cost !== null ? [[t('detail.cost'), card.cost] as [string, ReactNode]] : []),
     [t('detail.power'), card.power ?? '–'],
     [t('detail.counter'), card.counter === null ? '–' : `+${String(card.counter)}`],
-    [t('detail.block'), card.block ?? '–'],
+    [t('detail.block'), blockLabel],
   ]
 
   return (
@@ -250,6 +261,12 @@ export function CardDetail({
               <ScanSearch className="size-4" aria-hidden="true" />
               {t('detail.related')}
             </Link>
+            {/* RIB-80: stampa di 1-4 copie della Printing mostrata. */}
+            {printing && (
+              <div className="mt-2">
+                <CardPrintButton card={card} printing={printing} />
+              </div>
+            )}
           </div>
 
           {/* RIB-29: tag rossi della Ban List e arancione per il formato Standard. */}

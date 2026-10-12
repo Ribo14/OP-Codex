@@ -7,6 +7,11 @@ import type { CatalogRows } from './catalog-sync'
 export interface CatalogPrinting {
   printId: string
   rarity: string
+  /**
+   * Block stampato su questa Printing (RIB-76); null o assente = come la Card. Quello della Card
+   * è il più recente tra le sue Printing e decide la legalità.
+   */
+  block?: string | null
   setCode: string
   hasImage: boolean
   /** Ultimo prezzo Cardmarket (RIB-32); null = nessun prezzo. Assente nei dati di prova. */
@@ -124,7 +129,7 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
       changed(
         supabase
           .from('printings')
-          .select('print_id, card_code, rarity, series_id, image_synced_at, updated_at'),
+          .select('print_id, card_code, rarity, series_id, block, image_synced_at, updated_at'),
       )
         .order('print_id')
         .range(from, to),

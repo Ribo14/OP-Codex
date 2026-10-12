@@ -1,10 +1,11 @@
-import { LayoutGrid, List, ScanLine, Search, SlidersHorizontal, X } from 'lucide-react'
+import { LayoutGrid, List, ScanLine, SlidersHorizontal, X } from 'lucide-react'
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet, useMatch } from 'react-router'
 import { useSession } from '@/account/session'
 import { LogoLoader } from '@/app/LogoLoader'
 import { useOwnership } from '@/collection/collection-store'
+import { SearchField } from '@/components/SearchField'
 import { cn } from '@/lib/utils'
 import { SCANNER_PATH } from '@/scanner/paths'
 import { useBanList } from './ban-list'
@@ -12,6 +13,8 @@ import type { CatalogOutletContext } from './CardDetailRoute'
 import { CatalogResults, type CatalogView } from './CatalogResults'
 import { catalogFacets, countActiveFilters, filterCatalog } from './filters'
 import { FiltersPanel } from './FiltersPanel'
+import { useGridSize } from './grid-size'
+import { GridSizeToggle } from './GridSizeToggle'
 import { OFFLINE, useCatalog } from './local-catalog'
 import { SetImagesDownload } from './SetImagesDownload'
 import { useCatalogFilters } from './use-catalog-filters'
@@ -37,6 +40,7 @@ export function CatalogPage() {
   const { filters, update, reset } = useCatalogFilters()
   const deferredFilters = useDeferredValue(filters)
   const [view, setViewState] = useState<CatalogView>(readView)
+  const [gridSize, setGridSize] = useGridSize()
   const [panelOpen, setPanelOpen] = useState(false)
   const detail = useMatch('/carta/:cardCode')
   const openCode = detail?.params.cardCode?.toUpperCase() ?? null
@@ -115,19 +119,14 @@ export function CatalogPage() {
       <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">{t('catalog.title')}</h1>
 
       <div className="flex flex-wrap items-center gap-3">
-        <label className="flex h-10 min-w-0 flex-1 basis-64 items-center gap-2 rounded-full bg-muted px-4 text-sm">
-          <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-          <span className="sr-only">{t('catalog.search')}</span>
-          <input
-            type="search"
-            value={filters.q}
-            placeholder={t('catalog.search')}
-            onChange={(e) => {
-              update({ q: e.target.value }, { typing: true })
-            }}
-            className="w-full min-w-0 bg-transparent outline-none placeholder:text-muted-foreground"
-          />
-        </label>
+        <SearchField
+          value={filters.q}
+          label={t('catalog.search')}
+          onChange={(q) => {
+            update({ q }, { typing: true })
+          }}
+          className="min-w-0 flex-1 basis-64"
+        />
 
         {/* Fase 4: lo Scanner apre il dettaglio della carta inquadrata. */}
         <Link
@@ -170,6 +169,8 @@ export function CatalogPage() {
             </button>
           ))}
         </div>
+
+        {view === 'grid' && <GridSizeToggle size={gridSize} onChange={setGridSize} />}
       </div>
 
       <div className="flex items-center gap-3 text-sm">
@@ -212,7 +213,7 @@ export function CatalogPage() {
           {entries.length === 0 ? (
             <p className="py-10 text-center text-muted-foreground">{t('catalog.noResults')}</p>
           ) : (
-            <CatalogResults entries={entries} view={view} openCode={openCode} />
+            <CatalogResults entries={entries} view={view} gridSize={gridSize} openCode={openCode} />
           )}
         </div>
 

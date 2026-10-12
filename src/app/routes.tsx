@@ -36,6 +36,7 @@ import {
   FRIEND_PROFILE_PATH,
   FRIENDS_PATH,
 } from '@/friends/paths'
+import { DeckPrintPage } from '@/print/DeckPrintPage'
 import { RULES_PATH } from '@/rules/paths'
 import { RulesPage } from '@/rules/RulesPage'
 import { SharedDeckPage } from '@/decks/SharedDeckPage'
@@ -76,6 +77,8 @@ export const routes: RouteObject[] = [
       { path: SHARED_DECK_PATH, element: <SharedDeckPage /> },
       { path: `${DECKS_PATH}/:deckId`, element: <DeckEditorPage /> },
       { path: `${DECKS_PATH}/:deckId/leader`, element: <LeaderPickerPage /> },
+      // Stampa delle carte del mazzo (RIB-80)
+      { path: `${DECKS_PATH}/:deckId/stampa`, element: <DeckPrintPage /> },
       // Amici (RIB-71)
       { path: FRIENDS_PATH, element: <FriendsPage /> },
       { path: FRIEND_INVITE_PATH, element: <InvitePage /> },

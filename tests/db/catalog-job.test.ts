@@ -106,6 +106,12 @@ describe('Catalog Sync completo', { timeout: 20_000 }, () => {
     `
     expect(job).toMatchObject({ job: 'catalog_sync', status: 'success', finished: true })
     expect(job?.catalog).toEqual(stats.catalog)
+
+    // RIB-76: ogni Printing salva il suo Block.
+    const [blocks] = await sql<{ missing: number }[]>`
+      select count(*)::int as missing from public.printings where block is null
+    `
+    expect(blocks?.missing).toBe(0)
   })
 
   it('una seconda esecuzione senza novità non modifica nulla e lo registra', async () => {

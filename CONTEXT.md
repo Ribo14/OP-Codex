@@ -34,7 +34,7 @@ Una delle "feature" che classificano una Card, es. "Straw Hat Crew". Una Card pu
 _Avoid_: tag, trait, tribe
 
 **Block** (Blocco):
-Il numero di blocco stampato sulla carta che determina in quale rotazione è legale.
+Il numero di blocco stampato sulla carta che determina in quale rotazione è legale. È stampato su ogni Printing e una ristampa può averne uno più recente: il Block di una Card è il più recente tra le sue Printing, e vale per tutte (regola Bandai).
 
 **Official Card List**:
 L'elenco delle carte sul sito ufficiale inglese di Bandai: è la fonte di verità del catalogo.

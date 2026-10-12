@@ -39,6 +39,8 @@ export interface RawPrinting {
   card_code: string
   rarity: string
   series_id: number
+  /** Block della singola Printing (RIB-76); assente nelle copie salvate prima. */
+  block?: string | null
   image_synced_at: string | null
   updated_at: string
 }
@@ -251,6 +253,7 @@ export function buildCatalog(rows: CatalogRows): Catalog {
     const printing: CatalogPrinting = {
       printId: p.print_id,
       rarity: p.rarity,
+      block: p.block ?? null,
       setCode: setCodes.get(p.series_id) ?? '',
       hasImage: p.image_synced_at !== null,
       price: prices.get(p.print_id) ?? null,

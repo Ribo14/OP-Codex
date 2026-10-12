@@ -9,6 +9,7 @@ import { cardPath } from './card-links'
 import type { CardLinkState } from './CardDetailRoute'
 import type { CatalogEntry } from './filters'
 import { colorBar } from './game-colors'
+import { gridColumns, type GridSize } from './grid-size'
 
 // Proporzioni della miniatura (300×419): riservano lo spazio prima del caricamento.
 const THUMB_WIDTH = 300
@@ -55,10 +56,13 @@ function Thumbnail({ entry, className }: { entry: CatalogEntry; className?: stri
 export function CatalogResults({
   entries,
   view,
+  gridSize = 'large',
   openCode,
 }: {
   entries: readonly CatalogEntry[]
   view: CatalogView
+  /** Carte grandi, medie o piccole nella griglia (RIB-79). */
+  gridSize?: GridSize
   /** Card aperta nel dettaglio, evidenziata nei risultati. */
   openCode: string | null
 }) {
@@ -105,14 +109,7 @@ export function CatalogResults({
   return (
     <>
       {view === 'grid' ? (
-        <ul
-          className={cn(
-            'grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:gap-6',
-            openCode
-              ? 'lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'
-              : 'xl:grid-cols-5 2xl:grid-cols-6',
-          )}
-        >
+        <ul className={gridColumns(gridSize, openCode !== null)}>
           {visible.map((entry) => (
             <li key={key(entry)} className="[content-visibility:auto]">
               <Link
@@ -125,22 +122,35 @@ export function CatalogResults({
                   <Thumbnail
                     entry={entry}
                     className={cn(
-                      'rounded-xl shadow-sm transition duration-200 group-hover:-translate-y-1 group-hover:shadow-xl group-focus-visible:ring-2 group-focus-visible:ring-ring',
+                      'shadow-sm transition duration-200 group-hover:-translate-y-1 group-hover:shadow-xl group-focus-visible:ring-2 group-focus-visible:ring-ring',
+                      gridSize === 'large' ? 'rounded-xl' : 'rounded-md',
                       isOpen(entry) && 'ring-2 ring-foreground',
                     )}
                   />
                   {/* RIB-29: tag rosso per le carte bandite, limitate o in coppia bandita. */}
-                  {bans.has(entry.card.cardCode) && (
+                  {bans.has(entry.card.cardCode) && gridSize !== 'small' && (
                     <BanBadge
                       kind={bans.get(entry.card.cardCode) ?? 'banned'}
                       className="absolute top-2 left-2"
                     />
                   )}
                 </div>
-                <span className="mt-2 block truncate text-sm font-medium">{entry.card.name}</span>
-                <span className="block text-xs text-muted-foreground">
-                  {entry.printing.printId}
-                </span>
+                {/* Con le carte piccole i testi non ci stanno: il nome resta nell'alt. */}
+                {gridSize === 'large' && (
+                  <>
+                    <span className="mt-2 block truncate text-sm font-medium">
+                      {entry.card.name}
+                    </span>
+                    <span className="block text-xs text-muted-foreground">
+                      {entry.printing.printId}
+                    </span>
+                  </>
+                )}
+                {gridSize === 'medium' && (
+                  <span className="mt-1 block truncate text-[11px] text-muted-foreground">
+                    {entry.printing.printId}
+                  </span>
+                )}
               </Link>
             </li>
           ))}

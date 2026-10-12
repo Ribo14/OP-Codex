@@ -38,6 +38,7 @@ const rawPrinting = (print_id: string, card_code: string, updated_at = T1): RawP
   card_code,
   rarity: 'C',
   series_id: 1,
+  block: '1',
   image_synced_at: null,
   updated_at,
 })
@@ -112,6 +113,7 @@ describe('buildCatalog', () => {
     expect(catalog.cards[0]?.printings[0]).toEqual({
       printId: 'OP01-001',
       rarity: 'C',
+      block: '1',
       setCode: 'OP-01',
       hasImage: false,
       price: null,

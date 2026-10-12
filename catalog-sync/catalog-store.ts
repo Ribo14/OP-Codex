@@ -178,18 +178,20 @@ export async function upsertCatalog(
       card_code: p.cardCode,
       series_id: p.seriesId,
       rarity: p.rarity,
+      block: p.block,
     }))
     const result = await tx<{ inserted: boolean }[]>`
-      insert into public.printings as p (print_id, card_code, series_id, rarity)
+      insert into public.printings as p (print_id, card_code, series_id, rarity, block)
       select * from jsonb_to_recordset(${tx.json(rows)}::jsonb)
-        as r(print_id text, card_code text, series_id integer, rarity text)
+        as r(print_id text, card_code text, series_id integer, rarity text, block text)
       on conflict (print_id) do update set
         card_code = excluded.card_code,
         series_id = excluded.series_id,
         rarity = excluded.rarity,
+        block = excluded.block,
         updated_at = now()
-      where (p.card_code, p.series_id, p.rarity)
-        is distinct from (excluded.card_code, excluded.series_id, excluded.rarity)
+      where (p.card_code, p.series_id, p.rarity, p.block)
+        is distinct from (excluded.card_code, excluded.series_id, excluded.rarity, excluded.block)
       returning (xmax = 0) as inserted
     `
     count(result, stats.printings)

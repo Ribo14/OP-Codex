@@ -1,4 +1,4 @@
-import { Plus, Search } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
@@ -8,8 +8,12 @@ import { SignedOutInvite } from '@/account/SignedOutInvite'
 import { cardImageUrl } from '@/catalog/card-image'
 import { cardPath } from '@/catalog/card-links'
 import type { CardLinkState } from '@/catalog/CardDetailRoute'
+import { gridColumns, useGridSize, type GridSize } from '@/catalog/grid-size'
+import { GridSizeToggle } from '@/catalog/GridSizeToggle'
 import { useCatalog } from '@/catalog/local-catalog'
 import { useEuro } from '@/catalog/price-format'
+import { SearchField } from '@/components/SearchField'
+import { cn } from '@/lib/utils'
 import { collectionValue } from '@/catalog/price-value'
 import {
   COLLECTION_SORTS,
@@ -51,6 +55,7 @@ function Collection({ userId }: { userId: string }) {
   const { state, reload } = useCollection(userId)
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState<CollectionSort>('code')
+  const [gridSize, setGridSize] = useGridSize()
 
   const entries = useMemo(() => (state.status === 'ready' ? state.entries : []), [state])
   const items = useMemo(() => ownedItems(entries, catalog?.cards ?? []), [entries, catalog])
@@ -130,22 +135,12 @@ function Collection({ userId }: { userId: string }) {
       <SetCompletionSection catalog={catalog} entries={entries} />
       <h2 className="pt-2 text-lg font-semibold tracking-tight">{t('collection.yourCards')}</h2>
       <div className="flex flex-wrap gap-3">
-        <label className="relative min-w-0 flex-1 basis-60">
-          <span className="sr-only">{t('collection.search')}</span>
-          <Search
-            className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden="true"
-          />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value)
-            }}
-            placeholder={t('collection.search')}
-            className="h-11 w-full rounded-full bg-muted pr-4 pl-10 text-base outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          />
-        </label>
+        <SearchField
+          value={query}
+          label={t('collection.search')}
+          onChange={setQuery}
+          className="h-11 min-w-0 flex-1 basis-60"
+        />
         <label className="flex items-center gap-2 text-sm">
           <span className="text-muted-foreground">{t('collection.sortLabel')}</span>
           <select
@@ -162,14 +157,15 @@ function Collection({ userId }: { userId: string }) {
             ))}
           </select>
         </label>
+        <GridSizeToggle size={gridSize} onChange={setGridSize} />
       </div>
 
       {shown.length === 0 ? (
         <p className="text-muted-foreground">{t('collection.noResults')}</p>
       ) : (
-        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:gap-6 xl:grid-cols-5 2xl:grid-cols-6">
+        <ul className={gridColumns(gridSize)}>
           {shown.map((item) => (
-            <OwnedTile key={item.printing.printId} item={item} />
+            <OwnedTile key={item.printing.printId} item={item} size={gridSize} />
           ))}
         </ul>
       )}
@@ -192,9 +188,10 @@ function BulkLink() {
 }
 
 /** Una Printing posseduta, con le copie; serve anche alla Collection di un amico (RIB-73). */
-export function OwnedTile({ item }: { item: OwnedItem }) {
+export function OwnedTile({ item, size = 'large' }: { item: OwnedItem; size?: GridSize }) {
   const { t } = useTranslation()
   const { card, printing } = item
+  const radius = size === 'large' ? 'rounded-xl' : 'rounded-md'
   return (
     <li className="[content-visibility:auto]">
       <Link
@@ -212,30 +209,53 @@ export function OwnedTile({ item }: { item: OwnedItem }) {
               height={419}
               loading="lazy"
               decoding="async"
-              className="h-auto w-full rounded-xl bg-muted shadow-sm transition duration-200 group-hover:-translate-y-1 group-hover:shadow-xl group-focus-visible:ring-2 group-focus-visible:ring-ring"
+              className={cn(
+                'h-auto w-full bg-muted shadow-sm transition duration-200 group-hover:-translate-y-1 group-hover:shadow-xl group-focus-visible:ring-2 group-focus-visible:ring-ring',
+                radius,
+              )}
             />
           ) : (
             <div
               role="img"
               aria-label={t('catalog.imagePending', { name: card.name })}
-              className="flex aspect-[300/419] w-full items-center justify-center rounded-xl bg-muted p-2 text-center text-[10px] text-muted-foreground"
+              className={cn(
+                'flex aspect-[300/419] w-full items-center justify-center bg-muted p-1 text-center text-[10px] text-muted-foreground',
+                radius,
+              )}
             >
               {card.name}
             </div>
           )}
+          {/* RIB-79: con le carte piccole resta solo il numero di copie, più piccolo. */}
           <span
-            className="absolute top-2 right-2 rounded-full bg-foreground px-2 py-0.5 text-xs font-semibold text-background tabular-nums shadow"
+            className={cn(
+              'absolute rounded-full bg-foreground font-semibold text-background tabular-nums shadow',
+              size === 'large'
+                ? 'top-2 right-2 px-2 py-0.5 text-xs'
+                : 'top-1 right-1 px-1.5 text-[10px]',
+            )}
             aria-label={t('collection.copies', { count: item.total })}
           >
             ×{item.total}
           </span>
         </div>
-        <span className="mt-2 block truncate text-sm font-medium">{card.name}</span>
-        <span className="block text-xs text-muted-foreground">
-          {printing.printId}
-          {' · '}
-          {item.byLanguage.map(([language, count]) => `${language} ${String(count)}`).join(' · ')}
-        </span>
+        {size === 'large' && (
+          <>
+            <span className="mt-2 block truncate text-sm font-medium">{card.name}</span>
+            <span className="block text-xs text-muted-foreground">
+              {printing.printId}
+              {' · '}
+              {item.byLanguage
+                .map(([language, count]) => `${language} ${String(count)}`)
+                .join(' · ')}
+            </span>
+          </>
+        )}
+        {size === 'medium' && (
+          <span className="mt-1 block truncate text-[11px] text-muted-foreground">
+            {printing.printId}
+          </span>
+        )}
       </Link>
     </li>
   )

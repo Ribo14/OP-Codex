@@ -1,6 +1,7 @@
-import { Check, CircleCheck, Copy, ExternalLink, PackageSearch } from 'lucide-react'
+import { Check, CircleCheck, Copy, ExternalLink, PackageSearch, Printer } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 import type { CatalogCard } from '@/catalog/catalog-data'
 import { copyText } from '@/lib/clipboard'
 import { cn } from '@/lib/utils'
@@ -20,12 +21,15 @@ export function MissingCardsPanel({
   rows,
   catalog,
   loading,
+  printPath,
 }: {
   leaderCode: string
   rows: readonly MissingRow[]
   catalog: ReadonlyMap<string, CatalogCard>
   /** La Collection non è ancora caricata. */
   loading: boolean
+  /** Pagina di stampa delle carte (RIB-80). */
+  printPath?: string
 }) {
   const { t } = useTranslation()
   const [copied, setCopied] = useState<Target | null>(null)
@@ -64,6 +68,15 @@ export function MissingCardsPanel({
           ))}
         </ul>
         <div className="flex flex-wrap gap-2">
+          {printPath && (
+            <Link
+              to={printPath}
+              className="inline-flex h-9 items-center gap-1.5 rounded-full bg-foreground px-3 text-xs font-medium text-background hover:opacity-90"
+            >
+              <Printer className="size-3.5" aria-hidden="true" />
+              {t('print.fromDeck')}
+            </Link>
+          )}
           {TARGETS.map((target) => (
             <button
               key={target}

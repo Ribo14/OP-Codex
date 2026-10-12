@@ -144,7 +144,6 @@ function matchesCard(card: CatalogCard, f: CatalogFilters, words: string[]): boo
   if (!anyOf(f.attributes, card.attributes)) return false
   if (!anyOf(f.types, card.types)) return false
   if (!anyOf(f.keywords, card.keywords)) return false
-  if (!anyOf(f.blocks, card.block === null ? [] : [card.block])) return false
   if (f.effects.length > 0) {
     const text = `${card.effect ?? ''}\n${card.trigger ?? ''}`
     const shortcuts = EFFECT_SHORTCUTS.filter((s) => f.effects.includes(s.id))
@@ -179,8 +178,20 @@ function banMatcher(
   return (code) => active.some((test) => test(code))
 }
 
-const matchesPrinting = (p: CatalogPrinting, f: CatalogFilters) =>
-  anyOf(f.sets, [p.setCode]) && anyOf(f.rarities, [p.rarity])
+/** Il Block stampato su una Printing; senza dato (copie vecchie) quello della Card. */
+function printingBlock(p: CatalogPrinting, card: CatalogCard): string | null {
+  return p.block ?? card.block
+}
+
+// Il Block si guarda sulla Printing (RIB-76): una ristampa può avere un Block più recente.
+const matchesPrinting = (p: CatalogPrinting, card: CatalogCard, f: CatalogFilters) => {
+  const block = printingBlock(p, card)
+  return (
+    anyOf(f.sets, [p.setCode]) &&
+    anyOf(f.rarities, [p.rarity]) &&
+    anyOf(f.blocks, block === null ? [] : [block])
+  )
+}
 
 /**
  * Applica ricerca e filtri al catalogo e restituisce le voci da mostrare, in ordine di Card Code.
@@ -203,7 +214,7 @@ export function filterCatalog(
   for (const card of cards) {
     if (!matchesCard(card, f, words)) continue
     if (byBan && !byBan(card.cardCode)) continue
-    let printings = card.printings.filter((p) => matchesPrinting(p, f))
+    let printings = card.printings.filter((p) => matchesPrinting(p, card, f))
     if (printings.length === 0) continue
     if (f.allPrintings) {
       if (byOwnership) printings = printings.filter((p) => owns(p) === f.owned)
@@ -335,6 +346,32 @@ export function filtersFromSearchParams(params: URLSearchParams): CatalogFilters
   }
 }
 
+const MAX_SUGGESTIONS = 8
+
+/**
+ * Suggerimenti per i campi con completamento (Type, Set): le opzioni non ancora scelte la cui
+ * etichetta contiene il testo in qualsiasi punto, senza badare a maiuscole e accenti; prima
+ * quelle che iniziano col testo (RIB-75).
+ */
+export function suggestOptions(
+  text: string,
+  options: readonly string[],
+  selected: readonly string[],
+  optionLabel: (option: string) => string = (o) => o,
+): string[] {
+  const query = normalize(text.trim())
+  if (query === '') return []
+  const starts: string[] = []
+  const contains: string[] = []
+  for (const option of options) {
+    if (selected.includes(option)) continue
+    const label = normalize(optionLabel(option))
+    if (label.startsWith(query)) starts.push(option)
+    else if (label.includes(query)) contains.push(option)
+  }
+  return [...starts, ...contains].slice(0, MAX_SUGGESTIONS)
+}
+
 /** Valori disponibili per i filtri, ricavati dal catalogo; le Keyword dalla più frequente. */
 export function catalogFacets(cards: readonly CatalogCard[]) {
   const count = (values: Iterable<string>) => {
@@ -352,6 +389,13 @@ export function catalogFacets(cards: readonly CatalogCard[]) {
     attributes: byFrequency(count(cards.flatMap((c) => c.attributes))),
     types: alphabetical(cards.flatMap((c) => c.types)),
     rarities: byFrequency(count(cards.flatMap((c) => c.printings.map((p) => p.rarity)))),
-    blocks: alphabetical(cards.flatMap((c) => (c.block === null ? [] : [c.block]))),
+    blocks: alphabetical(
+      cards.flatMap((c) =>
+        c.printings.flatMap((p) => {
+          const block = printingBlock(p, c)
+          return block === null ? [] : [block]
+        }),
+      ),
+    ),
   }
 }

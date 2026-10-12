@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { CatalogRows, CatalogSnapshot } from './catalog-sync'
+import { SNAPSHOT_COLUMNS, type CatalogRows, type CatalogSnapshot } from './catalog-sync'
 import { createCatalogStore, OFFLINE, type CatalogStoreDeps } from './local-catalog'
 
 const ROWS: CatalogRows = {
@@ -40,6 +40,7 @@ const EMPTY: CatalogRows = {
 
 const SAVED: CatalogSnapshot = {
   ...ROWS,
+  columns: SNAPSHOT_COLUMNS,
   watermark: '2026-09-20T00:00:00Z',
   checkedAt: 100,
 }

@@ -157,7 +157,7 @@
   },
   {
     "cardCode": "OP04-042",
-    "body": "Quando lo giochi, un tuo Character con l’attributo indicato sulla carta ha +3000 potenza per il turno (il testo salvato nel catalogo ha perso il nome dell’attributo: controllalo sulla carta); poi mandi nel cestino la prima carta del tuo mazzo."
+    "body": "Quando lo giochi, un tuo Character <Slash> ha +3000 potenza per il turno; poi mandi nel cestino la prima carta del tuo mazzo."
   },
   {
     "cardCode": "OP04-043",

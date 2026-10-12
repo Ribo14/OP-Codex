@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import {
   CardListParseError,
+  escapeTextBrackets,
   parseCardListPage,
   type ParsedCardListPage,
 } from './card-list-parser.ts'
@@ -183,6 +184,21 @@ describe('HTML inatteso', () => {
       <dt><div class="infoCol">${info}</div><div class="cardName">Test</div></dt>
       <dd><div class="backCol"><div class="cost"><h3>Cost</h3>1</div></div></dd>
     </dl>`
+
+  it('tiene l’attributo scritto sul sito senza codifica ("<Slash>")', () => {
+    expect(escapeTextBrackets('<div class="text">by <Slash> attribute<br></div>')).toBe(
+      '<div class="text">by &lt;Slash&gt; attribute<br></div>',
+    )
+    const html = page(
+      card('OP03-032', '<span>OP03-032</span><span>C</span><span>CHARACTER</span>').replace(
+        '</div></div></dd>',
+        '</div><div class="text"><h3>Effect</h3>Cannot be K.O.&#039;d by <Slash> attribute cards.</div></div></dd>',
+      ),
+    )
+    expect(parseCardListPage(html).cards[0]?.effect).toBe(
+      "Cannot be K.O.'d by <Slash> attribute cards.",
+    )
+  })
 
   it('fallisce se manca il Set selezionato', () => {
     expect(() => parseCardListPage(page(card('OP01-001', ''), ''))).toThrow(CardListParseError)

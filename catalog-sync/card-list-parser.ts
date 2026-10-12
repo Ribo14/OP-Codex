@@ -86,8 +86,17 @@ const CATEGORY_BY_LABEL: Record<string, Category> = {
   'DON!!': 'DON!!',
 }
 
+/**
+ * Sul sito alcuni testi hanno l'attributo non codificato ("by <Slash> attribute cards"): il
+ * parser HTML lo leggerebbe come un tag e lo toglierebbe dal testo. I tag veri della pagina sono
+ * minuscoli, quindi `<Parola>` con l'iniziale maiuscola si codifica come testo.
+ */
+export function escapeTextBrackets(html: string): string {
+  return html.replace(/<([A-Z][A-Za-z]*)>/g, '&lt;$1&gt;')
+}
+
 export function parseCardListPage(html: string): ParsedCardListPage {
-  const $ = cheerio.load(html)
+  const $ = cheerio.load(escapeTextBrackets(html))
   const set = parseSelectedSet($)
 
   const cards = new Map<string, ParsedCard>()

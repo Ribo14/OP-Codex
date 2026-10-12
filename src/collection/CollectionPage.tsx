@@ -9,9 +9,10 @@ import { cardImageUrl } from '@/catalog/card-image'
 import { cardPath } from '@/catalog/card-links'
 import type { CardLinkState } from '@/catalog/CardDetailRoute'
 import { gridColumns, useGridSize, type GridSize } from '@/catalog/grid-size'
-import { GridSizeToggle } from '@/catalog/GridSizeToggle'
+import { ViewMenu } from '@/catalog/ViewMenu'
 import { useCatalog } from '@/catalog/local-catalog'
 import { useEuro } from '@/catalog/price-format'
+import { MenuChoices, MenuLabel, MenuSeparator } from '@/components/Menu'
 import { SearchField } from '@/components/SearchField'
 import { cn } from '@/lib/utils'
 import { collectionValue } from '@/catalog/price-value'
@@ -99,26 +100,27 @@ function Collection({ userId }: { userId: string }) {
   const value = collectionValue(entries, catalog.cards)
   return (
     <div className="space-y-5">
-      {/* RIB-70: il valore stimato in evidenza, in un riquadro in cima. */}
-      <section
-        aria-labelledby="valore-collezione"
-        className="space-y-3 rounded-3xl border bg-muted/40 p-5 sm:max-w-md"
-      >
-        <div>
-          <h2 id="valore-collezione" className="text-sm text-muted-foreground">
-            {t('collection.valueTitle')}
-          </h2>
-          <p className="text-3xl font-semibold tracking-tight tabular-nums lg:text-4xl">
-            {value.priced > 0 ? euro(value.total) : '—'}
+      {/* RIB-70: il valore stimato in evidenza; RIB-88: in un riquadro basso, accanto ai totali,
+          così le carte arrivano prima. Su tablet e PC accanto alla visibilità. */}
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:items-start">
+        <section
+          aria-labelledby="valore-collezione"
+          className="flex flex-wrap items-end justify-between gap-x-4 gap-y-1 rounded-2xl border bg-muted/40 px-4 py-3"
+        >
+          <div>
+            <h2 id="valore-collezione" className="text-xs text-muted-foreground">
+              {t('collection.valueTitle')}
+            </h2>
+            <p className="text-2xl font-semibold tracking-tight tabular-nums lg:text-3xl">
+              {value.priced > 0 ? euro(value.total) : '—'}
+            </p>
+          </div>
+          <p className="text-sm tabular-nums" aria-live="polite">
+            {t('collection.totals', { copies, cards: distinctCards })}
           </p>
-          <p className="text-xs text-muted-foreground">{t('collection.valueSource')}</p>
-        </div>
-        <p className="text-sm" aria-live="polite">
-          {t('collection.totals', { copies, cards: distinctCards })}
-        </p>
-        {(value.unpriced > 0 || value.otherLanguages > 0) && (
-          <p className="text-xs text-muted-foreground">
+          <p className="w-full text-xs text-muted-foreground">
             {[
+              t('collection.valueSource'),
               value.unpriced > 0 && t('collection.unpriced', { count: value.unpriced }),
               value.otherLanguages > 0 &&
                 t('collection.otherLanguages', { count: value.otherLanguages }),
@@ -126,38 +128,44 @@ function Collection({ userId }: { userId: string }) {
               .filter(Boolean)
               .join(' · ')}
           </p>
-        )}
-      </section>
-      <p className="text-sm">
-        <BulkLink />
-      </p>
-      <CollectionVisibilityRow userId={userId} />
+        </section>
+        <CollectionVisibilityRow userId={userId} />
+      </div>
       <SetCompletionSection catalog={catalog} entries={entries} />
-      <h2 className="pt-2 text-lg font-semibold tracking-tight">{t('collection.yourCards')}</h2>
-      <div className="flex flex-wrap gap-3">
+      <div className="flex items-center justify-between gap-3 pt-2">
+        <h2 className="text-lg font-semibold tracking-tight">{t('collection.yourCards')}</h2>
+        <span className="text-sm">
+          <BulkLink />
+        </span>
+      </div>
+      {/* RIB-88: ricerca, ordine e vista in una riga. */}
+      <div className="flex items-center gap-2">
         <SearchField
           value={query}
           label={t('collection.search')}
           onChange={setQuery}
-          className="h-11 min-w-0 flex-1 basis-60"
+          className="min-w-0 flex-1"
         />
-        <label className="flex items-center gap-2 text-sm">
-          <span className="text-muted-foreground">{t('collection.sortLabel')}</span>
-          <select
+        {/* L'ordinamento sta nel menu della vista: la ricerca ha tutta la riga (RIB-88). */}
+        <ViewMenu
+          value={gridSize}
+          onChange={(choice) => {
+            if (choice !== 'list') setGridSize(choice)
+          }}
+          withList={false}
+        >
+          <MenuSeparator />
+          <MenuLabel>{t('collection.sortLabel')}</MenuLabel>
+          <MenuChoices<CollectionSort>
             value={sort}
-            onChange={(e) => {
-              setSort(e.target.value as CollectionSort)
-            }}
-            className="h-11 rounded-full border bg-background px-3 text-sm"
-          >
-            {COLLECTION_SORTS.map((option) => (
-              <option key={option} value={option}>
-                {t(`collection.sort.${option}`)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <GridSizeToggle size={gridSize} onChange={setGridSize} />
+            onChange={setSort}
+            options={COLLECTION_SORTS.map((option) => ({
+              value: option,
+              label: t(`collection.sort.${option}`),
+              icon: null,
+            }))}
+          />
+        </ViewMenu>
       </div>
 
       {shown.length === 0 ? (

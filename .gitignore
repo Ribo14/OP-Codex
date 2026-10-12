@@ -39,5 +39,6 @@ Thumbs.db
 # Ambiente Python dello script delle FAQ (scripts/faq/)
 .venv-faq
 
-# Foto di prova dello Scanner: restano sul PC, non nel repo pubblico.
+# Foto di prova dello Scanner e screenshot delle segnalazioni: restano sul PC, non nel repo pubblico.
 scanner-foto/
+bug/

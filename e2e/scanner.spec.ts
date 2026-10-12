@@ -42,9 +42,13 @@ test('Scanner: legge il Card Code dalla fotocamera e apre la stampa scelta', asy
       values (${CODE}, ${CODE}, ${SERIES}, 'SR'), (${`${CODE}_p1`}, ${CODE}, ${SERIES}, 'SR')
     `
 
-    // Dal catalogo allo Scanner.
+    // Dal catalogo allo Scanner, col pulsante al centro della barra in basso.
     await page.goto('/')
-    await page.getByRole('link', { name: 'Scansiona' }).click()
+    await page
+      .getByRole('navigation', { name: 'Sezioni' })
+      .last()
+      .getByRole('link', { name: 'Scanner' })
+      .click()
     await expect(page.getByRole('heading', { level: 1, name: 'Scanner' })).toBeVisible()
 
     // Il permesso c'è già: la fotocamera parte da sola e la lettura è continua, senza pulsanti.

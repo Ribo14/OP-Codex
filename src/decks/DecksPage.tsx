@@ -125,7 +125,7 @@ function DeckList() {
         (state.decks.length === 0 ? (
           <p className="text-muted-foreground">{t('decks.empty')}</p>
         ) : (
-          <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {state.decks.map((detail) => (
               <DeckItem
                 key={detail.deck.id}

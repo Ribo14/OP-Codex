@@ -94,7 +94,7 @@ test('Stampa: dal mazzo le mancanti, dal dettaglio da 1 a 4 copie', async ({ pag
     await sql`insert into public.deck_cards (deck_id, card_code, quantity) values (${deck?.id ?? ''}, ${ALPHA.code}, 4)`
 
     await page.goto(`/mazzi/${deck?.id ?? ''}`)
-    await page.getByText('Ti mancano 5 carte').click()
+    await page.getByRole('button', { name: 'Ti mancano 5 carte' }).click()
     await page.getByRole('link', { name: 'Stampa le mancanti' }).click()
     await expect(page.getByRole('heading', { level: 1, name: 'Stampa carte' })).toBeVisible()
     await expect(page.getByText('5 carte · 1 foglio A4')).toBeVisible()

@@ -112,7 +112,9 @@ test('Collection: +/− dal dettaglio, lingue separate, totali nella pagina', as
     await page.goto('/collezione')
     await expect(page.getByText('4 carte in tutto · 1 Card diverse')).toBeVisible()
     await expect(page.getByRole('link', { name: new RegExp(NAME) })).toHaveCount(2)
-    await page.getByLabel('Ordina per').selectOption('quantity')
+    // L'ordinamento sta nel menu della vista (RIB-88).
+    await page.getByRole('button', { name: /^Vista:/ }).click()
+    await page.getByRole('menuitemradio', { name: 'Quantità' }).click()
     await expect(page.getByRole('link', { name: new RegExp(NAME) }).first()).toContainText(
       'EN 2 · JP 1',
     )

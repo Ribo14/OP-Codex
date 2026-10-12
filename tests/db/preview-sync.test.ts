@@ -56,7 +56,8 @@ function officialCatalog(): MergedCatalog {
   }
 }
 
-describe('Preview Sync sul database (ADR-0016)', () => {
+// Con tutti i test insieme alcune transazioni superano il secondo: margine come catalog-job.
+describe('Preview Sync sul database (ADR-0016)', { timeout: 10_000 }, () => {
   it('salva Set, Card e Printing come anteprime, con series_id negativo; rifarlo non cambia nulla', async () => {
     await inRollback(sql, async (tx) => {
       const first = await upsertPreviewSet(tx, PREVIEW)

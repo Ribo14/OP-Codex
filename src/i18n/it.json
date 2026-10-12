@@ -441,6 +441,16 @@
     "warningsCount_other": "{{count}} avvisi",
     "show": "Mostra",
     "hide": "Nascondi",
+    "status": {
+      "valid": "Valido",
+      "complete": "Hai tutto",
+      "missing_one": "Manca {{count}}",
+      "missing_other": "Mancano {{count}}",
+      "share": "Condividi mazzo: {{visibility}}"
+    },
+    "actions": "Altre azioni del mazzo",
+    "leaderPrinting": "Variante del Leader",
+    "print": "Stampa carte",
     "flagged": "Coinvolta in un avviso",
     "warning": {
       "noLeader": "Manca il Leader.",
@@ -843,9 +853,8 @@
     "showResults_other": "Mostra {{count}} carte",
     "close": "Chiudi",
     "view": "Vista",
-    "grid": "Griglia",
     "list": "Elenco",
-    "gridSize": "Dimensione delle carte",
+    "viewMenu": "Vista: {{current}}",
     "gridSizes": {
       "large": "Carte grandi",
       "medium": "Carte medie",

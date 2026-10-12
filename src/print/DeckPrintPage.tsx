@@ -89,7 +89,7 @@ function DeckPrint({ deckId, userId }: { deckId: string; userId: string }) {
         <p className="text-sm text-muted-foreground">{t('print.intro')}</p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div className="space-y-5">
           {missing.length > 0 ? (
             <section aria-labelledby="stampa-mancanti" className="space-y-2">

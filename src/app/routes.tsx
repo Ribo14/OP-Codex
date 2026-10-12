@@ -39,7 +39,9 @@ import { FriendProfilePage } from '@/friends/FriendProfilePage'
 import { FriendsPage } from '@/friends/FriendsPage'
 import { InvitePage } from '@/friends/InvitePage'
 import {
+  FRIEND_COLLECTION_PATH,
   FRIEND_DECK_PATH,
+  FRIEND_DECKS_PATH,
   FRIEND_INVITE_PATH,
   FRIEND_PROFILE_PATH,
   FRIENDS_PATH,
@@ -92,6 +94,8 @@ export const routes: RouteObject[] = [
       { path: FRIEND_INVITE_PATH, element: <InvitePage /> },
       // Profilo e mazzi di un amico (RIB-73)
       { path: FRIEND_PROFILE_PATH, element: <FriendProfilePage /> },
+      { path: FRIEND_DECKS_PATH, element: <FriendProfilePage view="decks" /> },
+      { path: FRIEND_COLLECTION_PATH, element: <FriendProfilePage view="collection" /> },
       { path: FRIEND_DECK_PATH, element: <FriendDeckPage /> },
       // Scanner (fase 4): anche senza account, apre il dettaglio della carta letta.
       { path: SCANNER_PATH, element: <ScannerPage /> },

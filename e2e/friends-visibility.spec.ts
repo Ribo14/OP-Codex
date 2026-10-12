@@ -116,17 +116,22 @@ test('mazzi e Collection su Amici: li vede l’amico, non gli altri', async ({
     ).toBeVisible()
     await expect(bruno.page.getByText('Mazzo di un amico')).toBeVisible()
 
-    // RIB-95: da Collezione e da Mazzi, il pulsante Amici apre la pagina di Anna alla sezione giusta.
+    // RIB-95: da Collezione il pulsante Amici apre solo la collezione di Anna, da Mazzi solo i
+    // suoi mazzi; si torna indietro alla propria pagina.
     await bruno.page.goto('/collezione')
     await bruno.page.getByRole('button', { name: 'Amici' }).click()
     await bruno.page.getByRole('menuitem', { name: `@${anna.username}` }).click()
-    await expect(bruno.page).toHaveURL(new RegExp(`/amici/${anna.username}#amico-collezione$`))
+    await expect(bruno.page).toHaveURL(new RegExp(`/amici/${anna.username}/collezione$`))
     await expect(bruno.page.getByText('×3')).toBeVisible()
+    await expect(bruno.page.getByText('1 mazzo condiviso')).toHaveCount(0)
+    await bruno.page.getByRole('link', { name: 'Collezione', exact: true }).first().click()
+    await expect(bruno.page).toHaveURL(/\/collezione$/)
     await bruno.page.goto('/mazzi')
     await bruno.page.getByRole('button', { name: 'Amici' }).click()
     await bruno.page.getByRole('menuitem', { name: `@${anna.username}` }).click()
-    await expect(bruno.page).toHaveURL(new RegExp(`/amici/${anna.username}#amico-mazzi$`))
+    await expect(bruno.page).toHaveURL(new RegExp(`/amici/${anna.username}/mazzi$`))
     await expect(bruno.page.getByText('1 mazzo condiviso')).toBeVisible()
+    await expect(bruno.page.getByText('×3')).toHaveCount(0)
 
     // Carla non è amica: stesso messaggio di un profilo che non esiste; il mazzo non si apre.
     await carla.page.goto(`/amici/${anna.username}`)

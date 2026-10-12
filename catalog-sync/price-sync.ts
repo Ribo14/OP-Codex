@@ -65,7 +65,14 @@ function products(file: unknown, name: string): CardmarketProduct[] {
     typeof p.idProduct === 'number' &&
     typeof p.name === 'string' &&
     typeof p.idExpansion === 'number'
-      ? [{ idProduct: p.idProduct, name: p.name, idExpansion: p.idExpansion }]
+      ? [
+          {
+            idProduct: p.idProduct,
+            name: p.name,
+            idExpansion: p.idExpansion,
+            ...(typeof p.dateAdded === 'string' ? { dateAdded: p.dateAdded } : {}),
+          },
+        ]
       : [],
   )
 }

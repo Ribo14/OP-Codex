@@ -9,6 +9,7 @@ import {
   filtersFromSearchParams,
   filtersToSearchParams,
   relatedFilters,
+  suggestOptions,
   type CatalogFilters,
 } from './filters'
 
@@ -158,6 +159,30 @@ describe('filterCatalog', () => {
     expect(codes({ sets: ['OP-01'], rarities: ['L'] })).toEqual(['OP01-001'])
   })
 
+  it('il Block si guarda su ogni Printing: una ristampa con Block X fa uscire la Card (RIB-76)', () => {
+    const nami = card({
+      cardCode: 'OP01-016',
+      name: 'Nami',
+      block: 'X',
+      printings: [
+        { printId: 'OP01-016', rarity: 'R', setCode: 'OP-01', hasImage: true, block: '1' },
+        { printId: 'OP01-016_p9', rarity: 'R', setCode: 'ST-31', hasImage: true, block: 'X' },
+      ],
+    })
+    const filtered = (f: Partial<CatalogFilters>) =>
+      filterCatalog([nami], { ...EMPTY_FILTERS, ...f }).map((e) => e.printing.printId)
+
+    // "Tutti i Block tranne l'1": esce, con la stampa che passa il filtro.
+    expect(filtered({ blocks: ['2', '3', 'X'] })).toEqual(['OP01-016_p9'])
+    expect(filtered({ blocks: ['1'] })).toEqual(['OP01-016'])
+    expect(filtered({ blocks: ['2'] })).toEqual([])
+    expect(filtered({ blocks: ['X'], allPrintings: true })).toEqual(['OP01-016_p9'])
+    // Senza Block sulla Printing (copia vecchia) vale quello della Card.
+    const old = { ...nami, printings: nami.printings.map((p) => ({ ...p, block: undefined })) }
+    expect(filterCatalog([old], { ...EMPTY_FILTERS, blocks: ['X'] })).toHaveLength(1)
+    expect(catalogFacets([nami]).blocks).toEqual(['1', 'X'])
+  })
+
   it('l’interruttore delle Printing mostra anche le varianti', () => {
     expect(codes({ allPrintings: true, q: 'zoro' })).toEqual(['OP01-001', 'OP01-001_p1'])
     expect(codes({ allPrintings: true, q: 'nami', sets: ['OP-01'] })).toEqual(['OP01-016'])
@@ -265,6 +290,32 @@ describe('supporto all’interfaccia', () => {
     expect(facets.keywords).toHaveLength(10)
     expect(facets.types).toEqual(['Straw Hat Crew', 'Supernovas', 'Whitebeard Pirates'])
     expect(facets.blocks).toEqual(['1', '2'])
+  })
+
+  it('suggerisce i Type che contengono il testo, senza prenderne uno mentre si scrive', () => {
+    const types = ['Animal', 'Animal Kingdom Pirates', 'Big Mom Pirates', 'Kingdom of Germa']
+    // "Animal" è un Type intero ma anche l'inizio di un altro: restano entrambi da scegliere.
+    expect(suggestOptions('animal', types, [])).toEqual(['Animal', 'Animal Kingdom Pirates'])
+    expect(suggestOptions('animal ', types, [])).toEqual(['Animal', 'Animal Kingdom Pirates'])
+    // Prima quelli che iniziano col testo, poi quelli che lo contengono.
+    expect(suggestOptions('kingdom', types, [])).toEqual([
+      'Kingdom of Germa',
+      'Animal Kingdom Pirates',
+    ])
+    expect(suggestOptions('pirates', types, ['Big Mom Pirates'])).toEqual([
+      'Animal Kingdom Pirates',
+    ])
+    expect(suggestOptions('  ', types, [])).toEqual([])
+  })
+
+  it('i suggerimenti dei Set cercano anche nel nome', () => {
+    const names: Record<string, string> = {
+      'OP-05': 'Awakening of the New Era',
+      'EB-05': 'Heroines',
+    }
+    const label = (code: string) => `${code} · ${names[code] ?? ''}`
+    expect(suggestOptions('heroines', ['OP-05', 'EB-05'], [], label)).toEqual(['EB-05'])
+    expect(suggestOptions('05', ['OP-05', 'EB-05'], [], label)).toEqual(['OP-05', 'EB-05'])
   })
 })
 

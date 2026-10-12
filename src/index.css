@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
+@import './shadcn-tailwind.css';
 @import '@fontsource-variable/geist';
 
 @custom-variant dark (&:is(.dark *));
@@ -148,6 +148,18 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* RIB-77: Safari su iPhone/iPad ingrandisce la pagina quando si tocca un campo con il testo
+   sotto i 16 px e, chiusa la tastiera, non torna indietro (le carte a destra restano tagliate).
+   Sui dispositivi touch i campi scrivibili hanno almeno 16 px. Fuori dai layer di Tailwind,
+   così vale anche sopra le classi text-sm/text-xs dei singoli campi; lo zoom resta permesso. */
+@media (pointer: coarse) {
+  input:not([type='checkbox'], [type='radio'], [type='range'], [type='color'], [type='file']),
+  select,
+  textarea {
+    font-size: max(16px, 1em);
   }
 }
 

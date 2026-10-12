@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { cardFrame, codeZone, toVideo } from './scan-geometry'
+import { cardFrame, clampRect, codeZone, codeZones, toPreview, toVideo } from './scan-geometry'
 
 // Riquadro della carta sull'anteprima e zona del Card Code, riportata sui pixel del video.
 
@@ -26,6 +26,35 @@ describe('codeZone', () => {
     expect(zone.x + zone.width).toBeCloseTo(630)
     expect(zone.y).toBeGreaterThanOrEqual(880 * 0.8)
     expect(zone.y + zone.height).toBeCloseTo(880)
+  })
+})
+
+describe('codeZones e toPreview (RIB-84, RIB-85)', () => {
+  it('la zona ampia contiene quella storica e resta dentro la carta', () => {
+    const card = { x: 100, y: 50, width: 630, height: 880 }
+    const { app, wide } = codeZones(card)
+    expect(app).toEqual(codeZone(card))
+    expect(wide.x).toBeLessThanOrEqual(app.x)
+    expect(wide.y).toBeLessThanOrEqual(app.y)
+    expect(wide.x + wide.width).toBeCloseTo(card.x + card.width)
+    expect(wide.y + wide.height).toBeCloseTo(card.y + card.height)
+  })
+
+  it('toPreview è l’inverso di toVideo', () => {
+    const box = { width: 390, height: 520 }
+    const video = { width: 1080, height: 1920 }
+    const rect = { x: 120, y: 90, width: 150, height: 210 }
+    const back = toPreview(toVideo(rect, box, video), box, video)
+    expect(back.x).toBeCloseTo(rect.x)
+    expect(back.y).toBeCloseTo(rect.y)
+    expect(back.width).toBeCloseTo(rect.width)
+    expect(back.height).toBeCloseTo(rect.height)
+  })
+
+  it('clampRect non esce dal video', () => {
+    expect(
+      clampRect({ x: -10, y: 5, width: 50, height: 2000 }, { width: 100, height: 100 }),
+    ).toEqual({ x: 0, y: 5, width: 40, height: 95 })
   })
 })
 

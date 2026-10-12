@@ -31,12 +31,44 @@ export function cardFrame(box: Size): Rect {
  * tipi: la zona lascia un po' di margine ma esclude quasi tutta quella riga, che confonde l'OCR.
  */
 export function codeZone(frame: Rect): Rect {
+  return codeZones(frame).app
+}
+
+/**
+ * Le zone del Card Code dentro una carta (RIB-84): `app` è quella storica, `wide` un po' più
+ * ampia, che tollera meglio una carta trovata con qualche pixel di errore. Nella prova sulle
+ * foto vere le due insieme leggono più codici di ciascuna da sola.
+ */
+export function codeZones(card: Rect): { app: Rect; wide: Rect } {
+  const zone = (x: number, y: number, w: number, h: number): Rect => ({
+    x: card.x + card.width * x,
+    y: card.y + card.height * y,
+    width: card.width * w,
+    height: card.height * h,
+  })
+  return { app: zone(0.66, 0.89, 0.34, 0.11), wide: zone(0.6, 0.86, 0.4, 0.14) }
+}
+
+/** Da pixel del video a coordinate dell'anteprima (l'inverso di toVideo, senza ritagli ai bordi). */
+export function toPreview(rect: Rect, box: Size, video: Size): Rect {
+  const scale = Math.max(box.width / video.width, box.height / video.height)
+  const offsetX = (box.width - video.width * scale) / 2
+  const offsetY = (box.height - video.height * scale) / 2
   return {
-    x: frame.x + frame.width * 0.66,
-    y: frame.y + frame.height * 0.89,
-    width: frame.width * 0.34,
-    height: frame.height * 0.11,
+    x: rect.x * scale + offsetX,
+    y: rect.y * scale + offsetY,
+    width: rect.width * scale,
+    height: rect.height * scale,
   }
+}
+
+/** Un rettangolo tenuto dentro il video (per i ritagli: mai fuori dall'immagine). */
+export function clampRect(rect: Rect, video: Size): Rect {
+  const left = clamp(rect.x, video.width)
+  const top = clamp(rect.y, video.height)
+  const right = clamp(rect.x + rect.width, video.width)
+  const bottom = clamp(rect.y + rect.height, video.height)
+  return { x: left, y: top, width: right - left, height: bottom - top }
 }
 
 /**

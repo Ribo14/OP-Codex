@@ -213,7 +213,7 @@ function BanForm({
           </option>
         ))}
       </datalist>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <label className="space-y-1 text-sm">
           <span className="font-medium">{t('admin.ban.card')}</span>
           <input

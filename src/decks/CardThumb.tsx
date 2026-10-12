@@ -34,7 +34,7 @@ export function CardThumb({
   }
   return (
     <img
-      src={cardImageUrl(printing.printId, 'thumb')}
+      src={cardImageUrl(printing, 'thumb')}
       crossOrigin="anonymous"
       alt={name}
       width={300}

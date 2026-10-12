@@ -101,6 +101,9 @@ export default defineConfig({
           name: 'db',
           environment: 'node',
           include: ['tests/db/**/*.test.ts'],
+          // Un file alla volta: in parallelo le transazioni di file diversi su mazzi, carte e
+          // stampe a volte si bloccavano a vicenda (deadlock), come gli E2E (RIB-73).
+          fileParallelism: false,
         },
       },
     ],

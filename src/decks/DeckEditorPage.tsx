@@ -3,8 +3,8 @@ import {
   Minus,
   Pencil,
   Plus,
+  Printer,
   ScanSearch,
-  Search,
   SlidersHorizontal,
   TriangleAlert,
   X,
@@ -25,6 +25,7 @@ import { useEuro } from '@/catalog/price-format'
 import { deckValue, type DeckValue } from '@/catalog/price-value'
 import { useCatalogFilters } from '@/catalog/use-catalog-filters'
 import { useCollection, useOwnership } from '@/collection/collection-store'
+import { SearchField } from '@/components/SearchField'
 import { useOnline } from '@/lib/use-online'
 import { cn } from '@/lib/utils'
 import { CardThumb } from './CardThumb'
@@ -44,11 +45,11 @@ import { checkDeck, DECK_FORMATS, deckStats, flaggedCards } from './deck-rules'
 import { DeckListActions } from './DeckListActions'
 import { useDeck, type DeckStore } from './deck-store'
 import { DeckStatsPanel } from './DeckStats'
-import { DeckWarningsPanel } from './DeckWarnings'
 import { deckOwnership, type MissingRow } from './missing-cards'
-import { MissingCardsPanel, OwnedBadge } from './MissingCardsPanel'
-import { deckLeaderPath, DECKS_PATH } from './paths'
-import { ShareDeckSection } from './ShareDeckSection'
+import { DeckActionsMenu } from './DeckActionsMenu'
+import { DeckStatusBar } from './DeckStatusBar'
+import { OwnedBadge } from './MissingCardsPanel'
+import { deckLeaderPath, deckPrintPath, DECKS_PATH } from './paths'
 
 // Editor di un Deck (RIB-21). Ogni modifica si salva da sola. Due schede, "Mazzo" e "Aggiungi
 // carte", che non perdono ricerca e filtri. Anche su desktop le schede non sono affiancate
@@ -194,14 +195,17 @@ function Editor({ deckId }: { deckId: string }) {
         onOpen={openCard}
       />
 
-      <DeckWarningsPanel warnings={warnings} catalog={byCode} />
-      <MissingCardsPanel
-        leaderCode={deck.leaderCode}
-        rows={ownership}
+      {/* RIB-88: avvisi, carte mancanti e condivisione come chip su una riga. */}
+      <DeckStatusBar
+        deck={deck}
+        store={store}
+        disabled={!online}
+        warnings={warnings}
         catalog={byCode}
-        loading={collectionEntries === null}
+        ownership={ownership}
+        collectionLoading={collectionEntries === null}
+        printPath={deckPrintPath(deck.id)}
       />
-      <ShareDeckSection deck={deck} store={store} disabled={!online} />
 
       {!online && <p className="text-sm text-muted-foreground">{t('decks.offline')}</p>}
       {failed && (
@@ -385,7 +389,7 @@ function DeckHeader({
   }
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-3 sm:gap-4">
       {leader ? (
         <button
           type="button"
@@ -398,13 +402,13 @@ function DeckHeader({
           <CardThumb
             printing={shownPrinting(leader, deck.leaderPrintId)}
             name={leaderName}
-            className="w-20 rounded-lg sm:w-24 lg:w-32"
+            className="w-16 rounded-lg sm:w-24 lg:w-28"
           />
         </button>
       ) : (
-        <CardThumb printing={undefined} name={leaderName} className="w-20 shrink-0 sm:w-24" />
+        <CardThumb printing={undefined} name={leaderName} className="w-16 shrink-0 sm:w-24" />
       )}
-      <div className="min-w-0 flex-1 space-y-2">
+      <div className="min-w-0 flex-1 space-y-1.5 sm:space-y-2">
         {renaming ? (
           <form onSubmit={rename} className="flex gap-2">
             <label className="min-w-0 flex-1">
@@ -427,8 +431,10 @@ function DeckHeader({
             </button>
           </form>
         ) : (
-          <div className="flex items-center gap-2">
-            <h1 className="truncate text-2xl font-semibold tracking-tight">{deck.name}</h1>
+          <div className="flex items-center gap-1">
+            <h1 className="min-w-0 truncate text-xl font-semibold tracking-tight sm:text-2xl">
+              {deck.name}
+            </h1>
             <button
               type="button"
               disabled={editing.disabled}
@@ -441,12 +447,34 @@ function DeckHeader({
             >
               <Pencil className="size-4" aria-hidden="true" />
             </button>
+            {/* RIB-88: su telefono le azioni stanno nel menu ⋯. */}
+            <DeckActionsMenu
+              deck={deck}
+              leader={leader}
+              editing={editing}
+              listText={listText}
+              onRelated={onRelated}
+            />
           </div>
         )}
-        <p className="text-sm text-muted-foreground">
+        <p className="truncate text-sm text-muted-foreground">
           {t('decks.leader')}: <span className="text-foreground">{leaderName}</span>
         </p>
-        <div className="flex flex-wrap items-center gap-3">
+        {/* Telefono: carte, valore e formato in una riga di testo. */}
+        <p className="text-sm tabular-nums sm:hidden" aria-live="polite">
+          <span className="font-medium">
+            {t('decks.count', { count: deck.cardCount, size: DECK_SIZE })}
+          </span>
+          {value.priced > 0 && (
+            <>
+              {' · '}
+              <span className="font-semibold">{euro(value.total)}</span>
+            </>
+          )}
+          {' · '}
+          <span className="text-muted-foreground">{t(`decks.formats.${deck.format}`)}</span>
+        </p>
+        <div className="hidden flex-wrap items-center gap-3 sm:flex">
           <p className="text-sm font-medium tabular-nums" aria-live="polite">
             {t('decks.count', { count: deck.cardCount, size: DECK_SIZE })}
           </p>
@@ -488,7 +516,7 @@ function DeckHeader({
             ))}
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="hidden flex-wrap items-center gap-2 sm:flex">
           {leader && leader.printings.length > 1 && (
             <PrintingSelect
               card={leader}
@@ -521,6 +549,13 @@ function DeckHeader({
             </button>
           )}
           <DeckListActions name={deck.name} text={listText} />
+          <Link
+            to={deckPrintPath(deck.id)}
+            className="inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-medium hover:bg-muted"
+          >
+            <Printer className="size-3.5" aria-hidden="true" />
+            {t('decks.print')}
+          </Link>
         </div>
       </div>
     </div>
@@ -797,19 +832,14 @@ function AddCards({
   return (
     <div className="space-y-3">
       <div className="flex gap-2">
-        <label className="flex h-10 min-w-0 flex-1 items-center gap-2 rounded-full bg-muted px-4 text-sm">
-          <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-          <span className="sr-only">{t('catalog.search')}</span>
-          <input
-            type="search"
-            value={filters.q}
-            placeholder={t('catalog.search')}
-            onChange={(e) => {
-              update({ q: e.target.value }, { typing: true })
-            }}
-            className="w-full min-w-0 bg-transparent text-base outline-none placeholder:text-muted-foreground"
-          />
-        </label>
+        <SearchField
+          value={filters.q}
+          label={t('catalog.search')}
+          onChange={(q) => {
+            update({ q }, { typing: true })
+          }}
+          className="min-w-0 flex-1"
+        />
         <button
           type="button"
           onClick={() => {

@@ -5,17 +5,26 @@ const SUPABASE = 'https://abc.supabase.co'
 
 describe('cardImageUrl', () => {
   it('punta alla miniatura su Supabase Storage per default', () => {
-    expect(cardImageUrl('OP01-001', undefined, SUPABASE)).toBe(
+    expect(cardImageUrl({ printId: 'OP01-001' }, undefined, SUPABASE)).toBe(
       'https://abc.supabase.co/storage/v1/object/public/card-images/thumb/OP01-001.webp',
     )
   })
 
   it('punta all’immagine completa quando richiesta, anche per varianti e ristampe', () => {
-    expect(cardImageUrl('OP01-001_p1', 'full', SUPABASE)).toBe(
+    expect(cardImageUrl({ printId: 'OP01-001_p1' }, 'full', SUPABASE)).toBe(
       'https://abc.supabase.co/storage/v1/object/public/card-images/full/OP01-001_p1.webp',
     )
-    expect(cardImageUrl('P-014_r1', 'thumb', `${SUPABASE}/`)).toBe(
+    expect(cardImageUrl({ printId: 'P-014_r1' }, 'thumb', `${SUPABASE}/`)).toBe(
       'https://abc.supabase.co/storage/v1/object/public/card-images/thumb/P-014_r1.webp',
+    )
+  })
+
+  it('le anteprime hanno un URL loro, diverso da quello della carta ufficiale (ADR-0016)', () => {
+    expect(cardImageUrl({ printId: 'EB05-010', preview: true }, 'full', SUPABASE)).toBe(
+      'https://abc.supabase.co/storage/v1/object/public/card-images/preview/full/EB05-010.webp',
+    )
+    expect(cardImageUrl({ printId: 'EB05-010', preview: false }, 'full', SUPABASE)).toBe(
+      'https://abc.supabase.co/storage/v1/object/public/card-images/full/EB05-010.webp',
     )
   })
 
@@ -28,11 +37,13 @@ describe('cardImageUrl', () => {
       'op01-001',
       'OP01-001_x1',
     ]) {
-      expect(() => cardImageUrl(bad, 'thumb', SUPABASE)).toThrow('Print ID non valido')
+      expect(() => cardImageUrl({ printId: bad }, 'thumb', SUPABASE)).toThrow('Print ID non valido')
     }
   })
 
   it('segnala la configurazione mancante', () => {
-    expect(() => cardImageUrl('OP01-001', 'thumb', '')).toThrow('VITE_SUPABASE_URL mancante')
+    expect(() => cardImageUrl({ printId: 'OP01-001' }, 'thumb', '')).toThrow(
+      'VITE_SUPABASE_URL mancante',
+    )
   })
 })

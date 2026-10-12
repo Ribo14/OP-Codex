@@ -19,9 +19,13 @@ import { useCollection } from '@/collection/collection-store'
 import { CardThumb } from '@/decks/CardThumb'
 import { cn } from '@/lib/utils'
 import { useOnline } from '@/lib/use-online'
+import { DiagnosticsControls } from './DiagnosticsControls'
 import { startOcr, type Ocr } from './ocr'
 import { createConfirmer } from './scan-confirm'
-import { cardFrame, codeZone, toVideo, type Rect } from './scan-geometry'
+import { diagnosticsEnabled, saveCrop } from './scan-diagnostics'
+import { createFrameReader, type FrameRead } from './scan-frame'
+import { cardFrame, codeZones, toPreview, type Rect } from './scan-geometry'
+import { GLARE_THRESHOLD } from './scan-glare'
 import { recognize } from './scan-recognizer'
 
 // Scanner (fase 4, rifatto con RIB-68): si inquadra la carta e l'OCR legge di continuo il Card
@@ -38,12 +42,12 @@ type Mode = (typeof MODES)[number]
 
 /** Pausa tra una lettura e l'altra: lascia respirare il telefono. */
 const PAUSE_MS = 150
+/** Letture fallite di fila con un riflesso prima dell'avviso di inclinare la carta (RIB-86). */
+const GLARE_HINT_AFTER = 3
+/** Diagnostica (RIB-87): si salva un ritaglio ogni tante letture fallite, non tutte. */
+const DIAGNOSTIC_EVERY = 6
 
-interface LastRead {
-  text: string
-  /** Codici letti che esistono nel catalogo, e quelli che non esistono. */
-  found: string[]
-  unknown: string[]
+interface LastRead extends FrameRead {
   ms: number
 }
 
@@ -68,6 +72,13 @@ export function ScannerPage() {
   const [tally, setTally] = useState({ reads: 0, found: 0 })
   const [ocrFailed, setOcrFailed] = useState(false)
   const [notice, setNotice] = useState<string | null>(null)
+  // Un solo lettore (con i suoi canvas) per tutta la vita della pagina.
+  const [reader] = useState(createFrameReader)
+  const [outline, setOutline] = useState<Rect | null>(null)
+  const glareStreak = useRef(0)
+  const [glareHint, setGlareHint] = useState(false)
+  const failures = useRef(0)
+  const [saved, setSaved] = useState(0)
 
   const byCode = useMemo(
     () => new Map((catalog?.cards ?? []).map((card) => [card.cardCode, card])),
@@ -97,6 +108,19 @@ export function ScannerPage() {
         },
       })
       stream.current = media
+      // RIB-84: messa a fuoco continua dove il telefono la offre (il codice è piccolo, deve
+      // restare nitido anche avvicinando o allontanando la carta).
+      const [track] = media.getVideoTracks()
+      // getCapabilities manca nei Safari più vecchi.
+      const capabilities =
+        track && 'getCapabilities' in track
+          ? (track.getCapabilities() as { focusMode?: string[] })
+          : undefined
+      if (track && capabilities?.focusMode?.includes('continuous')) {
+        await track
+          .applyConstraints({ advanced: [{ focusMode: 'continuous' } as MediaTrackConstraintSet] })
+          .catch(() => undefined)
+      }
       if (video.current) {
         video.current.srcObject = media
         await video.current.play()
@@ -146,29 +170,51 @@ export function ScannerPage() {
           continue
         }
         const box = { width: el.clientWidth, height: el.clientHeight }
-        const zone: Rect = toVideo(codeZone(cardFrame(box)), box, {
-          width: el.videoWidth,
-          height: el.videoHeight,
-        })
+        const videoSize = { width: el.videoWidth, height: el.videoHeight }
         const started = performance.now()
-        let text: string
+        let result: FrameRead
         try {
-          text = await (await worker).read(el, zone)
+          result = await reader.read(el, box, await worker, codes)
         } catch {
           if (!isStopped()) setOcrFailed(true)
           return
         }
         if (isStopped()) return
-        const result = recognize(text, codes)
-        setLast({ text, ...result, ms: Math.round(performance.now() - started) })
+        // RIB-85: il contorno della carta trovata sull'anteprima.
+        setOutline(result.card ? toPreview(result.card, box, videoSize) : null)
+        setLast({ ...result, ms: Math.round(performance.now() - started) })
         setTally((n) => ({
           reads: n.reads + 1,
           found: n.found + (result.found.length > 0 ? 1 : 0),
         }))
+        // RIB-86: un riflesso che resta per più letture fallite → l'avviso di inclinare la carta.
+        glareStreak.current =
+          result.found.length === 0 && result.glare >= GLARE_THRESHOLD ? glareStreak.current + 1 : 0
+        setGlareHint(glareStreak.current >= GLARE_HINT_AFTER)
+        // RIB-87: con la diagnostica accesa si tiene un ritaglio ogni tanto tra quelli falliti.
+        if (result.found.length === 0 && diagnosticsEnabled()) {
+          failures.current++
+          if (failures.current % DIAGNOSTIC_EVERY === 0) {
+            const image = await reader.zonePng()
+            if (image) {
+              await saveCrop({
+                image,
+                text: result.text,
+                glare: result.glare,
+                detected: result.card !== null,
+                at: Date.now(),
+              })
+              setSaved((n) => n + 1)
+            }
+          }
+        }
         const confirmed = confirmer.current.push(result.found)
         if (confirmed) {
           // iPhone non vibra: vibrate non esiste in Safari.
           if ('vibrate' in navigator) navigator.vibrate(60)
+          reader.reset()
+          glareStreak.current = 0
+          setGlareHint(false)
           setNotice(null)
           setMatch(confirmed)
           return
@@ -180,7 +226,7 @@ export function ScannerPage() {
     return () => {
       run.stopped = true
     }
-  }, [camera, match, ocrFailed, catalog, codes])
+  }, [camera, match, ocrFailed, catalog, codes, reader])
 
   /** Chiude il pannello e riprende la lettura, senza riproporre subito la stessa carta. */
   const resume = (message: string | null = null) => {
@@ -272,7 +318,13 @@ export function ScannerPage() {
           className="absolute inset-0 size-full object-cover"
         />
         {camera === 'ready' ? (
-          <FrameOverlay last={last} match={match} notice={notice} />
+          <FrameOverlay
+            last={last}
+            match={match}
+            notice={notice}
+            outline={outline}
+            glareHint={glareHint}
+          />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center text-white">
             {camera === 'idle' || camera === 'starting' ? (
@@ -351,11 +403,21 @@ export function ScannerPage() {
         }
       />
 
+      {/* RIB-87: con la diagnostica accesa (area Admin), i ritagli salvati e l'esportazione. */}
+      <DiagnosticsControls refreshKey={saved} />
+
       {last && (
         <details className="rounded-2xl border p-4 text-sm">
           <summary className="cursor-pointer font-medium">{t('scanner.test.title')}</summary>
           <p className="mt-2 text-muted-foreground">
             {t('scanner.test.tally', { found: tally.found, reads: tally.reads, ms: last.ms })}
+          </p>
+          <p className="mt-1 text-muted-foreground">
+            {t('scanner.test.detail', {
+              detected: t(last.card ? 'scanner.test.detected' : 'scanner.test.notDetected'),
+              attempts: last.attempts,
+              glare: Math.round(last.glare * 100),
+            })}
           </p>
           <pre className="mt-2 overflow-x-auto rounded-lg bg-muted p-3 font-mono text-xs whitespace-pre-wrap">
             {last.text.trim() || '—'}
@@ -370,15 +432,24 @@ function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-/** Il riquadro della carta, con la zona del codice evidenziata e lo stato della lettura. */
+/**
+ * Sopra l'anteprima: la carta trovata col contorno verde e la zona del codice (RIB-85); finché
+ * non la trova, il riquadro guida tratteggiato. In basso lo stato della lettura.
+ */
 function FrameOverlay({
   last,
   match,
   notice,
+  outline,
+  glareHint,
 }: {
   last: LastRead | null
   match: string | null
   notice: string | null
+  /** La carta trovata, in coordinate dell'anteprima. */
+  outline: Rect | null
+  /** Un riflesso impedisce la lettura da qualche giro (RIB-86). */
+  glareHint: boolean
 }) {
   const { t } = useTranslation()
   const [found] = last?.found ?? []
@@ -388,9 +459,13 @@ function FrameOverlay({
     : (notice ??
       (found
         ? t('scanner.status.hold', { code: found })
-        : unknown
-          ? t('scanner.status.unknown', { code: unknown })
-          : t('scanner.status.searching')))
+        : glareHint
+          ? t('scanner.status.glare')
+          : unknown
+            ? t('scanner.status.unknown', { code: unknown })
+            : outline
+              ? t('scanner.status.reading')
+              : t('scanner.status.searching')))
   const box = useRef<HTMLDivElement>(null)
   const [size, setSize] = useState({ width: 0, height: 0 })
   useEffect(() => {
@@ -405,7 +480,6 @@ function FrameOverlay({
     }
   }, [])
   const frame = cardFrame(size)
-  const zone = codeZone(frame)
   const px = (r: Rect) => ({
     left: r.x,
     top: r.y,
@@ -414,21 +488,43 @@ function FrameOverlay({
   })
   return (
     <div ref={box} className="pointer-events-none absolute inset-0">
-      <div
-        className="absolute rounded-2xl border-2 border-white/80 shadow-[0_0_0_9999px_rgba(0,0,0,0.35)]"
-        style={px(frame)}
-      />
-      <div className="absolute rounded-md border-2 border-amber-400" style={px(zone)} />
-      <div className="absolute inset-x-3 top-3 space-y-1 text-center text-white drop-shadow">
-        <p className="text-xs font-medium">{t('scanner.aim')}</p>
-        <p className="text-xs opacity-80">{t('scanner.glare')}</p>
+      {outline ? (
+        <>
+          <div
+            className="absolute rounded-xl border-2 border-emerald-400 transition-all duration-150"
+            style={px(outline)}
+          />
+          <div
+            className={cn(
+              'absolute rounded-md border-2 transition-all duration-150',
+              glareHint ? 'border-red-400' : 'border-amber-400',
+            )}
+            style={px(codeZones(outline).wide)}
+          />
+        </>
+      ) : (
+        <div
+          className="absolute rounded-2xl border-2 border-dashed border-white/70"
+          style={px(frame)}
+        />
+      )}
+      {/* Lo stato sta in alto: in basso coprirebbe proprio il codice da leggere. Il consiglio
+          sull'inquadratura serve solo finché la carta non è stata trovata; quello sui riflessi
+          arriva nello stato, quando c'è davvero un riflesso (RIB-86). */}
+      <div className="absolute inset-x-4 top-3 space-y-1.5 text-center">
+        <p
+          aria-live="polite"
+          className={cn(
+            'rounded-full px-3 py-1.5 text-xs font-medium text-white',
+            glareHint ? 'bg-red-600/80' : 'bg-black/60',
+          )}
+        >
+          {status}
+        </p>
+        {!outline && (
+          <p className="text-xs text-white opacity-90 drop-shadow">{t('scanner.aim')}</p>
+        )}
       </div>
-      <p
-        aria-live="polite"
-        className="absolute inset-x-6 bottom-4 rounded-full bg-black/60 px-3 py-1.5 text-center text-xs font-medium text-white"
-      >
-        {status}
-      </p>
     </div>
   )
 }

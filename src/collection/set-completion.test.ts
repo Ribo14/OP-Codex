@@ -83,6 +83,15 @@ describe('completamento dei Set', () => {
     ])
   })
 
+  it('i Set in anteprima non compaiono: le loro carte non si possono possedere (ADR-0016)', () => {
+    const preview = card('EB05-001', [['EB05-001', 'EB-05']])
+    preview.printings = preview.printings.map((p) => ({ ...p, preview: true }))
+    const sets = [...SETS, { seriesId: -1, code: 'EB-05', name: 'Anteprima', preview: true }]
+    expect(setCompletion([...CARDS, preview], sets, []).map((r) => r.set.code)).not.toContain(
+      'EB-05',
+    )
+  })
+
   it('percentuale per difetto: 100% solo a Set completo', () => {
     expect(percent({ owned: 2, total: 3 })).toBe(66)
     expect(percent({ owned: 119, total: 120 })).toBe(99)

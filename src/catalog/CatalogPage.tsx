@@ -1,27 +1,24 @@
-import { LayoutGrid, List, ScanLine, Search, SlidersHorizontal, X } from 'lucide-react'
+import { SlidersHorizontal, X } from 'lucide-react'
 import { useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, Outlet, useMatch } from 'react-router'
+import { Outlet, useMatch } from 'react-router'
 import { useSession } from '@/account/session'
 import { LogoLoader } from '@/app/LogoLoader'
 import { useOwnership } from '@/collection/collection-store'
+import { SearchField } from '@/components/SearchField'
 import { cn } from '@/lib/utils'
-import { SCANNER_PATH } from '@/scanner/paths'
 import { useBanList } from './ban-list'
 import type { CatalogOutletContext } from './CardDetailRoute'
 import { CatalogResults, type CatalogView } from './CatalogResults'
 import { catalogFacets, countActiveFilters, filterCatalog } from './filters'
 import { FiltersPanel } from './FiltersPanel'
+import { useGridSize } from './grid-size'
 import { OFFLINE, useCatalog } from './local-catalog'
 import { SetImagesDownload } from './SetImagesDownload'
+import { ViewMenu } from './ViewMenu'
 import { useCatalogFilters } from './use-catalog-filters'
 
 const VIEW_KEY = 'op-codex-catalog-view'
-
-const VIEWS = [
-  { key: 'grid', Icon: LayoutGrid },
-  { key: 'list', Icon: List },
-] as const
 
 function readView(): CatalogView {
   try {
@@ -37,6 +34,7 @@ export function CatalogPage() {
   const { filters, update, reset } = useCatalogFilters()
   const deferredFilters = useDeferredValue(filters)
   const [view, setViewState] = useState<CatalogView>(readView)
+  const [gridSize, setGridSize] = useGridSize()
   const [panelOpen, setPanelOpen] = useState(false)
   const detail = useMatch('/carta/:cardCode')
   const openCode = detail?.params.cardCode?.toUpperCase() ?? null
@@ -114,62 +112,50 @@ export function CatalogPage() {
     <section className="flex flex-col gap-5">
       <h1 className="text-2xl font-semibold tracking-tight lg:text-3xl">{t('catalog.title')}</h1>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <label className="flex h-10 min-w-0 flex-1 basis-64 items-center gap-2 rounded-full bg-muted px-4 text-sm">
-          <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-          <span className="sr-only">{t('catalog.search')}</span>
-          <input
-            type="search"
-            value={filters.q}
-            placeholder={t('catalog.search')}
-            onChange={(e) => {
-              update({ q: e.target.value }, { typing: true })
-            }}
-            className="w-full min-w-0 bg-transparent outline-none placeholder:text-muted-foreground"
-          />
-        </label>
-
-        {/* Fase 4: lo Scanner apre il dettaglio della carta inquadrata. */}
-        <Link
-          to={SCANNER_PATH}
-          className="inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-medium hover:bg-muted"
-        >
-          <ScanLine className="size-4" aria-hidden="true" />
-          {t('scanner.button')}
-        </Link>
+      {/* RIB-88: una riga sola. Lo Scanner sta nella navigazione; i filtri qui solo dove non c'è
+          il pannello laterale. Il pulsante dei filtri mostra quanti sono attivi. */}
+      <div className="flex items-center gap-2">
+        <SearchField
+          value={filters.q}
+          label={t('catalog.search')}
+          onChange={(q) => {
+            update({ q }, { typing: true })
+          }}
+          className="min-w-0 flex-1"
+        />
 
         <button
           type="button"
+          aria-label={
+            active > 0 ? t('catalog.filtersCount', { count: active }) : t('catalog.filters')
+          }
           onClick={() => {
             setPanelOpen(true)
           }}
-          className="inline-flex h-10 items-center gap-2 rounded-full border px-4 text-sm font-medium lg:hidden"
+          className={cn(
+            'relative inline-flex size-10 shrink-0 items-center justify-center rounded-full border hover:bg-muted sm:w-auto sm:gap-2 sm:px-4 sm:text-sm sm:font-medium',
+            openCode ? '2xl:hidden' : 'lg:hidden',
+          )}
         >
           <SlidersHorizontal className="size-4" aria-hidden="true" />
-          {active > 0 ? t('catalog.filtersCount', { count: active }) : t('catalog.filters')}
+          <span className="hidden sm:inline">{t('catalog.filters')}</span>
+          {active > 0 && (
+            <span className="absolute -top-1 -right-1 inline-flex min-w-5 items-center justify-center rounded-full bg-foreground px-1 text-[11px] font-semibold text-background tabular-nums sm:static sm:bg-transparent sm:px-0 sm:text-foreground">
+              {active}
+            </span>
+          )}
         </button>
 
-        <div role="group" aria-label={t('catalog.view')} className="flex rounded-full bg-muted p-1">
-          {VIEWS.map(({ key, Icon }) => (
-            <button
-              key={key}
-              type="button"
-              aria-pressed={view === key}
-              aria-label={t(`catalog.${key}`)}
-              title={t(`catalog.${key}`)}
-              onClick={() => {
-                setView(key)
-              }}
-              className={cn(
-                'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
-                view === key ? 'bg-background shadow-sm' : 'text-muted-foreground',
-              )}
-            >
-              <Icon className="size-4" aria-hidden="true" />
-              <span className="hidden sm:inline">{t(`catalog.${key}`)}</span>
-            </button>
-          ))}
-        </div>
+        <ViewMenu
+          value={view === 'list' ? 'list' : gridSize}
+          onChange={(choice) => {
+            if (choice === 'list') setView('list')
+            else {
+              setView('grid')
+              setGridSize(choice)
+            }
+          }}
+        />
       </div>
 
       <div className="flex items-center gap-3 text-sm">
@@ -212,7 +198,7 @@ export function CatalogPage() {
           {entries.length === 0 ? (
             <p className="py-10 text-center text-muted-foreground">{t('catalog.noResults')}</p>
           ) : (
-            <CatalogResults entries={entries} view={view} openCode={openCode} />
+            <CatalogResults entries={entries} view={view} gridSize={gridSize} openCode={openCode} />
           )}
         </div>
 

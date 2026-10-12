@@ -64,6 +64,7 @@ describe('Set booster: OP-01', () => {
       printId: 'OP01-001_p1',
       cardCode: 'OP01-001',
       rarity: 'L',
+      block: '1',
     })
   })
 

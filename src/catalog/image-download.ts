@@ -99,8 +99,9 @@ export function allImageUrls(
   const urls: string[] = []
   for (const card of cards) {
     for (const p of card.printings) {
-      if (!p.hasImage || !include(p)) continue
-      urls.push(cardImageUrl(p.printId, 'thumb'), cardImageUrl(p.printId, 'full'))
+      // Le anteprime (ADR-0016) non vanno nella cache offline: cambiano e poi spariscono.
+      if (!p.hasImage || p.preview || !include(p)) continue
+      urls.push(cardImageUrl(p, 'thumb'), cardImageUrl(p, 'full'))
     }
   }
   return urls

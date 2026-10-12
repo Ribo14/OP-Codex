@@ -33,7 +33,10 @@ export interface ParsedCard {
   attributes: string[]
   colors: string[]
   types: string[]
-  /** Block di rotazione stampato sulla carta: un numero ("1", "2"…) oppure "X". */
+  /**
+   * Block di rotazione: un numero ("1", "2"…) oppure "X". Dopo il merge è il più recente tra le
+   * Printing, perché una ristampa con un Block nuovo vale anche per le stampe vecchie (RIB-76).
+   */
   block: string | null
   effect: string | null
   trigger: string | null
@@ -44,6 +47,8 @@ export interface ParsedPrinting {
   printId: string
   cardCode: string
   rarity: string
+  /** Block stampato su questa Printing: le ristampe possono averne uno più recente (RIB-76). */
+  block: string | null
 }
 
 export interface ParsedCardListPage {
@@ -205,7 +210,7 @@ function parseCardBlock(
     trigger: multilineText(block.find('.backCol .trigger')),
   }
 
-  return { card, printing: { printId, cardCode, rarity } }
+  return { card, printing: { printId, cardCode, rarity, block: card.block } }
 }
 
 /** Il testo di un riquadro senza la sua intestazione <h3>. */

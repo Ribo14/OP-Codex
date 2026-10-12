@@ -10,6 +10,7 @@ import {
   EFFECT_SHORTCUTS,
   type catalogFacets,
   type CatalogFilters,
+  suggestOptions,
   type Range,
 } from './filters'
 import { toggle } from './use-catalog-filters'
@@ -150,7 +151,7 @@ export function FiltersPanel({
         ))}
       </Group>
 
-      <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-1">
         <RangeFilter
           label={t('filters.cost')}
           steps={COST_STEPS}
@@ -389,7 +390,11 @@ function RangeFilter({
   )
 }
 
-/** Scelta multipla con completamento automatico, per elenchi lunghi (Type, Set). */
+/**
+ * Scelta multipla con completamento automatico, per elenchi lunghi (Type, Set). Il valore si
+ * aggiunge solo toccando un suggerimento o con Invio, mai mentre si scrive: "Animal" è un Type
+ * ma anche l'inizio di "Animal Kingdom Pirates" (RIB-75).
+ */
 function MultiInput({
   label,
   placeholder,
@@ -408,11 +413,20 @@ function MultiInput({
   const { t } = useTranslation()
   const id = useId()
   const [text, setText] = useState('')
+  const [active, setActive] = useState(0)
+  const [open, setOpen] = useState(false)
+  const suggestions = suggestOptions(text, options, selected, optionLabel)
+  const showList = open && suggestions.length > 0
 
-  const add = (raw: string) => {
-    const value = options.find((o) => o.toLowerCase() === raw.trim().toLowerCase())
+  const add = (value: string | undefined) => {
     if (value && !selected.includes(value)) onChange([...selected, value])
     setText('')
+    setActive(0)
+  }
+  // Invio o "Aggiungi": la voce evidenziata, altrimenti quella scritta per intero.
+  const addTyped = () => {
+    const query = text.trim().toLowerCase()
+    add(suggestions[active] ?? options.find((o) => o.toLowerCase() === query))
   }
 
   return (
@@ -423,43 +437,80 @@ function MultiInput({
       >
         {label}
       </label>
-      <div className="flex gap-2">
+      <div className="relative flex gap-2">
         <input
           id={id}
-          list={`${id}-options`}
+          role="combobox"
+          aria-expanded={showList}
+          aria-controls={`${id}-options`}
+          aria-autocomplete="list"
+          aria-activedescendant={showList ? `${id}-option-${String(active)}` : undefined}
+          autoComplete="off"
           value={text}
           placeholder={placeholder}
           onChange={(e) => {
-            const value = e.target.value
-            // Scegliendo una voce dell'elenco la si aggiunge subito.
-            if (options.includes(value)) add(value)
-            else setText(value)
+            setText(e.target.value)
+            setActive(0)
+            setOpen(true)
+          }}
+          onFocus={() => {
+            setOpen(true)
+          }}
+          onBlur={() => {
+            setOpen(false)
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault()
-              add(text)
+              addTyped()
+            } else if (e.key === 'ArrowDown' && suggestions.length > 0) {
+              e.preventDefault()
+              setActive((i) => (i + 1) % suggestions.length)
+            } else if (e.key === 'ArrowUp' && suggestions.length > 0) {
+              e.preventDefault()
+              setActive((i) => (i - 1 + suggestions.length) % suggestions.length)
+            } else if (e.key === 'Escape') {
+              setOpen(false)
             }
           }}
           className="h-9 min-w-0 flex-1 rounded-lg border bg-background px-3 text-sm"
         />
         <button
           type="button"
-          onClick={() => {
-            add(text)
-          }}
+          onClick={addTyped}
           className="h-9 rounded-lg border px-3 text-xs font-medium hover:bg-muted"
         >
           {t('filters.typesAdd')}
         </button>
+        {showList && (
+          <ul
+            id={`${id}-options`}
+            role="listbox"
+            aria-label={label}
+            className="absolute inset-x-0 top-full z-20 mt-1 max-h-64 overflow-y-auto rounded-lg border bg-popover p-1 text-sm text-popover-foreground shadow-lg"
+          >
+            {suggestions.map((option, i) => (
+              <li
+                key={option}
+                id={`${id}-option-${String(i)}`}
+                role="option"
+                aria-selected={i === active}
+                // mousedown invece di click: arriva prima del blur del campo, che chiude l'elenco.
+                onMouseDown={(e) => {
+                  e.preventDefault()
+                  add(option)
+                }}
+                className={cn(
+                  'cursor-pointer rounded-md px-2 py-1.5',
+                  i === active ? 'bg-muted' : 'hover:bg-muted/60',
+                )}
+              >
+                {optionLabel(option)}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-      <datalist id={`${id}-options`}>
-        {options
-          .filter((o) => !selected.includes(o))
-          .map((o) => (
-            <option key={o} value={o} label={optionLabel(o)} />
-          ))}
-      </datalist>
       {selected.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {selected.map((value) => (

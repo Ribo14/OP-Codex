@@ -89,7 +89,9 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     await expect(page.getByRole('heading', { level: 1, name: LEADER.name })).toBeVisible()
 
     // Carte correlate al Leader (RIB-41): si apre "Aggiungi carte" coi filtri del Leader (Blu).
-    await page.getByRole('button', { name: 'Carte correlate al Leader' }).click()
+    // Su telefono le azioni del mazzo stanno nel menu ⋯ (RIB-88).
+    await page.getByRole('button', { name: 'Altre azioni del mazzo' }).click()
+    await page.getByRole('menuitem', { name: 'Carte correlate al Leader' }).click()
     await expect(page.getByRole('tab', { name: 'Aggiungi carte' })).toHaveAttribute(
       'aria-selected',
       'true',
@@ -138,7 +140,7 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
 
     // Carte mancanti (RIB-25): la Collection è vuota, quindi mancano il Leader e le 5 carte.
     await expect(page.locator('#pannello-deck').getByLabel('ne hai 0 su 4')).toBeVisible()
-    await page.getByText('Ti mancano 6 carte').click()
+    await page.getByRole('button', { name: 'Ti mancano 6 carte' }).click()
     await page.getByRole('button', { name: 'Copia lista mancanti' }).click()
     await expect(page.getByRole('button', { name: 'Lista copiata' })).toBeVisible()
     const missing = String(await page.evaluate('navigator.clipboard.readText()')).replace(
@@ -170,7 +172,7 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     )
 
     // Share Link (RIB-26): chi non ha l'account vede il mazzo; dopo la revoca non più.
-    await page.getByText('Condividi mazzo').click()
+    await page.getByRole('button', { name: /^Condividi mazzo/ }).click()
     await page.getByRole('radio', { name: 'Link pubblico' }).click()
     const link = (await page.getByText(/\/m\/[A-Za-z0-9_-]{22}$/).innerText()).trim()
     const visitor = await browser.newContext({ viewport: { width: 390, height: 844 } })
@@ -193,25 +195,29 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     await expect(page.getByText('Il mazzo ha 5 carte: ne servono esattamente 50')).toBeVisible()
     await expect(page.getByText(/^Coppia bandita: queste carte/)).toBeVisible()
     // Formato: Standard di base, si passa a Extra e resta dopo il ricaricamento.
-    const formats = page.getByRole('radiogroup', { name: 'Formato del mazzo' })
-    await expect(formats.getByRole('radio', { name: 'Standard' })).toHaveAttribute(
+    // Su telefono il formato si sceglie nel menu ⋯ (RIB-88).
+    const menu = page.getByRole('button', { name: 'Altre azioni del mazzo' })
+    await menu.click()
+    await expect(page.getByRole('menuitemradio', { name: 'Standard' })).toHaveAttribute(
       'aria-checked',
       'true',
     )
-    await formats.getByRole('radio', { name: 'Extra' }).click()
+    await page.getByRole('menuitemradio', { name: 'Extra' }).click()
     // Statistiche: la curva conta 4 carte di costo 2 e 1 di costo 1.
     await page.getByText('Statistiche').click()
     await expect(page.getByLabel('Costo 2: 4 carte')).toBeVisible()
     await expect(page.getByLabel('Costo 1: 1 carta')).toBeVisible()
     await page.reload()
-    await expect(
-      page
-        .getByRole('radiogroup', { name: 'Formato del mazzo' })
-        .getByRole('radio', { name: 'Extra' }),
-    ).toHaveAttribute('aria-checked', 'true')
+    await menu.click()
+    await expect(page.getByRole('menuitemradio', { name: 'Extra' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    )
+    await page.keyboard.press('Escape')
 
     // Elenco: duplica, rinomina la copia, elimina l'originale.
     await page.getByRole('link', { name: 'Mazzi', exact: true }).first().click()
+    await expect(page.getByRole('heading', { level: 1, name: 'Mazzi' })).toBeVisible()
     await expect(page.getByText('5/50 carte')).toBeVisible()
     await expect(page.getByText('2 avvisi')).toBeVisible()
     await page.getByRole('button', { name: 'Duplica' }).click()
@@ -259,8 +265,9 @@ test('Deck builder: crea, aggiungi carte, riapri, duplica, rinomina, elimina', a
     await expect(page.getByRole('tab', { name: 'Mazzo 6/50' })).toBeVisible()
 
     // Copia lista: formato standard, Leader per primo, poi per costo.
-    await page.getByRole('button', { name: 'Copia lista' }).click()
-    await expect(page.getByRole('button', { name: 'Lista copiata' })).toBeVisible()
+    await page.getByRole('button', { name: 'Altre azioni del mazzo' }).click()
+    await page.getByRole('menuitem', { name: 'Copia lista' }).click()
+    await expect(page.getByRole('status').filter({ hasText: 'Lista copiata' })).toBeVisible()
     // Script come testo: i test E2E non hanno i tipi del browser (navigator).
     // Su Windows gli appunti restituiscono gli a capo come \r\n.
     const copied = String(await page.evaluate('navigator.clipboard.readText()')).replace(

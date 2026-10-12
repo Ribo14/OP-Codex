@@ -290,11 +290,14 @@ function SetPicker({ catalog, onPick }: { catalog: Catalog; onPick: (setCode: st
   // Prima gli Starter Deck (il caso più comune: un mazzo comprato intero), poi gli altri.
   const sets = useMemo(
     () =>
-      [...catalog.sets].sort(
-        (a, b) =>
-          Number(!a.code.startsWith('ST')) - Number(!b.code.startsWith('ST')) ||
-          a.code.localeCompare(b.code, 'en', { numeric: true }),
-      ),
+      // I Set in anteprima (ADR-0016) non si possono ancora possedere.
+      catalog.sets
+        .filter((s) => !s.preview)
+        .sort(
+          (a, b) =>
+            Number(!a.code.startsWith('ST')) - Number(!b.code.startsWith('ST')) ||
+            a.code.localeCompare(b.code, 'en', { numeric: true }),
+        ),
     [catalog],
   )
   return (

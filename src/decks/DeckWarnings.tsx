@@ -24,6 +24,42 @@ export function ValidityBadge({ warnings }: { warnings: number }) {
 }
 
 /** Riquadro in cima all'editor: "Mazzo valido" oppure gli avvisi, che si aprono in un elenco. */
+/** Solo l'elenco degli avvisi, che si apre dal chip nella testata del mazzo (RIB-88). */
+export function DeckWarningsList({
+  warnings,
+  catalog,
+}: {
+  warnings: readonly DeckWarning[]
+  catalog: ReadonlyMap<string, CatalogCard>
+}) {
+  const { t } = useTranslation()
+  if (warnings.length === 0) {
+    return (
+      <p className="flex items-center gap-2 text-sm font-medium text-emerald-800 dark:text-emerald-300">
+        <CircleCheck className="size-4" aria-hidden="true" />
+        {t('decks.validDeck')}
+      </p>
+    )
+  }
+  const names = (codes: readonly string[]) =>
+    codes.map((code) => catalog.get(code)?.name ?? code).join(', ')
+  return (
+    <ul className="space-y-2 text-sm">
+      {warnings.map((w, index) => (
+        <li
+          key={`${w.code}-${String(index)}`}
+          className="border-t border-amber-500/20 pt-2 first:border-0 first:pt-0"
+        >
+          <p>{t(`decks.warning.${w.code}`, w.params)}</p>
+          {w.cards.length > 0 && (
+            <p className="mt-0.5 text-xs text-muted-foreground">{names(w.cards)}</p>
+          )}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 export function DeckWarningsPanel({
   warnings,
   catalog,

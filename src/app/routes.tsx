@@ -17,7 +17,15 @@ import {
 import { ProfilePage } from '@/account/ProfilePage'
 import { RecoverPage } from '@/account/RecoverPage'
 import { SignupPage } from '@/account/SignupPage'
+import { AdminJobsPage } from '@/admin/AdminJobsPage'
+import { AdminOverviewPage } from '@/admin/AdminOverviewPage'
 import { AdminPage } from '@/admin/AdminPage'
+import { AdminUserPage } from '@/admin/AdminUserPage'
+import { AdminUsersPage } from '@/admin/AdminUsersPage'
+import { BanListSection } from '@/admin/BanListSection'
+import { ExplanationQueueSection } from '@/admin/ExplanationQueueSection'
+import { PriceMappingSection } from '@/admin/PriceMappingSection'
+import { DiagnosticsControls } from '@/scanner/DiagnosticsControls'
 import { BulkAddPage } from '@/collection/BulkAddPage'
 import { CollectionPage } from '@/collection/CollectionPage'
 import { BULK_ADD_PATH, COLLECTION_PATH } from '@/collection/paths'
@@ -36,6 +44,7 @@ import {
   FRIEND_PROFILE_PATH,
   FRIENDS_PATH,
 } from '@/friends/paths'
+import { DeckPrintPage } from '@/print/DeckPrintPage'
 import { RULES_PATH } from '@/rules/paths'
 import { RulesPage } from '@/rules/RulesPage'
 import { SharedDeckPage } from '@/decks/SharedDeckPage'
@@ -76,6 +85,8 @@ export const routes: RouteObject[] = [
       { path: SHARED_DECK_PATH, element: <SharedDeckPage /> },
       { path: `${DECKS_PATH}/:deckId`, element: <DeckEditorPage /> },
       { path: `${DECKS_PATH}/:deckId/leader`, element: <LeaderPickerPage /> },
+      // Stampa delle carte del mazzo (RIB-80)
+      { path: `${DECKS_PATH}/:deckId/stampa`, element: <DeckPrintPage /> },
       // Amici (RIB-71)
       { path: FRIENDS_PATH, element: <FriendsPage /> },
       { path: FRIEND_INVITE_PATH, element: <InvitePage /> },
@@ -95,7 +106,22 @@ export const routes: RouteObject[] = [
       { path: NEW_PASSWORD_PATH, element: <NewPasswordPage /> },
       { path: OAUTH_CALLBACK_PATH, element: <OAuthCallbackPage /> },
       { path: CODE_PATH, element: <CodePage /> },
-      { path: ADMIN_PATH, element: <AdminPage /> },
+      // Area Admin (RIB-19), a schede (RIB-89)
+      {
+        path: ADMIN_PATH,
+        element: <AdminPage />,
+        children: [
+          { index: true, element: <AdminOverviewPage /> },
+          { path: 'utenti', element: <AdminUsersPage /> },
+          { path: 'utenti/:userId', element: <AdminUserPage /> },
+          { path: 'job', element: <AdminJobsPage /> },
+          { path: 'segnalazioni', element: <ExplanationQueueSection /> },
+          { path: 'ban-list', element: <BanListSection /> },
+          { path: 'prezzi', element: <PriceMappingSection /> },
+          // RIB-87: ritagli dello Scanner letti male, per migliorarne la lettura.
+          { path: 'scanner', element: <DiagnosticsControls withToggle /> },
+        ],
+      },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

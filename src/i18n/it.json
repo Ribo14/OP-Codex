@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "OP-Codex",
-    "skipToContent": "Vai al contenuto"
+    "skipToContent": "Vai al contenuto",
+    "clearSearch": "Svuota la ricerca"
   },
   "nav": {
     "label": "Sezioni",
@@ -440,6 +441,16 @@
     "warningsCount_other": "{{count}} avvisi",
     "show": "Mostra",
     "hide": "Nascondi",
+    "status": {
+      "valid": "Valido",
+      "complete": "Hai tutto",
+      "missing_one": "Manca {{count}}",
+      "missing_other": "Mancano {{count}}",
+      "share": "Condividi mazzo: {{visibility}}"
+    },
+    "actions": "Altre azioni del mazzo",
+    "leaderPrinting": "Variante del Leader",
+    "print": "Stampa carte",
     "flagged": "Coinvolta in un avviso",
     "warning": {
       "noLeader": "Manca il Leader.",
@@ -453,7 +464,8 @@
       "bannedPair": "Coppia bandita: queste carte non possono stare nello stesso mazzo.",
       "leaderMaxCost": "Il Leader vieta le carte di costo {{cost}} o più.",
       "leaderMaxEventCost": "Il Leader vieta gli Event di costo {{cost}} o più.",
-      "leaderOnlyType": "Il Leader ammette solo carte di tipo {{type}}."
+      "leaderOnlyType": "Il Leader ammette solo carte di tipo {{type}}.",
+      "preview": "Carte in anteprima, non ancora uscite: dati non ufficiali e non valide nei tornei finché non escono."
     },
     "stats": {
       "title": "Statistiche",
@@ -479,6 +491,109 @@
     "notAdmin": "Questa area è riservata agli amministratori.",
     "needsTwoFactor": "Per entrare nell'area Admin serve la verifica in due passaggi: attivala nel Profilo, in «Account e sicurezza».",
     "toProfile": "Vai al Profilo",
+    "tabs": {
+      "label": "Sezioni dell'area Admin",
+      "overview": "Panoramica",
+      "users": "Utenti",
+      "jobs": "Job",
+      "reports": "Segnalazioni",
+      "banList": "Ban List",
+      "prices": "Prezzi",
+      "scanner": "Scanner"
+    },
+    "overview": {
+      "jobsTitle": "Job della notte",
+      "numbersTitle": "L'app in numeri",
+      "overall": {
+        "ok": "Tutto a posto: stanotte i job sono andati bene.",
+        "running": "Qualche job è ancora in corso.",
+        "stale": "Qualche job non gira da oltre {{hours}} ore.",
+        "failed": "Qualche job è fallito: controlla qui sotto."
+      },
+      "count": {
+        "ok_one": "{{count}} riuscito",
+        "ok_other": "{{count}} riusciti",
+        "running_one": "{{count}} in corso",
+        "running_other": "{{count}} in corso",
+        "stale_one": "{{count}} fermo",
+        "stale_other": "{{count}} fermi",
+        "failed_one": "{{count}} fallito",
+        "failed_other": "{{count}} falliti"
+      },
+      "health": {
+        "ok": "Riuscito",
+        "running": "In corso",
+        "stale": "Fermo",
+        "never": "Mai eseguito",
+        "failed": "Fallito"
+      },
+      "ago": {
+        "minutes_one": "{{count}} min fa",
+        "minutes_other": "{{count}} min fa",
+        "hours_one": "{{count}} h fa",
+        "hours_other": "{{count}} h fa",
+        "days_one": "{{count}} giorno fa",
+        "days_other": "{{count}} giorni fa"
+      },
+      "kpi": {
+        "users": "Utenti",
+        "usersNew": "Nuovi in 7 giorni",
+        "usersActive": "Attivi in 7 giorni",
+        "usersSuspended": "Sospesi",
+        "decks": "Mazzi",
+        "copies": "Carte nelle collezioni",
+        "reports": "Segnalazioni aperte"
+      }
+    },
+    "users": {
+      "title": "Utenti",
+      "count_one": "{{count}} account",
+      "count_other": "{{count}} account",
+      "search": "Cerca per Username",
+      "empty": "Nessun utente trovato.",
+      "noUsername": "(senza Username)",
+      "never": "mai",
+      "summary": "Iscritto il {{created}} · ultimo accesso {{lastSignIn}} · mazzi {{decks}} · carte {{copies}}",
+      "usage": "mazzi {{decks}} · carte in collezione {{copies}}",
+      "back": "Tutti gli utenti",
+      "notFound": "Utente non trovato.",
+      "badge": {
+        "suspended": "Sospeso",
+        "admin": "Admin",
+        "mfa": "2FA"
+      },
+      "field": {
+        "email": "Email",
+        "providers": "Metodi di accesso",
+        "created": "Iscritto il",
+        "lastSignIn": "Ultimo accesso",
+        "sessions": "Sessioni aperte",
+        "usage": "Uso dell'app"
+      },
+      "actions": "Azioni",
+      "adminProtected": "È un Admin: nessuna azione dall'app.",
+      "dashboardOnly": "Ogni azione finisce nel registro. Eliminare un account o cambiare il ruolo si fa solo dalla dashboard di Supabase.",
+      "do": {
+        "suspend": "Sospendi",
+        "reactivate": "Riattiva",
+        "sessions": "Chiudi le sessioni"
+      },
+      "confirm": {
+        "suspend": "Sospendere l'account? Esce subito da tutti i dispositivi e non può più accedere finché non lo riattivi.",
+        "reactivate": "Riattivare l'account? Potrà accedere di nuovo.",
+        "sessions": "Chiudere tutte le sessioni? Dovrà accedere di nuovo su ogni dispositivo."
+      },
+      "done": {
+        "suspend": "Account sospeso.",
+        "reactivate": "Account riattivato.",
+        "sessions_one": "Chiusa {{count}} sessione.",
+        "sessions_other": "Chiuse {{count}} sessioni."
+      },
+      "problem": {
+        "non_su_se_stessi": "Non puoi farlo sul tuo account.",
+        "admin_protetto": "Non puoi farlo su un altro Admin."
+      }
+    },
     "prices": {
       "title": "Abbinamenti dei prezzi",
       "intro": "Per ogni stampa, il prodotto Cardmarket da cui prendere il prezzo. Il riconoscimento automatico non basta per alcune carte: qui si correggono. La correzione vale dal prossimo aggiornamento dei prezzi (ogni notte).",
@@ -552,7 +667,9 @@
     },
     "jobs": {
       "title": "Stato dei job",
-      "intro": "Le ultime {{count}} esecuzioni del Catalog Sync, dello scaricamento delle immagini, del caricamento di FAQ e spiegazioni e dei prezzi.",
+      "intro": "Le ultime {{count}} esecuzioni, dalla più recente.",
+      "filter": "Job",
+      "all": "Tutti",
       "reload": "Aggiorna",
       "empty": "Nessuna esecuzione registrata.",
       "name": {
@@ -563,6 +680,7 @@
         "price_sync": "Prezzi Cardmarket",
         "cardtrader_sync": "Prezzi CardTrader",
         "recipe_sync": "Composizione degli Starter Deck",
+        "preview_sync": "Anteprime dei Set in uscita",
         "other": "Altro job"
       },
       "status": {
@@ -582,10 +700,11 @@
     "start": "Avvia la fotocamera",
     "denied": "Permesso della fotocamera negato. Consentilo nelle impostazioni del browser (su iPhone: Impostazioni › Safari › Fotocamera) e riprova, oppure scrivi il codice qui sotto.",
     "unavailable": "Fotocamera non disponibile su questo dispositivo. Puoi scrivere il codice qui sotto.",
-    "aim": "Carta dentro il riquadro, codice nella zona gialla",
-    "glare": "Riflessi sulla bustina? Inclina appena la carta.",
+    "aim": "Inquadra la carta intera: non serve centrarla",
     "status": {
-      "searching": "Cerco il codice…",
+      "searching": "Cerco la carta…",
+      "reading": "Carta trovata: leggo il codice…",
+      "glare": "Riflesso sul codice: inclina un po' la carta",
       "hold": "Letto {{code}}: tieni ferma la carta",
       "unknown": "Letto {{code}}, non è nel catalogo: sposta appena la carta",
       "found": "Trovata {{code}}"
@@ -629,7 +748,19 @@
     },
     "test": {
       "title": "Dettagli della lettura (per la prova)",
-      "tally": "Codice trovato in {{found}} letture su {{reads}}; ultima lettura {{ms}} ms."
+      "tally": "Codice trovato in {{found}} letture su {{reads}}; ultima lettura {{ms}} ms.",
+      "detail": "Ultima lettura: carta {{detected}}, {{attempts}} tentativi, riflesso {{glare}}%.",
+      "detected": "trovata",
+      "notDetected": "non trovata (riquadro fisso)"
+    },
+    "diagnostics": {
+      "title": "Diagnostica dello Scanner",
+      "text": "Con la diagnostica accesa, lo Scanner di questo dispositivo tiene gli ultimi ritagli del codice che non riesce a leggere (al massimo {{max}}), per migliorare la lettura. Restano sul telefono finché non li esporti tu.",
+      "toggle": "Diagnostica attiva su questo dispositivo",
+      "count_one": "{{count}} ritaglio salvato",
+      "count_other": "{{count}} ritagli salvati",
+      "export": "Esporta lo zip",
+      "clear": "Svuota"
     }
   },
   "friends": {
@@ -827,8 +958,13 @@
     "showResults_other": "Mostra {{count}} carte",
     "close": "Chiudi",
     "view": "Vista",
-    "grid": "Griglia",
     "list": "Elenco",
+    "viewMenu": "Vista: {{current}}",
+    "gridSizes": {
+      "large": "Carte grandi",
+      "medium": "Carte medie",
+      "small": "Carte piccole"
+    },
     "loadMore": "Mostra altre carte",
     "columns": {
       "code": "Codice",
@@ -856,6 +992,7 @@
     "attributes": "Attributo",
     "types": "Tipo",
     "block": "Block",
+    "blockReprint": "{{block}} (ristampata con Block {{latest}}: vale per tutte le stampe)",
     "rarity": "Rarità",
     "keywords": "Keyword",
     "effect": "Effetto",
@@ -867,6 +1004,7 @@
     "rarityColumn": "Rarità",
     "priceColumn": "Prezzo",
     "officialText": "Testo ufficiale in inglese",
+    "previewText": "Testo in inglese, traduzione non ufficiale",
     "price": {
       "title": "Prezzi",
       "trend": "Tendenza",
@@ -1028,5 +1166,50 @@
     "contactLink": "github.com/Ribo14/OP-Codex",
     "bandaiTitle": "Marchi",
     "bandai": "OP-Codex non è affiliato né approvato da Bandai. ONE PIECE © Eiichiro Oda/Shueisha, Toei Animation. Le immagini e i testi delle carte appartengono ai rispettivi titolari."
+  },
+  "preview": {
+    "badge": "Anteprima",
+    "title": "Anteprima: carta non ancora uscita",
+    "text": "Dati e traduzione non ufficiali, presi da",
+    "source": "OPTCG Leaks",
+    "credit": "traduzione di {{name}}",
+    "noCollection": "Quando Bandai la pubblica, la sostituiamo con quella ufficiale. Finché non esce non si può aggiungere alla Collezione, ma puoi già metterla in un mazzo."
+  },
+  "print": {
+    "title": "Stampa carte",
+    "intro": "Stampa le carte che ti mancano per giocarci subito: ritagliale e mettile nelle bustine davanti a una carta qualsiasi.",
+    "fromDeck": "Stampa le mancanti",
+    "missing": "Carte mancanti",
+    "others_one": "Altra carta del mazzo ({{count}})",
+    "others_other": "Altre carte del mazzo ({{count}})",
+    "missingOf": "ne mancano {{missing}} su {{required}}",
+    "noImage": "Immagine non ancora disponibile: non si può stampare.",
+    "printing": "Variante da stampare per {{name}}",
+    "less": "Una copia in meno di {{name}}",
+    "more": "Una copia in più di {{name}}",
+    "copies_one": "{{count}} copia",
+    "copies_other": "{{count}} copie",
+    "copiesLabel": "Copie da stampare",
+    "color": "Colori di stampa",
+    "colors": {
+      "color": "A colori",
+      "gray": "Bianco e nero"
+    },
+    "cards_one": "{{count}} carta",
+    "cards_other": "{{count}} carte",
+    "sheets_one": "{{count}} foglio A4",
+    "sheets_other": "{{count}} fogli A4",
+    "create": "Crea il PDF",
+    "working": "Preparo le immagini… {{done}}/{{total}}",
+    "share": "Condividi o salva",
+    "download": "Scarica il PDF",
+    "failed": "PDF non creato: controlla la connessione e riprova.",
+    "hintScale": "Stampa su A4 a dimensione reale (100%), senza «Adatta alla pagina»: ogni carta misura 63×88 mm.",
+    "hintCut": "Taglia lungo le linee grigie sottili.",
+    "hintProxy": "Le immagini ufficiali portano la scritta SAMPLE. Le carte stampate valgono per giocare tra amici, non nei tornei ufficiali.",
+    "preview": "Anteprima dei fogli",
+    "sheet": "Foglio {{n}} di {{total}}",
+    "cardButton": "Stampa",
+    "cardTitle": "Stampa {{printId}} su A4"
   }
 }

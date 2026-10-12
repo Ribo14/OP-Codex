@@ -1,6 +1,7 @@
-import { Check, CircleCheck, Copy, ExternalLink, PackageSearch } from 'lucide-react'
+import { Check, CircleCheck, Copy, ExternalLink, Printer } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 import type { CatalogCard } from '@/catalog/catalog-data'
 import { copyText } from '@/lib/clipboard'
 import { cn } from '@/lib/utils'
@@ -15,26 +16,28 @@ import {
 
 // Carte mancanti (RIB-25): cosa manca nella Collection per giocare il Deck dal vivo.
 
-export function MissingCardsPanel({
+/**
+ * Il contenuto di "Carte mancanti", che si apre dal chip nella testata del mazzo (RIB-88): le
+ * carte che mancano, la stampa e le liste per i Marketplace.
+ */
+export function MissingCardsBody({
   leaderCode,
   rows,
   catalog,
-  loading,
+  printPath,
 }: {
   leaderCode: string
   rows: readonly MissingRow[]
   catalog: ReadonlyMap<string, CatalogCard>
-  /** La Collection non è ancora caricata. */
-  loading: boolean
+  /** Pagina di stampa delle carte (RIB-80). */
+  printPath?: string
 }) {
   const { t } = useTranslation()
   const [copied, setCopied] = useState<Target | null>(null)
-  if (loading) return null
 
-  const total = missingTotal(rows)
-  if (total === 0) {
+  if (missingTotal(rows) === 0) {
     return (
-      <p className="flex items-center gap-2 rounded-2xl bg-emerald-600/10 px-4 py-3 text-sm font-medium text-emerald-800 dark:text-emerald-300">
+      <p className="flex items-center gap-2 text-sm font-medium text-emerald-800 dark:text-emerald-300">
         <CircleCheck className="size-4" aria-hidden="true" />
         {t('decks.missing.none')}
       </p>
@@ -43,12 +46,8 @@ export function MissingCardsPanel({
 
   const missing = missingCards(rows)
   return (
-    <details className="rounded-2xl border text-sm">
-      <summary className="flex cursor-pointer items-center gap-2 px-4 py-3 font-medium">
-        <PackageSearch className="size-4 shrink-0" aria-hidden="true" />
-        {t('decks.missing.count', { count: total })}
-      </summary>
-      <div className="space-y-3 px-4 pb-4">
+    <div className="text-sm">
+      <div className="space-y-3">
         <ul className="divide-y">
           {missing.map((row) => (
             <li key={row.cardCode} className="flex items-center gap-3 py-1.5">
@@ -64,6 +63,15 @@ export function MissingCardsPanel({
           ))}
         </ul>
         <div className="flex flex-wrap gap-2">
+          {printPath && (
+            <Link
+              to={printPath}
+              className="inline-flex h-9 items-center gap-1.5 rounded-full bg-foreground px-3 text-xs font-medium text-background hover:opacity-90"
+            >
+              <Printer className="size-3.5" aria-hidden="true" />
+              {t('print.fromDeck')}
+            </Link>
+          )}
           {TARGETS.map((target) => (
             <button
               key={target}
@@ -100,7 +108,7 @@ export function MissingCardsPanel({
           </p>
         )}
       </div>
-    </details>
+    </div>
   )
 }
 

@@ -43,6 +43,7 @@ const CATALOG: Catalog = {
       cardCode: 'ST01-012',
       name: 'Monkey.D.Luffy',
       keywords: ['Rush'],
+      types: ['Animal', 'Straw Hat Crew'],
       cost: 5,
       printings: [
         { printId: 'ST01-012', rarity: 'SR', setCode: 'ST-01', hasImage: false },
@@ -53,6 +54,7 @@ const CATALOG: Catalog = {
       cardCode: 'OP02-008',
       name: 'Jozu',
       colors: ['Green'],
+      types: ['Animal Kingdom Pirates'],
       keywords: ['Blocker'],
       effect: '[Blocker]\n[On K.O.] Draw 1 card and trash 1 card from your hand.',
     }),
@@ -114,6 +116,38 @@ describe('Catalogo', () => {
       'aria-pressed',
       'true',
     )
+  })
+
+  it('la "X" svuota la ricerca e lascia il fuoco nel campo (RIB-78)', async () => {
+    const router = await renderAt('/?q=jozu')
+    const input = screen.getByRole('searchbox')
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: it_.app.clearSearch }))
+      await Promise.resolve()
+    })
+    expect(input).toHaveValue('')
+    expect(input).toHaveFocus()
+    expect(router.state.location.search).toBe('')
+    expect(screen.queryByRole('button', { name: it_.app.clearSearch })).not.toBeInTheDocument()
+  })
+
+  it('il Type si sceglie dai suggerimenti, non mentre si scrive (RIB-75)', async () => {
+    const router = await renderAt('/')
+    const input = within(desktopFilters()).getByRole('combobox', { name: it_.filters.types })
+    fireEvent.focus(input)
+    // "Animal" è un Type intero: scrivendolo non deve diventare subito un filtro.
+    for (const value of ['Animal', 'Animal ', 'Animal king']) {
+      fireEvent.change(input, { target: { value } })
+    }
+    expect(router.state.location.search).toBe('')
+    const option = within(desktopFilters()).getByRole('option', { name: 'Animal Kingdom Pirates' })
+    await act(async () => {
+      fireEvent.mouseDown(option)
+      await Promise.resolve()
+    })
+    expect(router.state.location.search).toBe('?tipo=Animal+Kingdom+Pirates')
+    expect(await screen.findByText('1 carta')).toBeInTheDocument()
+    expect(input).toHaveValue('')
   })
 
   it('aprire un link con filtri ripristina la stessa ricerca', async () => {

@@ -193,6 +193,8 @@ export type Database = {
           life: number | null
           name: string
           power: number | null
+          preview: boolean
+          preview_credit: string | null
           trigger: string | null
           types: string[]
           updated_at: string
@@ -211,6 +213,8 @@ export type Database = {
           life?: number | null
           name: string
           power?: number | null
+          preview?: boolean
+          preview_credit?: string | null
           trigger?: string | null
           types?: string[]
           updated_at?: string
@@ -229,6 +233,8 @@ export type Database = {
           life?: number | null
           name?: string
           power?: number | null
+          preview?: boolean
+          preview_credit?: string | null
           trigger?: string | null
           types?: string[]
           updated_at?: string
@@ -632,27 +638,36 @@ export type Database = {
       }
       printings: {
         Row: {
+          block: string | null
           card_code: string
           created_at: string
           image_synced_at: string | null
+          preview: boolean
+          preview_image: string | null
           print_id: string
           rarity: string
           series_id: number
           updated_at: string
         }
         Insert: {
+          block?: string | null
           card_code: string
           created_at?: string
           image_synced_at?: string | null
+          preview?: boolean
+          preview_image?: string | null
           print_id: string
           rarity: string
           series_id: number
           updated_at?: string
         }
         Update: {
+          block?: string | null
           card_code?: string
           created_at?: string
           image_synced_at?: string | null
+          preview?: boolean
+          preview_image?: string | null
           print_id?: string
           rarity?: string
           series_id?: number
@@ -728,6 +743,7 @@ export type Database = {
           code: string
           created_at: string
           name: string
+          preview: boolean
           product_type: string | null
           series_id: number
           updated_at: string
@@ -736,6 +752,7 @@ export type Database = {
           code: string
           created_at?: string
           name: string
+          preview?: boolean
           product_type?: string | null
           series_id: number
           updated_at?: string
@@ -744,6 +761,7 @@ export type Database = {
           code?: string
           created_at?: string
           name?: string
+          preview?: boolean
           product_type?: string | null
           series_id?: number
           updated_at?: string
@@ -776,6 +794,27 @@ export type Database = {
       accetta_richiesta_amicizia: {
         Args: { p_username: string }
         Returns: undefined
+      }
+      admin_chiudi_sessioni: { Args: { p_id: string }; Returns: number }
+      admin_panoramica: { Args: never; Returns: Json }
+      admin_sospendi_utente: {
+        Args: { p_id: string; p_sospeso: boolean }
+        Returns: undefined
+      }
+      admin_utente: { Args: { p_id: string }; Returns: Json }
+      admin_utenti: {
+        Args: never
+        Returns: {
+          admin: boolean
+          copies: number
+          created_at: string
+          decks: number
+          id: string
+          last_sign_in_at: string
+          mfa: boolean
+          suspended: boolean
+          username: string
+        }[]
       }
       aggiungi_copie: { Args: { p_righe: Json }; Returns: number }
       annulla_richiesta_amicizia: {

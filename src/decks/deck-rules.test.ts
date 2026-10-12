@@ -67,6 +67,8 @@ const CARDS = [
   card('BIG', { cost: 7, counter: null }),
   card('EAST', { types: ['East Blue'] }),
   card('DON', { category: 'DON!!', cost: null }),
+  card('L-PREVIEW', { category: 'Leader', colors: ['Blue'], cost: null, preview: true }),
+  card('PREVIEW', { preview: true }),
 ]
 const CATALOG = new Map(CARDS.map((c) => [c.cardCode, c]))
 
@@ -153,6 +155,14 @@ describe('Deck Rules', () => {
     })
     expect(warningFor('L-OLD', deck([c('B-12', 2)]), 'block')?.cards).toEqual(['L-OLD'])
     expect(codes('L-OLD', deck([c('OLD', 2)]), 'extra')).toEqual([])
+  })
+
+  it('carte in anteprima, Leader compreso: avviso in ogni formato (ADR-0016)', () => {
+    expect(warningFor('L-PREVIEW', deck([c('PREVIEW', 2)]), 'preview')?.cards).toEqual([
+      'L-PREVIEW',
+      'PREVIEW',
+    ])
+    expect(codes('L-BLUE', deck([c('PREVIEW', 2)]), 'extra')).toEqual(['preview'])
   })
 
   it('il Block minimo cambia ogni 1° aprile', () => {

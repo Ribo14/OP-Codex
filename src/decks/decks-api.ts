@@ -1,3 +1,4 @@
+import { readStoredSession } from '@/account/stored-session'
 import { isOffline, readPersonal, withOfflineCopy, writePersonal } from '@/lib/personal-cache'
 import { getSupabase } from '@/lib/supabase'
 import { toVisibility, type DeckCard, type DeckSummary, type DeckVisibility } from './deck'
@@ -131,10 +132,12 @@ export function toSharedDeck(data: unknown): SharedDeck {
 }
 
 /** I miei Deck, con le carte (servono all'indicatore valido/con avvisi dell'elenco). */
-/** Utente della sessione salvata (disponibile anche offline). */
-async function currentUserId(): Promise<string | null> {
-  const { data } = await getSupabase().auth.getSession()
-  return data.session?.user.id ?? null
+/**
+ * Utente della sessione salvata sul dispositivo, letto direttamente: auth.getSession() offline,
+ * con il token scaduto, resta a lungo a riprovare il rinnovo e poi dà null (RIB-27).
+ */
+function currentUserId(): string | null {
+  return readStoredSession()?.user.id ?? null
 }
 
 async function fetchDecks(): Promise<DeckDetail[]> {
@@ -151,7 +154,7 @@ async function fetchDecks(): Promise<DeckDetail[]> {
  * salva una copia; offline si usa quella (RIB-27).
  */
 export async function listDecks(): Promise<DeckDetail[]> {
-  const userId = await currentUserId()
+  const userId = currentUserId()
   return userId ? withOfflineCopy('decks', userId, fetchDecks) : fetchDecks()
 }
 
@@ -160,7 +163,7 @@ export async function listDecks(): Promise<DeckDetail[]> {
  * copia locale dell'elenco; offline lo prende da lì (RIB-27).
  */
 export async function loadDeck(deckId: string): Promise<DeckDetail | null> {
-  const userId = await currentUserId()
+  const userId = currentUserId()
   const fromCopy = async () => {
     const saved = userId ? await readPersonal<DeckDetail[]>('decks', userId) : null
     return saved?.find((d) => d.deck.id === deckId) ?? null

@@ -49,6 +49,21 @@ export function extractKeywords(texts: readonly (string | null)[], cardNames: Re
   return keywords
 }
 
+/**
+ * Il Block più recente: "X" (mai fuori rotazione) vince sui numeri, poi il numero più alto.
+ * Bandai: se una Card viene ristampata con un Block più recente, valgono anche le stampe vecchie
+ * con lo stesso Card Code (RIB-76).
+ */
+export function latestBlock(blocks: readonly (string | null)[]): string | null {
+  let latest: string | null = null
+  for (const block of blocks) {
+    if (block === null) continue
+    if (block === 'X') return 'X'
+    if (latest === null || Number(block) > Number(latest)) latest = block
+  }
+  return latest
+}
+
 /** Il catalogo pronto da salvare: nessun Set, Card o Printing ripetuti. */
 export interface MergedCatalog {
   sets: ParsedSet[]
@@ -63,7 +78,8 @@ export interface MergedCatalog {
  * - una Card per Card Code, con i dati presi dalla Printing base (senza suffisso) se esiste,
  *   altrimenti dal Set con series_id più basso: così una ristampa con testo diverso
  *   non sovrascrive la Card a ogni esecuzione;
- * - una Printing per Print ID, collegata al primo Set (per series_id) in cui compare.
+ * - una Printing per Print ID, collegata al primo Set (per series_id) in cui compare;
+ * - il Block della Card è il più recente tra le sue Printing (latestBlock).
  */
 export function mergeCatalogPages(pages: readonly ParsedCardListPage[]): MergedCatalog {
   const ordered = [...pages].sort((a, b) => a.set.seriesId - b.set.seriesId)
@@ -96,11 +112,19 @@ export function mergeCatalogPages(pages: readonly ParsedCardListPage[]): MergedC
   }
 
   const cardNames = new Set([...cards.values()].map((entry) => entry.card.name))
+  const blocksByCard = new Map<string, (string | null)[]>()
+  for (const printing of printings.values()) {
+    blocksByCard.set(printing.cardCode, [
+      ...(blocksByCard.get(printing.cardCode) ?? []),
+      printing.block,
+    ])
+  }
 
   return {
     sets: [...sets.values()],
     cards: [...cards.values()].map(({ card }) => ({
       ...card,
+      block: latestBlock([card.block, ...(blocksByCard.get(card.cardCode) ?? [])]),
       keywords: extractKeywords([card.effect, card.trigger], cardNames),
     })),
     printings: [...printings.values()],

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { CollectionControls } from '@/collection/CollectionControls'
 import { cn } from '@/lib/utils'
+import { CardPrintButton } from '@/print/CardPrintButton'
 import { entryForKeyword } from '@/rules/glossary'
 import { KeywordText } from '@/rules/KeywordText'
 import { glossaryPath } from '@/rules/paths'
@@ -17,6 +18,7 @@ import { CardPrice } from './CardPrice'
 import { useEuro } from './price-format'
 import { ExplanationFeedback } from './ExplanationFeedback'
 import { LegalityTags } from './LegalityTags'
+import { PreviewNotice } from './PreviewNotice'
 import { gameColor } from './game-colors'
 import { useSwipe } from './use-swipe'
 
@@ -87,13 +89,23 @@ export function CardDetail({
     }
   }, [onClose])
 
+  // RIB-76: il Block stampato su questa Printing; se una ristampa ne ha uno più recente lo si
+  // dice, perché è quello che decide la legalità di tutte le stampe.
+  const printedBlock = printing?.block ?? card.block
+  const blockLabel =
+    printedBlock === null
+      ? '–'
+      : printedBlock !== card.block && card.block !== null
+        ? t('detail.blockReprint', { block: printedBlock, latest: card.block })
+        : printedBlock
+
   const stats: [string, ReactNode][] = [
     [t('detail.category'), t(`category.${card.category as 'Leader'}`)],
     ...(card.life !== null ? [[t('detail.life'), card.life] as [string, ReactNode]] : []),
     ...(card.cost !== null ? [[t('detail.cost'), card.cost] as [string, ReactNode]] : []),
     [t('detail.power'), card.power ?? '–'],
     [t('detail.counter'), card.counter === null ? '–' : `+${String(card.counter)}`],
-    [t('detail.block'), card.block ?? '–'],
+    [t('detail.block'), blockLabel],
   ]
 
   return (
@@ -133,7 +145,7 @@ export function CardDetail({
           >
             {printing?.hasImage ? (
               <img
-                src={cardImageUrl(printing.printId, 'full')}
+                src={cardImageUrl(printing, 'full')}
                 crossOrigin="anonymous"
                 alt={card.name}
                 width={600}
@@ -183,7 +195,7 @@ export function CardDetail({
                 >
                   {p.hasImage ? (
                     <img
-                      src={cardImageUrl(p.printId, 'thumb')}
+                      src={cardImageUrl(p, 'thumb')}
                       crossOrigin="anonymous"
                       alt=""
                       width={300}
@@ -250,15 +262,24 @@ export function CardDetail({
               <ScanSearch className="size-4" aria-hidden="true" />
               {t('detail.related')}
             </Link>
+            {/* RIB-80: stampa di 1-4 copie della Printing mostrata. */}
+            {printing && (
+              <div className="mt-2">
+                <CardPrintButton card={card} printing={printing} />
+              </div>
+            )}
           </div>
 
           {/* RIB-29: tag rossi della Ban List e arancione per il formato Standard. */}
           <LegalityTags card={card} cards={cards} />
 
-          {printing && <CollectionControls printId={printing.printId} />}
+          {/* ADR-0016: un'anteprima non si possiede ancora, niente Collection. */}
+          {card.preview && <PreviewNotice card={card} />}
+          {printing && !printing.preview && <CollectionControls printId={printing.printId} />}
 
           {/* RIB-32: prezzo Cardmarket della Printing mostrata. */}
-          <CardPrice cardCode={card.cardCode} printing={printing} />
+          {/* Un'anteprima non è ancora in vendita: niente prezzi. */}
+          {!card.preview && <CardPrice cardCode={card.cardCode} printing={printing} />}
 
           <dl className="grid grid-cols-3 gap-2">
             {stats.map(([label, value]) => (
@@ -293,7 +314,9 @@ export function CardDetail({
           )}
 
           <section className="space-y-4">
-            <p className="text-xs text-muted-foreground">{t('detail.officialText')}</p>
+            <p className="text-xs text-muted-foreground">
+              {t(card.preview ? 'detail.previewText' : 'detail.officialText')}
+            </p>
             {card.effect === null && card.trigger === null && (
               <p className="text-muted-foreground">{t('detail.noEffect')}</p>
             )}

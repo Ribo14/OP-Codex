@@ -96,7 +96,7 @@ test('mazzi e Collection su Amici: li vede l’amico, non gli altri', async ({
 
     // Anna: il mazzo su Amici, la Collection su Amici.
     await anna.page.goto(`/mazzi/${deck?.id ?? ''}`)
-    await anna.page.getByText('Condividi mazzo').click()
+    await anna.page.getByRole('button', { name: /^Condividi mazzo/ }).click()
     await anna.page.getByRole('radio', { name: 'Amici' }).click()
     await expect(anna.page.getByRole('radio', { name: 'Amici' })).toBeChecked()
     await anna.page.goto('/collezione')

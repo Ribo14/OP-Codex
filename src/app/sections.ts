@@ -53,10 +53,13 @@ const PHONE_ORDER: readonly Section['key'][] = [
 
 /**
  * Le voci della barra in basso del telefono: lo Scanner al centro e il Profilo fuori, perché
- * sta nell'intestazione (RIB-69). Senza accesso: Catalogo, Scanner, Regole (e poi "Accedi").
+ * sta nell'intestazione (RIB-69). Senza accesso: Catalogo, Mazzi, Scanner, Regole e poi
+ * "Accedi"; Mazzi c'è (con l'invito ad accedere) per avere 5 voci e lo Scanner al centro.
  */
 export function phoneSections(signedIn: boolean): readonly Section[] {
-  const available = navSections(signedIn)
+  const available = signedIn
+    ? SECTIONS
+    : SECTIONS.filter((section) => !section.account || section.key === 'decks')
   return PHONE_ORDER.flatMap((key) => available.filter((section) => section.key === key))
 }
 

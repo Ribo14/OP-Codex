@@ -1,8 +1,9 @@
-import type { User } from '@supabase/supabase-js'
+import type { Session, User } from '@supabase/supabase-js'
 import { useCallback, useEffect, useSyncExternalStore } from 'react'
 import { clearPersonal, withOfflineCopy } from '@/lib/personal-cache'
 import { getSupabase } from '@/lib/supabase'
 import { needsCode } from './mfa'
+import { readStoredSession } from './stored-session'
 
 // Sessione dell'utente (RIB-14), come la vede tutta l'app. Supabase la tiene nel browser e la
 // rinnova da solo; qui la si espone ai componenti.
@@ -17,19 +18,42 @@ let state: SessionState = { status: 'loading' }
 const listeners = new Set<() => void>()
 let started = false
 
+const signedIn = (session: Session): SessionState => ({
+  status: 'signedIn',
+  user: session.user,
+  needsCode: needsCode(session),
+})
+
 function start() {
   if (started) return
   started = true
   try {
-    // Prima notifica: INITIAL_SESSION, con la sessione salvata o null.
-    getSupabase().auth.onAuthStateChange((event, session) => {
-      state = session
-        ? { status: 'signedIn', user: session.user, needsCode: needsCode(session) }
-        : { status: 'signedOut' }
+    const supabase = getSupabase()
+    // Offline (RIB-27): si parte subito dalla sessione salvata sul dispositivo, senza aspettare
+    // che la libreria finisca di provare a rinnovare il token (offline può metterci molto).
+    const stored = readStoredSession()
+    if (stored) state = signedIn(stored)
+
+    // Prima notifica: INITIAL_SESSION, con la sessione (rinnovata se serviva) o null.
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session) state = signedIn(session)
+      else {
+        // Null all'avvio con la sessione ancora salvata: il rinnovo è fallito per la rete (se il
+        // server l'avesse rifiutata, la libreria l'avrebbe cancellata). Si resta collegati con
+        // quella salvata; al ritorno della rete la libreria la rinnova da sola.
+        const kept = event === 'INITIAL_SESSION' ? readStoredSession() : null
+        state = kept ? signedIn(kept) : { status: 'signedOut' }
+      }
       // All'uscita si cancellano i dati personali salvati per l'offline (RIB-27): un dispositivo
       // condiviso non deve mostrarli a chi viene dopo.
       if (event === 'SIGNED_OUT') void clearPersonal()
       for (const listener of listeners) listener()
+    })
+
+    // Tornata la rete: si rinnova subito il token scaduto, senza aspettare il controllo
+    // periodico della libreria (ogni 30 secondi).
+    window.addEventListener('online', () => {
+      void supabase.auth.getSession()
     })
   } catch {
     // Supabase non configurato (es. nei test): nessun account possibile.

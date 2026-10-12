@@ -42,12 +42,14 @@ describe('navigazione con e senza account', () => {
       'collection',
       'rules',
     ])
-    expect(phoneSections(false).map((s) => s.key)).toEqual(['catalog', 'scanner', 'rules'])
+    // Senza accesso c'è anche Mazzi (con l'invito ad accedere): con "Accedi" sono 5 voci e lo
+    // Scanner resta al centro.
+    expect(phoneSections(false).map((s) => s.key)).toEqual(['catalog', 'decks', 'scanner', 'rules'])
   })
 })
 
 describe('App shell', () => {
-  it('senza account la barra del telefono ha Catalogo, Scanner, Regole e Accedi; il desktop le sezioni', async () => {
+  it('senza account la barra del telefono ha Catalogo, Mazzi, Scanner al centro, Regole e Accedi; il desktop le sezioni', async () => {
     renderAt('/')
     const navs = screen.getAllByRole('navigation', { name: it_.nav.label })
     expect(navs).toHaveLength(2)
@@ -60,6 +62,7 @@ describe('App shell', () => {
     await waitFor(() => {
       expect(labels(phone)).toEqual([
         it_.nav.catalog,
+        it_.nav.decks,
         it_.nav.scanner,
         it_.nav.rules,
         it_.nav.login,

@@ -98,30 +98,70 @@ export interface Catalog {
 // Il server restituisce al massimo 1000 righe per richiesta.
 const PAGE_SIZE = 1000
 
+/** Il database non ha ancora una colonna che l'app chiede (Postgres 42703). */
+class MissingColumnError extends Error {}
+
 async function fetchAll<T>(
   fetchPage: (
     from: number,
     to: number,
-  ) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>,
+  ) => PromiseLike<{ data: T[] | null; error: { message: string; code?: string } | null }>,
 ): Promise<T[]> {
   const rows: T[] = []
   for (let from = 0; ; from += PAGE_SIZE) {
     const { data, error } = await fetchPage(from, from + PAGE_SIZE - 1)
-    if (error) throw new Error(error.message)
+    if (error) {
+      throw error.code === '42703'
+        ? new MissingColumnError(error.message)
+        : new Error(error.message)
+    }
     rows.push(...(data ?? []))
     if (!data || data.length < PAGE_SIZE) return rows
   }
 }
 
-/** Le righe cambiate dal momento `since` (orologio del server), oppure tutte con null. */
+/**
+ * Le colonne aggiunte di recente (Block per Printing, RIB-76; anteprime, ADR-0016) oppure, con
+ * `current` false, quelle di prima. Il tipo resta quello delle colonne nuove: nelle righe sono
+ * tutte facoltative.
+ */
+function columns<T extends string>(current: boolean, next: T, legacy: string): T {
+  return (current ? next : legacy) as T
+}
+
+/**
+ * Le righe cambiate dal momento `since` (orologio del server), oppure tutte con null.
+ * Se il database non ha ancora le colonne nuove (la migrazione arriva col merge su main, mentre
+ * l'anteprima di Netlify e i primi minuti dopo il deploy usano già l'app nuova) si chiedono
+ * quelle di prima: il catalogo si carica lo stesso.
+ */
 export async function fetchRowsSince(since: string | null): Promise<CatalogRows> {
+  try {
+    return await fetchRows(since, true)
+  } catch (error) {
+    if (error instanceof MissingColumnError) return fetchRows(since, false)
+    throw error
+  }
+}
+
+async function fetchRows(since: string | null, current: boolean): Promise<CatalogRows> {
   const supabase = getSupabase()
   const changed = <Q extends { gte: (column: 'updated_at', value: string) => Q }>(query: Q) =>
     since === null ? query : query.gte('updated_at', since)
 
   const [sets, cards, printings, faqs, explanations, prices] = await Promise.all([
     fetchAll((from, to) =>
-      changed(supabase.from('sets').select('series_id, code, name, preview, updated_at'))
+      changed(
+        supabase
+          .from('sets')
+          .select(
+            columns(
+              current,
+              'series_id, code, name, preview, updated_at',
+              'series_id, code, name, updated_at',
+            ),
+          ),
+      )
         .order('series_id')
         .range(from, to),
     ),
@@ -130,7 +170,11 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
         supabase
           .from('cards')
           .select(
-            'card_code, name, category, cost, life, power, counter, colors, attributes, types, block, effect, trigger, keywords, preview, preview_credit, updated_at',
+            columns(
+              current,
+              'card_code, name, category, cost, life, power, counter, colors, attributes, types, block, effect, trigger, keywords, preview, preview_credit, updated_at',
+              'card_code, name, category, cost, life, power, counter, colors, attributes, types, block, effect, trigger, keywords, updated_at',
+            ),
           ),
       )
         .order('card_code')
@@ -141,7 +185,11 @@ export async function fetchRowsSince(since: string | null): Promise<CatalogRows>
         supabase
           .from('printings')
           .select(
-            'print_id, card_code, rarity, series_id, block, preview, image_synced_at, updated_at',
+            columns(
+              current,
+              'print_id, card_code, rarity, series_id, block, preview, image_synced_at, updated_at',
+              'print_id, card_code, rarity, series_id, image_synced_at, updated_at',
+            ),
           ),
       )
         .order('print_id')

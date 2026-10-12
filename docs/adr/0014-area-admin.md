@@ -9,6 +9,13 @@ L'area Admin (RIB-19, `/admin`) è la base su cui le fasi successive aggiungono 
 
 L'app chiede `public.stato_admin()` (`no`, `codice`, `ok`) solo per decidere cosa mostrare. La voce "Area Admin" nelle Impostazioni legge il ruolo dal token ed è una scorciatoia, non un controllo.
 
+**Utenti e panoramica** (RIB-89): `auth.users` e `auth.sessions` restano invisibili all'app; l'Admin attivo li legge e li tocca solo con funzioni `security definer` che lo verificano da sé (`private.richiedi_admin()`):
+
+- `admin_panoramica()`: numeri dell'app e, per ogni job, l'ultima esecuzione. Un job è **fermo** se non gira da oltre 26 ore (girano tutti ogni notte), **fallito** se l'ultima esecuzione è fallita.
+- `admin_utenti()`: elenco **senza email**; `admin_utente(id)`: dettaglio con email, metodi di accesso e sessioni aperte.
+- `admin_sospendi_utente(id, sospeso)`: `banned_until` nel futuro (Supabase Auth rifiuta accessi e rinnovi) e chiusura delle sessioni, così anche i token già emessi smettono subito di valere; `admin_chiudi_sessioni(id)`.
+- Le azioni non valgono mai su se stessi né su un altro Admin, e scrivono una riga nel registro. Eliminare un account o cambiare ruolo resta solo dalla dashboard.
+
 ## Considered Options
 
 - **Ruolo letto dal JWT** (`auth.jwt() -> 'app_metadata'`): nessuna lettura in più, ma un ruolo tolto resta valido fino al rinnovo del token, fino a un'ora. Leggere `auth.users` costa una ricerca per chiave primaria.

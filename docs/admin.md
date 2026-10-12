@@ -42,6 +42,12 @@ returning *;
 
 L'accesso all'area si perde subito: il database legge il ruolo a ogni richiesta.
 
+## Cosa si fa dall'app
+
+L'area `/admin` ha una **Panoramica** (job della notte: verde riuscito, giallo fermo da oltre 26 ore, rosso fallito; numeri dell'app) e le schede Utenti, Job, Segnalazioni, Ban List, Prezzi e Scanner.
+
+Dalla scheda **Utenti** un Admin può sospendere o riattivare un account (sospendendolo esce subito da tutti i dispositivi) e chiuderne le sessioni. Non può farlo su se stesso né su un altro Admin. Ogni azione finisce nel registro. Eliminare un account si fa solo dalla dashboard (Authentication → Users).
+
 ## Un Admin ha perso il telefono con l'app dei codici
 
 Dashboard → **Authentication → Users** → l'utente → rimuovi il fattore MFA. Al prossimo accesso potrà riattivare la verifica con il nuovo telefono.

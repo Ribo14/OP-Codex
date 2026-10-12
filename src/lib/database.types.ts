@@ -795,6 +795,27 @@ export type Database = {
         Args: { p_username: string }
         Returns: undefined
       }
+      admin_chiudi_sessioni: { Args: { p_id: string }; Returns: number }
+      admin_panoramica: { Args: never; Returns: Json }
+      admin_sospendi_utente: {
+        Args: { p_id: string; p_sospeso: boolean }
+        Returns: undefined
+      }
+      admin_utente: { Args: { p_id: string }; Returns: Json }
+      admin_utenti: {
+        Args: never
+        Returns: {
+          admin: boolean
+          copies: number
+          created_at: string
+          decks: number
+          id: string
+          last_sign_in_at: string
+          mfa: boolean
+          suspended: boolean
+          username: string
+        }[]
+      }
       aggiungi_copie: { Args: { p_righe: Json }; Returns: number }
       annulla_richiesta_amicizia: {
         Args: { p_username: string }

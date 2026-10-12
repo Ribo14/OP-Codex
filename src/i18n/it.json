@@ -491,6 +491,109 @@
     "notAdmin": "Questa area è riservata agli amministratori.",
     "needsTwoFactor": "Per entrare nell'area Admin serve la verifica in due passaggi: attivala nel Profilo, in «Account e sicurezza».",
     "toProfile": "Vai al Profilo",
+    "tabs": {
+      "label": "Sezioni dell'area Admin",
+      "overview": "Panoramica",
+      "users": "Utenti",
+      "jobs": "Job",
+      "reports": "Segnalazioni",
+      "banList": "Ban List",
+      "prices": "Prezzi",
+      "scanner": "Scanner"
+    },
+    "overview": {
+      "jobsTitle": "Job della notte",
+      "numbersTitle": "L'app in numeri",
+      "overall": {
+        "ok": "Tutto a posto: stanotte i job sono andati bene.",
+        "running": "Qualche job è ancora in corso.",
+        "stale": "Qualche job non gira da oltre {{hours}} ore.",
+        "failed": "Qualche job è fallito: controlla qui sotto."
+      },
+      "count": {
+        "ok_one": "{{count}} riuscito",
+        "ok_other": "{{count}} riusciti",
+        "running_one": "{{count}} in corso",
+        "running_other": "{{count}} in corso",
+        "stale_one": "{{count}} fermo",
+        "stale_other": "{{count}} fermi",
+        "failed_one": "{{count}} fallito",
+        "failed_other": "{{count}} falliti"
+      },
+      "health": {
+        "ok": "Riuscito",
+        "running": "In corso",
+        "stale": "Fermo",
+        "never": "Mai eseguito",
+        "failed": "Fallito"
+      },
+      "ago": {
+        "minutes_one": "{{count}} min fa",
+        "minutes_other": "{{count}} min fa",
+        "hours_one": "{{count}} h fa",
+        "hours_other": "{{count}} h fa",
+        "days_one": "{{count}} giorno fa",
+        "days_other": "{{count}} giorni fa"
+      },
+      "kpi": {
+        "users": "Utenti",
+        "usersNew": "Nuovi in 7 giorni",
+        "usersActive": "Attivi in 7 giorni",
+        "usersSuspended": "Sospesi",
+        "decks": "Mazzi",
+        "copies": "Carte nelle collezioni",
+        "reports": "Segnalazioni aperte"
+      }
+    },
+    "users": {
+      "title": "Utenti",
+      "count_one": "{{count}} account",
+      "count_other": "{{count}} account",
+      "search": "Cerca per Username",
+      "empty": "Nessun utente trovato.",
+      "noUsername": "(senza Username)",
+      "never": "mai",
+      "summary": "Iscritto il {{created}} · ultimo accesso {{lastSignIn}} · mazzi {{decks}} · carte {{copies}}",
+      "usage": "mazzi {{decks}} · carte in collezione {{copies}}",
+      "back": "Tutti gli utenti",
+      "notFound": "Utente non trovato.",
+      "badge": {
+        "suspended": "Sospeso",
+        "admin": "Admin",
+        "mfa": "2FA"
+      },
+      "field": {
+        "email": "Email",
+        "providers": "Metodi di accesso",
+        "created": "Iscritto il",
+        "lastSignIn": "Ultimo accesso",
+        "sessions": "Sessioni aperte",
+        "usage": "Uso dell'app"
+      },
+      "actions": "Azioni",
+      "adminProtected": "È un Admin: nessuna azione dall'app.",
+      "dashboardOnly": "Ogni azione finisce nel registro. Eliminare un account o cambiare il ruolo si fa solo dalla dashboard di Supabase.",
+      "do": {
+        "suspend": "Sospendi",
+        "reactivate": "Riattiva",
+        "sessions": "Chiudi le sessioni"
+      },
+      "confirm": {
+        "suspend": "Sospendere l'account? Esce subito da tutti i dispositivi e non può più accedere finché non lo riattivi.",
+        "reactivate": "Riattivare l'account? Potrà accedere di nuovo.",
+        "sessions": "Chiudere tutte le sessioni? Dovrà accedere di nuovo su ogni dispositivo."
+      },
+      "done": {
+        "suspend": "Account sospeso.",
+        "reactivate": "Account riattivato.",
+        "sessions_one": "Chiusa {{count}} sessione.",
+        "sessions_other": "Chiuse {{count}} sessioni."
+      },
+      "problem": {
+        "non_su_se_stessi": "Non puoi farlo sul tuo account.",
+        "admin_protetto": "Non puoi farlo su un altro Admin."
+      }
+    },
     "prices": {
       "title": "Abbinamenti dei prezzi",
       "intro": "Per ogni stampa, il prodotto Cardmarket da cui prendere il prezzo. Il riconoscimento automatico non basta per alcune carte: qui si correggono. La correzione vale dal prossimo aggiornamento dei prezzi (ogni notte).",
@@ -564,7 +667,9 @@
     },
     "jobs": {
       "title": "Stato dei job",
-      "intro": "Le ultime {{count}} esecuzioni del Catalog Sync, dello scaricamento delle immagini, del caricamento di FAQ e spiegazioni e dei prezzi.",
+      "intro": "Le ultime {{count}} esecuzioni, dalla più recente.",
+      "filter": "Job",
+      "all": "Tutti",
       "reload": "Aggiorna",
       "empty": "Nessuna esecuzione registrata.",
       "name": {

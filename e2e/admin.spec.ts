@@ -5,7 +5,7 @@ import { linkFromEmail } from './mailpit.ts'
 
 // Area Admin (RIB-19) sul Supabase locale: il ruolo si assegna dal database come da
 // docs/admin.md; senza verifica in due passaggi l'area invita ad attivarla, con il codice
-// mostra lo stato dei job.
+// mostra la panoramica, gli utenti e lo stato dei job.
 
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL ?? 'http://127.0.0.1:54321'
 const PUBLISHABLE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? ''
@@ -127,13 +127,27 @@ test('area Admin: ruolo dal database, verifica obbligatoria, stato dei job', asy
     await page.getByRole('button', { name: 'Conferma e attiva' }).click()
     await expect(page.getByText('Verifica in due passaggi attivata.')).toBeVisible()
 
-    // Con il codice l'area mostra lo stato dei job.
+    // Con il codice l'area apre la panoramica (RIB-89): un riquadro per ogni job notturno e i
+    // numeri dell'app; dal riquadro si va alle esecuzioni di quel job.
     await page.goto('/admin')
+    await expect(page.getByRole('heading', { name: 'Job della notte' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: "L'app in numeri" })).toBeVisible()
+    await page.getByRole('link', { name: /^Catalog Sync/ }).click()
+    await expect(page).toHaveURL(/\/admin\/job\?job=catalog_sync$/)
     await expect(page.getByRole('heading', { name: 'Stato dei job' })).toBeVisible()
-    await expect(page.getByText('Catalog Sync').first()).toBeVisible()
     await expect(page.getByText('3 min 20 s').first()).toBeVisible()
 
+    // Utenti (RIB-89): l'elenco senza email; nel dettaglio l'email e nessuna azione su un Admin.
+    const tabs = page.getByRole('navigation', { name: "Sezioni dell'area Admin" })
+    await tabs.getByRole('link', { name: 'Utenti' }).click()
+    await page.getByRole('searchbox', { name: 'Cerca per Username' }).fill(username)
+    await expect(page.getByText(email)).toHaveCount(0)
+    await page.getByRole('link', { name: new RegExp(`^@${username}`) }).click()
+    await expect(page.getByText(email)).toBeVisible()
+    await expect(page.getByText("È un Admin: nessuna azione dall'app.")).toBeVisible()
+
     // Ban List (RIB-29): le voci ufficiali ci sono; l'Admin aggiunge una voce, poi la elimina.
+    await tabs.getByRole('link', { name: 'Ban List' }).click()
     await expect(page.getByRole('heading', { name: 'Ban List' })).toBeVisible()
     await expect(page.getByText(/^OP06-047 ·/)).toBeVisible()
     await page.getByRole('button', { name: 'Aggiungi' }).click()
@@ -155,6 +169,7 @@ test('area Admin: ruolo dal database, verifica obbligatoria, stato dei job', asy
 
     // Abbinamenti dei prezzi (RIB-32): la carta di prova è senza prezzo; l'Admin sceglie il
     // prodotto della parallela e la correzione finisce nel registro.
+    await tabs.getByRole('link', { name: 'Prezzi' }).click()
     const prices = page.getByRole('region', { name: 'Abbinamenti dei prezzi' })
     await prices.getByRole('tab', { name: /^Senza prezzo/ }).click()
     await prices.getByPlaceholder('Card Code, es. OP01-001').fill(priceCode)
@@ -187,7 +202,7 @@ test('area Admin: ruolo dal database, verifica obbligatoria, stato dei job', asy
     await page.getByLabel("Codice dell'app").fill(totp(secret, currentStep()))
     await page.getByRole('button', { name: 'Verifica' }).click()
     await expect(page).toHaveURL(/\/admin$/)
-    await expect(page.getByRole('heading', { name: 'Stato dei job' })).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Job della notte' })).toBeVisible()
     // Col ruolo nel token compare anche la voce nelle Impostazioni.
     await page.goto('/impostazioni')
     await expect(page.getByRole('link', { name: 'Area Admin' })).toBeVisible()

@@ -20,6 +20,8 @@ import { SignupPage } from '@/account/SignupPage'
 import { AdminJobsPage } from '@/admin/AdminJobsPage'
 import { AdminOverviewPage } from '@/admin/AdminOverviewPage'
 import { AdminPage } from '@/admin/AdminPage'
+import { PlaytestPage } from '@/playtest/PlaytestPage'
+import { PLAYTEST_PATH } from '@/playtest/paths'
 import { AdminUserPage } from '@/admin/AdminUserPage'
 import { AdminUsersPage } from '@/admin/AdminUsersPage'
 import { BanListSection } from '@/admin/BanListSection'
@@ -97,6 +99,8 @@ export const routes: RouteObject[] = [
       { path: FRIEND_DECKS_PATH, element: <FriendProfilePage view="decks" /> },
       { path: FRIEND_COLLECTION_PATH, element: <FriendProfilePage view="collection" /> },
       { path: FRIEND_DECK_PATH, element: <FriendDeckPage /> },
+      // Playtest Table (RIB-34), prototipo
+      { path: PLAYTEST_PATH, element: <PlaytestPage /> },
       // Scanner (fase 4): anche senza account, apre il dettaglio della carta letta.
       { path: SCANNER_PATH, element: <ScannerPage /> },
       { path: PRIVACY_PATH, element: <PrivacyPage /> },

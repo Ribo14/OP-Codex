@@ -450,7 +450,13 @@ function Table({
         e.preventDefault()
       }}
     >
-      <div className="flex min-w-0 flex-1 flex-col">
+      {/* Un tocco su una zona vuota del tavolo chiude il pannello (seconda prova, 13/10). */}
+      <div
+        className="flex min-w-0 flex-1 flex-col"
+        onClick={(e) => {
+          if (!(e.target as Element).closest('button, [data-card]')) setSelection(null)
+        }}
+      >
         <Half
           who={OPPONENT}
           side={game.players[OPPONENT]}
@@ -544,39 +550,43 @@ function Half({
         className="grid h-full grid-cols-[auto_minmax(0,1fr)_auto] gap-x-2 gap-y-1 px-2 py-1 [--card-h:calc((100cqh-var(--don-h)-1rem)/2)] [--don-h:1.75rem]"
         style={{ gridTemplateRows: flipped ? 'var(--don-h) 1fr 1fr' : '1fr 1fr var(--don-h)' }}
       >
-        {/* Vite: colonna intera, una sopra l'altra come sul tappetino. */}
-        <button
-          type="button"
-          onClick={() => {
-            const top = side.life[0]
-            if (top) onSelect({ kind: 'card', who, id: top.id })
-          }}
-          aria-label={t('playtest.life', { count: side.life.length })}
+        {/* Vita (una carta col numero) e, sotto, il mazzo DON!! (seconda prova, 13/10). */}
+        <div
           style={{ gridColumn: col(1), gridRow: '1 / 4' }}
           className={cn(
-            'relative flex w-[calc(var(--card-h)*0.7)] flex-col items-center justify-center rounded-md border border-dashed',
+            'flex flex-col items-center justify-center gap-2',
             flipped && 'flex-col-reverse',
-            drop,
           )}
-          {...zoneProps(who, 'life')}
         >
-          {side.life.map((c, i) => (
-            <span
-              key={c.id}
-              className="relative block aspect-[88/63] w-full shrink-0 overflow-hidden rounded-sm"
-              style={{ marginTop: i === 0 ? 0 : 'calc(var(--card-h) * -0.28)' }}
-            >
-              {c.faceUp ? (
-                <span className="absolute top-1/2 left-1/2 block aspect-[63/88] w-[71.6%] -translate-x-1/2 -translate-y-1/2 rotate-90">
-                  <CardFace card={c} byCode={byCode} className="h-auto w-full" />
-                </span>
-              ) : (
-                <CardBack className="aspect-auto h-full w-full bg-amber-700 bg-none" label="" />
-              )}
-            </span>
-          ))}
-          <span className={badge}>{side.life.length}</span>
-        </button>
+          <button
+            type="button"
+            onClick={() => {
+              const top = side.life[0]
+              if (top) onSelect({ kind: 'card', who, id: top.id })
+            }}
+            aria-label={t('playtest.life', { count: side.life.length })}
+            className={pile}
+            {...zoneProps(who, 'life')}
+          >
+            {side.life[0]?.faceUp ? (
+              <CardFace card={side.life[0]} byCode={byCode} className="h-full" />
+            ) : (
+              <CardBack className="h-full bg-amber-700 bg-none" label={t('playtest.lifeShort')} />
+            )}
+            <span className={badge}>{side.life.length}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              onSelect({ kind: 'don', who })
+            }}
+            aria-label={t('playtest.donDeckLabel', { count: side.donDeck })}
+            className={pile}
+          >
+            <CardBack className="h-full bg-violet-800 bg-none" label={t('playtest.don')} />
+            <span className={badge}>{side.donDeck}</span>
+          </button>
+        </div>
 
         {/* Personaggi. */}
         <div
@@ -617,7 +627,7 @@ function Half({
           </div>
         </div>
 
-        {/* Area DON!!: attivi, a riposo e quelli ancora nel mazzo DON!!. */}
+        {/* Area DON!!: quelli presi dal mazzo DON!!, attivi o a riposo. */}
         <button
           type="button"
           onClick={() => {
@@ -644,9 +654,6 @@ function Half({
               className="h-3 w-4 shrink-0 rounded-sm bg-violet-700/40 ring-1 ring-violet-700/60"
             />
           ))}
-          <span className="ml-auto shrink-0 text-muted-foreground tabular-nums">
-            {t('playtest.donDeck', { count: side.donDeck })}
-          </span>
         </button>
 
         {/* Mazzo e, sotto, Scarti. */}
@@ -710,6 +717,7 @@ function FieldCard({
 }) {
   return (
     <div
+      data-card
       onPointerDown={startDrag(who, card.id, false)}
       className={cn(
         'relative shrink-0 touch-none transition-transform',
@@ -805,6 +813,7 @@ function Hand({
       {side.hand.map((c) => (
         <div
           key={c.id}
+          data-card
           onPointerDown={startDrag(who, c.id, true)}
           className={cn('shrink-0 transition-transform', selected === c.id && '-translate-y-2')}
         >

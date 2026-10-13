@@ -42,3 +42,5 @@ Thumbs.db
 # Foto di prova dello Scanner e screenshot delle segnalazioni: restano sul PC, non nel repo pubblico.
 scanner-foto/
 bug/
+# Screenshot dell'app ufficiale usati come ispirazione per il tavolo (RIB-34).
+tavolo/

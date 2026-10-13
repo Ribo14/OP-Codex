@@ -496,6 +496,7 @@
     "notAdmin": "Questa area è riservata agli amministratori.",
     "needsTwoFactor": "Per entrare nell'area Admin serve la verifica in due passaggi: attivala nel Profilo, in «Account e sicurezza».",
     "toProfile": "Vai al Profilo",
+    "renewCode": "Per sicurezza l'area Admin chiede il codice ogni 12 ore. Apri l'app di autenticazione e scrivi il codice di OP-Codex.",
     "tabs": {
       "label": "Sezioni dell'area Admin",
       "overview": "Panoramica",

@@ -25,6 +25,8 @@ export interface Access {
   aal?: 'aal1' | 'aal2'
   /** Da quanti secondi è stato fatto l'accesso (claim amr). */
   secondsAgo?: number
+  /** Con aal2: da quanti secondi è stato dato il codice TOTP (claim amr, RIB-98). */
+  codeSecondsAgo?: number
   /** Sessione del JWT; se manca se ne crea una nuova (solo se l'utente esiste). */
   sessionId?: string
 }
@@ -63,7 +65,12 @@ export async function actAs(
     sub: userId,
     role: 'authenticated',
     aal,
-    amr: [{ method: 'password', timestamp: now - (access.secondsAgo ?? 0) }],
+    amr: [
+      ...(aal === 'aal2'
+        ? [{ method: 'totp', timestamp: now - (access.codeSecondsAgo ?? 0) }]
+        : []),
+      { method: 'password', timestamp: now - (access.secondsAgo ?? 0) },
+    ],
     ...(sessionId ? { session_id: sessionId } : {}),
   }
   await tx`select set_config('request.jwt.claims', ${JSON.stringify(claims)}, true)`

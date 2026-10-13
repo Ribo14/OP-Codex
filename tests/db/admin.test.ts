@@ -81,6 +81,33 @@ describe('Accesso all’area Admin', () => {
     })
   })
 
+  it('il codice vale 12 ore: poi l’area lo chiede di nuovo (RIB-98)', async () => {
+    await inRollback(sql, async (tx) => {
+      await setup(tx)
+      await asUser(tx, ADMIN, { aal: 'aal2', codeSecondsAgo: 11 * 3600 })
+      expect(await adminState(tx)).toBe('ok')
+      expect((await jobRuns(tx)).length).toBeGreaterThan(0)
+
+      await asUser(tx, ADMIN, { aal: 'aal2', codeSecondsAgo: 12 * 3600 + 60 })
+      expect(await adminState(tx)).toBe('rinnova')
+      expect(await jobRuns(tx)).toEqual([])
+      expect(await auditLog(tx)).toEqual([])
+    })
+  })
+
+  it('un token senza il codice nell’amr non apre l’area', async () => {
+    await inRollback(sql, async (tx) => {
+      await setup(tx)
+      await asUser(tx, ADMIN, { aal: 'aal2' })
+      await tx`
+        select set_config('request.jwt.claims',
+          (current_setting('request.jwt.claims')::jsonb - 'amr')::text, true)
+      `
+      expect(await adminState(tx)).toBe('rinnova')
+      expect(await jobRuns(tx)).toEqual([])
+    })
+  })
+
   it('con la sessione chiusa l’Admin perde l’accesso', async () => {
     await inRollback(sql, async (tx) => {
       await setup(tx)

@@ -6,6 +6,7 @@ import {
   Printer,
   ScanSearch,
   SlidersHorizontal,
+  Swords,
   TriangleAlert,
   X,
 } from 'lucide-react'
@@ -51,6 +52,7 @@ import { deckOwnership, type MissingRow } from './missing-cards'
 import { DeckActionsMenu } from './DeckActionsMenu'
 import { DeckStatusBar } from './DeckStatusBar'
 import { OwnedBadge } from './MissingCardsPanel'
+import { playtestPath } from '@/playtest/paths'
 import { deckLeaderPath, deckPrintPath, DECKS_PATH } from './paths'
 
 // Editor di un Deck (RIB-21). Ogni modifica si salva da sola. Due schede, "Mazzo" e "Aggiungi
@@ -567,6 +569,14 @@ function DeckHeader({
           >
             <Printer className="size-3.5" aria-hidden="true" />
             {t('decks.print')}
+          </Link>
+          {/* RIB-99: il mazzo già scelto al Tavolo di prova. */}
+          <Link
+            to={playtestPath(deck.id)}
+            className="inline-flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-medium hover:bg-muted"
+          >
+            <Swords className="size-3.5" aria-hidden="true" />
+            {t('playtest.tryDeck')}
           </Link>
         </div>
       </div>

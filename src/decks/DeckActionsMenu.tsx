@@ -1,4 +1,4 @@
-import { Copy, MoreHorizontal, Printer, Repeat, ScanSearch, Share2 } from 'lucide-react'
+import { Copy, MoreHorizontal, Printer, Repeat, ScanSearch, Share2, Swords } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
@@ -14,6 +14,7 @@ import {
 } from '@/components/Menu'
 import { canShare, copyText } from '@/lib/clipboard'
 import { cn } from '@/lib/utils'
+import { playtestPath } from '@/playtest/paths'
 import type { DeckSummary } from './deck'
 import { DECK_FORMATS, type DeckFormat } from './deck-rules'
 import type { DeckStore } from './deck-store'
@@ -142,6 +143,14 @@ export function DeckActionsMenu({
           >
             <Printer className="size-4" aria-hidden="true" />
             {t('decks.print')}
+          </MenuItem>
+          <MenuItem
+            onSelect={() => {
+              void navigate(playtestPath(deck.id))
+            }}
+          >
+            <Swords className="size-4" aria-hidden="true" />
+            {t('playtest.tryDeck')}
           </MenuItem>
         </MenuContent>
       </MenuRoot>

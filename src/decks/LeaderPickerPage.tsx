@@ -6,6 +6,8 @@ import { RequireAccount } from '@/account/ProfilePage'
 import { LogoLoader } from '@/app/LogoLoader'
 import { useSession } from '@/account/session'
 import { SignedOutInvite } from '@/account/SignedOutInvite'
+import { useCardFlags } from '@/catalog/card-flags'
+import { CardFlags } from '@/catalog/CardFlags'
 import type { CatalogCard } from '@/catalog/catalog-data'
 import { COLORS } from '@/catalog/filters'
 import { gameColor } from '@/catalog/game-colors'
@@ -60,6 +62,8 @@ function Picker({ deckId }: { deckId: string | null }) {
   const [busy, setBusy] = useState(false)
   const [failed, setFailed] = useState(false)
   const deferredQ = useDeferredValue(q)
+  // RIB-97: simbolini di stato (Standard è il formato dei mazzi nuovi).
+  const flagsOf = useCardFlags({ standard: true })
 
   const leaders = useMemo(
     () => (catalog ? leaderCandidates(catalog.cards, { q: deferredQ, colors }) : []),
@@ -148,11 +152,18 @@ function Picker({ deckId }: { deckId: string | null }) {
                 }}
                 className="group block w-full rounded-xl text-left focus-visible:outline-none disabled:opacity-60"
               >
-                <CardThumb
-                  printing={printing}
-                  name={card.name}
-                  className="w-full rounded-xl transition group-hover:-translate-y-1 group-focus-visible:ring-2 group-focus-visible:ring-ring"
-                />
+                <span className="relative block">
+                  <CardThumb
+                    printing={printing}
+                    name={card.name}
+                    className="w-full rounded-xl transition group-hover:-translate-y-1 group-focus-visible:ring-2 group-focus-visible:ring-ring"
+                  />
+                  <CardFlags
+                    flags={flagsOf(card, printing)}
+                    compact
+                    className="absolute top-1.5 left-1.5"
+                  />
+                </span>
                 <span className="mt-1.5 block truncate text-xs font-medium">{card.name}</span>
                 <span className="block text-[11px] text-muted-foreground">{card.cardCode}</span>
               </button>

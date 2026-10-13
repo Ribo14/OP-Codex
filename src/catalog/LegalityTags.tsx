@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { isStandardLegal, minimumStandardBlock } from '@/decks/deck-rules'
 import { cn } from '@/lib/utils'
-import { banStatus, useBanListEntries, type BanKind } from './ban-list'
+import { banStatus, useBanListEntries } from './ban-list'
 import type { CatalogCard } from './catalog-data'
 
 // Tag di legalità (RIB-29): rossi e ben visibili per Ban List (bandita, limitata, coppia
@@ -79,21 +79,5 @@ export function LegalityTags({
         </Tag>
       )}
     </div>
-  )
-}
-
-/** Tag rosso sopra la miniatura nella griglia. */
-export function BanBadge({ kind, className }: { kind: BanKind; className?: string }) {
-  const { t } = useTranslation()
-  return (
-    <span
-      className={cn(
-        'inline-flex items-center gap-1 rounded-full bg-red-600 px-2 py-0.5 text-[11px] font-bold text-white shadow-md',
-        className,
-      )}
-    >
-      <Ban className="size-3" aria-hidden="true" />
-      {t(`legality.badge.${kind}`)}
-    </span>
   )
 }

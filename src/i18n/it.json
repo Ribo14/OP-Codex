@@ -309,6 +309,11 @@
       "pair": "Coppia bandita dal {{date}}"
     },
     "notStandard": "Non valida in Standard (Block {{block}}: ammessi dal {{min}})",
+    "pairWith": "Coppia bandita con {{cards}}",
+    "short": {
+      "restricted": "Max {{count}}",
+      "notStandard": "No Standard"
+    },
     "badge": {
       "banned": "Bandita",
       "restricted": "Limitata",

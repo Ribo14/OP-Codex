@@ -17,6 +17,8 @@ import { RequireAccount } from '@/account/ProfilePage'
 import { useSession } from '@/account/session'
 import { SignedOutInvite } from '@/account/SignedOutInvite'
 import { CardDetail } from '@/catalog/CardDetail'
+import { type CardFlag, useCardFlags } from '@/catalog/card-flags'
+import { CardFlags } from '@/catalog/CardFlags'
 import type { Catalog, CatalogCard, CatalogPrinting } from '@/catalog/catalog-data'
 import { catalogFacets, countActiveFilters, relatedFilters } from '@/catalog/filters'
 import { FiltersPanel } from '@/catalog/FiltersPanel'
@@ -102,6 +104,8 @@ function Editor({ deckId }: { deckId: string }) {
   )
   const ready = state.status === 'ready' ? state : null
   const banList = useBanList()
+  // RIB-97: simbolini di stato; il Block conta solo nei mazzi Standard.
+  const flagsOf = useCardFlags({ standard: ready?.deck.format === 'standard' })
   // Deck Warning e statistiche (RIB-23), ricalcolati a ogni modifica: sono in memoria, istantanei.
   const warnings = useMemo(
     () =>
@@ -261,6 +265,7 @@ function Editor({ deckId }: { deckId: string }) {
           editing={editing}
           flagged={flaggedCards(warnings)}
           ownership={ownershipByCode}
+          flagsOf={flagsOf}
           onOpen={openCard}
         />
         {/* Mazzo incompleto: l'invito ad aggiungere carte in fondo alla lista (RIB-49). */}
@@ -284,7 +289,13 @@ function Editor({ deckId }: { deckId: string }) {
         aria-labelledby="scheda-add"
         className={cn(tab !== 'add' && 'hidden')}
       >
-        <AddCards cards={cards} catalog={catalog} editing={editing} onOpen={openCard} />
+        <AddCards
+          cards={cards}
+          catalog={catalog}
+          editing={editing}
+          flagsOf={flagsOf}
+          onOpen={openCard}
+        />
       </section>
 
       {opened && (
@@ -355,6 +366,7 @@ interface Editing {
 
 /** Apre il dettaglio di una carta, con la Printing indicata (null: la prima). */
 type OpenCard = (card: CatalogCard, printId: string | null) => void
+type FlagsOf = (card: CatalogCard, printing?: CatalogPrinting) => CardFlag[]
 
 function DeckHeader({
   deck,
@@ -647,6 +659,7 @@ function CardLine({
   card,
   printing,
   flagged = false,
+  flags = [],
   owned,
   tile = false,
   onOpen,
@@ -656,6 +669,8 @@ function CardLine({
   printing: CatalogPrinting | undefined
   /** Coinvolta in un Deck Warning (RIB-23). */
   flagged?: boolean
+  /** Simbolini di stato (RIB-97): Ban List, anteprima, fuori Standard. */
+  flags?: readonly CardFlag[]
   /** Copie possedute sulle richieste (RIB-25), solo nella lista del Deck. */
   owned?: MissingRow
   /** Nella griglia del mazzo su desktop (RIB-49): carta grande, controlli sotto. */
@@ -699,6 +714,7 @@ function CardLine({
           <span className="truncate">{card.name}</span>
           {owned && <OwnedBadge row={owned} />}
         </p>
+        <CardFlags flags={flags} className="my-0.5" />
         <p className="truncate text-xs text-muted-foreground">
           {card.cardCode}
           {card.cost !== null && ` · ${t('decks.cost', { cost: card.cost })}`}
@@ -715,6 +731,7 @@ function DeckCards({
   editing,
   flagged,
   ownership,
+  flagsOf,
   onOpen,
 }: {
   cards: readonly DeckCard[]
@@ -723,6 +740,7 @@ function DeckCards({
   flagged: ReadonlySet<string>
   /** Copie possedute per carta (RIB-25); vuota finché la Collection non c'è. */
   ownership: ReadonlyMap<string, MissingRow>
+  flagsOf: FlagsOf
   onOpen: OpenCard
 }) {
   const { t } = useTranslation()
@@ -749,6 +767,7 @@ function DeckCards({
                 card={row.card}
                 printing={row.printing}
                 flagged={flagged.has(row.card.cardCode)}
+                flags={flagsOf(row.card, row.printing)}
                 owned={ownership.get(row.card.cardCode)}
                 tile
                 onOpen={() => {
@@ -786,11 +805,13 @@ function AddCards({
   cards,
   catalog,
   editing,
+  flagsOf,
   onOpen,
 }: {
   cards: readonly DeckCard[]
   catalog: Catalog
   editing: Editing
+  flagsOf: FlagsOf
   onOpen: OpenCard
 }) {
   const { t } = useTranslation()
@@ -881,6 +902,7 @@ function AddCards({
                 key={card.cardCode}
                 card={card}
                 printing={printing}
+                flags={flagsOf(card, printing)}
                 tile
                 onOpen={() => {
                   onOpen(card, printing.printId)

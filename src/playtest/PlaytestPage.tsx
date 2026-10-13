@@ -4,12 +4,15 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { useSession } from '@/account/session'
 import type { CatalogCard } from '@/catalog/catalog-data'
+import { CardExplanation } from '@/catalog/CardExplanation'
+import { CardFaqs } from '@/catalog/CardFaqs'
 import { useCatalog } from '@/catalog/local-catalog'
 import { CardThumb } from '@/decks/CardThumb'
 import { shownPrinting } from '@/decks/deck'
 import { listDecks } from '@/decks/decks-api'
 import { DECKS_PATH } from '@/decks/paths'
 import { cn } from '@/lib/utils'
+import { KeywordText } from '@/rules/KeywordText'
 import {
   changeDon,
   draw,
@@ -44,6 +47,7 @@ const FIRST_OPTIONS = ['random', 'me', 'opponent'] as const
 
 type Selection =
   | { kind: 'card'; who: PlayerId; id: string }
+  | { kind: 'info'; who: PlayerId; id: string }
   | { kind: 'don'; who: PlayerId }
   | { kind: 'trash'; who: PlayerId }
   | null
@@ -328,6 +332,11 @@ function CardBack({ className, label }: { className?: string; label: string }) {
 
 // --- Il tavolo -----------------------------------------------------------------------------
 
+type StartDrag = (who: PlayerId, id: string, fromHand: boolean) => (e: ReactPointerEvent) => void
+
+/** Tenendo premuta una carta si aprono le sue info (prova dell'utente, 13/10). */
+const LONG_PRESS_MS = 450
+
 interface Drag {
   who: PlayerId
   id: string
@@ -337,6 +346,7 @@ interface Drag {
   startX: number
   startY: number
   fromHand: boolean
+  longPress: boolean
 }
 
 const ZONE_ATTR = 'data-zone'
@@ -359,6 +369,7 @@ function Table({
   const [selection, setSelection] = useState<Selection>(null)
   const [drag, setDrag] = useState<Drag | null>(null)
   const dragRef = useRef<Drag | null>(null)
+  const pressTimer = useRef<number | undefined>(undefined)
   const gameRef = useRef(game)
   useEffect(() => {
     gameRef.current = game
@@ -374,15 +385,20 @@ function Table({
       const dy = e.clientY - d.startY
       const started =
         d.started || (d.fromHand ? dy < -12 && Math.abs(dy) > Math.abs(dx) : Math.hypot(dx, dy) > 8)
+      if (d.longPress) return
       const next = { ...d, x: e.clientX, y: e.clientY, started }
       dragRef.current = next
-      if (started) setDrag(next)
+      if (started) {
+        window.clearTimeout(pressTimer.current)
+        setDrag(next)
+      }
     }
     const up = (e: PointerEvent) => {
       const d = dragRef.current
       dragRef.current = null
+      window.clearTimeout(pressTimer.current)
       setDrag(null)
-      if (!d) return
+      if (!d || d.longPress) return
       if (!d.started) {
         setSelection({ kind: 'card', who: d.who, id: d.id })
         return
@@ -402,8 +418,15 @@ function Table({
     }
   }, [setGame])
 
-  const startDrag = (who: PlayerId, id: string, fromHand: boolean) => (e: ReactPointerEvent) => {
+  const startDrag: StartDrag = (who, id, fromHand) => (e) => {
     if (e.button !== 0) return
+    window.clearTimeout(pressTimer.current)
+    pressTimer.current = window.setTimeout(() => {
+      const d = dragRef.current
+      if (!d || d.started || d.id !== id) return
+      dragRef.current = { ...d, longPress: true }
+      setSelection({ kind: 'info', who, id })
+    }, LONG_PRESS_MS)
     dragRef.current = {
       who,
       id,
@@ -413,6 +436,7 @@ function Table({
       startY: e.clientY,
       started: false,
       fromHand,
+      longPress: false,
     }
   }
 
@@ -420,7 +444,12 @@ function Table({
   const handOwner = game.active
 
   return (
-    <div className="flex min-h-0 flex-1 select-none">
+    <div
+      className="flex min-h-0 flex-1 select-none [-webkit-touch-callout:none]"
+      onContextMenu={(e) => {
+        e.preventDefault()
+      }}
+    >
       <div className="flex min-w-0 flex-1 flex-col">
         <Half
           who={OPPONENT}
@@ -434,7 +463,7 @@ function Table({
           }}
           dragging={drag?.started === true}
         />
-        <div className="flex h-7 shrink-0 items-center justify-center gap-3 border-y bg-muted/40 text-xs">
+        <div className="flex h-6 shrink-0 items-center justify-center gap-3 border-y bg-muted/40 text-xs">
           <span className="font-medium">
             {t('playtest.turn', { turn: game.turn })} ·{' '}
             {game.active === ME ? t('playtest.yourTurn') : t('playtest.theirTurn')}
@@ -492,7 +521,7 @@ function Half({
   side: PlayerSide
   byCode: ReadonlyMap<string, CatalogCard>
   flipped?: boolean
-  startDrag: (who: PlayerId, id: string, fromHand: boolean) => (e: ReactPointerEvent) => void
+  startDrag: StartDrag
   onSelect: (s: Selection) => void
   onDraw: () => void
   dragging: boolean
@@ -500,128 +529,172 @@ function Half({
   const { t } = useTranslation()
   const drop = dragging ? 'ring-1 ring-dashed ring-foreground/30' : ''
   const topOfTrash = side.trash.at(-1)
-  // Mazzo, Vita, cestino e DON!! in un riquadro 2×2 accanto al campo: ogni lato sta su una riga
-  // sola, così sul telefono in orizzontale le carte restano grandi.
-  const pile = cn('relative h-[calc(var(--card-h)*0.48)] aspect-[63/88] rounded-md', drop)
   const badge =
-    'absolute -top-1 -right-1 rounded-full bg-foreground px-1.5 text-[10px] font-bold text-background'
-  const piles = (
-    <div className="grid shrink-0 grid-cols-2 gap-1">
-      <button
-        type="button"
-        onClick={onDraw}
-        aria-label={t('playtest.deck', { count: side.deck.length })}
-        className={pile}
-        {...zoneProps(who, 'deckBottom')}
-      >
-        <CardBack className="h-full" label={t('playtest.deckShort')} />
-        <span className={badge}>{side.deck.length}</span>
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          const top = side.life[0]
-          if (top) onSelect({ kind: 'card', who, id: top.id })
-        }}
-        aria-label={t('playtest.life', { count: side.life.length })}
-        className={pile}
-        {...zoneProps(who, 'life')}
-      >
-        {side.life[0]?.faceUp ? (
-          <CardFace card={side.life[0]} byCode={byCode} className="h-full" />
-        ) : (
-          <CardBack className="h-full bg-amber-700 bg-none" label={t('playtest.lifeShort')} />
-        )}
-        <span className={badge}>{side.life.length}</span>
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          onSelect({ kind: 'trash', who })
-        }}
-        aria-label={t('playtest.trash', { count: side.trash.length })}
-        className={cn(
-          pile,
-          'flex items-center justify-center border border-dashed text-[9px] text-muted-foreground',
-        )}
-        {...zoneProps(who, 'trash')}
-      >
-        {topOfTrash ? (
-          <CardFace card={topOfTrash} byCode={byCode} className="h-full opacity-70" />
-        ) : (
-          t('playtest.trashEmpty')
-        )}
-        <span className={badge}>{side.trash.length}</span>
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          onSelect({ kind: 'don', who })
-        }}
-        aria-label={t('playtest.donLabel', {
-          active: side.donActive,
-          rested: side.donRested,
-          deck: side.donDeck,
-        })}
-        className="flex aspect-[63/88] h-[calc(var(--card-h)*0.48)] flex-col items-center justify-center rounded-md border bg-violet-700/10 text-[10px] leading-tight"
-      >
-        <span className="font-semibold">{t('playtest.don')}</span>
-        <span className="tabular-nums">
-          {side.donActive}·{side.donRested}
-        </span>
-      </button>
-    </div>
-  )
+    'absolute -top-1 -right-1 z-10 rounded-full bg-foreground px-1.5 text-[10px] font-bold text-background'
+  const pile = cn('relative aspect-[63/88] h-[calc(var(--card-h)*0.8)] shrink-0 rounded-md', drop)
+  // Disposizione del tappetino ufficiale (prova dell'utente, 13/10): Vite a sinistra, Personaggi
+  // in alto, poi Leader → Stage → Mazzo, in basso DON!! a sinistra e Scarti a destra. Il lato
+  // dell'avversario è lo specchio del tuo: righe e colonne invertite, carte sempre dritte.
+  const col = (c: 1 | 2 | 3) => (flipped ? 4 - c : c)
+  const row = (r: 1 | 2 | 3) => (flipped ? 4 - r : r)
 
   return (
-    <div
-      className={cn(
-        'flex min-h-0 flex-1 items-center gap-2 px-2 [--card-h:min(25vh,11rem)]',
-        flipped && 'flex-row-reverse',
-      )}
-    >
+    <div className="[container-type:size] min-h-0 flex-1">
       <div
-        className={cn(
-          'flex h-full min-w-0 flex-1 items-center gap-1.5 rounded-xl px-1',
-          flipped && 'flex-row-reverse',
-          drop,
-        )}
-        {...zoneProps(who, 'field')}
+        className="grid h-full grid-cols-[auto_minmax(0,1fr)_auto] gap-x-2 gap-y-1 px-2 py-1 [--card-h:calc((100cqh-var(--don-h)-1rem)/2)] [--don-h:1.75rem]"
+        style={{ gridTemplateRows: flipped ? 'var(--don-h) 1fr 1fr' : '1fr 1fr var(--don-h)' }}
       >
-        <FieldCard who={who} card={side.leader} byCode={byCode} startDrag={startDrag} leader />
-        <div
+        {/* Vite: colonna intera, una sopra l'altra come sul tappetino. */}
+        <button
+          type="button"
+          onClick={() => {
+            const top = side.life[0]
+            if (top) onSelect({ kind: 'card', who, id: top.id })
+          }}
+          aria-label={t('playtest.life', { count: side.life.length })}
+          style={{ gridColumn: col(1), gridRow: '1 / 4' }}
           className={cn(
-            'flex aspect-[63/88] h-[var(--card-h)] shrink-0 items-center justify-center rounded-md border border-dashed text-[9px] text-muted-foreground',
+            'relative flex w-[calc(var(--card-h)*0.7)] flex-col items-center justify-center rounded-md border border-dashed',
+            flipped && 'flex-col-reverse',
             drop,
           )}
-          {...zoneProps(who, 'stage')}
+          {...zoneProps(who, 'life')}
         >
-          {side.stage ? (
-            <FieldCard who={who} card={side.stage} byCode={byCode} startDrag={startDrag} />
-          ) : (
-            t('playtest.stage')
-          )}
-        </div>
+          {side.life.map((c, i) => (
+            <span
+              key={c.id}
+              className="relative block aspect-[88/63] w-full shrink-0 overflow-hidden rounded-sm"
+              style={{ marginTop: i === 0 ? 0 : 'calc(var(--card-h) * -0.28)' }}
+            >
+              {c.faceUp ? (
+                <span className="absolute top-1/2 left-1/2 block aspect-[63/88] w-[71.6%] -translate-x-1/2 -translate-y-1/2 rotate-90">
+                  <CardFace card={c} byCode={byCode} className="h-auto w-full" />
+                </span>
+              ) : (
+                <CardBack className="aspect-auto h-full w-full bg-amber-700 bg-none" label="" />
+              )}
+            </span>
+          ))}
+          <span className={badge}>{side.life.length}</span>
+        </button>
+
+        {/* Personaggi. */}
         <div
+          style={{ gridColumn: col(2), gridRow: row(1) }}
           className={cn(
-            'flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto py-1',
-            flipped && 'flex-row-reverse',
+            'flex min-w-0 items-center justify-center gap-1.5 overflow-x-auto rounded-xl',
+            drop,
           )}
+          {...zoneProps(who, 'field')}
         >
           {side.field.map((c) => (
             <FieldCard key={c.id} who={who} card={c} byCode={byCode} startDrag={startDrag} />
           ))}
         </div>
-      </div>
-      <div className="flex shrink-0 flex-col items-center gap-1">
-        {piles}
-        <span className="text-[10px] text-muted-foreground">
-          {t('playtest.handCount', { count: side.hand.length })}
-        </span>
+
+        {/* Leader e Stage, accanto al Mazzo. */}
+        <div
+          style={{ gridColumn: col(2), gridRow: row(2) }}
+          className={cn(
+            'flex min-w-0 items-center justify-end gap-2 rounded-xl',
+            flipped && 'flex-row-reverse',
+          )}
+          {...zoneProps(who, 'field')}
+        >
+          <FieldCard who={who} card={side.leader} byCode={byCode} startDrag={startDrag} leader />
+          <div
+            className={cn(
+              'flex aspect-[63/88] h-[var(--card-h)] shrink-0 items-center justify-center rounded-md border border-dashed text-[9px] text-muted-foreground',
+              drop,
+            )}
+            {...zoneProps(who, 'stage')}
+          >
+            {side.stage ? (
+              <FieldCard who={who} card={side.stage} byCode={byCode} startDrag={startDrag} />
+            ) : (
+              t('playtest.stage')
+            )}
+          </div>
+        </div>
+
+        {/* Area DON!!: attivi, a riposo e quelli ancora nel mazzo DON!!. */}
+        <button
+          type="button"
+          onClick={() => {
+            onSelect({ kind: 'don', who })
+          }}
+          aria-label={t('playtest.donLabel', {
+            active: side.donActive,
+            rested: side.donRested,
+            deck: side.donDeck,
+          })}
+          style={{ gridColumn: col(2), gridRow: row(3) }}
+          className={cn(
+            'flex min-w-0 items-center gap-1 overflow-hidden rounded-md border bg-violet-700/10 px-2 text-[10px]',
+            flipped && 'flex-row-reverse',
+          )}
+        >
+          <span className="font-semibold">{t('playtest.don')}</span>
+          {Array.from({ length: side.donActive }, (_, i) => (
+            <span key={`a${String(i)}`} className="h-4 w-3 shrink-0 rounded-sm bg-violet-700" />
+          ))}
+          {Array.from({ length: side.donRested }, (_, i) => (
+            <span
+              key={`r${String(i)}`}
+              className="h-3 w-4 shrink-0 rounded-sm bg-violet-700/40 ring-1 ring-violet-700/60"
+            />
+          ))}
+          <span className="ml-auto shrink-0 text-muted-foreground tabular-nums">
+            {t('playtest.donDeck', { count: side.donDeck })}
+          </span>
+        </button>
+
+        {/* Mazzo e, sotto, Scarti. */}
+        <div
+          style={{ gridColumn: col(3), gridRow: '1 / 4' }}
+          className={cn(
+            'flex flex-col items-center justify-end gap-1',
+            flipped && 'flex-col-reverse',
+          )}
+        >
+          <span className="text-[10px] text-muted-foreground">
+            {t('playtest.handCount', { count: side.hand.length })}
+          </span>
+          <button
+            type="button"
+            onClick={onDraw}
+            aria-label={t('playtest.deck', { count: side.deck.length })}
+            className={pile}
+            {...zoneProps(who, 'deckBottom')}
+          >
+            <CardBack className="h-full" label={t('playtest.deckShort')} />
+            <span className={badge}>{side.deck.length}</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              onSelect({ kind: 'trash', who })
+            }}
+            aria-label={t('playtest.trash', { count: side.trash.length })}
+            className={cn(
+              pile,
+              'flex items-center justify-center border border-dashed text-[9px] text-muted-foreground',
+            )}
+            {...zoneProps(who, 'trash')}
+          >
+            {topOfTrash ? (
+              <CardFace card={topOfTrash} byCode={byCode} className="h-full opacity-70" />
+            ) : (
+              t('playtest.trashEmpty')
+            )}
+            <span className={badge}>{side.trash.length}</span>
+          </button>
+        </div>
       </div>
     </div>
   )
 }
+
 function FieldCard({
   who,
   card,
@@ -632,7 +705,7 @@ function FieldCard({
   who: PlayerId
   card: TableCard
   byCode: ReadonlyMap<string, CatalogCard>
-  startDrag: (who: PlayerId, id: string, fromHand: boolean) => (e: ReactPointerEvent) => void
+  startDrag: StartDrag
   leader?: boolean
 }) {
   return (
@@ -654,6 +727,59 @@ function FieldCard({
   )
 }
 
+/** Info di una carta durante la partita: dati, testo inglese, spiegazione italiana, FAQ. */
+function CardInfo({ card }: { card: CatalogCard | undefined }) {
+  const { t } = useTranslation()
+  if (!card) return null
+  const stats: [string, string][] = [
+    [t('detail.category'), t(`category.${card.category as 'Leader'}`)],
+    [t('detail.colors'), card.colors.join('/')],
+    ...(card.life !== null ? [[t('detail.life'), String(card.life)] as [string, string]] : []),
+    ...(card.cost !== null ? [[t('detail.cost'), String(card.cost)] as [string, string]] : []),
+    ...(card.power !== null ? [[t('detail.power'), String(card.power)] as [string, string]] : []),
+    ...(card.counter !== null
+      ? [[t('detail.counter'), `+${String(card.counter)}`] as [string, string]]
+      : []),
+  ]
+  return (
+    <div className="space-y-3 text-xs">
+      <div>
+        <p className="text-sm font-semibold">{card.name}</p>
+        <p className="text-muted-foreground">{card.cardCode}</p>
+      </div>
+      <dl className="grid grid-cols-2 gap-1">
+        {stats.map(([label, value]) => (
+          <div key={label} className="rounded-lg bg-muted/60 px-2 py-1">
+            <dt className="text-[10px] text-muted-foreground">{label}</dt>
+            <dd className="font-semibold tabular-nums">{value}</dd>
+          </div>
+        ))}
+      </dl>
+      {(card.types.length > 0 || card.attributes.length > 0) && (
+        <p className="text-muted-foreground">{[...card.attributes, ...card.types].join(' · ')}</p>
+      )}
+      {card.effect !== null && (
+        <section className="space-y-1">
+          <h3 className="font-semibold">{t('detail.effect')}</h3>
+          <p className="leading-relaxed">
+            <KeywordText text={card.effect} />
+          </p>
+        </section>
+      )}
+      {card.trigger !== null && (
+        <section className="space-y-1">
+          <h3 className="font-semibold">{t('detail.trigger')}</h3>
+          <p className="leading-relaxed">
+            <KeywordText text={card.trigger} />
+          </p>
+        </section>
+      )}
+      <CardExplanation markdown={card.explanation} />
+      <CardFaqs faqs={card.faqs ?? []} />
+    </div>
+  )
+}
+
 function Hand({
   who,
   side,
@@ -670,7 +796,7 @@ function Hand({
   const { t } = useTranslation()
   return (
     <div
-      className="flex h-[24vh] shrink-0 [touch-action:pan-x] items-end gap-1 overflow-x-auto border-t bg-muted/30 px-2 pt-1 pb-[max(env(safe-area-inset-bottom),0.25rem)]"
+      className="flex h-[20vh] shrink-0 [touch-action:pan-x] items-end gap-1 overflow-x-auto border-t bg-muted/30 px-2 pt-1 pb-[max(env(safe-area-inset-bottom),0.25rem)]"
       {...zoneProps(who, 'hand')}
     >
       <span className="shrink-0 rotate-180 self-center text-[10px] font-medium text-muted-foreground [writing-mode:vertical-rl]">
@@ -682,7 +808,7 @@ function Hand({
           onPointerDown={startDrag(who, c.id, true)}
           className={cn('shrink-0 transition-transform', selected === c.id && '-translate-y-2')}
         >
-          <CardFace card={c} byCode={byCode} className="h-[22vh]" />
+          <CardFace card={c} byCode={byCode} className="h-[18vh]" />
         </div>
       ))}
     </div>
@@ -719,7 +845,14 @@ function SidePanel({
         act(moveCard(game, who, card.id, to))
         setSelection(null)
       }
-      const actions: { label: string; run: () => void }[] = []
+      const actions: { label: string; run: () => void }[] = [
+        {
+          label: t('playtest.do.info'),
+          run: () => {
+            setSelection({ kind: 'info', who, id: card.id })
+          },
+        },
+      ]
       if (zone === 'leader' || zone === 'field' || zone === 'stage') {
         actions.push({
           label: card.rested ? t('playtest.do.activate') : t('playtest.do.rest'),
@@ -828,6 +961,22 @@ function SidePanel({
         </>
       )
     }
+  } else if (selection?.kind === 'info') {
+    const found = findCard(game.players[selection.who], selection.id)
+    body = found ? (
+      <>
+        <button
+          type="button"
+          onClick={() => {
+            setSelection({ kind: 'card', who: selection.who, id: selection.id })
+          }}
+          className="min-h-9 rounded-xl border px-3 py-1.5 text-left text-xs font-medium hover:bg-muted"
+        >
+          {t('playtest.do.actions')}
+        </button>
+        <CardInfo card={byCode.get(found.card.cardCode)} />
+      </>
+    ) : null
   } else if (selection?.kind === 'don') {
     const who = selection.who
     const don = (action: DonAction) => {
@@ -915,7 +1064,12 @@ function SidePanel({
   }
 
   return (
-    <aside className="flex w-[clamp(9rem,22vw,15rem)] shrink-0 flex-col gap-2 overflow-y-auto border-l p-2">
+    <aside
+      className={cn(
+        'flex shrink-0 flex-col gap-2 overflow-y-auto border-l p-2',
+        selection?.kind === 'info' ? 'w-[clamp(14rem,34vw,24rem)]' : 'w-[clamp(9rem,22vw,15rem)]',
+      )}
+    >
       <div className="flex items-center gap-1">
         {selection ? (
           <button

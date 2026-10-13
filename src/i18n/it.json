@@ -1238,6 +1238,8 @@
     "close": "Chiudi",
     "exit": "Esci",
     "do": {
+      "info": "Info della carta",
+      "actions": "Azioni sulla carta",
       "rest": "Riposa",
       "activate": "Rendi attiva",
       "giveDon": "+1 DON!!",

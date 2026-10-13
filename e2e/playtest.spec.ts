@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator, type Page } from '@playwright/test'
 import postgres from 'postgres'
 
 // Playtest Table (RIB-99) sul Supabase locale, su telefono in orizzontale e senza account: uno
@@ -19,10 +19,21 @@ const CHARACTERS = Array.from({ length: 13 }, (_, i) => ({
 }))
 const DECK_LABEL = `${LEADER.name} (${SET})`
 
+/** Trascina col mouse (a piccoli passi, come un dito) dal centro di una carta a quello di una zona. */
+async function dragTo(page: Page, from: Locator, to: Locator) {
+  const a = await from.boundingBox()
+  const b = await to.boundingBox()
+  if (!a || !b) throw new Error('elemento non visibile')
+  await page.mouse.move(a.x + a.width / 2, a.y + a.height / 2)
+  await page.mouse.down()
+  await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 12 })
+  await page.mouse.up()
+}
+
 // Telefono in orizzontale: il tavolo è pensato per questa forma.
 test.use({ viewport: { width: 844, height: 390 } })
 
-test('Tavolo di prova: VS, mulligan, carta giocata, DON!! e fine turno', async ({ page }) => {
+test('Tavolo di prova: VS, mulligan, menu, trascinamento, DON!! e fine turno', async ({ page }) => {
   test.setTimeout(90_000)
   const sql = postgres(DB_URL, { max: 1, onnotice: () => undefined })
   try {
@@ -95,6 +106,23 @@ test('Tavolo di prova: VS, mulligan, carta giocata, DON!! e fine turno', async (
         .last()
         .getByRole('button', { name: /Carta \d+/ }),
     ).toHaveCount(1)
+
+    // Trascinamento (RIB-100): dalla mano al campo, poi dal campo al cestino.
+    const myField = page.getByLabel('Area Personaggi').last()
+    await dragTo(page, hand.getByRole('button').first(), myField)
+    await expect(hand.getByRole('button')).toHaveCount(3)
+    await expect(myField.getByRole('button', { name: /Carta \d+/ })).toHaveCount(2)
+    await dragTo(
+      page,
+      myField.getByRole('button', { name: /Carta \d+/ }).first(),
+      page.getByRole('button', { name: /^Cestino:/ }).last(),
+    )
+    await expect(myField.getByRole('button', { name: /Carta \d+/ })).toHaveCount(1)
+    await expect(page.getByRole('button', { name: 'Cestino: 1 carta' })).toBeVisible()
+    // Il rilascio di un trascinamento non apre il menu; un rilascio fuori da una zona non sposta.
+    await expect(page.getByRole('button', { name: 'Gioca in campo' })).toHaveCount(0)
+    await dragTo(page, hand.getByRole('button').first(), page.getByRole('status'))
+    await expect(hand.getByRole('button')).toHaveCount(3)
 
     // Un DON!! al Leader: +1000 nel proprio turno.
     const leader = page.getByRole('button', { name: new RegExp(`^${LEADER.name}`) }).last()

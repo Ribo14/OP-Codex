@@ -1,5 +1,12 @@
 import { MoreHorizontal, X } from 'lucide-react'
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { DECKS_PATH } from '@/decks/paths'
@@ -57,6 +64,38 @@ function place(x: number, y: number, mirrored: boolean): CSSProperties {
 
 const AT = 'absolute -translate-x-1/2 -translate-y-1/2'
 
+// Trascinamento (RIB-100), con i Pointer Events: dito, mouse e penna. Sotto la soglia è un tocco
+// (apre il menu); la zona di arrivo è l'elemento con data-zone sotto il dito al rilascio.
+const DRAG_THRESHOLD_PX = 8
+const ZONE_ATTR = 'data-zone'
+const OWNER_ATTR = 'data-owner'
+
+interface Drag {
+  who: PlayerId
+  id: string
+  startX: number
+  startY: number
+  x: number
+  y: number
+  started: boolean
+}
+
+/** Cosa serve a carte e zone per il trascinamento. */
+interface Pointer {
+  /** Da mettere su onPointerDown di una carta che si può trascinare. */
+  start: (who: PlayerId, id: string) => (e: ReactPointerEvent) => void
+  /** Vero (una volta) se il click appena arrivato chiude un trascinamento: va ignorato. */
+  consumeClick: () => boolean
+  /** Di chi è la carta trascinata: si evidenziano le sue zone. */
+  dropFor: PlayerId | null
+}
+
+/** Attributi di una zona di arrivo. */
+const zone = (who: PlayerId, z: Zone) => ({ [ZONE_ATTR]: z, [OWNER_ATTR]: String(who) })
+
+/** Zone valide evidenziate durante il trascinamento. */
+const DROP = 'outline-2 outline-offset-2 outline-sky-500/70 outline-dashed'
+
 export function Table({
   game,
   setGame,
@@ -92,6 +131,72 @@ export function Table({
     )
   }
 
+  const [drag, setDrag] = useState<Drag | null>(null)
+  const dragRef = useRef<Drag | null>(null)
+  const justDragged = useRef(false)
+  const gameRef = useRef(game)
+  useEffect(() => {
+    gameRef.current = game
+  }, [game])
+
+  useEffect(() => {
+    const move = (e: PointerEvent) => {
+      const d = dragRef.current
+      if (!d) return
+      const started =
+        d.started || Math.hypot(e.clientX - d.startX, e.clientY - d.startY) > DRAG_THRESHOLD_PX
+      const next = { ...d, x: e.clientX, y: e.clientY, started }
+      dragRef.current = next
+      if (started) setDrag(next)
+    }
+    const up = (e: PointerEvent) => {
+      const d = dragRef.current
+      dragRef.current = null
+      setDrag(null)
+      if (!d?.started) return
+      // Il click che segue il rilascio non deve aprire il menu; se non arriva, si dimentica.
+      justDragged.current = true
+      window.setTimeout(() => {
+        justDragged.current = false
+      }, 0)
+      const target = document.elementFromPoint(e.clientX, e.clientY)?.closest(`[${ZONE_ATTR}]`)
+      const to = target?.getAttribute(ZONE_ATTR) as Zone | null | undefined
+      if (to && target?.getAttribute(OWNER_ATTR) === String(d.who)) {
+        setGame(moveCard(gameRef.current, d.who, d.id, to))
+      }
+    }
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerup', up)
+    window.addEventListener('pointercancel', up)
+    return () => {
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerup', up)
+      window.removeEventListener('pointercancel', up)
+    }
+  }, [setGame])
+
+  const pointer: Pointer = {
+    start: (who, id) => (e) => {
+      if (e.button !== 0) return
+      dragRef.current = {
+        who,
+        id,
+        startX: e.clientX,
+        startY: e.clientY,
+        x: e.clientX,
+        y: e.clientY,
+        started: false,
+      }
+    },
+    consumeClick: () => {
+      const was = justDragged.current
+      justDragged.current = false
+      return was
+    },
+    dropFor: drag?.started ? drag.who : null,
+  }
+  const dragged = drag?.started ? findCard(game.players[drag.who], drag.id)?.card : undefined
+
   const selectedId = selection?.kind === 'card' ? selection.id : null
   const started = game.turn > 0
 
@@ -118,6 +223,7 @@ export function Table({
         mirrored
         selectedId={selectedId}
         onSelect={setSelection}
+        pointer={pointer}
       />
       <Side
         who={ME}
@@ -126,6 +232,7 @@ export function Table({
         mirrored={false}
         selectedId={selectedId}
         onSelect={setSelection}
+        pointer={pointer}
       />
 
       {/* Fase e turno, sulla linea di mezzo a sinistra. */}
@@ -171,6 +278,22 @@ export function Table({
           onNewGame={onNewGame}
         />
       )}
+
+      {/* La carta che segue il dito durante il trascinamento. */}
+      {drag && dragged && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed z-[70] -translate-x-1/2 -translate-y-1/2 opacity-90"
+          style={{ left: drag.x, top: drag.y }}
+        >
+          <CardFace
+            cardCode={dragged.cardCode}
+            printId={dragged.printId}
+            byCode={byCode}
+            className="h-[calc(var(--card-h)*1.2)] shadow-2xl"
+          />
+        </div>
+      )}
     </div>
   )
 }
@@ -182,6 +305,7 @@ function Side({
   mirrored,
   selectedId,
   onSelect,
+  pointer,
 }: {
   who: PlayerId
   game: Game
@@ -189,9 +313,11 @@ function Side({
   mirrored: boolean
   selectedId: string | null
   onSelect: (s: Selection) => void
+  pointer: Pointer
 }) {
   const { t } = useTranslation()
   const side = game.players[who]
+  const drop = pointer.dropFor === who ? DROP : ''
   const don = donInPlay(side)
   const topOfTrash = side.trash.at(-1)
   const topOfLife = side.life[0]
@@ -207,11 +333,15 @@ function Side({
         type="button"
         data-card
         aria-label={`${byCode.get(card.cardCode)?.name ?? card.cardCode}${power === null ? '' : `, ${t('playtest.power', { power })}`}`}
+        // Il Leader non lascia mai il suo posto: niente trascinamento.
+        onPointerDown={leader ? undefined : pointer.start(who, card.id)}
         onClick={() => {
+          if (pointer.consumeClick()) return
           onSelect({ kind: 'card', who, id: card.id })
         }}
         className={cn(
           'rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+          !leader && 'touch-none',
           leader && 'ring-2 ring-amber-400/80',
           selectedId === card.id && 'ring-2 ring-sky-400',
         )}
@@ -234,8 +364,10 @@ function Side({
         className={cn(
           AT,
           'flex h-[calc(var(--card-h)*1.18)] w-[42cqw] items-center justify-center gap-[1cqw] rounded-xl border border-foreground/10 bg-foreground/[0.04] px-2',
+          drop,
         )}
         style={place(50, 58, mirrored)}
+        {...zone(who, 'field')}
       >
         {side.field.length === 0 ? (
           <span className="text-[3cqh] font-semibold text-foreground/25">
@@ -252,7 +384,11 @@ function Side({
       </div>
 
       {/* Stage e mazzo DON!! a sinistra (a destra per l'avversario). */}
-      <div className={AT} style={place(25.5, 58, mirrored)}>
+      <div
+        className={cn(AT, 'rounded-md', drop)}
+        style={place(25.5, 58, mirrored)}
+        {...zone(who, 'stage')}
+      >
         {side.stage ? (
           field(side.stage)
         ) : (
@@ -283,8 +419,9 @@ function Side({
         onClick={() => {
           onSelect({ kind: 'deck', who })
         }}
-        className={AT}
+        className={cn(AT, 'rounded-md', drop)}
         style={place(75.5, 58, mirrored)}
+        {...zone(who, 'deckBottom')}
       >
         <span className={pile}>
           <CardBack className="h-full" />
@@ -297,8 +434,9 @@ function Side({
         onClick={() => {
           onSelect({ kind: 'trash', who })
         }}
-        className={AT}
+        className={cn(AT, 'rounded-md', drop)}
         style={place(82.5, 58, mirrored)}
+        {...zone(who, 'trash')}
       >
         <span className={pile}>
           {topOfTrash ? (
@@ -324,8 +462,9 @@ function Side({
         onClick={() => {
           if (topOfLife) onSelect({ kind: 'card', who, id: topOfLife.id })
         }}
-        className={AT}
+        className={cn(AT, 'rounded-md', drop)}
         style={place(7, 84, mirrored)}
+        {...zone(who, 'life')}
       >
         <span className={pile}>
           {topOfLife?.faceUp ? (
@@ -364,7 +503,14 @@ function Side({
       </button>
 
       {who === ME ? (
-        <Hand who={who} game={game} byCode={byCode} selectedId={selectedId} onSelect={onSelect} />
+        <Hand
+          who={who}
+          game={game}
+          byCode={byCode}
+          selectedId={selectedId}
+          onSelect={onSelect}
+          pointer={pointer}
+        />
       ) : (
         <button
           type="button"
@@ -372,7 +518,11 @@ function Side({
           onClick={() => {
             onSelect({ kind: 'hand', who })
           }}
-          className="absolute top-0 left-[3cqw] flex h-[13cqh] max-w-[34cqw] items-start"
+          className={cn(
+            'absolute top-0 left-[3cqw] flex h-[13cqh] max-w-[34cqw] items-start rounded-md',
+            drop,
+          )}
+          {...zone(who, 'hand')}
         >
           {side.hand.map((c, i) => (
             <span
@@ -399,12 +549,14 @@ function Hand({
   byCode,
   selectedId,
   onSelect,
+  pointer,
 }: {
   who: PlayerId
   game: Game
   byCode: ByCode
   selectedId: string | null
   onSelect: (s: Selection) => void
+  pointer: Pointer
 }) {
   const { t } = useTranslation()
   const hand = game.players[who].hand
@@ -414,7 +566,11 @@ function Hand({
   return (
     <ul
       aria-label={t('playtest.yourHand')}
-      className="absolute right-[9cqw] bottom-0 left-[57cqw] flex h-[30cqh] items-end justify-center [--hand-h:26cqh]"
+      className={cn(
+        'absolute right-[9cqw] bottom-0 left-[57cqw] flex h-[30cqh] items-end justify-center rounded-t-xl [--hand-h:26cqh]',
+        pointer.dropFor === who && DROP,
+      )}
+      {...zone(who, 'hand')}
     >
       {hand.map((c, i) => {
         const angle = (i - (n - 1) / 2) * 3.5
@@ -432,10 +588,12 @@ function Hand({
               type="button"
               data-card
               aria-label={byCode.get(c.cardCode)?.name ?? c.cardCode}
+              onPointerDown={pointer.start(who, c.id)}
               onClick={() => {
+                if (pointer.consumeClick()) return
                 onSelect({ kind: 'card', who, id: c.id })
               }}
-              className="block origin-bottom transition-transform duration-150"
+              className="block origin-bottom touch-none transition-transform duration-150"
               style={{
                 transform: `translateY(${selected ? '2%' : '28%'}) rotate(${String(angle)}deg)`,
               }}

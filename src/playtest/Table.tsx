@@ -14,6 +14,7 @@ import { DECKS_PATH } from '@/decks/paths'
 import { cn } from '@/lib/utils'
 import { KeywordText } from '@/rules/KeywordText'
 import { CardInfo } from './CardInfo'
+import { TABLE_BACKGROUND, tableBackgroundStyle } from './table-background'
 import {
   cardPower,
   changeDon,
@@ -273,7 +274,11 @@ export function Table({
   // farebbe scorrere il tavolo per mostrare la carta toccata.
   return (
     <div
-      className="[container-type:size] relative h-full w-full overflow-clip bg-gradient-to-b from-red-500/10 via-background to-sky-500/10 select-none [--card-h:15cqh] [-webkit-touch-callout:none]"
+      className={cn(
+        '[container-type:size] relative h-full w-full overflow-clip select-none [--card-h:15cqh] [-webkit-touch-callout:none]',
+        TABLE_BACKGROUND,
+      )}
+      style={tableBackgroundStyle}
       onClick={(e) => {
         // Il click di chiusura di una pressione lunga o di un trascinamento non chiude il pannello
         // (la carta scelta si alza, e il rilascio può cadere sul tavolo).
@@ -455,14 +460,14 @@ function Side({
         aria-label={t('playtest.characters')}
         className={cn(
           AT,
-          'flex h-[calc(var(--card-h)*1.18)] w-[42cqw] items-center justify-center gap-[1cqw] rounded-xl border border-foreground/10 bg-foreground/[0.04] px-2',
+          'flex h-[calc(var(--card-h)*1.18)] w-[42cqw] items-center justify-center gap-[1cqw] rounded-xl border border-white/60 bg-background/45 px-2 dark:border-white/15',
           drop,
         )}
         style={place(50, 58, mirrored)}
         {...zone(who, 'field')}
       >
         {side.field.length === 0 ? (
-          <span className="text-[3cqh] font-semibold text-foreground/25">
+          <span className="text-[3cqh] font-semibold text-foreground/45">
             {t('playtest.characters')}
           </span>
         ) : (
@@ -484,7 +489,7 @@ function Side({
         {side.stage ? (
           field(side.stage)
         ) : (
-          <span className="flex aspect-[63/88] h-[var(--card-h)] items-center justify-center rounded-md border border-dashed border-foreground/25 text-[2.4cqh] text-foreground/40">
+          <span className="flex aspect-[63/88] h-[var(--card-h)] items-center justify-center rounded-md border border-dashed border-foreground/40 bg-background/45 text-[2.4cqh] text-foreground/60">
             {t('playtest.stage')}
           </span>
         )}
@@ -539,7 +544,7 @@ function Side({
               className="h-full opacity-90"
             />
           ) : (
-            <span className="flex aspect-[63/88] h-full items-center justify-center rounded-md border border-dashed border-foreground/25 text-[2.2cqh] text-foreground/40">
+            <span className="flex aspect-[63/88] h-full items-center justify-center rounded-md border border-dashed border-foreground/40 bg-background/45 text-[2.2cqh] text-foreground/60">
               {t('playtest.trashShort')}
             </span>
           )}

@@ -1,5 +1,6 @@
 import { MoreHorizontal, X } from 'lucide-react'
 import {
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -11,6 +12,8 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { DECKS_PATH } from '@/decks/paths'
 import { cn } from '@/lib/utils'
+import { KeywordText } from '@/rules/KeywordText'
+import { CardInfo } from './CardInfo'
 import {
   cardPower,
   changeDon,
@@ -47,6 +50,7 @@ const PHASE_MS = 450
 
 type Selection =
   | { kind: 'card'; who: PlayerId; id: string }
+  | { kind: 'info'; who: PlayerId; id: string }
   | { kind: 'don' | 'deck' | 'trash' | 'hand'; who: PlayerId }
   | { kind: 'menu' }
   | null
@@ -67,6 +71,10 @@ const AT = 'absolute -translate-x-1/2 -translate-y-1/2'
 // Trascinamento (RIB-100), con i Pointer Events: dito, mouse e penna. Sotto la soglia è un tocco
 // (apre il menu); la zona di arrivo è l'elemento con data-zone sotto il dito al rilascio.
 const DRAG_THRESHOLD_PX = 8
+/** Tenendo premuta una carta si aprono le sue info (RIB-101). */
+const LONG_PRESS_MS = 450
+/** Quanto resta in alto l'effetto della carta appena giocata (RIB-101). */
+const BANNER_MS = 4500
 const ZONE_ATTR = 'data-zone'
 const OWNER_ATTR = 'data-owner'
 
@@ -78,12 +86,16 @@ interface Drag {
   x: number
   y: number
   started: boolean
+  /** Il Leader non si trascina, ma si tiene premuto per le info. */
+  canDrag: boolean
+  /** Scattata la pressione lunga: rilascio e click non fanno altro. */
+  longPress: boolean
 }
 
 /** Cosa serve a carte e zone per il trascinamento. */
 interface Pointer {
-  /** Da mettere su onPointerDown di una carta che si può trascinare. */
-  start: (who: PlayerId, id: string) => (e: ReactPointerEvent) => void
+  /** Da mettere su onPointerDown di una carta: trascinamento e pressione lunga. */
+  start: (who: PlayerId, id: string, canDrag?: boolean) => (e: ReactPointerEvent) => void
   /** Vero (una volta) se il click appena arrivato chiude un trascinamento: va ignorato. */
   consumeClick: () => boolean
   /** Di chi è la carta trascinata: si evidenziano le sue zone. */
@@ -134,7 +146,48 @@ export function Table({
   const [drag, setDrag] = useState<Drag | null>(null)
   const dragRef = useRef<Drag | null>(null)
   const justDragged = useRef(false)
+  const pressTimer = useRef<number | undefined>(undefined)
   const gameRef = useRef(game)
+  const [banner, setBanner] = useState<{ cardCode: string; key: number } | null>(null)
+  const bannerTimer = useRef<number | undefined>(undefined)
+  useEffect(
+    () => () => {
+      window.clearTimeout(pressTimer.current)
+      window.clearTimeout(bannerTimer.current)
+    },
+    [],
+  )
+
+  /**
+   * Sposta una carta; se è appena stata giocata dalla mano (in campo, come Stage, o un Evento
+   * usato e scartato) il suo effetto compare in alto per qualche secondo.
+   */
+  const moveAndAnnounce = useCallback(
+    (from: Game, who: PlayerId, id: string, to: Zone) => {
+      const found = findCard(from.players[who], id)
+      const next = moveCard(from, who, id, to)
+      setGame(next)
+      if (found?.zone !== 'hand' || next === from) return
+      const info = byCode.get(found.card.cardCode)
+      const played =
+        to === 'field' || to === 'stage' || (to === 'trash' && info?.category === 'Event')
+      if (!played || !info?.effect) return
+      setBanner({ cardCode: found.card.cardCode, key: Date.now() })
+      window.clearTimeout(bannerTimer.current)
+      bannerTimer.current = window.setTimeout(() => {
+        setBanner(null)
+      }, BANNER_MS)
+    },
+    [byCode, setGame],
+  )
+
+  /** Il click che segue un rilascio (trascinamento o pressione lunga) va ignorato. */
+  const swallowNextClick = () => {
+    justDragged.current = true
+    window.setTimeout(() => {
+      justDragged.current = false
+    }, 0)
+  }
   useEffect(() => {
     gameRef.current = game
   }, [game])
@@ -142,9 +195,11 @@ export function Table({
   useEffect(() => {
     const move = (e: PointerEvent) => {
       const d = dragRef.current
-      if (!d) return
-      const started =
-        d.started || Math.hypot(e.clientX - d.startX, e.clientY - d.startY) > DRAG_THRESHOLD_PX
+      if (!d || d.longPress) return
+      const moved = Math.hypot(e.clientX - d.startX, e.clientY - d.startY) > DRAG_THRESHOLD_PX
+      // Muovendo il dito non è più una pressione lunga.
+      if (moved) window.clearTimeout(pressTimer.current)
+      const started = d.started || (moved && d.canDrag)
       const next = { ...d, x: e.clientX, y: e.clientY, started }
       dragRef.current = next
       if (started) setDrag(next)
@@ -152,17 +207,19 @@ export function Table({
     const up = (e: PointerEvent) => {
       const d = dragRef.current
       dragRef.current = null
+      window.clearTimeout(pressTimer.current)
       setDrag(null)
+      if (d?.longPress) {
+        swallowNextClick()
+        return
+      }
       if (!d?.started) return
       // Il click che segue il rilascio non deve aprire il menu; se non arriva, si dimentica.
-      justDragged.current = true
-      window.setTimeout(() => {
-        justDragged.current = false
-      }, 0)
+      swallowNextClick()
       const target = document.elementFromPoint(e.clientX, e.clientY)?.closest(`[${ZONE_ATTR}]`)
       const to = target?.getAttribute(ZONE_ATTR) as Zone | null | undefined
       if (to && target?.getAttribute(OWNER_ATTR) === String(d.who)) {
-        setGame(moveCard(gameRef.current, d.who, d.id, to))
+        moveAndAnnounce(gameRef.current, d.who, d.id, to)
       }
     }
     window.addEventListener('pointermove', move)
@@ -173,21 +230,32 @@ export function Table({
       window.removeEventListener('pointerup', up)
       window.removeEventListener('pointercancel', up)
     }
-  }, [setGame])
+  }, [moveAndAnnounce])
 
   const pointer: Pointer = {
-    start: (who, id) => (e) => {
-      if (e.button !== 0) return
-      dragRef.current = {
-        who,
-        id,
-        startX: e.clientX,
-        startY: e.clientY,
-        x: e.clientX,
-        y: e.clientY,
-        started: false,
-      }
-    },
+    start:
+      (who, id, canDrag = true) =>
+      (e) => {
+        if (e.button !== 0) return
+        window.clearTimeout(pressTimer.current)
+        pressTimer.current = window.setTimeout(() => {
+          const d = dragRef.current
+          if (!d || d.started || d.id !== id) return
+          dragRef.current = { ...d, longPress: true }
+          setSelection({ kind: 'info', who, id })
+        }, LONG_PRESS_MS)
+        dragRef.current = {
+          who,
+          id,
+          startX: e.clientX,
+          startY: e.clientY,
+          x: e.clientX,
+          y: e.clientY,
+          started: false,
+          canDrag,
+          longPress: false,
+        }
+      },
     consumeClick: () => {
       const was = justDragged.current
       justDragged.current = false
@@ -197,13 +265,19 @@ export function Table({
   }
   const dragged = drag?.started ? findCard(game.players[drag.who], drag.id)?.card : undefined
 
-  const selectedId = selection?.kind === 'card' ? selection.id : null
+  const selectedId = selection?.kind === 'card' || selection?.kind === 'info' ? selection.id : null
+  const bannerCard = banner ? byCode.get(banner.cardCode) : undefined
   const started = game.turn > 0
 
+  // overflow-clip e non hidden: la mano esce in parte dallo schermo, e con hidden il browser
+  // farebbe scorrere il tavolo per mostrare la carta toccata.
   return (
     <div
-      className="[container-type:size] relative h-full w-full overflow-hidden bg-gradient-to-b from-red-500/10 via-background to-sky-500/10 select-none [--card-h:15cqh] [-webkit-touch-callout:none]"
+      className="[container-type:size] relative h-full w-full overflow-clip bg-gradient-to-b from-red-500/10 via-background to-sky-500/10 select-none [--card-h:15cqh] [-webkit-touch-callout:none]"
       onClick={(e) => {
+        // Il click di chiusura di una pressione lunga o di un trascinamento non chiude il pannello
+        // (la carta scelta si alza, e il rilascio può cadere sul tavolo).
+        if (justDragged.current) return
         if (!(e.target as Element).closest('button, a, select, [data-panel]')) setSelection(null)
       }}
       onContextMenu={(e) => {
@@ -234,6 +308,21 @@ export function Table({
         onSelect={setSelection}
         pointer={pointer}
       />
+
+      {/* L'effetto della carta appena giocata, in alto: solo il testo, lo applica il giocatore. */}
+      {banner && bannerCard?.effect && (
+        <div
+          key={banner.key}
+          role="status"
+          aria-label={t('playtest.played', { name: bannerCard.name })}
+          className="pointer-events-none absolute top-[1.5cqh] left-1/2 z-20 w-[min(60cqw,40rem)] -translate-x-1/2 rounded-xl bg-slate-950/90 px-4 py-2 text-center text-white shadow-2xl"
+        >
+          <p className="text-sm font-bold">{bannerCard.name}</p>
+          <p className="text-xs leading-relaxed">
+            <KeywordText text={bannerCard.effect} />
+          </p>
+        </div>
+      )}
 
       {/* Fase e turno, sulla linea di mezzo a sinistra. */}
       {started && (
@@ -276,6 +365,9 @@ export function Table({
           selection={selection}
           setSelection={setSelection}
           onNewGame={onNewGame}
+          onMove={(who, id, to) => {
+            moveAndAnnounce(game, who, id, to)
+          }}
         />
       )}
 
@@ -333,15 +425,15 @@ function Side({
         type="button"
         data-card
         aria-label={`${byCode.get(card.cardCode)?.name ?? card.cardCode}${power === null ? '' : `, ${t('playtest.power', { power })}`}`}
-        // Il Leader non lascia mai il suo posto: niente trascinamento.
-        onPointerDown={leader ? undefined : pointer.start(who, card.id)}
+        // Il Leader non lascia mai il suo posto: niente trascinamento, solo le info.
+        onPointerDown={pointer.start(who, card.id, !leader)}
         onClick={() => {
           if (pointer.consumeClick()) return
           onSelect({ kind: 'card', who, id: card.id })
         }}
         className={cn(
           'rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
-          !leader && 'touch-none',
+          'touch-none',
           leader && 'ring-2 ring-amber-400/80',
           selectedId === card.id && 'ring-2 ring-sky-400',
         )}
@@ -627,6 +719,7 @@ function Panel({
   selection,
   setSelection,
   onNewGame,
+  onMove,
 }: {
   game: Game
   setGame: (game: Game) => void
@@ -634,6 +727,7 @@ function Panel({
   selection: NonNullable<Selection>
   setSelection: (s: Selection) => void
   onNewGame: () => void
+  onMove: (who: PlayerId, id: string, to: Zone) => void
 }) {
   const { t } = useTranslation()
   let title: string
@@ -647,7 +741,7 @@ function Panel({
     const { zone, card } = found
     title = byCode.get(card.cardCode)?.name ?? card.cardCode
     const move = (to: Zone) => {
-      setGame(moveCard(game, who, card.id, to))
+      onMove(who, card.id, to)
       setSelection(null)
     }
     const full = side.field.length >= FIELD_SIZE
@@ -659,7 +753,14 @@ function Panel({
       disabled: full,
       hint: full ? t('playtest.fieldFull') : undefined,
     }
-    const actions: Action[] = []
+    const actions: Action[] = [
+      {
+        label: t('playtest.do.info'),
+        run: () => {
+          setSelection({ kind: 'info', who, id: card.id })
+        },
+      },
+    ]
     if (zone === 'leader' || zone === 'field' || zone === 'stage') {
       actions.push({
         label: card.rested ? t('playtest.do.activate') : t('playtest.do.rest'),
@@ -759,6 +860,31 @@ function Panel({
           />
         )}
         <Actions actions={actions} />
+      </>
+    )
+  } else if (selection.kind === 'info') {
+    const found = findCard(game.players[selection.who], selection.id)
+    if (!found) return null
+    const info = byCode.get(found.card.cardCode)
+    title = info?.name ?? found.card.cardCode
+    body = (
+      <>
+        <button
+          type="button"
+          onClick={() => {
+            setSelection({ kind: 'card', who: selection.who, id: selection.id })
+          }}
+          className={ACTION}
+        >
+          {t('playtest.do.actions')}
+        </button>
+        <CardFace
+          cardCode={found.card.cardCode}
+          printId={found.card.printId}
+          byCode={byCode}
+          className="mx-auto h-[40cqh]"
+        />
+        <CardInfo card={info} />
       </>
     )
   } else if (selection.kind === 'don') {
@@ -893,7 +1019,10 @@ function Panel({
     <aside
       data-panel
       aria-label={title}
-      className="absolute inset-y-0 right-0 z-30 flex w-[clamp(12rem,28cqw,18rem)] flex-col gap-2 overflow-y-auto border-l bg-background/95 p-2 shadow-2xl backdrop-blur"
+      className={cn(
+        'absolute inset-y-0 right-0 z-30 flex flex-col gap-2 overflow-y-auto border-l bg-background/95 p-2 shadow-2xl backdrop-blur',
+        selection.kind === 'info' ? 'w-[clamp(15rem,40cqw,26rem)]' : 'w-[clamp(12rem,28cqw,18rem)]',
+      )}
     >
       <div className="flex items-center gap-1">
         <p className="min-w-0 flex-1 truncate text-sm font-semibold">{title}</p>

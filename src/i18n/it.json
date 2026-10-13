@@ -1256,7 +1256,10 @@
     "theirHandHint": "Al tavolo in solitario muovi tu anche le carte dell'avversario.",
     "fieldFull": "L'area Personaggi è piena: al massimo 5 carte.",
     "leaderOf": "Leader: {{name}}",
+    "played": "Giocata: {{name}}",
     "do": {
+      "info": "Info della carta",
+      "actions": "Azioni sulla carta",
       "rest": "Riposa",
       "activate": "Rendi attiva",
       "giveDon": "+1 DON!!",

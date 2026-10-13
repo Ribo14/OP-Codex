@@ -17,6 +17,8 @@ const CHARACTERS = Array.from({ length: 13 }, (_, i) => ({
   name: `Carta ${String(i + 1)} ${TAG}`,
   copies: i < 12 ? 4 : 2,
 }))
+/** Effetto di tutti i Personaggi di prova: compare in alto quando se ne gioca uno (RIB-101). */
+const EFFECT = '[On Play] Draw 1 card.'
 const DECK_LABEL = `${LEADER.name} (${SET})`
 
 /** Trascina col mouse (a piccoli passi, come un dito) dal centro di una carta a quello di una zona. */
@@ -33,7 +35,9 @@ async function dragTo(page: Page, from: Locator, to: Locator) {
 // Telefono in orizzontale: il tavolo è pensato per questa forma.
 test.use({ viewport: { width: 844, height: 390 } })
 
-test('Tavolo di prova: VS, mulligan, menu, trascinamento, DON!! e fine turno', async ({ page }) => {
+test('Tavolo di prova: VS, mulligan, menu, trascinamento, info, DON!! e fine turno', async ({
+  page,
+}) => {
   test.setTimeout(90_000)
   const sql = postgres(DB_URL, { max: 1, onnotice: () => undefined })
   try {
@@ -44,8 +48,8 @@ test('Tavolo di prova: VS, mulligan, menu, trascinamento, DON!! e fine turno', a
     `
     for (const c of CHARACTERS) {
       await sql`
-        insert into public.cards (card_code, name, category, cost, power, colors)
-        values (${c.code}, ${c.name}, 'Character', 1, 3000, '{Red}')
+        insert into public.cards (card_code, name, category, cost, power, colors, effect)
+        values (${c.code}, ${c.name}, 'Character', 1, 3000, '{Red}', ${EFFECT})
       `
     }
     for (const code of [LEADER.code, ...CHARACTERS.map((c) => c.code)]) {
@@ -89,8 +93,11 @@ test('Tavolo di prova: VS, mulligan, menu, trascinamento, DON!! e fine turno', a
       .getByRole('button', { name: 'Inizia con questa mano' })
       .click()
 
+    // La fase sulla linea di mezzo (l'effetto giocato è l'altro "status").
+    const phase = page.getByRole('status').filter({ hasText: 'Turno' })
+
     // Primo turno di chi inizia: niente pesca, 1 DON!!; Vita dal Leader (4).
-    await expect(page.getByRole('status')).toHaveText(/Fase principale · Turno 1 · tocca a te/)
+    await expect(phase).toHaveText(/Fase principale · Turno 1 · tocca a te/)
     await expect(page.getByRole('button', { name: /^DON!!: 1 attivi su 1 in gioco/ })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Vita: 4 carte' })).toHaveCount(2)
     const hand = page.getByRole('list', { name: 'La tua mano' })
@@ -100,6 +107,10 @@ test('Tavolo di prova: VS, mulligan, menu, trascinamento, DON!! e fine turno', a
     await hand.getByRole('button').first().click()
     await page.getByRole('button', { name: 'Gioca in campo' }).click()
     await expect(hand.getByRole('button')).toHaveCount(4)
+    // RIB-101: il suo effetto compare in alto (solo il testo) e poi sparisce da solo.
+    const played = page.getByRole('status', { name: /^Giocata: Carta \d+/ })
+    await expect(played).toContainText(EFFECT)
+    await expect(played).toBeHidden({ timeout: 8000 })
     await expect(
       page
         .getByLabel('Area Personaggi')
@@ -121,8 +132,38 @@ test('Tavolo di prova: VS, mulligan, menu, trascinamento, DON!! e fine turno', a
     await expect(page.getByRole('button', { name: 'Cestino: 1 carta' })).toBeVisible()
     // Il rilascio di un trascinamento non apre il menu; un rilascio fuori da una zona non sposta.
     await expect(page.getByRole('button', { name: 'Gioca in campo' })).toHaveCount(0)
-    await dragTo(page, hand.getByRole('button').first(), page.getByRole('status'))
+    await dragTo(page, hand.getByRole('button').first(), phase)
     await expect(hand.getByRole('button')).toHaveCount(3)
+
+    // Info della carta (RIB-101): tenendo premuta una carta della mano, che non si sposta.
+    const box = await hand.getByRole('button').first().boundingBox()
+    if (!box) throw new Error('carta non visibile')
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
+    await page.mouse.down()
+    await page.waitForTimeout(700)
+    await page.mouse.up()
+    const info = page.getByRole('complementary', { name: /^Carta \d+/ })
+    await expect(info.getByRole('heading', { name: 'Effetto' })).toBeVisible()
+    await expect(info.getByText(EFFECT)).toBeVisible()
+    await expect(info.getByRole('button', { name: 'Azioni sulla carta' })).toBeVisible()
+    await expect(hand.getByRole('button')).toHaveCount(3)
+    // Un tocco su una zona vuota del tavolo (la linea di mezzo) la chiude.
+    const size = page.viewportSize()
+    if (!size) throw new Error('viewport')
+    await page.mouse.click(size.width * 0.45, size.height * 0.47)
+    await expect(info).toHaveCount(0)
+    // Anche dalla voce "Info" del menu, per una carta dell'avversario.
+    await page
+      .getByRole('button', { name: new RegExp(`^${LEADER.name}`) })
+      .first()
+      .click()
+    await page.getByRole('button', { name: 'Info della carta' }).click()
+    await expect(
+      page
+        .getByRole('complementary', { name: LEADER.name })
+        .getByText('Questa carta non ha effetti.'),
+    ).toBeVisible()
+    await page.getByRole('button', { name: 'Chiudi' }).click()
 
     // Un DON!! al Leader: +1000 nel proprio turno.
     const leader = page.getByRole('button', { name: new RegExp(`^${LEADER.name}`) }).last()
@@ -135,9 +176,7 @@ test('Tavolo di prova: VS, mulligan, menu, trascinamento, DON!! e fine turno', a
     // Fine del turno: tocca all'avversario, che pesca e prende 2 DON!!; il bonus del Leader
     // non vale nel turno altrui.
     await page.getByRole('button', { name: 'Fine del turno' }).click()
-    await expect(page.getByRole('status')).toHaveText(
-      /Fase principale · Turno 2 · tocca all'avversario/,
-    )
+    await expect(phase).toHaveText(/Fase principale · Turno 2 · tocca all'avversario/)
     await expect(leader).toHaveAccessibleName(`${LEADER.name}, Potenza 5000`)
     await expect(page.getByRole('button', { name: '6 carte in mano' })).toBeVisible()
     await expect(page.getByRole('button', { name: /^DON!!: 2 attivi su 2 in gioco/ })).toBeVisible()

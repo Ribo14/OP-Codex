@@ -64,11 +64,14 @@ export function parseSavedGame(raw: string | null): SavedGame | null {
     ) {
       return null
     }
-    const revealed = isObject(game.revealed) ? game.revealed : null
-    return {
-      ...(data as unknown as SavedGame),
-      game: { ...(game as unknown as Game), revealed } as Game,
-    }
+    // Campi aggiunti dopo (carta rivelata, battaglia, vincitore): se mancano, valori vuoti.
+    const restored = {
+      ...(game as unknown as Game),
+      revealed: isObject(game.revealed) ? game.revealed : null,
+      battle: isObject(game.battle) ? game.battle : null,
+      winner: game.winner === 0 || game.winner === 1 ? game.winner : null,
+    } as Game
+    return { ...(data as unknown as SavedGame), game: restored }
   } catch {
     return null
   }

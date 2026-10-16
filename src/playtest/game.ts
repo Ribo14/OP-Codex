@@ -55,6 +55,25 @@ export interface Game {
   log: string[]
   /** Carta in cima al mazzo mostrata a entrambi (RIB-102), finché qualcuno non la chiude. */
   revealed: { who: PlayerId; id: string } | null
+  /** Battaglia in corso (RIB-104, battle.ts). */
+  battle: Battle | null
+  /** Chi ha vinto, quando la partita è finita. */
+  winner: PlayerId | null
+}
+
+/** Una battaglia guidata: chi attacca, il bersaglio, a che punto è e la potenza in più. */
+export interface Battle {
+  attacker: PlayerId
+  attackerId: string
+  targetId: string
+  /** Blocker, poi Counter ("Passa" risolve), poi le Vite col Trigger una alla volta. */
+  step: 'block' | 'counter' | 'trigger'
+  attackerBonus: number
+  defenderBonus: number
+  /** Vite ancora da togliere al Leader (due con [Double Attack]). */
+  lifeLeft: number
+  /** La partita prima dell'attacco, per "Annulla". */
+  before: Game
 }
 
 /** Il mazzo con cui si siede un giocatore. */
@@ -116,6 +135,8 @@ export function newGame(decks: [DeckList, DeckList], first: PlayerId, random: Ra
     turn: 0,
     log: [],
     revealed: null,
+    battle: null,
+    winner: null,
   }
 }
 
@@ -168,7 +189,7 @@ const stand = (c: TableCard): TableCard => ({ ...c, rested: false, don: 0 })
  * costi attivi), pesca 1, +2 DON!!.
  */
 export function nextTurn(game: Game): Game {
-  if (game.turn === 0) return game
+  if (game.turn === 0 || game.battle || game.winner !== null) return game
   const who: PlayerId = game.active === 0 ? 1 : 0
   const next = update(game, who, (side) => {
     const given =

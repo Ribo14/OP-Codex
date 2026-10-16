@@ -1265,6 +1265,32 @@
     "fieldFull": "L'area Personaggi è piena: al massimo 5 carte.",
     "leaderOf": "Leader: {{name}}",
     "played": "Giocata: {{name}}",
+    "banner": {
+      "played": "Giocata: {{name}}",
+      "attack": "Attacca: {{name}}",
+      "block": "Blocca: {{name}}"
+    },
+    "battle": {
+      "attack": "Attacca",
+      "pickTarget": "Scegli il bersaglio dell'attacco",
+      "cancel": "Annulla",
+      "title": "Battaglia",
+      "vs": "{{attacker}} ({{a}}) contro {{target}} ({{d}})",
+      "blockStep": "Il difensore può bloccare con un Personaggio [Blocker] attivo.",
+      "blockWith": "Blocca con {{name}}",
+      "noBlock": "Nessun blocco",
+      "counterStep": "Counter del difensore (Eventi: effetto a mano con +1000).",
+      "counterWith": "Counter +{{value}}: {{name}}",
+      "bonusDefender": "+1000 difensore",
+      "bonusAttacker": "+1000 attaccante",
+      "resolve": "Passa e risolvi",
+      "triggerStep": "Vita con [Trigger]: {{name}}",
+      "triggerYes": "Attiva il Trigger (va nel cestino)",
+      "triggerNo": "Prendi in mano",
+      "over": "Partita finita",
+      "win": "Hai vinto!",
+      "lose": "Ha vinto l'avversario"
+    },
     "do": {
       "info": "Info della carta",
       "actions": "Azioni sulla carta",

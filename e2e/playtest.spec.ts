@@ -35,7 +35,7 @@ async function dragTo(page: Page, from: Locator, to: Locator) {
 // Telefono in orizzontale: il tavolo è pensato per questa forma.
 test.use({ viewport: { width: 844, height: 390 } })
 
-test('Tavolo di prova: VS, mulligan, menu, trascinamento, info, mazzo, DON!! e fine turno', async ({
+test('Tavolo di prova: VS, mulligan, menu, trascinamento, info, mazzo, turno, attacco, ripresa', async ({
   page,
 }) => {
   test.setTimeout(90_000)
@@ -48,8 +48,8 @@ test('Tavolo di prova: VS, mulligan, menu, trascinamento, info, mazzo, DON!! e f
     `
     for (const c of CHARACTERS) {
       await sql`
-        insert into public.cards (card_code, name, category, cost, power, colors, effect)
-        values (${c.code}, ${c.name}, 'Character', 1, 3000, '{Red}', ${EFFECT})
+        insert into public.cards (card_code, name, category, cost, power, counter, colors, effect)
+        values (${c.code}, ${c.name}, 'Character', 1, 3000, 1000, '{Red}', ${EFFECT})
       `
     }
     for (const code of [LEADER.code, ...CHARACTERS.map((c) => c.code)]) {
@@ -214,6 +214,36 @@ test('Tavolo di prova: VS, mulligan, menu, trascinamento, info, mazzo, DON!! e f
     await expect(leader).toHaveAccessibleName(`${LEADER.name}, Potenza 5000`)
     await expect(page.getByRole('button', { name: '6 carte in mano' })).toBeVisible()
     await expect(page.getByRole('button', { name: /^DON!!: 2 attivi su 2 in gioco/ })).toBeVisible()
+    // Attacco guidato (RIB-104): tocca all'avversario, che attacca il tuo Leader col suo.
+    const theirLeader = page.getByRole('button', { name: new RegExp(`^${LEADER.name}`) }).first()
+    const battle = page.getByRole('region', { name: 'Battaglia' })
+    await theirLeader.click()
+    await page.getByRole('button', { name: 'Attacca' }).click()
+    await expect(page.getByText("Scegli il bersaglio dell'attacco")).toBeVisible()
+    await leader.click()
+    await expect(battle).toBeVisible()
+    // "Annulla" riporta tutto a prima: si può attaccare di nuovo.
+    await battle.getByRole('button', { name: 'Annulla', exact: true }).click()
+    await expect(battle).toHaveCount(0)
+    // Con un DON!! il Leader avversario arriva a 6000; tu usi un Counter da +1000: parità,
+    // vince chi attacca e perdi una Vita (che va in mano, al posto della carta scartata).
+    await theirLeader.click()
+    await page.getByRole('button', { name: '+1 DON!!' }).click()
+    await page.getByRole('button', { name: 'Attacca' }).click()
+    await leader.click()
+    await expect(battle.getByRole('status')).toHaveText(/\(6000\) contro .* \(5000\)/)
+    await battle.getByRole('button', { name: 'Nessun blocco' }).click()
+    await battle
+      .getByRole('button', { name: /^Counter \+1000: Carta \d+/ })
+      .first()
+      .click()
+    await expect(battle.getByRole('status')).toHaveText(/\(6000\) contro .* \(6000\)/)
+    await battle.getByRole('button', { name: 'Passa e risolvi' }).click()
+    await expect(battle).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'Vita: 3 carte' })).toHaveCount(1)
+    await expect(hand.getByRole('button')).toHaveCount(5)
+    await expect(page.getByRole('button', { name: 'Cestino: 2 carte' })).toBeVisible()
+
     // La partita non si perde (RIB-103): ricaricando si riprende da qui; "Nuova partita" la
     // abbandona e il tavolo riparte dalla scelta dei mazzi.
     await page.reload()

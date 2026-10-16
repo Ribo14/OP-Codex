@@ -13,6 +13,8 @@ import { Link } from 'react-router'
 import { DECKS_PATH } from '@/decks/paths'
 import { cn } from '@/lib/utils'
 import { KeywordText } from '@/rules/KeywordText'
+import { attackTargets, canAttack, startAttack, type Facts } from './battle'
+import { BattleArrow, BattleBox } from './BattleBox'
 import { CardInfo } from './CardInfo'
 import { LookDialog, SearchDialog } from './DeckDialogs'
 import { TABLE_BACKGROUND, tableBackgroundStyle } from './table-background'
@@ -158,8 +160,37 @@ export function Table({
   const justDragged = useRef(false)
   const pressTimer = useRef<number | undefined>(undefined)
   const gameRef = useRef(game)
-  const [banner, setBanner] = useState<{ cardCode: string; key: number } | null>(null)
+  const [banner, setBanner] = useState<{
+    cardCode: string
+    kind: 'played' | 'attack' | 'block'
+    key: number
+  } | null>(null)
   const bannerTimer = useRef<number | undefined>(undefined)
+  const rootRef = useRef<HTMLDivElement>(null)
+  /** Attacco guidato (RIB-104): l'attaccante scelto, in attesa del bersaglio. */
+  const [attackFrom, setAttackFrom] = useState<string | null>(null)
+  const facts: Facts = useCallback(
+    (code) => {
+      const c = byCode.get(code)
+      return {
+        power: c?.power ?? null,
+        counter: c?.counter ?? null,
+        blocker: c?.keywords.includes('Blocker') ?? false,
+        doubleAttack: c?.keywords.includes('Double Attack') ?? false,
+        trigger: c?.trigger != null,
+      }
+    },
+    [byCode],
+  )
+
+  /** L'effetto di una carta in alto per qualche secondo (solo il testo, ADR-0011). */
+  const announce = useCallback((cardCode: string, kind: 'played' | 'attack' | 'block') => {
+    setBanner({ cardCode, kind, key: Date.now() })
+    window.clearTimeout(bannerTimer.current)
+    bannerTimer.current = window.setTimeout(() => {
+      setBanner(null)
+    }, BANNER_MS)
+  }, [])
   useEffect(
     () => () => {
       window.clearTimeout(pressTimer.current)
@@ -182,13 +213,9 @@ export function Table({
       const played =
         to === 'field' || to === 'stage' || (to === 'trash' && info?.category === 'Event')
       if (!played || !info?.effect) return
-      setBanner({ cardCode: found.card.cardCode, key: Date.now() })
-      window.clearTimeout(bannerTimer.current)
-      bannerTimer.current = window.setTimeout(() => {
-        setBanner(null)
-      }, BANNER_MS)
+      announce(found.card.cardCode, 'played')
     },
-    [byCode, setGame],
+    [announce, byCode, setGame],
   )
 
   /** Il click che segue un rilascio (trascinamento o pressione lunga) va ignorato. */
@@ -275,6 +302,21 @@ export function Table({
   }
   const dragged = drag?.started ? findCard(game.players[drag.who], drag.id)?.card : undefined
 
+  // Bersagli dell'attacco: toccandone uno parte la battaglia, con l'effetto [When Attacking].
+  const targeting =
+    attackFrom && !game.battle
+      ? {
+          ids: new Set(attackTargets(game, game.active)),
+          pick: (targetId: string) => {
+            const attacker = findCard(game.players[game.active], attackFrom)?.card
+            setAttackFrom(null)
+            setGame(startAttack(game, attackFrom, targetId))
+            if (attacker && byCode.get(attacker.cardCode)?.effect?.includes('[When Attacking]')) {
+              announce(attacker.cardCode, 'attack')
+            }
+          },
+        }
+      : null
   const selectedId = selection?.kind === 'card' || selection?.kind === 'info' ? selection.id : null
   const bannerCard = banner ? byCode.get(banner.cardCode) : undefined
   const revealedCard = game.revealed
@@ -286,6 +328,7 @@ export function Table({
   // farebbe scorrere il tavolo per mostrare la carta toccata.
   return (
     <div
+      ref={rootRef}
       className={cn(
         '[container-type:size] relative h-full w-full overflow-clip select-none [--card-h:15cqh] [-webkit-touch-callout:none]',
         TABLE_BACKGROUND,
@@ -315,6 +358,7 @@ export function Table({
         selectedId={selectedId}
         onSelect={setSelection}
         pointer={pointer}
+        targeting={targeting}
       />
       <Side
         who={ME}
@@ -324,14 +368,77 @@ export function Table({
         selectedId={selectedId}
         onSelect={setSelection}
         pointer={pointer}
+        targeting={targeting}
       />
+
+      {/* Attacco guidato (RIB-104): scelta del bersaglio, freccia, riquadro della battaglia. */}
+      {attackFrom && !game.battle && (
+        <div
+          role="status"
+          className="absolute top-[1.5cqh] left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 rounded-full bg-red-700 px-4 py-2 text-sm font-semibold text-white shadow-xl"
+        >
+          {t('playtest.battle.pickTarget')}
+          <button
+            type="button"
+            onClick={() => {
+              setAttackFrom(null)
+            }}
+            className="rounded-full bg-white/20 px-3 py-1 text-xs"
+          >
+            {t('playtest.battle.cancel')}
+          </button>
+        </div>
+      )}
+      {game.battle && (
+        <>
+          <BattleArrow root={rootRef} fromId={game.battle.attackerId} toId={game.battle.targetId} />
+          <BattleBox
+            game={game}
+            setGame={setGame}
+            byCode={byCode}
+            facts={facts}
+            onBlocked={(code) => {
+              if (byCode.get(code)?.effect?.includes('[On Block]')) announce(code, 'block')
+            }}
+          />
+        </>
+      )}
+      {game.winner !== null && (
+        <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/60 p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={t('playtest.battle.over')}
+            className="space-y-4 rounded-2xl border bg-background/95 px-8 py-6 text-center shadow-2xl"
+          >
+            <p className="text-3xl font-black">
+              {game.winner === ME ? t('playtest.battle.win') : t('playtest.battle.lose')}
+            </p>
+            <div className="flex justify-center gap-3">
+              <Link
+                to={DECKS_PATH}
+                className="inline-flex h-11 items-center rounded-full border px-5 font-medium"
+              >
+                {t('playtest.exit')}
+              </Link>
+              <button
+                type="button"
+                onClick={onNewGame}
+                className="h-11 rounded-full bg-foreground px-5 font-semibold text-background"
+              >
+                {t('playtest.resume.discard')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* L'effetto della carta appena giocata, in alto: solo il testo, lo applica il giocatore. */}
       {banner && bannerCard?.effect && (
         <div
           key={banner.key}
           role="status"
-          aria-label={t('playtest.played', { name: bannerCard.name })}
+          aria-label={t(`playtest.banner.${banner.kind}`, { name: bannerCard.name })}
           className="pointer-events-none absolute top-[1.5cqh] left-1/2 z-20 w-[min(60cqw,40rem)] -translate-x-1/2 rounded-xl bg-slate-950/90 px-4 py-2 text-center text-white shadow-2xl"
         >
           <p className="text-sm font-bold">{bannerCard.name}</p>
@@ -356,7 +463,7 @@ export function Table({
       {/* Fine del turno e menu, a destra. */}
       <button
         type="button"
-        disabled={!started}
+        disabled={!started || game.battle !== null || attackFrom !== null || game.winner !== null}
         onClick={endTurn}
         className="absolute right-[1.5cqw] flex size-[17cqh] min-h-14 min-w-14 -translate-y-1/2 items-center justify-center rounded-full border-4 border-sky-300/60 bg-gradient-to-br from-sky-700 to-slate-900 p-1 text-center text-[clamp(0.65rem,2.6cqh,0.95rem)] leading-tight font-bold text-white shadow-lg disabled:opacity-40"
         style={{ top: `${String(MIDDLE)}%` }}
@@ -388,6 +495,10 @@ export function Table({
           onDeckDialog={(d) => {
             setSelection(null)
             setDeckDialog(d)
+          }}
+          onAttack={(id) => {
+            setSelection(null)
+            setAttackFrom(id)
           }}
         />
       )}
@@ -479,6 +590,7 @@ function Side({
   selectedId,
   onSelect,
   pointer,
+  targeting,
 }: {
   who: PlayerId
   game: Game
@@ -487,6 +599,7 @@ function Side({
   selectedId: string | null
   onSelect: (s: Selection) => void
   pointer: Pointer
+  targeting: { ids: ReadonlySet<string>; pick: (id: string) => void } | null
 }) {
   const { t } = useTranslation()
   const side = game.players[who]
@@ -505,11 +618,16 @@ function Side({
         key={card.id}
         type="button"
         data-card
+        data-card-id={card.id}
         aria-label={`${byCode.get(card.cardCode)?.name ?? card.cardCode}${power === null ? '' : `, ${t('playtest.power', { power })}`}`}
         // Il Leader non lascia mai il suo posto: niente trascinamento, solo le info.
         onPointerDown={pointer.start(who, card.id, !leader)}
         onClick={() => {
           if (pointer.consumeClick()) return
+          if (targeting?.ids.has(card.id)) {
+            targeting.pick(card.id)
+            return
+          }
           onSelect({ kind: 'card', who, id: card.id })
         }}
         className={cn(
@@ -517,6 +635,7 @@ function Side({
           'touch-none',
           leader && 'ring-2 ring-amber-400/80',
           selectedId === card.id && 'ring-2 ring-sky-400',
+          targeting?.ids.has(card.id) && 'animate-pulse ring-4 ring-red-500',
         )}
       >
         <FieldCardView
@@ -802,6 +921,7 @@ function Panel({
   onNewGame,
   onMove,
   onDeckDialog,
+  onAttack,
 }: {
   game: Game
   setGame: (game: Game) => void
@@ -811,6 +931,7 @@ function Panel({
   onNewGame: () => void
   onMove: (who: PlayerId, id: string, to: Zone) => void
   onDeckDialog: (d: DeckDialog) => void
+  onAttack: (id: string) => void
 }) {
   const { t } = useTranslation()
   let title: string
@@ -844,6 +965,15 @@ function Panel({
         },
       },
     ]
+    // RIB-104: chi è di turno attacca con il Leader o un Personaggio attivo.
+    if (canAttack(game, who, card.id)) {
+      actions.unshift({
+        label: t('playtest.battle.attack'),
+        run: () => {
+          onAttack(card.id)
+        },
+      })
+    }
     if (zone === 'leader' || zone === 'field' || zone === 'stage') {
       actions.push({
         label: card.rested ? t('playtest.do.activate') : t('playtest.do.rest'),

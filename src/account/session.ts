@@ -1,6 +1,7 @@
 import type { Session, User } from '@supabase/supabase-js'
 import { useCallback, useEffect, useSyncExternalStore } from 'react'
 import { clearPersonal, withOfflineCopy } from '@/lib/personal-cache'
+import { clearSavedGame } from '@/playtest/saved-game'
 import { getSupabase } from '@/lib/supabase'
 import { needsCode } from './mfa'
 import { readStoredSession } from './stored-session'
@@ -46,7 +47,11 @@ function start() {
       }
       // All'uscita si cancellano i dati personali salvati per l'offline (RIB-27): un dispositivo
       // condiviso non deve mostrarli a chi viene dopo.
-      if (event === 'SIGNED_OUT') void clearPersonal()
+      // Anche la partita del Tavolo di prova (RIB-103), che contiene le liste dei Deck.
+      if (event === 'SIGNED_OUT') {
+        void clearPersonal()
+        clearSavedGame()
+      }
       for (const listener of listeners) listener()
     })
 

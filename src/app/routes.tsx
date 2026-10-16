@@ -47,6 +47,8 @@ import {
   FRIENDS_PATH,
 } from '@/friends/paths'
 import { DeckPrintPage } from '@/print/DeckPrintPage'
+import { PLAYTEST_PATH } from '@/playtest/paths'
+import { PlaytestPage } from '@/playtest/PlaytestPage'
 import { RULES_PATH } from '@/rules/paths'
 import { RulesPage } from '@/rules/RulesPage'
 import { SharedDeckPage } from '@/decks/SharedDeckPage'
@@ -97,6 +99,8 @@ export const routes: RouteObject[] = [
       { path: FRIEND_DECKS_PATH, element: <FriendProfilePage view="decks" /> },
       { path: FRIEND_COLLECTION_PATH, element: <FriendProfilePage view="collection" /> },
       { path: FRIEND_DECK_PATH, element: <FriendDeckPage /> },
+      // Playtest Table (RIB-99): a tutto schermo, anche senza account (con gli Starter Deck).
+      { path: PLAYTEST_PATH, element: <PlaytestPage /> },
       // Scanner (fase 4): anche senza account, apre il dettaglio della carta letta.
       { path: SCANNER_PATH, element: <ScannerPage /> },
       { path: PRIVACY_PATH, element: <PrivacyPage /> },

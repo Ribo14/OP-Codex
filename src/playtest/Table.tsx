@@ -1,0 +1,1322 @@
+import { MoreHorizontal, X } from 'lucide-react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+} from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
+import { DECKS_PATH } from '@/decks/paths'
+import { cn } from '@/lib/utils'
+import { KeywordText } from '@/rules/KeywordText'
+import { attackTargets, canAttack, startAttack, type Facts } from './battle'
+import { BattleArrow, BattleBox } from './BattleBox'
+import { CardInfo } from './CardInfo'
+import { LookDialog, SearchDialog } from './DeckDialogs'
+import { TABLE_BACKGROUND, tableBackgroundStyle } from './table-background'
+import {
+  cardPower,
+  changeDon,
+  donInPlay,
+  draw,
+  FIELD_SIZE,
+  findCard,
+  flipLife,
+  giveDon,
+  hideRevealed,
+  moveCard,
+  nextTurn,
+  resolveLook,
+  revealTop,
+  shuffleDeck,
+  takeFromDeck,
+  takeDon,
+  toggleRest,
+  type DonAction,
+  type Game,
+  type PlayerId,
+  type TableCard,
+  type Zone,
+} from './game'
+import { BigNumber, CardBack, CardFace, FieldCardView, type ByCode } from './table-parts'
+
+// Il tavolo (RIB-99), disposto come l'app ufficiale (scelta dell'utente sugli screenshot di
+// riferimento, 13/10): il tuo lato in basso con il Leader al centro, Vita e DON!! nell'angolo in
+// basso a sinistra, mano a ventaglio in basso a destra; l'avversario a specchio in alto. Le carte
+// si muovono con tocco + menu (il pannello a destra); un tocco su una zona vuota lo chiude.
+
+const ME: PlayerId = 0
+const OPPONENT: PlayerId = 1
+const random = () => Math.random()
+const PHASES = ['refresh', 'draw', 'don', 'main'] as const
+type Phase = (typeof PHASES)[number]
+const PHASE_MS = 450
+
+/** Finestre sopra il tavolo per guardare o cercare nel mazzo (RIB-102). */
+type DeckDialog = { kind: 'look'; who: PlayerId; count: number } | { kind: 'search'; who: PlayerId }
+
+type Selection =
+  | { kind: 'card'; who: PlayerId; id: string }
+  | { kind: 'info'; who: PlayerId; id: string }
+  | { kind: 'don' | 'deck' | 'trash' | 'hand'; who: PlayerId }
+  | { kind: 'menu' }
+  | null
+
+/** Linea di mezzo del tavolo, in percentuale dell'altezza: l'avversario è lo specchio. */
+const MIDDLE = 47
+
+/** Posizione del centro di un elemento del tuo lato; quello dell'avversario è a specchio. */
+function place(x: number, y: number, mirrored: boolean): CSSProperties {
+  return {
+    left: `${String(mirrored ? 100 - x : x)}%`,
+    top: `${String(mirrored ? 2 * MIDDLE - y : y)}%`,
+  }
+}
+
+const AT = 'absolute -translate-x-1/2 -translate-y-1/2'
+
+// Trascinamento (RIB-100), con i Pointer Events: dito, mouse e penna. Sotto la soglia è un tocco
+// (apre il menu); la zona di arrivo è l'elemento con data-zone sotto il dito al rilascio.
+const DRAG_THRESHOLD_PX = 8
+/** Tenendo premuta una carta si aprono le sue info (RIB-101). */
+const LONG_PRESS_MS = 450
+/** Quanto resta in alto l'effetto della carta appena giocata (RIB-101). */
+const BANNER_MS = 4500
+const ZONE_ATTR = 'data-zone'
+const OWNER_ATTR = 'data-owner'
+
+interface Drag {
+  who: PlayerId
+  id: string
+  startX: number
+  startY: number
+  x: number
+  y: number
+  started: boolean
+  /** Il Leader non si trascina, ma si tiene premuto per le info. */
+  canDrag: boolean
+  /** Scattata la pressione lunga: rilascio e click non fanno altro. */
+  longPress: boolean
+}
+
+/** Cosa serve a carte e zone per il trascinamento. */
+interface Pointer {
+  /** Da mettere su onPointerDown di una carta: trascinamento e pressione lunga. */
+  start: (who: PlayerId, id: string, canDrag?: boolean) => (e: ReactPointerEvent) => void
+  /** Vero (una volta) se il click appena arrivato chiude un trascinamento: va ignorato. */
+  consumeClick: () => boolean
+  /** Di chi è la carta trascinata: si evidenziano le sue zone. */
+  dropFor: PlayerId | null
+}
+
+/** Attributi di una zona di arrivo. */
+const zone = (who: PlayerId, z: Zone) => ({ [ZONE_ATTR]: z, [OWNER_ATTR]: String(who) })
+
+/** Zone valide evidenziate durante il trascinamento. */
+const DROP = 'outline-2 outline-offset-2 outline-sky-500/70 outline-dashed'
+
+export function Table({
+  game,
+  setGame,
+  byCode,
+  onNewGame,
+}: {
+  game: Game
+  setGame: (game: Game) => void
+  byCode: ByCode
+  onNewGame: () => void
+}) {
+  const { t } = useTranslation()
+  const [selection, setSelection] = useState<Selection>(null)
+  const [deckDialog, setDeckDialog] = useState<DeckDialog | null>(null)
+  const [phase, setPhase] = useState<Phase>('main')
+  const timers = useRef<number[]>([])
+
+  useEffect(
+    () => () => {
+      for (const id of timers.current) window.clearTimeout(id)
+    },
+    [],
+  )
+
+  // Fine del turno: l'app fa Refresh, pesca e DON!! del giocatore successivo e mostra le fasi.
+  const endTurn = () => {
+    setSelection(null)
+    setGame(nextTurn(game))
+    for (const id of timers.current) window.clearTimeout(id)
+    timers.current = PHASES.map((p, i) =>
+      window.setTimeout(() => {
+        setPhase(p)
+      }, i * PHASE_MS),
+    )
+  }
+
+  const [drag, setDrag] = useState<Drag | null>(null)
+  const dragRef = useRef<Drag | null>(null)
+  const justDragged = useRef(false)
+  const pressTimer = useRef<number | undefined>(undefined)
+  const gameRef = useRef(game)
+  const [banner, setBanner] = useState<{
+    cardCode: string
+    kind: 'played' | 'attack' | 'block'
+    key: number
+  } | null>(null)
+  const bannerTimer = useRef<number | undefined>(undefined)
+  const rootRef = useRef<HTMLDivElement>(null)
+  /** Attacco guidato (RIB-104): l'attaccante scelto, in attesa del bersaglio. */
+  const [attackFrom, setAttackFrom] = useState<string | null>(null)
+  const facts: Facts = useCallback(
+    (code) => {
+      const c = byCode.get(code)
+      return {
+        power: c?.power ?? null,
+        counter: c?.counter ?? null,
+        blocker: c?.keywords.includes('Blocker') ?? false,
+        doubleAttack: c?.keywords.includes('Double Attack') ?? false,
+        trigger: c?.trigger != null,
+      }
+    },
+    [byCode],
+  )
+
+  /** L'effetto di una carta in alto per qualche secondo (solo il testo, ADR-0011). */
+  const announce = useCallback((cardCode: string, kind: 'played' | 'attack' | 'block') => {
+    setBanner({ cardCode, kind, key: Date.now() })
+    window.clearTimeout(bannerTimer.current)
+    bannerTimer.current = window.setTimeout(() => {
+      setBanner(null)
+    }, BANNER_MS)
+  }, [])
+  useEffect(
+    () => () => {
+      window.clearTimeout(pressTimer.current)
+      window.clearTimeout(bannerTimer.current)
+    },
+    [],
+  )
+
+  /**
+   * Sposta una carta; se è appena stata giocata dalla mano (in campo, come Stage, o un Evento
+   * usato e scartato) il suo effetto compare in alto per qualche secondo.
+   */
+  const moveAndAnnounce = useCallback(
+    (from: Game, who: PlayerId, id: string, to: Zone) => {
+      const found = findCard(from.players[who], id)
+      const next = moveCard(from, who, id, to)
+      setGame(next)
+      if (found?.zone !== 'hand' || next === from) return
+      const info = byCode.get(found.card.cardCode)
+      const played =
+        to === 'field' || to === 'stage' || (to === 'trash' && info?.category === 'Event')
+      if (!played || !info?.effect) return
+      announce(found.card.cardCode, 'played')
+    },
+    [announce, byCode, setGame],
+  )
+
+  /** Il click che segue un rilascio (trascinamento o pressione lunga) va ignorato. */
+  const swallowNextClick = () => {
+    justDragged.current = true
+    window.setTimeout(() => {
+      justDragged.current = false
+    }, 0)
+  }
+  useEffect(() => {
+    gameRef.current = game
+  }, [game])
+
+  useEffect(() => {
+    const move = (e: PointerEvent) => {
+      const d = dragRef.current
+      if (!d || d.longPress) return
+      const moved = Math.hypot(e.clientX - d.startX, e.clientY - d.startY) > DRAG_THRESHOLD_PX
+      // Muovendo il dito non è più una pressione lunga.
+      if (moved) window.clearTimeout(pressTimer.current)
+      const started = d.started || (moved && d.canDrag)
+      const next = { ...d, x: e.clientX, y: e.clientY, started }
+      dragRef.current = next
+      if (started) setDrag(next)
+    }
+    const up = (e: PointerEvent) => {
+      const d = dragRef.current
+      dragRef.current = null
+      window.clearTimeout(pressTimer.current)
+      setDrag(null)
+      if (d?.longPress) {
+        swallowNextClick()
+        return
+      }
+      if (!d?.started) return
+      // Il click che segue il rilascio non deve aprire il menu; se non arriva, si dimentica.
+      swallowNextClick()
+      const target = document.elementFromPoint(e.clientX, e.clientY)?.closest(`[${ZONE_ATTR}]`)
+      const to = target?.getAttribute(ZONE_ATTR) as Zone | null | undefined
+      if (to && target?.getAttribute(OWNER_ATTR) === String(d.who)) {
+        moveAndAnnounce(gameRef.current, d.who, d.id, to)
+      }
+    }
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerup', up)
+    window.addEventListener('pointercancel', up)
+    return () => {
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerup', up)
+      window.removeEventListener('pointercancel', up)
+    }
+  }, [moveAndAnnounce])
+
+  const pointer: Pointer = {
+    start:
+      (who, id, canDrag = true) =>
+      (e) => {
+        if (e.button !== 0) return
+        window.clearTimeout(pressTimer.current)
+        pressTimer.current = window.setTimeout(() => {
+          const d = dragRef.current
+          if (!d || d.started || d.id !== id) return
+          dragRef.current = { ...d, longPress: true }
+          setSelection({ kind: 'info', who, id })
+        }, LONG_PRESS_MS)
+        dragRef.current = {
+          who,
+          id,
+          startX: e.clientX,
+          startY: e.clientY,
+          x: e.clientX,
+          y: e.clientY,
+          started: false,
+          canDrag,
+          longPress: false,
+        }
+      },
+    consumeClick: () => {
+      const was = justDragged.current
+      justDragged.current = false
+      return was
+    },
+    dropFor: drag?.started ? drag.who : null,
+  }
+  const dragged = drag?.started ? findCard(game.players[drag.who], drag.id)?.card : undefined
+
+  // Bersagli dell'attacco: toccandone uno parte la battaglia, con l'effetto [When Attacking].
+  const targeting =
+    attackFrom && !game.battle
+      ? {
+          ids: new Set(attackTargets(game, game.active)),
+          pick: (targetId: string) => {
+            const attacker = findCard(game.players[game.active], attackFrom)?.card
+            setAttackFrom(null)
+            setGame(startAttack(game, attackFrom, targetId))
+            if (attacker && byCode.get(attacker.cardCode)?.effect?.includes('[When Attacking]')) {
+              announce(attacker.cardCode, 'attack')
+            }
+          },
+        }
+      : null
+  const selectedId = selection?.kind === 'card' || selection?.kind === 'info' ? selection.id : null
+  const bannerCard = banner ? byCode.get(banner.cardCode) : undefined
+  const revealedCard = game.revealed
+    ? game.players[game.revealed.who].deck.find((c) => c.id === game.revealed?.id)
+    : undefined
+  const started = game.turn > 0
+
+  // overflow-clip e non hidden: la mano esce in parte dallo schermo, e con hidden il browser
+  // farebbe scorrere il tavolo per mostrare la carta toccata.
+  return (
+    <div
+      ref={rootRef}
+      className={cn(
+        '[container-type:size] relative h-full w-full overflow-clip select-none [--card-h:15cqh] [-webkit-touch-callout:none]',
+        TABLE_BACKGROUND,
+      )}
+      style={tableBackgroundStyle}
+      onClick={(e) => {
+        // Il click di chiusura di una pressione lunga o di un trascinamento non chiude il pannello
+        // (la carta scelta si alza, e il rilascio può cadere sul tavolo).
+        if (justDragged.current) return
+        if (!(e.target as Element).closest('button, a, select, [data-panel]')) setSelection(null)
+      }}
+      onContextMenu={(e) => {
+        e.preventDefault()
+      }}
+    >
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 border-t border-dashed border-foreground/20"
+        style={{ top: `${String(MIDDLE)}%` }}
+      />
+
+      <Side
+        who={OPPONENT}
+        game={game}
+        byCode={byCode}
+        mirrored
+        selectedId={selectedId}
+        onSelect={setSelection}
+        pointer={pointer}
+        targeting={targeting}
+      />
+      <Side
+        who={ME}
+        game={game}
+        byCode={byCode}
+        mirrored={false}
+        selectedId={selectedId}
+        onSelect={setSelection}
+        pointer={pointer}
+        targeting={targeting}
+      />
+
+      {/* Attacco guidato (RIB-104): scelta del bersaglio, freccia, riquadro della battaglia. */}
+      {attackFrom && !game.battle && (
+        <div
+          role="status"
+          className="absolute top-[1.5cqh] left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 rounded-full bg-red-700 px-4 py-2 text-sm font-semibold text-white shadow-xl"
+        >
+          {t('playtest.battle.pickTarget')}
+          <button
+            type="button"
+            onClick={() => {
+              setAttackFrom(null)
+            }}
+            className="rounded-full bg-white/20 px-3 py-1 text-xs"
+          >
+            {t('playtest.battle.cancel')}
+          </button>
+        </div>
+      )}
+      {game.battle && (
+        <>
+          <BattleArrow root={rootRef} fromId={game.battle.attackerId} toId={game.battle.targetId} />
+          <BattleBox
+            game={game}
+            setGame={setGame}
+            byCode={byCode}
+            facts={facts}
+            onBlocked={(code) => {
+              if (byCode.get(code)?.effect?.includes('[On Block]')) announce(code, 'block')
+            }}
+          />
+        </>
+      )}
+      {game.winner !== null && (
+        <div className="absolute inset-0 z-40 flex items-center justify-center bg-black/60 p-4">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={t('playtest.battle.over')}
+            className="space-y-4 rounded-2xl border bg-background/95 px-8 py-6 text-center shadow-2xl"
+          >
+            <p className="text-3xl font-black">
+              {game.winner === ME ? t('playtest.battle.win') : t('playtest.battle.lose')}
+            </p>
+            <div className="flex justify-center gap-3">
+              <Link
+                to={DECKS_PATH}
+                className="inline-flex h-11 items-center rounded-full border px-5 font-medium"
+              >
+                {t('playtest.exit')}
+              </Link>
+              <button
+                type="button"
+                onClick={onNewGame}
+                className="h-11 rounded-full bg-foreground px-5 font-semibold text-background"
+              >
+                {t('playtest.resume.discard')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* L'effetto della carta appena giocata, in alto: solo il testo, lo applica il giocatore. */}
+      {banner && bannerCard?.effect && (
+        <div
+          key={banner.key}
+          role="status"
+          aria-label={t(`playtest.banner.${banner.kind}`, { name: bannerCard.name })}
+          className="pointer-events-none absolute top-[1.5cqh] left-1/2 z-20 w-[min(60cqw,40rem)] -translate-x-1/2 rounded-xl bg-slate-950/90 px-4 py-2 text-center text-white shadow-2xl"
+        >
+          <p className="text-sm font-bold">{bannerCard.name}</p>
+          <p className="text-xs leading-relaxed">
+            <KeywordText text={bannerCard.effect} />
+          </p>
+        </div>
+      )}
+
+      {/* Fase e turno, sulla linea di mezzo a sinistra. */}
+      {started && (
+        <p
+          role="status"
+          className="absolute left-0 max-w-[40cqw] -translate-y-1/2 truncate rounded-r-full bg-foreground py-1 pr-4 pl-3 text-xs font-semibold text-background shadow"
+          style={{ top: `${String(MIDDLE)}%` }}
+        >
+          {t(`playtest.phase.${phase}`)} · {t('playtest.turn', { turn: game.turn })} ·{' '}
+          {game.active === ME ? t('playtest.yourTurn') : t('playtest.theirTurn')}
+        </p>
+      )}
+
+      {/* Fine del turno e menu, a destra. */}
+      <button
+        type="button"
+        disabled={!started || game.battle !== null || attackFrom !== null || game.winner !== null}
+        onClick={endTurn}
+        className="absolute right-[1.5cqw] flex size-[17cqh] min-h-14 min-w-14 -translate-y-1/2 items-center justify-center rounded-full border-4 border-sky-300/60 bg-gradient-to-br from-sky-700 to-slate-900 p-1 text-center text-[clamp(0.65rem,2.6cqh,0.95rem)] leading-tight font-bold text-white shadow-lg disabled:opacity-40"
+        style={{ top: `${String(MIDDLE)}%` }}
+      >
+        {t('playtest.endTurn')}
+      </button>
+      <button
+        type="button"
+        aria-label={t('playtest.menu')}
+        onClick={() => {
+          setSelection({ kind: 'menu' })
+        }}
+        className="absolute top-[62%] right-[3cqw] inline-flex size-10 items-center justify-center rounded-full border bg-background/80 shadow"
+      >
+        <MoreHorizontal className="size-5" aria-hidden="true" />
+      </button>
+
+      {selection && (
+        <Panel
+          game={game}
+          setGame={setGame}
+          byCode={byCode}
+          selection={selection}
+          setSelection={setSelection}
+          onNewGame={onNewGame}
+          onMove={(who, id, to) => {
+            moveAndAnnounce(game, who, id, to)
+          }}
+          onDeckDialog={(d) => {
+            setSelection(null)
+            setDeckDialog(d)
+          }}
+          onAttack={(id) => {
+            setSelection(null)
+            setAttackFrom(id)
+          }}
+        />
+      )}
+
+      {/* Guardare le prime carte o cercare nel mazzo (RIB-102). */}
+      {deckDialog?.kind === 'look' && (
+        <LookDialog
+          cards={game.players[deckDialog.who].deck.slice(0, deckDialog.count)}
+          byCode={byCode}
+          fieldFree={FIELD_SIZE - game.players[deckDialog.who].field.length}
+          onDone={(plan) => {
+            setGame(resolveLook(game, deckDialog.who, plan))
+            setDeckDialog(null)
+          }}
+          onCancel={() => {
+            setDeckDialog(null)
+          }}
+        />
+      )}
+      {deckDialog?.kind === 'search' && (
+        <SearchDialog
+          cards={game.players[deckDialog.who].deck}
+          byCode={byCode}
+          fieldFull={game.players[deckDialog.who].field.length >= FIELD_SIZE}
+          onTake={(id, to, shuffle) => {
+            setGame(takeFromDeck(game, deckDialog.who, id, to, shuffle ? random : null))
+            setDeckDialog(null)
+          }}
+          onClose={() => {
+            setDeckDialog(null)
+          }}
+        />
+      )}
+
+      {/* Carta rivelata dalla cima di un mazzo: la vedono entrambi finché non si chiude. */}
+      {revealedCard && game.revealed && (
+        <div
+          role="dialog"
+          aria-label={t('playtest.reveal.title', {
+            name: byCode.get(revealedCard.cardCode)?.name ?? revealedCard.cardCode,
+          })}
+          className="absolute top-1/2 left-1/2 z-30 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 rounded-2xl border bg-background/95 p-3 shadow-2xl"
+        >
+          <p className="text-sm font-semibold">
+            {t(game.revealed.who === ME ? 'playtest.reveal.mine' : 'playtest.reveal.theirs')}
+          </p>
+          <CardFace
+            cardCode={revealedCard.cardCode}
+            printId={revealedCard.printId}
+            byCode={byCode}
+            className="h-[42cqh] shadow-lg"
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setGame(hideRevealed(game))
+            }}
+            className="h-9 rounded-full border px-4 text-sm font-medium hover:bg-muted"
+          >
+            {t('playtest.close')}
+          </button>
+        </div>
+      )}
+
+      {/* La carta che segue il dito durante il trascinamento. */}
+      {drag && dragged && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed z-[70] -translate-x-1/2 -translate-y-1/2 opacity-90"
+          style={{ left: drag.x, top: drag.y }}
+        >
+          <CardFace
+            cardCode={dragged.cardCode}
+            printId={dragged.printId}
+            byCode={byCode}
+            className="h-[calc(var(--card-h)*1.2)] shadow-2xl"
+          />
+        </div>
+      )}
+    </div>
+  )
+}
+
+function Side({
+  who,
+  game,
+  byCode,
+  mirrored,
+  selectedId,
+  onSelect,
+  pointer,
+  targeting,
+}: {
+  who: PlayerId
+  game: Game
+  byCode: ByCode
+  mirrored: boolean
+  selectedId: string | null
+  onSelect: (s: Selection) => void
+  pointer: Pointer
+  targeting: { ids: ReadonlySet<string>; pick: (id: string) => void } | null
+}) {
+  const { t } = useTranslation()
+  const side = game.players[who]
+  const drop = pointer.dropFor === who ? DROP : ''
+  const don = donInPlay(side)
+  const topOfTrash = side.trash.at(-1)
+  const topOfLife = side.life[0]
+  const pile = 'relative block h-[calc(var(--card-h)*0.85)]'
+  const counter = 'absolute inset-0 flex items-center justify-center text-[calc(var(--card-h)*0.3)]'
+
+  const field = (card: TableCard, leader = false) => {
+    const printed = byCode.get(card.cardCode)?.power ?? null
+    const power = cardPower(game, who, card, printed)
+    return (
+      <button
+        key={card.id}
+        type="button"
+        data-card
+        data-card-id={card.id}
+        aria-label={`${byCode.get(card.cardCode)?.name ?? card.cardCode}${power === null ? '' : `, ${t('playtest.power', { power })}`}`}
+        // Il Leader non lascia mai il suo posto: niente trascinamento, solo le info.
+        onPointerDown={pointer.start(who, card.id, !leader)}
+        onClick={() => {
+          if (pointer.consumeClick()) return
+          if (targeting?.ids.has(card.id)) {
+            targeting.pick(card.id)
+            return
+          }
+          onSelect({ kind: 'card', who, id: card.id })
+        }}
+        className={cn(
+          'rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+          'touch-none',
+          leader && 'ring-2 ring-amber-400/80',
+          selectedId === card.id && 'ring-2 ring-sky-400',
+          targeting?.ids.has(card.id) && 'animate-pulse ring-4 ring-red-500',
+        )}
+      >
+        <FieldCardView
+          card={card}
+          byCode={byCode}
+          power={power}
+          boosted={power !== null && printed !== null && power > printed}
+        />
+      </button>
+    )
+  }
+
+  return (
+    <section aria-label={who === ME ? t('playtest.yourHand') : t('playtest.theirHand')}>
+      {/* Area Personaggi. */}
+      <div
+        aria-label={t('playtest.characters')}
+        className={cn(
+          AT,
+          'flex h-[calc(var(--card-h)*1.18)] w-[42cqw] items-center justify-center gap-[1cqw] rounded-xl border border-white/60 bg-background/45 px-2 dark:border-white/15',
+          drop,
+        )}
+        style={place(50, 58, mirrored)}
+        {...zone(who, 'field')}
+      >
+        {side.field.length === 0 ? (
+          <span className="text-[3cqh] font-semibold text-foreground/45">
+            {t('playtest.characters')}
+          </span>
+        ) : (
+          side.field.map((c) => field(c))
+        )}
+      </div>
+
+      {/* Leader al centro. */}
+      <div className={AT} style={place(50, 81, mirrored)}>
+        {field(side.leader, true)}
+      </div>
+
+      {/* Stage e mazzo DON!! a sinistra (a destra per l'avversario). */}
+      <div
+        className={cn(AT, 'rounded-md', drop)}
+        style={place(25.5, 58, mirrored)}
+        {...zone(who, 'stage')}
+      >
+        {side.stage ? (
+          field(side.stage)
+        ) : (
+          <span className="flex aspect-[63/88] h-[var(--card-h)] items-center justify-center rounded-md border border-dashed border-foreground/40 bg-background/45 text-[2.4cqh] text-foreground/60">
+            {t('playtest.stage')}
+          </span>
+        )}
+      </div>
+      <button
+        type="button"
+        aria-label={t('playtest.donDeck', { count: side.donDeck })}
+        onClick={() => {
+          onSelect({ kind: 'don', who })
+        }}
+        className={AT}
+        style={place(18, 58, mirrored)}
+      >
+        <span className={pile}>
+          <CardBack tone="don" className="h-full" />
+          <BigNumber value={side.donDeck} className={counter} />
+        </span>
+      </button>
+
+      {/* Mazzo e Scarti a destra (a sinistra per l'avversario). */}
+      <button
+        type="button"
+        aria-label={t('playtest.deck', { count: side.deck.length })}
+        onClick={() => {
+          onSelect({ kind: 'deck', who })
+        }}
+        className={cn(AT, 'rounded-md', drop)}
+        style={place(75.5, 58, mirrored)}
+        {...zone(who, 'deckBottom')}
+      >
+        <span className={pile}>
+          <CardBack className="h-full" />
+          <BigNumber value={side.deck.length} className={counter} />
+        </span>
+      </button>
+      <button
+        type="button"
+        aria-label={t('playtest.trash', { count: side.trash.length })}
+        onClick={() => {
+          onSelect({ kind: 'trash', who })
+        }}
+        className={cn(AT, 'rounded-md', drop)}
+        style={place(82.5, 58, mirrored)}
+        {...zone(who, 'trash')}
+      >
+        <span className={pile}>
+          {topOfTrash ? (
+            <CardFace
+              cardCode={topOfTrash.cardCode}
+              printId={topOfTrash.printId}
+              byCode={byCode}
+              className="h-full opacity-90"
+            />
+          ) : (
+            <span className="flex aspect-[63/88] h-full items-center justify-center rounded-md border border-dashed border-foreground/40 bg-background/45 text-[2.2cqh] text-foreground/60">
+              {t('playtest.trashShort')}
+            </span>
+          )}
+          {side.trash.length > 0 && <BigNumber value={side.trash.length} className={counter} />}
+        </span>
+      </button>
+
+      {/* Vita (una carta col numero) e contatore DON!!, nell'angolo. */}
+      <button
+        type="button"
+        aria-label={t('playtest.life', { count: side.life.length })}
+        onClick={() => {
+          if (topOfLife) onSelect({ kind: 'card', who, id: topOfLife.id })
+        }}
+        className={cn(AT, 'rounded-md', drop)}
+        style={place(7, 84, mirrored)}
+        {...zone(who, 'life')}
+      >
+        <span className={pile}>
+          {topOfLife?.faceUp ? (
+            <CardFace
+              cardCode={topOfLife.cardCode}
+              printId={topOfLife.printId}
+              byCode={byCode}
+              className="h-full"
+            />
+          ) : (
+            <CardBack tone="life" className="h-full" />
+          )}
+          <BigNumber value={side.life.length} className={counter} />
+        </span>
+      </button>
+      <button
+        type="button"
+        aria-label={t('playtest.donCounter', {
+          active: don.active,
+          total: don.total,
+          rested: side.donRested,
+        })}
+        onClick={() => {
+          onSelect({ kind: 'don', who })
+        }}
+        className={cn(
+          AT,
+          'flex flex-col items-center rounded-xl border-2 border-violet-500/50 bg-violet-700/15 px-[1.5cqw] py-[0.8cqh]',
+        )}
+        style={place(17.5, 86, mirrored)}
+      >
+        <span className="text-[2.2cqh] font-bold text-violet-700 dark:text-violet-300">
+          {t('playtest.don')}
+        </span>
+        <BigNumber value={`${String(don.active)}/${String(don.total)}`} className="text-[6cqh]" />
+      </button>
+
+      {who === ME ? (
+        <Hand
+          who={who}
+          game={game}
+          byCode={byCode}
+          selectedId={selectedId}
+          onSelect={onSelect}
+          pointer={pointer}
+        />
+      ) : (
+        <button
+          type="button"
+          aria-label={t('playtest.handCount', { count: side.hand.length })}
+          onClick={() => {
+            onSelect({ kind: 'hand', who })
+          }}
+          className={cn(
+            'absolute top-0 left-[3cqw] flex h-[13cqh] max-w-[34cqw] items-start rounded-md',
+            drop,
+          )}
+          {...zone(who, 'hand')}
+        >
+          {side.hand.map((c, i) => (
+            <span
+              key={c.id}
+              className="shrink-0"
+              style={{ marginLeft: i === 0 ? 0 : 'calc(var(--card-h) * -0.45)' }}
+            >
+              <CardBack className="h-[15cqh] -translate-y-[35%] rotate-180" />
+            </span>
+          ))}
+          <span className="absolute top-1 -right-2 rounded-full bg-foreground px-1.5 text-[10px] font-bold text-background">
+            {side.hand.length}
+          </span>
+        </button>
+      )}
+    </section>
+  )
+}
+
+/** La tua mano, a ventaglio in basso a destra: un tocco apre il menu della carta. */
+function Hand({
+  who,
+  game,
+  byCode,
+  selectedId,
+  onSelect,
+  pointer,
+}: {
+  who: PlayerId
+  game: Game
+  byCode: ByCode
+  selectedId: string | null
+  onSelect: (s: Selection) => void
+  pointer: Pointer
+}) {
+  const { t } = useTranslation()
+  const hand = game.players[who].hand
+  const n = hand.length
+  // Più carte, più si sovrappongono: il ventaglio resta nello spazio a destra del Leader.
+  const overlap = Math.min(0.62, 0.2 + n * 0.045)
+  return (
+    <ul
+      aria-label={t('playtest.yourHand')}
+      className={cn(
+        'absolute right-[9cqw] bottom-0 left-[57cqw] flex h-[30cqh] items-end justify-center rounded-t-xl [--hand-h:26cqh]',
+        pointer.dropFor === who && DROP,
+      )}
+      {...zone(who, 'hand')}
+    >
+      {hand.map((c, i) => {
+        const angle = (i - (n - 1) / 2) * 3.5
+        const selected = selectedId === c.id
+        return (
+          <li
+            key={c.id}
+            className="shrink-0"
+            style={{
+              marginLeft: i === 0 ? 0 : `calc(var(--hand-h) * 0.716 * ${String(-overlap)})`,
+              zIndex: selected ? 20 : i,
+            }}
+          >
+            <button
+              type="button"
+              data-card
+              aria-label={byCode.get(c.cardCode)?.name ?? c.cardCode}
+              onPointerDown={pointer.start(who, c.id)}
+              onClick={() => {
+                if (pointer.consumeClick()) return
+                onSelect({ kind: 'card', who, id: c.id })
+              }}
+              className="block origin-bottom touch-none transition-transform duration-150"
+              style={{
+                transform: `translateY(${selected ? '2%' : '28%'}) rotate(${String(angle)}deg)`,
+              }}
+            >
+              <CardFace
+                cardCode={c.cardCode}
+                printId={c.printId}
+                byCode={byCode}
+                className={cn('h-[var(--hand-h)] shadow-lg', selected && 'ring-2 ring-sky-400')}
+              />
+            </button>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
+interface Action {
+  label: string
+  run: () => void
+  disabled?: boolean
+  hint?: string
+}
+
+/** Il pannello a destra: azioni sulla carta scelta, DON!!, mazzo, cestino, mano, menu. */
+function Panel({
+  game,
+  setGame,
+  byCode,
+  selection,
+  setSelection,
+  onNewGame,
+  onMove,
+  onDeckDialog,
+  onAttack,
+}: {
+  game: Game
+  setGame: (game: Game) => void
+  byCode: ByCode
+  selection: NonNullable<Selection>
+  setSelection: (s: Selection) => void
+  onNewGame: () => void
+  onMove: (who: PlayerId, id: string, to: Zone) => void
+  onDeckDialog: (d: DeckDialog) => void
+  onAttack: (id: string) => void
+}) {
+  const { t } = useTranslation()
+  let title: string
+  let body: ReactNode
+
+  if (selection.kind === 'card') {
+    const who = selection.who
+    const side = game.players[who]
+    const found = findCard(side, selection.id)
+    if (!found) return null
+    const { zone, card } = found
+    title = byCode.get(card.cardCode)?.name ?? card.cardCode
+    const move = (to: Zone) => {
+      onMove(who, card.id, to)
+      setSelection(null)
+    }
+    const full = side.field.length >= FIELD_SIZE
+    const toField: Action = {
+      label: t('playtest.do.play'),
+      run: () => {
+        move('field')
+      },
+      disabled: full,
+      hint: full ? t('playtest.fieldFull') : undefined,
+    }
+    const actions: Action[] = [
+      {
+        label: t('playtest.do.info'),
+        run: () => {
+          setSelection({ kind: 'info', who, id: card.id })
+        },
+      },
+    ]
+    // RIB-104: chi è di turno attacca con il Leader o un Personaggio attivo.
+    if (canAttack(game, who, card.id)) {
+      actions.unshift({
+        label: t('playtest.battle.attack'),
+        run: () => {
+          onAttack(card.id)
+        },
+      })
+    }
+    if (zone === 'leader' || zone === 'field' || zone === 'stage') {
+      actions.push({
+        label: card.rested ? t('playtest.do.activate') : t('playtest.do.rest'),
+        run: () => {
+          setGame(toggleRest(game, who, card.id))
+        },
+      })
+    }
+    if (zone === 'leader' || zone === 'field') {
+      actions.push(
+        {
+          label: t('playtest.do.giveDon'),
+          run: () => {
+            setGame(giveDon(game, who, card.id))
+          },
+          disabled: side.donActive === 0,
+        },
+        {
+          label: t('playtest.do.takeDon'),
+          run: () => {
+            setGame(takeDon(game, who, card.id))
+          },
+          disabled: card.don === 0,
+        },
+      )
+    }
+    if (zone === 'hand') {
+      actions.push(toField, {
+        label: t('playtest.do.stage'),
+        run: () => {
+          move('stage')
+        },
+      })
+    }
+    if (zone === 'life') {
+      actions.push(
+        {
+          label: t('playtest.do.takeLife'),
+          run: () => {
+            move('hand')
+          },
+        },
+        {
+          label: t('playtest.do.flip'),
+          run: () => {
+            setGame(flipLife(game, who, card.id))
+          },
+        },
+      )
+    }
+    if (zone === 'trash') actions.push(toField)
+    if (zone !== 'leader') {
+      if (zone !== 'hand' && zone !== 'life')
+        actions.push({
+          label: t('playtest.do.toHand'),
+          run: () => {
+            move('hand')
+          },
+        })
+      if (zone !== 'trash')
+        actions.push({
+          label: t('playtest.do.trash'),
+          run: () => {
+            move('trash')
+          },
+        })
+      actions.push(
+        {
+          label: t('playtest.do.deckTop'),
+          run: () => {
+            move('deckTop')
+          },
+        },
+        {
+          label: t('playtest.do.deckBottom'),
+          run: () => {
+            move('deckBottom')
+          },
+        },
+      )
+      if (zone !== 'life')
+        actions.push({
+          label: t('playtest.do.toLife'),
+          run: () => {
+            move('life')
+          },
+        })
+    }
+    body = (
+      <>
+        {(zone !== 'life' || card.faceUp || who === ME) && (
+          <CardFace
+            cardCode={card.cardCode}
+            printId={card.printId}
+            byCode={byCode}
+            className="mx-auto h-[34cqh]"
+          />
+        )}
+        <Actions actions={actions} />
+      </>
+    )
+  } else if (selection.kind === 'info') {
+    const found = findCard(game.players[selection.who], selection.id)
+    if (!found) return null
+    const info = byCode.get(found.card.cardCode)
+    title = info?.name ?? found.card.cardCode
+    body = (
+      <>
+        <button
+          type="button"
+          onClick={() => {
+            setSelection({ kind: 'card', who: selection.who, id: selection.id })
+          }}
+          className={ACTION}
+        >
+          {t('playtest.do.actions')}
+        </button>
+        <CardFace
+          cardCode={found.card.cardCode}
+          printId={found.card.printId}
+          byCode={byCode}
+          className="mx-auto h-[40cqh]"
+        />
+        <CardInfo card={info} />
+      </>
+    )
+  } else if (selection.kind === 'don') {
+    const who = selection.who
+    const side = game.players[who]
+    const don = (action: DonAction) => {
+      setGame(changeDon(game, who, action))
+    }
+    title = t('playtest.don')
+    body = (
+      <>
+        <p className="text-xs text-muted-foreground">
+          {t('playtest.donCounter', {
+            active: side.donActive,
+            total: donInPlay(side).total,
+            rested: side.donRested,
+          })}
+          {' · '}
+          {t('playtest.donDeck', { count: side.donDeck })}
+        </p>
+        <Actions
+          actions={[
+            {
+              label: t('playtest.do.donRest'),
+              run: () => {
+                don('rest')
+              },
+              disabled: side.donActive === 0,
+            },
+            {
+              label: t('playtest.do.donActivate'),
+              run: () => {
+                don('activate')
+              },
+              disabled: side.donRested === 0,
+            },
+            {
+              label: t('playtest.do.donAdd'),
+              run: () => {
+                don('add')
+              },
+              disabled: side.donDeck === 0,
+            },
+            {
+              label: t('playtest.do.donReturn'),
+              run: () => {
+                don('return')
+              },
+              disabled: side.donActive + side.donRested === 0,
+            },
+          ]}
+        />
+      </>
+    )
+  } else if (selection.kind === 'deck') {
+    const who = selection.who
+    const size = game.players[who].deck.length
+    title = t('playtest.deck', { count: size })
+    body = (
+      <>
+        <Actions
+          actions={[
+            {
+              label: t('playtest.do.draw'),
+              run: () => {
+                setGame(draw(game, who))
+              },
+              disabled: size === 0,
+            },
+            {
+              label: t('playtest.do.shuffle'),
+              run: () => {
+                setGame(shuffleDeck(game, who, random))
+              },
+            },
+          ]}
+        />
+        {/* RIB-102: guardare le prime N, cercare, rivelare. */}
+        <p className="pt-1 text-xs font-medium">{t('playtest.look.lookTop')}</p>
+        <div className="flex flex-wrap gap-1">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <button
+              key={n}
+              type="button"
+              aria-label={t('playtest.look.lookN', { count: n })}
+              disabled={n > size}
+              onClick={() => {
+                onDeckDialog({ kind: 'look', who, count: n })
+              }}
+              className="size-9 rounded-full border text-sm font-semibold hover:bg-muted disabled:opacity-40"
+            >
+              {n}
+            </button>
+          ))}
+        </div>
+        <Actions
+          actions={[
+            {
+              label: t('playtest.do.search'),
+              run: () => {
+                onDeckDialog({ kind: 'search', who })
+              },
+              disabled: size === 0,
+            },
+            {
+              label: t('playtest.do.reveal'),
+              run: () => {
+                setGame(revealTop(game, who))
+                setSelection(null)
+              },
+              disabled: size === 0,
+            },
+          ]}
+        />
+      </>
+    )
+  } else if (selection.kind === 'trash' || selection.kind === 'hand') {
+    const who = selection.who
+    const cards =
+      selection.kind === 'trash' ? [...game.players[who].trash].reverse() : game.players[who].hand
+    title =
+      selection.kind === 'trash'
+        ? t('playtest.trash', { count: cards.length })
+        : t('playtest.theirHand')
+    body = (
+      <>
+        {selection.kind === 'hand' && (
+          <p className="text-xs text-muted-foreground">{t('playtest.theirHandHint')}</p>
+        )}
+        {cards.length === 0 && selection.kind === 'trash' ? (
+          <p className="text-xs text-muted-foreground">{t('playtest.trashEmpty')}</p>
+        ) : (
+          <ul className="grid grid-cols-2 gap-1.5">
+            {cards.map((c) => (
+              <li key={c.id}>
+                <button
+                  type="button"
+                  aria-label={byCode.get(c.cardCode)?.name ?? c.cardCode}
+                  onClick={() => {
+                    setSelection({ kind: 'card', who, id: c.id })
+                  }}
+                  className="block w-full"
+                >
+                  <CardFace
+                    cardCode={c.cardCode}
+                    printId={c.printId}
+                    byCode={byCode}
+                    className="h-auto w-full"
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </>
+    )
+  } else {
+    title = t('playtest.menu')
+    body = (
+      <div className="flex flex-col gap-1">
+        {/* RIB-103: uscendo la partita resta salvata; "Nuova partita" la abbandona. */}
+        <Link to={DECKS_PATH} className={ACTION}>
+          {t('playtest.exitSaved')}
+        </Link>
+        <button type="button" onClick={onNewGame} className={ACTION}>
+          {t('playtest.newGame')}
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <aside
+      data-panel
+      aria-label={title}
+      className={cn(
+        'absolute inset-y-0 right-0 z-30 flex flex-col gap-2 overflow-y-auto border-l bg-background/95 p-2 shadow-2xl backdrop-blur',
+        selection.kind === 'info' ? 'w-[clamp(15rem,40cqw,26rem)]' : 'w-[clamp(12rem,28cqw,18rem)]',
+      )}
+    >
+      <div className="flex items-center gap-1">
+        <p className="min-w-0 flex-1 truncate text-sm font-semibold">{title}</p>
+        <button
+          type="button"
+          aria-label={t('playtest.close')}
+          onClick={() => {
+            setSelection(null)
+          }}
+          className="inline-flex size-8 shrink-0 items-center justify-center rounded-full border hover:bg-muted"
+        >
+          <X className="size-4" aria-hidden="true" />
+        </button>
+      </div>
+      {body}
+    </aside>
+  )
+}
+
+const ACTION =
+  'min-h-9 rounded-xl border px-3 py-1.5 text-left text-xs font-medium hover:bg-muted disabled:opacity-40'
+
+function Actions({ actions }: { actions: Action[] }) {
+  return (
+    <div className="flex flex-col gap-1">
+      {actions.map((a) => (
+        <button
+          key={a.label}
+          type="button"
+          onClick={a.run}
+          disabled={a.disabled}
+          title={a.hint}
+          className={ACTION}
+        >
+          {a.label}
+          {a.disabled && a.hint && (
+            <span className="block text-[10px] font-normal text-muted-foreground">{a.hint}</span>
+          )}
+        </button>
+      ))}
+    </div>
+  )
+}

@@ -72,6 +72,14 @@ describe('Funzioni Admin sugli utenti: chi può chiamarle', () => {
     })
   })
 
+  it('l’Admin con il codice dato più di 12 ore fa no (RIB-98)', async () => {
+    await inRollback(sql, async (tx) => {
+      await setup(tx)
+      await as(tx, ADMIN, { aal: 'aal2', codeSecondsAgo: 13 * 3600 })
+      for (const call of CALLS) expect(await errorCodeOf(tx, call)).toBe('42501')
+    })
+  })
+
   it('anon no', async () => {
     await inRollback(sql, async (tx) => {
       await setup(tx)

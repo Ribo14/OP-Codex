@@ -206,6 +206,35 @@ test('area Admin: ruolo dal database, verifica obbligatoria, stato dei job', asy
     // Col ruolo nel token compare anche la voce nelle Impostazioni.
     await page.goto('/impostazioni')
     await expect(page.getByRole('link', { name: 'Area Admin' })).toBeVisible()
+
+    // RIB-98: il codice vale 12 ore. Lo si invecchia nel database e si fa rinnovare il token
+    // (scaduto sul dispositivo): l'area chiede il codice sul posto, poi si riapre.
+    await sql`
+      update auth.mfa_amr_claims
+      set created_at = now() - interval '13 hours', updated_at = now() - interval '13 hours'
+      where authentication_method = 'totp'
+        and session_id in (
+          select s.id from auth.sessions s join auth.users u on u.id = s.user_id
+          where u.email = ${email}
+        )
+    `
+    await page.evaluate(() => {
+      const key = Object.keys(localStorage).find(
+        (k) => k.startsWith('sb-') && k.endsWith('-auth-token'),
+      )
+      if (!key) throw new Error('sessione non trovata')
+      const stored = JSON.parse(localStorage.getItem(key) ?? '{}') as { expires_at?: number }
+      stored.expires_at = Math.floor(Date.now() / 1000) - 10
+      localStorage.setItem(key, JSON.stringify(stored))
+    })
+    await page.goto('/admin')
+    await expect(page.getByText(/chiede il codice ogni 12 ore/)).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Job della notte' })).toHaveCount(0)
+    const usedStep = currentStep()
+    await expect.poll(currentStep, { timeout: 35_000, intervals: [1000] }).toBeGreaterThan(usedStep)
+    await page.getByLabel("Codice dell'app").fill(totp(secret, currentStep()))
+    await page.getByRole('button', { name: 'Verifica' }).click()
+    await expect(page.getByRole('heading', { name: 'Job della notte' })).toBeVisible()
   } finally {
     // L'account di prova si elimina; il registro, per costruzione, resta.
     await sql`delete from auth.users where email = ${email}`

@@ -14,6 +14,7 @@ import { DECKS_PATH } from '@/decks/paths'
 import { cn } from '@/lib/utils'
 import { KeywordText } from '@/rules/KeywordText'
 import { CardInfo } from './CardInfo'
+import { LookDialog, SearchDialog } from './DeckDialogs'
 import { TABLE_BACKGROUND, tableBackgroundStyle } from './table-background'
 import {
   cardPower,
@@ -24,9 +25,13 @@ import {
   findCard,
   flipLife,
   giveDon,
+  hideRevealed,
   moveCard,
   nextTurn,
+  resolveLook,
+  revealTop,
   shuffleDeck,
+  takeFromDeck,
   takeDon,
   toggleRest,
   type DonAction,
@@ -48,6 +53,9 @@ const random = () => Math.random()
 const PHASES = ['refresh', 'draw', 'don', 'main'] as const
 type Phase = (typeof PHASES)[number]
 const PHASE_MS = 450
+
+/** Finestre sopra il tavolo per guardare o cercare nel mazzo (RIB-102). */
+type DeckDialog = { kind: 'look'; who: PlayerId; count: number } | { kind: 'search'; who: PlayerId }
 
 type Selection =
   | { kind: 'card'; who: PlayerId; id: string }
@@ -122,6 +130,7 @@ export function Table({
 }) {
   const { t } = useTranslation()
   const [selection, setSelection] = useState<Selection>(null)
+  const [deckDialog, setDeckDialog] = useState<DeckDialog | null>(null)
   const [phase, setPhase] = useState<Phase>('main')
   const timers = useRef<number[]>([])
 
@@ -268,6 +277,9 @@ export function Table({
 
   const selectedId = selection?.kind === 'card' || selection?.kind === 'info' ? selection.id : null
   const bannerCard = banner ? byCode.get(banner.cardCode) : undefined
+  const revealedCard = game.revealed
+    ? game.players[game.revealed.who].deck.find((c) => c.id === game.revealed?.id)
+    : undefined
   const started = game.turn > 0
 
   // overflow-clip e non hidden: la mano esce in parte dallo schermo, e con hidden il browser
@@ -373,7 +385,71 @@ export function Table({
           onMove={(who, id, to) => {
             moveAndAnnounce(game, who, id, to)
           }}
+          onDeckDialog={(d) => {
+            setSelection(null)
+            setDeckDialog(d)
+          }}
         />
+      )}
+
+      {/* Guardare le prime carte o cercare nel mazzo (RIB-102). */}
+      {deckDialog?.kind === 'look' && (
+        <LookDialog
+          cards={game.players[deckDialog.who].deck.slice(0, deckDialog.count)}
+          byCode={byCode}
+          fieldFree={FIELD_SIZE - game.players[deckDialog.who].field.length}
+          onDone={(plan) => {
+            setGame(resolveLook(game, deckDialog.who, plan))
+            setDeckDialog(null)
+          }}
+          onCancel={() => {
+            setDeckDialog(null)
+          }}
+        />
+      )}
+      {deckDialog?.kind === 'search' && (
+        <SearchDialog
+          cards={game.players[deckDialog.who].deck}
+          byCode={byCode}
+          fieldFull={game.players[deckDialog.who].field.length >= FIELD_SIZE}
+          onTake={(id, to, shuffle) => {
+            setGame(takeFromDeck(game, deckDialog.who, id, to, shuffle ? random : null))
+            setDeckDialog(null)
+          }}
+          onClose={() => {
+            setDeckDialog(null)
+          }}
+        />
+      )}
+
+      {/* Carta rivelata dalla cima di un mazzo: la vedono entrambi finché non si chiude. */}
+      {revealedCard && game.revealed && (
+        <div
+          role="dialog"
+          aria-label={t('playtest.reveal.title', {
+            name: byCode.get(revealedCard.cardCode)?.name ?? revealedCard.cardCode,
+          })}
+          className="absolute top-1/2 left-1/2 z-30 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2 rounded-2xl border bg-background/95 p-3 shadow-2xl"
+        >
+          <p className="text-sm font-semibold">
+            {t(game.revealed.who === ME ? 'playtest.reveal.mine' : 'playtest.reveal.theirs')}
+          </p>
+          <CardFace
+            cardCode={revealedCard.cardCode}
+            printId={revealedCard.printId}
+            byCode={byCode}
+            className="h-[42cqh] shadow-lg"
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setGame(hideRevealed(game))
+            }}
+            className="h-9 rounded-full border px-4 text-sm font-medium hover:bg-muted"
+          >
+            {t('playtest.close')}
+          </button>
+        </div>
       )}
 
       {/* La carta che segue il dito durante il trascinamento. */}
@@ -725,6 +801,7 @@ function Panel({
   setSelection,
   onNewGame,
   onMove,
+  onDeckDialog,
 }: {
   game: Game
   setGame: (game: Game) => void
@@ -733,6 +810,7 @@ function Panel({
   setSelection: (s: Selection) => void
   onNewGame: () => void
   onMove: (who: PlayerId, id: string, to: Zone) => void
+  onDeckDialog: (d: DeckDialog) => void
 }) {
   const { t } = useTranslation()
   let title: string
@@ -946,25 +1024,65 @@ function Panel({
     )
   } else if (selection.kind === 'deck') {
     const who = selection.who
-    title = t('playtest.deck', { count: game.players[who].deck.length })
+    const size = game.players[who].deck.length
+    title = t('playtest.deck', { count: size })
     body = (
-      <Actions
-        actions={[
-          {
-            label: t('playtest.do.draw'),
-            run: () => {
-              setGame(draw(game, who))
+      <>
+        <Actions
+          actions={[
+            {
+              label: t('playtest.do.draw'),
+              run: () => {
+                setGame(draw(game, who))
+              },
+              disabled: size === 0,
             },
-            disabled: game.players[who].deck.length === 0,
-          },
-          {
-            label: t('playtest.do.shuffle'),
-            run: () => {
-              setGame(shuffleDeck(game, who, random))
+            {
+              label: t('playtest.do.shuffle'),
+              run: () => {
+                setGame(shuffleDeck(game, who, random))
+              },
             },
-          },
-        ]}
-      />
+          ]}
+        />
+        {/* RIB-102: guardare le prime N, cercare, rivelare. */}
+        <p className="pt-1 text-xs font-medium">{t('playtest.look.lookTop')}</p>
+        <div className="flex flex-wrap gap-1">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <button
+              key={n}
+              type="button"
+              aria-label={t('playtest.look.lookN', { count: n })}
+              disabled={n > size}
+              onClick={() => {
+                onDeckDialog({ kind: 'look', who, count: n })
+              }}
+              className="size-9 rounded-full border text-sm font-semibold hover:bg-muted disabled:opacity-40"
+            >
+              {n}
+            </button>
+          ))}
+        </div>
+        <Actions
+          actions={[
+            {
+              label: t('playtest.do.search'),
+              run: () => {
+                onDeckDialog({ kind: 'search', who })
+              },
+              disabled: size === 0,
+            },
+            {
+              label: t('playtest.do.reveal'),
+              run: () => {
+                setGame(revealTop(game, who))
+                setSelection(null)
+              },
+              disabled: size === 0,
+            },
+          ]}
+        />
+      </>
     )
   } else if (selection.kind === 'trash' || selection.kind === 'hand') {
     const who = selection.who

@@ -35,7 +35,7 @@ async function dragTo(page: Page, from: Locator, to: Locator) {
 // Telefono in orizzontale: il tavolo è pensato per questa forma.
 test.use({ viewport: { width: 844, height: 390 } })
 
-test('Tavolo di prova: VS, mulligan, menu, trascinamento, info, DON!! e fine turno', async ({
+test('Tavolo di prova: VS, mulligan, menu, trascinamento, info, mazzo, DON!! e fine turno', async ({
   page,
 }) => {
   test.setTimeout(90_000)
@@ -164,6 +164,40 @@ test('Tavolo di prova: VS, mulligan, menu, trascinamento, info, DON!! e fine tur
         .getByText('Questa carta non ha effetti.'),
     ).toBeVisible()
     await page.getByRole('button', { name: 'Chiudi' }).click()
+
+    // Guardare e cercare nel mazzo (RIB-102). Le prime 3: la prima in mano, le altre in cima.
+    const myDeck = page.getByRole('button', { name: /^Mazzo: \d+ carte$/ }).last()
+    const deckSize = async () =>
+      Number((await myDeck.getAttribute('aria-label'))?.match(/\d+/)?.[0])
+    const start = await deckSize()
+    await myDeck.click()
+    await page.getByRole('button', { name: 'Guarda le prime 3 carte del mazzo' }).click()
+    const look = page.getByRole('dialog', { name: 'Le prime 3 carte del mazzo' })
+    await expect(look.getByRole('listitem')).toHaveCount(3)
+    await look.getByRole('combobox').first().selectOption({ label: 'In mano' })
+    await look.getByRole('button', { name: 'Fatto' }).click()
+    await expect(look).toHaveCount(0)
+    await expect(hand.getByRole('button')).toHaveCount(4)
+    expect(await deckSize()).toBe(start - 1)
+
+    // Cerca nel mazzo: una carta in mano, mazzo rimescolato.
+    await myDeck.click()
+    await page.getByRole('button', { name: 'Cerca nel mazzo' }).click()
+    const search = page.getByRole('dialog', { name: /^Cerca nel mazzo/ })
+    await search.getByRole('listitem').first().getByRole('button').click()
+    await search.getByRole('button', { name: 'Prendi in mano' }).click()
+    await expect(search).toHaveCount(0)
+    await expect(hand.getByRole('button')).toHaveCount(5)
+    expect(await deckSize()).toBe(start - 2)
+
+    // Rivela la carta in cima: la vedono entrambi, resta nel mazzo.
+    await myDeck.click()
+    await page.getByRole('button', { name: 'Rivela la carta in cima' }).click()
+    const revealed = page.getByRole('dialog', { name: /^Carta rivelata: Carta \d+/ })
+    await expect(revealed.getByText('Carta rivelata dal tuo mazzo')).toBeVisible()
+    await revealed.getByRole('button', { name: 'Chiudi' }).click()
+    await expect(revealed).toHaveCount(0)
+    expect(await deckSize()).toBe(start - 2)
 
     // Un DON!! al Leader: +1000 nel proprio turno.
     const leader = page.getByRole('button', { name: new RegExp(`^${LEADER.name}`) }).last()

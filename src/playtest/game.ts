@@ -53,6 +53,8 @@ export interface Game {
   /** Turni giocati in tutto (1 = il primo turno di chi inizia). */
   turn: number
   log: string[]
+  /** Carta in cima al mazzo mostrata a entrambi (RIB-102), finché qualcuno non la chiude. */
+  revealed: { who: PlayerId; id: string } | null
 }
 
 /** Il mazzo con cui si siede un giocatore. */
@@ -113,6 +115,7 @@ export function newGame(decks: [DeckList, DeckList], first: PlayerId, random: Ra
     first,
     turn: 0,
     log: [],
+    revealed: null,
   }
 }
 
@@ -325,6 +328,65 @@ export function flipLife(game: Game, who: PlayerId, id: string): Game {
 /** Rimescola il mazzo. */
 export function shuffleDeck(game: Game, who: PlayerId, random: Random): Game {
   return update(game, who, (side) => ({ ...side, deck: shuffle(side.deck, random) }))
+}
+
+// ---- Guardare e cercare nel mazzo (RIB-102) ----
+
+/** Dove va una carta guardata dalla cima del mazzo. */
+export type LookDestination = 'hand' | 'field' | 'trash' | 'deckTop' | 'deckBottom'
+
+/**
+ * Sistema le carte guardate in cima al mazzo. L'ordine del piano conta: tra quelle rimesse in
+ * cima, la prima del piano torna la prima del mazzo; tra quelle in fondo, la prima del piano
+ * resta la più in alto. Oltre i 5 posti del campo una carta va in mano invece che in campo.
+ */
+export function resolveLook(
+  game: Game,
+  who: PlayerId,
+  plan: readonly { id: string; to: LookDestination }[],
+): Game {
+  const side = game.players[who]
+  const ids = new Set(plan.map((p) => p.id))
+  const byId = new Map(side.deck.filter((c) => ids.has(c.id)).map((c) => [c.id, c]))
+  if (byId.size !== plan.length) return game
+  const rest = side.deck.filter((c) => !ids.has(c.id))
+  const pick = (to: LookDestination) =>
+    plan.flatMap((p) => {
+      const c = byId.get(p.id)
+      return p.to === to && c ? [c] : []
+    })
+  const free = FIELD_SIZE - side.field.length
+  const toField = pick('field')
+  return update(game, who, (s) => ({
+    ...s,
+    deck: [...pick('deckTop'), ...rest, ...pick('deckBottom')],
+    hand: [...s.hand, ...pick('hand'), ...toField.slice(free)],
+    field: [...s.field, ...toField.slice(0, free)],
+    trash: [...s.trash, ...pick('trash')],
+  }))
+}
+
+/** Prende una carta qualsiasi dal mazzo (in mano o in campo) e, se richiesto, rimescola. */
+export function takeFromDeck(
+  game: Game,
+  who: PlayerId,
+  id: string,
+  to: 'hand' | 'field',
+  random: Random | null,
+): Game {
+  if (!game.players[who].deck.some((c) => c.id === id)) return game
+  const moved = moveCard(game, who, id, to)
+  return random && moved !== game ? shuffleDeck(moved, who, random) : moved
+}
+
+/** Mostra a entrambi la carta in cima al mazzo; resta nel mazzo. */
+export function revealTop(game: Game, who: PlayerId): Game {
+  const top = game.players[who].deck[0]
+  return top ? { ...game, revealed: { who, id: top.id } } : game
+}
+
+export function hideRevealed(game: Game): Game {
+  return game.revealed ? { ...game, revealed: null } : game
 }
 
 /**

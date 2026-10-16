@@ -4,6 +4,10 @@ import {
   changeDon,
   DECK_DON,
   donInPlay,
+  hideRevealed,
+  resolveLook,
+  revealTop,
+  takeFromDeck,
   giveDon,
   moveCard,
   mulligan,
@@ -167,5 +171,59 @@ describe('Playtest Table: potenza e contatore DON!!', () => {
     game = giveDon(game, 0, game.players[0].leader.id)
     game = changeDon(game, 0, 'rest')
     expect(donInPlay(game.players[0])).toEqual({ active: 1, total: 3 })
+  })
+})
+
+describe('Playtest Table: guardare e cercare nel mazzo', () => {
+  it('guarda le prime 3: una in mano, una in fondo, una in cima nell\u2019ordine scelto', () => {
+    const game = startGame(setup(), [5, 5])
+    const before = game.players[0]
+    const [a, b, c] = before.deck
+    if (!a || !b || !c) throw new Error('mazzo corto')
+    const next = resolveLook(game, 0, [
+      { id: c.id, to: 'deckTop' },
+      { id: a.id, to: 'hand' },
+      { id: b.id, to: 'deckBottom' },
+    ])
+    const side = next.players[0]
+    expect(side.deck[0]?.id).toBe(c.id)
+    expect(side.deck.at(-1)?.id).toBe(b.id)
+    expect(side.hand.at(-1)?.id).toBe(a.id)
+    expect(side.deck).toHaveLength(before.deck.length - 1)
+  })
+
+  it('oltre i 5 posti del campo la carta va in mano; un piano con carte non del mazzo non fa nulla', () => {
+    let game = startGame(setup(), [5, 5])
+    for (const card of game.players[0].hand.slice(0, 5)) game = moveCard(game, 0, card.id, 'field')
+    const top = game.players[0].deck[0]
+    if (!top) throw new Error('mazzo vuoto')
+    const next = resolveLook(game, 0, [{ id: top.id, to: 'field' }])
+    expect(next.players[0].field).toHaveLength(5)
+    expect(next.players[0].hand.at(-1)?.id).toBe(top.id)
+    expect(resolveLook(game, 0, [{ id: 'nessuna', to: 'hand' }])).toBe(game)
+  })
+
+  it('cercare una carta nel mazzo: in mano, poi rimescolato se richiesto', () => {
+    const game = startGame(setup(), [5, 5])
+    const wanted = game.players[0].deck[20]
+    if (!wanted) throw new Error('mazzo corto')
+    const kept = takeFromDeck(game, 0, wanted.id, 'hand', null)
+    expect(kept.players[0].hand.at(-1)?.id).toBe(wanted.id)
+    expect(kept.players[0].deck.map((c) => c.id)).toEqual(
+      game.players[0].deck.filter((c) => c.id !== wanted.id).map((c) => c.id),
+    )
+    const shuffled = takeFromDeck(game, 0, wanted.id, 'field', seeded(7))
+    expect(shuffled.players[0].field.map((c) => c.id)).toEqual([wanted.id])
+    expect(shuffled.players[0].deck.map((c) => c.id)).not.toEqual(
+      kept.players[0].deck.map((c) => c.id),
+    )
+  })
+
+  it('rivelare la carta in cima la mostra senza toglierla dal mazzo', () => {
+    const game = startGame(setup(), [5, 5])
+    const shown = revealTop(game, 1)
+    expect(shown.revealed).toEqual({ who: 1, id: game.players[1].deck[0]?.id })
+    expect(shown.players[1].deck).toEqual(game.players[1].deck)
+    expect(hideRevealed(shown).revealed).toBeNull()
   })
 })

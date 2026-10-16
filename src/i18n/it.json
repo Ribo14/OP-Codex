@@ -1278,7 +1278,42 @@
       "donAdd": "+1 dal mazzo DON!!",
       "donReturn": "DON!! −1 (torna nel mazzo)",
       "draw": "Pesca 1",
-      "shuffle": "Mescola il mazzo"
+      "shuffle": "Mescola il mazzo",
+      "search": "Cerca nel mazzo",
+      "reveal": "Rivela la carta in cima"
+    },
+    "look": {
+      "lookTop": "Guarda le prime:",
+      "lookN_one": "Guarda la prima carta del mazzo",
+      "lookN_other": "Guarda le prime {{count}} carte del mazzo",
+      "title_one": "La prima carta del mazzo",
+      "title_other": "Le prime {{count}} carte del mazzo",
+      "hint": "Scegli dove va ogni carta. Quelle rimesse in cima o in fondo restano nell'ordine da sinistra a destra: la prima a sinistra è la più in alto.",
+      "destination": "{{name}}: dove va",
+      "moveLeft": "Sposta {{name}} a sinistra",
+      "moveRight": "Sposta {{name}} a destra",
+      "done": "Fatto",
+      "cancel": "Annulla",
+      "to": {
+        "deckTop": "In cima al mazzo",
+        "hand": "In mano",
+        "field": "In campo",
+        "trash": "Nel cestino",
+        "deckBottom": "In fondo al mazzo"
+      }
+    },
+    "search": {
+      "title_one": "Cerca nel mazzo ({{count}} carta)",
+      "title_other": "Cerca nel mazzo ({{count}} carte)",
+      "hint": "Le carte sono in ordine alfabetico, non nell'ordine del mazzo.",
+      "take": "Prendi in mano",
+      "play": "Gioca in campo",
+      "shuffle": "Rimescola il mazzo dopo"
+    },
+    "reveal": {
+      "title": "Carta rivelata: {{name}}",
+      "mine": "Carta rivelata dal tuo mazzo",
+      "theirs": "Carta rivelata dal mazzo dell'avversario"
     }
   },
   "preview": {

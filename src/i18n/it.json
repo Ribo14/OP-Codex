@@ -1231,6 +1231,14 @@
     "endTurn": "Fine del turno",
     "menu": "Menu del tavolo",
     "exit": "Esci dal tavolo",
+    "exitSaved": "Esci (la partita resta salvata)",
+    "newGame": "Nuova partita (abbandona questa)",
+    "resume": {
+      "title": "Partita in corso",
+      "text": "Turno {{turn}}: {{mine}} contro {{theirs}}, salvata il {{when}}.",
+      "resume": "Riprendi la partita",
+      "discard": "Nuova partita"
+    },
     "close": "Chiudi",
     "characters": "Area Personaggi",
     "stage": "Stage",

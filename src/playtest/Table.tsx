@@ -1128,12 +1128,13 @@ function Panel({
     title = t('playtest.menu')
     body = (
       <div className="flex flex-col gap-1">
-        <button type="button" onClick={onNewGame} className={ACTION}>
-          {t('playtest.start')}
-        </button>
+        {/* RIB-103: uscendo la partita resta salvata; "Nuova partita" la abbandona. */}
         <Link to={DECKS_PATH} className={ACTION}>
-          {t('playtest.exit')}
+          {t('playtest.exitSaved')}
         </Link>
+        <button type="button" onClick={onNewGame} className={ACTION}>
+          {t('playtest.newGame')}
+        </button>
       </div>
     )
   }

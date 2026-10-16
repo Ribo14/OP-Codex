@@ -214,6 +214,22 @@ test('Tavolo di prova: VS, mulligan, menu, trascinamento, info, mazzo, DON!! e f
     await expect(leader).toHaveAccessibleName(`${LEADER.name}, Potenza 5000`)
     await expect(page.getByRole('button', { name: '6 carte in mano' })).toBeVisible()
     await expect(page.getByRole('button', { name: /^DON!!: 2 attivi su 2 in gioco/ })).toBeVisible()
+    // La partita non si perde (RIB-103): ricaricando si riprende da qui; "Nuova partita" la
+    // abbandona e il tavolo riparte dalla scelta dei mazzi.
+    await page.reload()
+    const resume = page.getByRole('dialog', { name: 'Partita in corso' })
+    await expect(resume).toContainText('Turno 2')
+    await resume.getByRole('button', { name: 'Riprendi la partita' }).click()
+    await expect(phase).toHaveText(/Turno 2 · tocca all'avversario/)
+    await expect(hand.getByRole('button')).toHaveCount(5)
+    await expect(leader).toHaveAccessibleName(`${LEADER.name}, Potenza 5000`)
+    await page.getByRole('button', { name: 'Menu del tavolo' }).click()
+    await page.getByRole('button', { name: 'Nuova partita (abbandona questa)' }).click()
+    await expect(page.getByRole('button', { name: 'Inizia la battaglia' })).toBeVisible()
+    await page.reload()
+    await expect(page.getByRole('button', { name: 'Inizia la battaglia' })).toBeVisible()
+    await expect(page.getByRole('dialog', { name: 'Partita in corso' })).toHaveCount(0)
+
     if (process.env.SHOTS) await page.screenshot({ path: `${process.env.SHOTS}/tavolo-rib99.png` })
   } finally {
     await sql`delete from public.set_recipes where set_code = ${SET}`

@@ -376,8 +376,24 @@
     "body": "Ha [Blocker].\n\nQuando lo giochi metti a riposo un Character avversario di costo 5 o meno."
   },
   {
+    "cardCode": "P-152",
+    "body": "Quando lo giochi, il tuo Leader e tutti i tuoi Character hanno +2000 potenza per il turno. Poi metti **K.O.** un Character avversario con 3000 potenza o meno.\n\nIl bonus vale solo in questo turno: conta per gli attacchi che fai dopo averlo giocato, non in difesa."
+  },
+  {
+    "cardCode": "P-153",
+    "body": "Quando lo giochi, dai −3000 potenza per il turno fino a 2 Character avversari.\n\nIl malus dura solo in questo turno: i Character indeboliti sono più facili da battere con i tuoi attacchi."
+  },
+  {
+    "cardCode": "P-154",
+    "body": "Quando lo giochi, puoi mettere a riposo 3 tuoi DON!!: se il tuo Leader è [Portgas.D.Ace], giochi gratis dalla mano un [Portgas.D.Ace] con 8000 potenza o meno.\n\nI 3 DON!! sono il costo e si pagano prima: ti servono 3 DON!! **attivi** oltre ai 6 per giocare Luffy, e un Ace in mano."
+  },
+  {
     "cardCode": "P-155",
     "body": "Quando attacca puoi scartare una carta con [Trigger]: dai −2000 potenza per il turno a un Character avversario.\n\nIl [Trigger] lo gioca gratis se l’avversario ha 3 Vite o meno."
+  },
+  {
+    "cardCode": "P-157",
+    "body": "Quando lo giochi, puoi scartare 1 carta dalla mano: giochi gratis **dal cestino** un Character {Elbaph} di costo 4 o meno.\n\nLa carta scartata va nel cestino prima dell’effetto: se è un Character {Elbaph} di costo 4 o meno, puoi giocare proprio quella."
   },
   {
     "cardCode": "PRB01-001",

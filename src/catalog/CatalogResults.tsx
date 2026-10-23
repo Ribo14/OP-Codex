@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useSearchParams } from 'react-router'
 import { cn } from '@/lib/utils'
-import { useBanKinds } from './ban-list'
-import { BanBadge } from './LegalityTags'
-import { PreviewBadge } from './PreviewNotice'
+import { CardFlags } from './CardFlags'
+import { useCardFlags } from './card-flags'
 import { cardImageUrl } from './card-image'
 import { cardPath } from './card-links'
 import type { CardLinkState } from './CardDetailRoute'
@@ -102,7 +101,8 @@ export function CatalogResults({
   // il posto della precedente nella cronologia, conservandone lo stato: così "chiudi" torna
   // sempre ai risultati invece di ripercorrere a ritroso le carte aperte una dopo l'altra.
   const location = useLocation()
-  const bans = useBanKinds()
+  // RIB-97: nel catalogo anche le carte fuori Standard, il formato più giocato.
+  const flagsOf = useCardFlags({ standard: true })
   const linkProps = openCode
     ? { replace: true, state: location.state as unknown }
     : { state: LINK_STATE }
@@ -128,22 +128,15 @@ export function CatalogResults({
                       isOpen(entry) && 'ring-2 ring-foreground',
                     )}
                   />
-                  {/* RIB-29: tag rosso per le carte bandite, limitate o in coppia bandita. */}
-                  {bans.has(entry.card.cardCode) && gridSize !== 'small' && (
-                    <BanBadge
-                      kind={bans.get(entry.card.cardCode) ?? 'banned'}
-                      className="absolute top-2 left-2"
-                    />
-                  )}
-                  {/* ADR-0016: carta non ancora uscita. */}
-                  {entry.printing.preview && (
-                    <PreviewBadge
-                      className={cn(
-                        'absolute',
-                        gridSize === 'small' ? 'bottom-0.5 left-0.5 px-1' : 'bottom-2 left-2',
-                      )}
-                    />
-                  )}
+                  {/* RIB-29, ADR-0016, RIB-97: Ban List, anteprima, fuori Standard. */}
+                  <CardFlags
+                    flags={flagsOf(entry.card, entry.printing)}
+                    compact={gridSize !== 'large'}
+                    className={cn(
+                      'absolute',
+                      gridSize === 'small' ? 'top-0.5 left-0.5' : 'top-2 right-2 left-2',
+                    )}
+                  />
                 </div>
                 {/* Con le carte piccole i testi non ci stanno: il nome resta nell'alt. */}
                 {gridSize === 'large' && (
@@ -214,10 +207,7 @@ export function CatalogResults({
                       {printing.printId}
                     </span>
                     <span className="min-w-0">
-                      {bans.has(card.cardCode) && (
-                        <BanBadge kind={bans.get(card.cardCode) ?? 'banned'} className="mb-0.5" />
-                      )}
-                      {printing.preview && <PreviewBadge className="mb-0.5" />}
+                      <CardFlags flags={flagsOf(card, printing)} className="mb-0.5" />
                       <span className="block truncate font-medium">{card.name}</span>
                       <span className="block truncate text-xs text-muted-foreground md:hidden">
                         {t('catalog.cardLabel', { code: printing.printId, name: category })}

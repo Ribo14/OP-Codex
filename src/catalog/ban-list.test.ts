@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { activeBanList, banKinds, banStatus, inForce, isoDay, type BanListEntry } from './ban-list'
+import { activeBanList, banStatus, inForce, isoDay, type BanListEntry } from './ban-list'
 
 let nextId = 1
 const entry = (partial: Partial<BanListEntry> & Pick<BanListEntry, 'cardCode' | 'kind'>) => ({
@@ -47,18 +47,6 @@ describe('Ban List', () => {
     expect(banStatus('OP11-040', ENTRIES, AFTER)?.pairedWith).toEqual(['OP08-069', 'OP11-067'])
     expect(banStatus('OP07-115', ENTRIES, AFTER)?.pairedWith).toEqual(['EB04-058'])
     expect(banStatus('OP01-002', ENTRIES, AFTER)).toBeNull()
-  })
-
-  it('tag per la griglia: bandita prima di limitata e coppia, entrambe le carte della coppia', () => {
-    const kinds = banKinds(
-      [...ENTRIES, entry({ cardCode: 'OP06-047', kind: 'pair', pairCode: 'OP09-001' })],
-      AFTER,
-    )
-    expect(kinds.get('OP06-047')).toBe('banned')
-    expect(kinds.get('OP09-001')).toBe('pair')
-    expect(kinds.get('OP07-115')).toBe('pair')
-    expect(kinds.get('OP01-001')).toBe('restricted')
-    expect(banKinds(ENTRIES, BEFORE).has('OP14-020')).toBe(false)
   })
 
   it('una voce futura si annuncia ma non vale ancora', () => {

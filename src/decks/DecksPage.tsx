@@ -1,4 +1,4 @@
-import { ClipboardPaste, Copy, Pencil, Plus, Trash2 } from 'lucide-react'
+import { ClipboardPaste, Copy, Pencil, Plus, Swords, Trash2 } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState, type SubmitEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
@@ -6,6 +6,7 @@ import { field } from '@/account/form-data'
 import { RequireAccount } from '@/account/ProfilePage'
 import { useSession } from '@/account/session'
 import { FriendsShortcut } from '@/friends/FriendsShortcut'
+import { PLAYTEST_PATH } from '@/playtest/paths'
 import { SignedOutInvite } from '@/account/SignedOutInvite'
 import type { CatalogCard } from '@/catalog/catalog-data'
 import { useCatalog } from '@/catalog/local-catalog'
@@ -29,6 +30,14 @@ export function DecksPage() {
         <h1 className="min-w-0 flex-1 text-2xl font-semibold tracking-tight lg:text-3xl">
           {t('nav.decks')}
         </h1>
+        {/* Tavolo di prova (RIB-99): anche senza account, con gli Starter Deck. */}
+        <Link
+          to={PLAYTEST_PATH}
+          className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border px-3 text-sm font-medium hover:bg-muted"
+        >
+          <Swords className="size-4" aria-hidden="true" />
+          {t('playtest.open')}
+        </Link>
         {/* Collezione e mazzi degli amici, a un tocco (prima solo nella pagina dell'amico). */}
         {session.status === 'signedIn' && <FriendsShortcut section="decks" />}
       </div>

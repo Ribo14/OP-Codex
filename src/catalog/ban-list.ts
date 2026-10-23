@@ -93,24 +93,6 @@ export function banStatus(
 
 export type BanKind = BanListEntry['kind']
 
-/**
- * Per la griglia del catalogo: il tag di ogni carta coinvolta in una voce in vigore (bandita prima
- * di limitata, limitata prima di coppia). Le due carte di una coppia hanno entrambe il tag.
- */
-export function banKinds(entries: readonly BanListEntry[], today: Date): Map<string, BanKind> {
-  const rank: Record<BanKind, number> = { banned: 0, restricted: 1, pair: 2 }
-  const kinds = new Map<string, BanKind>()
-  const mark = (code: string, kind: BanKind) => {
-    const current = kinds.get(code)
-    if (!current || rank[kind] < rank[current]) kinds.set(code, kind)
-  }
-  for (const e of inForce(entries, today)) {
-    mark(e.cardCode, e.kind)
-    if (e.pairCode) mark(e.pairCode, e.kind)
-  }
-  return kinds
-}
-
 // ---- Stato condiviso: dal dispositivo subito, poi dal server ----
 
 const CACHE_KEY = 'op-codex-ban-list'
@@ -192,12 +174,6 @@ export function useBanListEntries(): BanListEntry[] {
     void refreshBanList()
   }, [])
   return state
-}
-
-/** Il tag di ogni carta per la griglia del catalogo (solo Ban List: i Block sarebbero troppi). */
-export function useBanKinds(): Map<string, BanKind> {
-  const all = useBanListEntries()
-  return useMemo(() => banKinds(all, new Date()), [all])
 }
 
 /** La Ban List in vigore oggi, per i Deck Warning. */

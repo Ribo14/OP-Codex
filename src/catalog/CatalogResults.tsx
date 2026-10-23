@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useSearchParams } from 'react-router'
+import { useTilt } from '@/lib/use-tilt'
 import { cn } from '@/lib/utils'
 import { CardFlags } from './CardFlags'
 import { useCardFlags } from './card-flags'
@@ -69,6 +70,7 @@ export function CatalogResults({
   const { t } = useTranslation()
   const [params] = useSearchParams()
   const [limit, setLimit] = useState(PAGE)
+  const tilt = useTilt()
   const sentinel = useRef<HTMLDivElement>(null)
 
   // Nuova ricerca: si riparte dal primo blocco.
@@ -110,23 +112,30 @@ export function CatalogResults({
   return (
     <>
       {view === 'grid' ? (
-        <ul className={gridColumns(gridSize, openCode !== null)}>
-          {visible.map((entry) => (
-            <li key={key(entry)} className="[content-visibility:auto]">
+        <ul className={gridColumns(gridSize, openCode !== null)} {...tilt}>
+          {visible.map((entry, index) => (
+            <li
+              key={key(entry)}
+              // Entrata a cascata, blocco per blocco (index.css, .rise-in).
+              className="rise-in [content-visibility:auto]"
+              style={{ '--i': index % PAGE } as CSSProperties}
+            >
               <Link
                 to={to(entry)}
                 {...linkProps}
                 aria-current={isOpen(entry) ? 'true' : undefined}
                 className="group block rounded-xl focus-visible:outline-none"
               >
-                <div className="relative">
+                <div
+                  className={cn(
+                    'holo shadow-sm group-focus-visible:ring-2 group-focus-visible:ring-gold',
+                    gridSize === 'large' ? 'rounded-xl' : 'rounded-md',
+                    isOpen(entry) && 'ring-2 ring-gold',
+                  )}
+                >
                   <Thumbnail
                     entry={entry}
-                    className={cn(
-                      'shadow-sm transition duration-200 group-hover:-translate-y-1 group-hover:shadow-xl group-focus-visible:ring-2 group-focus-visible:ring-ring',
-                      gridSize === 'large' ? 'rounded-xl' : 'rounded-md',
-                      isOpen(entry) && 'ring-2 ring-foreground',
-                    )}
+                    className={gridSize === 'large' ? 'rounded-xl' : 'rounded-md'}
                   />
                   {/* RIB-29, ADR-0016, RIB-97: Ban List, anteprima, fuori Standard. */}
                   <CardFlags

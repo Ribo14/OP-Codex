@@ -22,7 +22,7 @@ export function InstallInvite({
   return (
     <aside
       aria-label={t('install.title')}
-      className="fixed inset-x-3 bottom-[calc(env(safe-area-inset-bottom)+4.25rem)] z-40 rounded-2xl border bg-background p-4 shadow-2xl lg:hidden"
+      className="fixed inset-x-3 bottom-[calc(env(safe-area-inset-bottom)+5.75rem)] z-40 rounded-3xl border bg-card p-4 shadow-2xl lg:hidden"
     >
       <div className="flex items-start gap-3">
         <img

@@ -24,7 +24,10 @@ export function SearchField({
   const input = useRef<HTMLInputElement>(null)
   return (
     <div
-      className={cn('flex h-10 items-center gap-2 rounded-full bg-muted pr-1.5 pl-4', className)}
+      className={cn(
+        'flex h-10 items-center gap-2 rounded-full border border-border bg-card pr-1.5 pl-4 shadow-xs transition-[box-shadow,border-color] duration-200 focus-within:border-gold focus-within:shadow-[0_0_0_4px_color-mix(in_oklch,var(--gold)_22%,transparent)]',
+        className,
+      )}
     >
       <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
       <input

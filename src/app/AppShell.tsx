@@ -52,31 +52,43 @@ export function AppShell() {
       </a>
 
       {/* Desktop: barra laterale */}
-      <aside className="hidden w-60 shrink-0 flex-col border-r lg:flex">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar bg-[image:var(--waves)] bg-[length:40px_20px] text-sidebar-foreground lg:flex">
         <Link
           to="/"
-          className="mx-auto my-5 rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+          viewTransition
+          className="group mx-auto mt-6 mb-2 rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
         >
-          <AppLogo className="size-28" />
+          <AppLogo className="size-28 transition-transform duration-500 ease-[var(--ease-spring)] group-hover:scale-105 group-hover:-rotate-6" />
         </Link>
+        <p className="mb-5 text-center font-heading text-lg font-bold tracking-tight">
+          {t('app.name')}
+        </p>
         <OfflineBadge className="mx-6 mb-4" />
         <nav aria-label={t('nav.label')} className="flex flex-col gap-1 px-3">
           {sections.map((section) => (
             <Link
               key={section.key}
               to={section.path}
+              viewTransition
               aria-current={isActive(section.path) ? 'page' : undefined}
               className={cn(
-                'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
+                'relative flex items-center gap-3 rounded-full px-4 py-2.5 text-sm transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
                 isActive(section.path)
-                  ? 'bg-foreground font-medium text-background'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground',
+                  ? 'font-semibold text-gold-foreground'
+                  : 'text-muted-foreground hover:bg-sidebar-accent hover:text-foreground',
               )}
             >
-              <section.icon className="size-[18px]" aria-hidden="true" />
-              {t(`nav.${section.key}`)}
+              {/* La pillola d'oro della voce attiva scivola da una voce all'altra (index.css). */}
+              {isActive(section.path) && (
+                <span
+                  aria-hidden="true"
+                  className="nav-active absolute inset-0 -z-0 rounded-full bg-gold shadow-[0_6px_16px_-6px_var(--gold)]"
+                />
+              )}
+              <section.icon className="relative size-[18px]" aria-hidden="true" />
+              <span className="relative">{t(`nav.${section.key}`)}</span>
               {section.key === 'friends' && pendingLabel && (
-                <span className="ml-auto rounded-full bg-destructive px-2 py-0.5 text-[11px] leading-none font-semibold text-white tabular-nums">
+                <span className="relative ml-auto rounded-full bg-destructive px-2 py-0.5 text-[11px] leading-none font-semibold text-white tabular-nums">
                   <span aria-hidden="true">{pending}</span>
                   <span className="sr-only">{pendingLabel}</span>
                 </span>
@@ -118,12 +130,14 @@ export function AppShell() {
 
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Telefono: intestazione (box-content: 3.5rem più l'eventuale area sicura in alto) */}
-        <header className="box-content flex h-14 shrink-0 items-center gap-3 border-b border-border/60 px-4 safe-top lg:hidden">
+        <header className="box-content flex h-14 shrink-0 items-center gap-2 border-b border-border/60 bg-sidebar bg-[image:var(--waves)] bg-[length:40px_20px] px-4 safe-top lg:hidden">
           <Link
             to="/"
-            className="-ml-1 rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+            viewTransition
+            className="-ml-1 flex items-center gap-2 rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           >
             <AppLogo className="size-12" />
+            <span className="font-heading text-lg font-bold tracking-tight">{t('app.name')}</span>
           </Link>
           <div className="-mr-2 ml-auto flex items-center gap-1">
             <OfflineBadge className="mr-1" />
@@ -167,12 +181,13 @@ export function AppShell() {
           tabIndex={-1}
           className="min-h-0 flex-1 overflow-y-auto focus:outline-none"
         >
-          <div className="mx-auto w-full max-w-[1600px] px-4 pt-5 pb-8 lg:px-8 lg:pt-8">
+          {/* view-transition-name: main → al cambio di sezione solo il contenuto si anima. */}
+          <div className="mx-auto w-full max-w-[1600px] px-4 pt-5 pb-8 [view-transition-name:main] lg:px-8 lg:pt-8">
             <UsernameGate />
             <Outlet />
           </div>
           {/* Telefono: avviso e privacy in fondo a ogni pagina, sopra la barra */}
-          <div className="px-4 pb-24 lg:hidden">
+          <div className="px-4 pb-32 lg:hidden">
             <Footer />
           </div>
         </main>
@@ -189,10 +204,10 @@ export function AppShell() {
         />
       )}
 
-      {/* Telefono: barra in basso */}
+      {/* Telefono: barra in basso, una pillola di vetro che galleggia sopra il contenuto */}
       <nav
         aria-label={t('nav.label')}
-        className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border/60 bg-background safe-x pb-[env(safe-area-inset-bottom)] lg:hidden"
+        className="fixed inset-x-3 bottom-[calc(env(safe-area-inset-bottom)+0.75rem)] z-30 mx-auto flex max-w-lg rounded-full border border-border bg-card/80 px-1 shadow-[0_12px_32px_-12px_hsl(var(--shadow-color)/0.5)] backdrop-blur-xl backdrop-saturate-150 lg:hidden"
       >
         {phone.map((section) =>
           section.key === 'scanner' ? (
@@ -201,10 +216,20 @@ export function AppShell() {
             <Link
               key={section.key}
               to={section.path}
+              viewTransition
               aria-current={isActive(section.path) ? 'page' : undefined}
               className={cn(BOTTOM_ITEM, isActive(section.path) ? BOTTOM_ACTIVE : BOTTOM_IDLE)}
             >
-              <section.icon className="size-5" aria-hidden="true" />
+              <span className="relative grid h-7 w-12 place-items-center">
+                {/* La pillola della voce attiva scivola da una voce all'altra (index.css). */}
+                {isActive(section.path) && (
+                  <span
+                    aria-hidden="true"
+                    className="nav-active absolute inset-0 rounded-full bg-gold/25"
+                  />
+                )}
+                <section.icon className="relative size-5" aria-hidden="true" />
+              </span>
               {t(`nav.${section.key}`)}
             </Link>
           ),
@@ -247,8 +272,8 @@ function AppLogo({ className }: { className?: string }) {
 }
 
 const BOTTOM_ITEM =
-  'flex min-h-14 flex-1 flex-col items-center justify-center gap-0.5 text-[11px] focus-visible:bg-muted focus-visible:outline-none'
-const BOTTOM_ACTIVE = 'font-medium text-foreground'
+  'flex min-h-16 flex-1 flex-col items-center justify-center gap-0.5 rounded-full text-[11px] focus-visible:bg-muted focus-visible:outline-none'
+const BOTTOM_ACTIVE = 'font-semibold text-foreground'
 const BOTTOM_IDLE = 'text-muted-foreground'
 
 /**
@@ -260,12 +285,13 @@ function ScannerButton({ section, active }: { section: Section; active: boolean 
   return (
     <Link
       to={section.path}
+      viewTransition
       aria-current={active ? 'page' : undefined}
-      className={cn(BOTTOM_ITEM, 'relative', active ? BOTTOM_ACTIVE : BOTTOM_IDLE)}
+      className={cn(BOTTOM_ITEM, 'group relative', active ? BOTTOM_ACTIVE : BOTTOM_IDLE)}
     >
       {/* Al posto dell'icona uno spazio uguale, così l'etichetta resta in riga con le altre. */}
-      <span className="size-5" aria-hidden="true" />
-      <span className="absolute -top-7 left-1/2 grid size-14 -translate-x-1/2 place-items-center rounded-full bg-foreground text-background shadow-lg ring-4 ring-background">
+      <span className="h-7" aria-hidden="true" />
+      <span className="absolute -top-6 left-1/2 grid size-14 -translate-x-1/2 place-items-center rounded-full bg-gold text-gold-foreground shadow-[0_8px_20px_-6px_var(--gold)] ring-4 ring-background transition-transform duration-300 ease-[var(--ease-spring)] group-active:scale-90">
         <section.icon className="size-6" aria-hidden="true" />
       </span>
       {t(`nav.${section.key}`)}
@@ -287,7 +313,9 @@ function BottomLoginLink() {
       aria-current={inAccountPages ? 'page' : undefined}
       className={cn(BOTTOM_ITEM, inAccountPages ? BOTTOM_ACTIVE : BOTTOM_IDLE)}
     >
-      <LogIn className="size-5" aria-hidden="true" />
+      <span className="grid h-7 w-12 place-items-center">
+        <LogIn className="size-5" aria-hidden="true" />
+      </span>
       {t('nav.login')}
     </Link>
   )
@@ -306,7 +334,7 @@ function LoginLink({ className }: { className?: string }) {
     <Link
       to={loginPath(pathname + search)}
       className={cn(
-        'inline-flex items-center justify-center gap-2 rounded-full bg-foreground text-sm font-medium text-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none',
+        'inline-flex items-center justify-center gap-2 rounded-full bg-gold text-sm font-semibold text-gold-foreground shadow-[0_6px_16px_-6px_var(--gold)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none',
         className,
       )}
     >
